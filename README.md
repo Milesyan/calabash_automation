@@ -1,4 +1,1 @@
-AutomationTests
-===============
-
-Automation Tests for Glow and Nurture
+## Automated scripts for Glow

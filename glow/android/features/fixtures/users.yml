@@ -1,0 +1,32 @@
+sandbox:
+  ttc:
+    rachel_glow+25@yahoo.com: Glow12345
+    rachel_glow+12@yahoo.com: Glow12345
+
+dev-office:
+  non-ttc:
+    a1439877143@glowtest.com: Glow12345
+  non-ttc-partner:
+    a1439877143_partner@glowtest.com: Glow12345
+  ttc:
+    a1439877187@glowtest.com: Glow12345
+  ttc_partner:
+    a1439877187_partner@glowtest.com: Glow12345
+  ft-prep:
+    a1439873637@glowtest.com: Glow12345
+  ft-prep-partner: 
+    a1439873637_partner@glowtest.com: Glow12345
+  ft-med:
+    a1439873683@glowtest.com/Glow12345: Glow12345
+  ft-med-partner:
+    a1439873683_partner@glowtest.com: Glow12345
+  ft-iui:
+    a1439873729@glowtest.com: Glow12345
+  ft-iui-partner:
+    a1439873729_partner@glowtest.com: Glow12345
+  ft-ivf:
+    a1439873777@glowtest.com: Glow12345
+  ft-ivf-partner:
+    a1439873777_partner@glowtest.com: Glow12345
+
+

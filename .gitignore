@@ -1,0 +1,5 @@
+.DS_Store
+glow/android/builds/
+glow/android/test_servers
+glow/android/features/*.png
+glow/android/features/screenshots/*
