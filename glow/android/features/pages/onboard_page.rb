@@ -172,7 +172,7 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'Set'"
   end
 
-  def select_children_number(text = "I have 1 child")
+  def select_children_number(text = "1")
     touch "* id:'children_count_picker'"
     touch "* marked:'#{text}'"
   end
