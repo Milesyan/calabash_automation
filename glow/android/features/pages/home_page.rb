@@ -28,7 +28,25 @@ class HomePage < Calabash::ABase
       choose_emotional
       choose_stress
       choose_medication_list
+    when "ttc"
+      choose_spotting
+      choose_ttc_sex
+      choose_cm_check
+      choose_bbt
+      choose_cervical_position
+      choose_ovulation
+      choose_pregnancy
+      choose_exercise
+      choose_weight
+      choose_physical_symptoms
+      choose_sleep
+      choose_smoke
+      choose_alcohol
+      choose_emotional
+      choose_stress
+      choose_medication_list
     end
+      
     save_daily_log
     close_invite_partner
   end
@@ -38,6 +56,11 @@ class HomePage < Calabash::ABase
     touch "* marked:'Light'"
   end
 
+  def choose_ttc_sex
+    touch "* id:'has_sex' * id:'yes_selector'"
+    scroll_to("* id:'has_checked_cm'")
+    touch "* marked:'In front'"
+  end
   def choose_sex
     touch "* id:'has_sex' * id:'yes_selector'"
     scroll_to("* id:'has_checked_cm'")
