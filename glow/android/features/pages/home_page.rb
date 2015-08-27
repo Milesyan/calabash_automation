@@ -36,6 +36,7 @@ class HomePage < Calabash::ABase
     choose_emotional
     choose_stress
     choose_medication_list
+
     save_daily_log
     close_invite_partner
   end
@@ -45,14 +46,23 @@ class HomePage < Calabash::ABase
     back_to_today
     touch "* id:'log_button_text' * marked:'Add fertility treatment log'"
 
-    case $user.type
-    when "ft"
-      choose_blood_work
-      choose_ultrasound
-      choose_hcg_shot
+    choose_blood_work
+    choose_ultrasound
+    choose_hcg_shot
+    case $user.treatment_type
+    when "iui"
       choose_insemination
-      choose_medication_list
+    when 'ivf'
+      choose_egg
+      choose_frozen_embryos
+      choose_transfer_embryo
     end
+    choose_medication_list
+    save_fertility_treatment_log
+  end
+
+  def save_fertility_treatment_log
+    touch "* id:'save_medical_log'"
   end
 
   def back_to_today
@@ -62,6 +72,32 @@ class HomePage < Calabash::ABase
     if element_exists "* id:'right_back_to_today'"
       touch "* id:'right_back_to_today'"
     end
+  end
+
+  def choose_egg
+    touch "* id:'egg_selector' * id:'yes_selector'"
+    scroll_to "* marked:'Have you frozen any embryos?'"
+    touch "* id:'number_spinner'"
+    flick "* id:'number_picker'", :up
+    touch "* id:'button1'"
+    touch "* id:'plan_selector' * id:'yes_selector'"
+  end
+
+  def choose_frozen_embryos
+    scroll_down
+    touch "* id:'embryos_number'"
+    flick "* id:'number_picker'", :up
+    touch "* id:'button1'"
+  end
+
+  def choose_transfer_embryo
+    touch "* id:'transfer_selector' * id:'yes_selector'"
+    scroll_down
+    touch "* id:'number_spinner'"
+    flick "* id:'number_picker'", :up
+    touch "* id:'button1'"
+    touch "* id:'type_spinner'"
+    touch "* marked:'Fresh'"
   end
 
   def choose_blood_work
