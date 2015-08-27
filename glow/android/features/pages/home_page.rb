@@ -17,38 +17,89 @@ class HomePage < Calabash::ABase
       choose_cm_check
       choose_cervical_position
       choose_bbt
-      choose_ovulation
-      choose_pregnancy
-      choose_exercise
-      choose_weight
-      choose_physical_symptoms
-      choose_sleep
-      choose_smoke
-      choose_alcohol
-      choose_emotional
-      choose_stress
-      choose_medication_list
-    when "ttc"
+    when "ttc", "ft"
       choose_spotting
       choose_ttc_sex
+      choose_female_orgasm
       choose_cm_check
       choose_bbt
       choose_cervical_position
-      choose_ovulation
-      choose_pregnancy
-      choose_exercise
-      choose_weight
-      choose_physical_symptoms
-      choose_sleep
-      choose_smoke
-      choose_alcohol
-      choose_emotional
-      choose_stress
-      choose_medication_list
     end
-      
+    choose_ovulation
+    choose_pregnancy
+    choose_exercise
+    choose_weight
+    choose_physical_symptoms
+    choose_sleep
+    choose_smoke
+    choose_alcohol
+    choose_emotional
+    choose_stress
+    choose_medication_list
     save_daily_log
     close_invite_partner
+  end
+
+  def complete_ft_log
+    sleep 1
+    back_to_today
+    touch "* id:'log_button_text' * marked:'Add fertility treatment log'"
+
+    case $user.type
+    when "ft"
+      choose_blood_work
+      choose_ultrasound
+      choose_hcg_shot
+      choose_insemination
+      choose_medication_list
+    end
+  end
+
+  def back_to_today
+    if element_exists "* id:'left_back_to_today'"
+      touch "* id:'left_back_to_today'"
+    end
+    if element_exists "* id:'right_back_to_today'"
+      touch "* id:'right_back_to_today'"
+    end
+  end
+
+  def choose_blood_work
+    touch "* id:'blood_selector' * id:'yes_selector'"
+    touch "* id:'estrogen_spinner'"
+    enter_text "* id:'level'", "80"
+    touch "* id:'button1'"
+    touch "* id:'progesterone_spinner'"
+    enter_text "* id:'level'", "80"
+    touch "* id:'button1'"
+    touch "* id:'lh_spinner'"
+    enter_text "* id:'level'", "80"
+    touch "* id:'button1'"
+  end
+
+  def choose_ultrasound
+    scroll_down
+    touch "* id:'ultrasound_selector' * id:'yes_selector'"
+    scroll_to "* id:'title' * marked:'Was an hCG shot administered?'"
+    touch "* id:'num_follicles_spinner'"
+    flick "* id:'number_picker'", :up
+    touch "* id:'button1'"
+    touch "* id:'size_follicles_spinner'"
+    touch "* id:'button1'"
+    touch "* id:'thickness_spinner'"
+    touch "* id:'button1'"
+  end
+
+  def choose_hcg_shot
+    scroll_down
+    touch "* id:'hcg_selector' * id:'yes_selector'"
+    touch "* id:'hcg_input_when_spinner'"
+    touch "* id:'button1'"
+  end
+
+  def choose_insemination
+    scroll_down
+    touch "* id:'insemination_selector' * id:'yes_selector'"
   end
 
   def choose_spotting
@@ -182,12 +233,9 @@ class HomePage < Calabash::ABase
 
   def close_invite_partner
     sleep 3
-    puts element_exists "* id:'invite_partner_dialog_title'"
     if element_exists "* id:'invite_partner_dialog_title'"
-      puts "dialog appears"
       touch "* id:'button2'"
     end
-    puts "dialog disappears"
   end
 
   def finish_tutorial

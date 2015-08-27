@@ -9,3 +9,7 @@ end
 Given(/^I complate my daily log for male$/) do
   pending # express the regexp above with the code you wish you had
 end
+
+Given(/^I complete ft log$/) do
+  home_page.complete_ft_log
+end

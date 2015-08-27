@@ -61,13 +61,15 @@ class OnboardPage < Calabash::ABase
   end
 
   def ft_onboard_step2
-    select_average_cycle_length
-    select_last_period
+    touch "* id:'result_spinner' index:0"
+    touch "* marked:'Normal'"
     touch "* id:'next_action'"
   end
 
   def ft_onboard_step3
-    
+    select_average_cycle_length
+    select_last_period
+    touch "* id:'next_action'"
   end
 
   def select_bmi
@@ -130,7 +132,7 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'#{name}'"
   end
 
-  def select_test_done(yes_or_no = "No")
+  def select_test_done(yes_or_no = "YES")
     touch "* id:'radio_#{yes_or_no.downcase}'"
   end
 
