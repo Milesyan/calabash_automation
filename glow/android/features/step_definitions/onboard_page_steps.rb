@@ -38,7 +38,7 @@ Given(/^I complete Fertility Treatment onboarding step (\d+)$/) do |step_number|
   when "2"
     onboard_page.ft_onboard_step2
   when "3"
-    #onboard_page.ft_onboard_step3
+    onboard_page.ft_onboard_step3
   end
 end
 

@@ -36,6 +36,7 @@ Feature: Onboarding flow
     And I choose "Preparing for treatment" status for fertility treatment
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
+    And I complete Fertility Treatment onboarding step 3
     And I fill in email name password and birthday
     And I finish the tutorial
     Then I see "Complete log"
