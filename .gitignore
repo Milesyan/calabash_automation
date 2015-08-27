@@ -3,4 +3,4 @@ glow/android/builds/
 glow/android/test_servers
 glow/android/features/*.png
 glow/android/features/screenshots/*
-glow/android/features/*.apk
+glow/android/*.apk
