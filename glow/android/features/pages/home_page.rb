@@ -6,41 +6,87 @@ class HomePage < Calabash::ABase
     "*"
   end
 
-  def complete_daily_log
+  def complete_daily_log(gender = "female")
     sleep 1
     touch "* id:'log_button_text'"
 
-    case $user.type
-    when "non-ttc"
-      choose_spotting
-      choose_sex
-      choose_cm_check
-      choose_cervical_position
-      choose_bbt
-    when "ttc", "ft"
-      choose_spotting
-      choose_ttc_sex
-      choose_female_orgasm
-      choose_cm_check
-      choose_bbt
-      choose_cervical_position
+    if gender == "female"
+      case $user.type
+      when "non-ttc"
+        choose_spotting
+        choose_sex
+        choose_cm_check
+        choose_cervical_position
+        choose_bbt
+      when "ttc", "ft"
+        choose_spotting
+        choose_ttc_sex
+        choose_female_orgasm
+        choose_cm_check
+        choose_bbt
+        choose_cervical_position
+      end
+      choose_ovulation
+      choose_pregnancy
+      choose_exercise
+      choose_weight
+      choose_physical_symptoms
+      choose_sleep
+      choose_smoke
+      choose_alcohol
+      choose_emotional
+      choose_stress
+      choose_medication_list
+    elsif gender == "male"
+      case $user.type
+      when "non-ttc", "ttc", "ft"
+        choose_male_sex
+        choose_erection
+        choose_masturbate
+        choose_heat_source
+        choose_fever
+        choose_exercise
+        choose_weight
+        choose_sleep
+        choose_smoke
+        choose_alcohol
+        choose_physical_symptoms
+        choose_emotional
+        choose_stress
+        choose_medication_list
+      end
     end
-    choose_ovulation
-    choose_pregnancy
-    choose_exercise
-    choose_weight
-    choose_physical_symptoms
-    choose_sleep
-    choose_smoke
-    choose_alcohol
-    choose_emotional
-    choose_stress
-    choose_medication_list
-
     save_daily_log
     close_invite_partner
   end
 
+  def choose_male_sex
+    touch "* id:'has_sex' * id:'yes_selector'"
+    touch "* marked:'Silicon-based'"
+  end
+
+  def choose_erection
+    scroll_to "* marked:'Do you have a fever?'"
+    touch "* id:'has_erection_trouble' * id:'yes_selector'"
+  end
+
+  def choose_masturbate
+    touch "* id:'did_masturbation' * id:'yes_selector'"
+    scroll_to "* marked:'Do you have a fever?'"
+    touch "* marked:'1'"
+  end
+
+  def choose_heat_source
+    touch "* id:'exposed_to_heat_sources' * id:'yes_selector'"
+    scroll_to "* marked:'Did you exercise?'"
+    touch "* marked:'Saunas'"
+  end
+
+  def choose_fever
+    touch "* id:'fever' * id:'yes_selector'"
+    scroll_to "* marked:'Did you exercise?'"
+    touch "* marked:'1 day'"
+  end
   def complete_ft_log
     sleep 1
     back_to_today

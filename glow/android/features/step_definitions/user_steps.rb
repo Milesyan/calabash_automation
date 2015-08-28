@@ -45,8 +45,10 @@ Given(/^I register a new "(.*?)" user$/) do |type|
     onboard_page.ttc_onboard_step1
     onboard_page.ttc_onboard_step2
     onboard_page.fill_in_email_password($user.email, $user.password)
-    sleep 1
-    tap_when_element_exists "* id:'close'"
+    sleep 2
+    if element_exists "* id:'close'"
+       touch "* id:'close'"
+    end 
   when "ft"
     onboard_page.ft_onboard_step1
     onboard_page.ft_onboard_step2

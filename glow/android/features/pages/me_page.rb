@@ -2,7 +2,7 @@ require 'calabash-android/abase'
 
 class MePage < Calabash::ABase
   def trait
-    "* id:'profile_image'"
+    "* id:'nav_me' * enabled:'false'"
   end
 
   def invite_partner
