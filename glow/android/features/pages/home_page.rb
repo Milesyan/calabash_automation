@@ -249,6 +249,7 @@ class HomePage < Calabash::ABase
   end
 
   def choose_medication_list
+    sleep 1
     scroll_down
     touch "* id:'daily_log_medication_list_title'"
     touch "* id:'NoResourceEntry-1'"

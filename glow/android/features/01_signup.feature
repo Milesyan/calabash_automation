@@ -9,6 +9,7 @@ Feature: Onboarding flow
     And I complete Non-TTC onboarding step 1
     And I complete Non-TTC onboarding step 2
     And I fill in email name password and birthday
+    And I close the onboarding popup
     And I finish the tutorial
     Then I see "Complete log"
     And I logout

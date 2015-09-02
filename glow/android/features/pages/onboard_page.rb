@@ -161,12 +161,14 @@ class OnboardPage < Calabash::ABase
 
   def select_ft_start_date
     touch "* id:'ft_start_date'"
-    touch "* marked:'Done'"
+    #touch "* marked:'Done'"
+    touch "* id:'button1'" # Done button
   end
 
   def select_ft_end_date
     touch "* id:'ft_end_date'"
-    touch "* marked:'Done'"
+    #touch "* marked:'Done'"
+    touch "* id:'button1'" # Done button
   end
 
   def select_ttc_length
