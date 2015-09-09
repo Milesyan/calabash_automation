@@ -9,6 +9,7 @@ class ToolbarPage < Calabash::ABase
   def logout
     #touch "* id:'home_tool_bar'"
     #press_menu_button
+    sleep 1
     touch "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
     touch "* text:'Log out'"
   end

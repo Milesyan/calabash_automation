@@ -1,4 +1,4 @@
-@daily_log @all
+@daily_log @regression @all
 Feature: Complete daily log
 	@non_ttc_daily_log
   Scenario: Non-TTC user completes daily log

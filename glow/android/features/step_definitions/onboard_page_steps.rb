@@ -7,6 +7,11 @@ When(/^I login as the partner$/) do
   puts $user.partner_email
 end
 
+When(/^I sign up as a single male user$/) do
+  onboard_page.sign_up_single_male
+  puts $user.email
+end
+
 Then(/^I select the user type "(.*?)"$/) do |user_type|
   onboard_page.select_user_type(user_type)
 end
@@ -49,5 +54,5 @@ end
 
 Given(/^I close the onboarding popup$/) do
   sleep 1
-  tap_when_element_exists "* id:'close'"
+  touch "* id:'close'" if element_exists "* id:'close'"
 end

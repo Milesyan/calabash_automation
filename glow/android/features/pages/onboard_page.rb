@@ -22,12 +22,21 @@ class OnboardPage < Calabash::ABase
   end
 
   def sign_up_partner(gender="Male")
-    touch "* id:'partner_sign_up'"
-    enter_text "* id:'email'", $user.partner_email
-    touch "* marked:'Next'"
+    touch "* marked:'Get Started!'"
+    touch "* id:'male_user'"
     select_bmi
     touch "* marked:'Next'"
-    fill_in_email_password($user.partner_email, GLOW_PASSWORD, full_name="Partner", is_partner = true)
+    sleep 1
+    fill_in_email_password($user.partner_email, GLOW_PASSWORD, full_name="Partner")
+  end
+
+  def sign_up_single_male
+    touch "* marked:'Get Started!'"
+    touch "* id:'male_user'"
+    select_bmi
+    touch "* marked:'Next'"
+    sleep 1
+    fill_in_email_password($user.email, GLOW_PASSWORD, full_name="Partner")
   end
 
   def non_ttc_onboard_step1
@@ -98,8 +107,8 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'30 days'"
   end
 
-  def fill_in_email_password(email, pwd, full_name="Glow Test", is_partner = false)
-    enter_text "* id:'email'", email unless is_partner
+  def fill_in_email_password(email, pwd, full_name="Glow Test")
+    enter_text "* id:'email'", email
     enter_text "* id:'full_name'", full_name
     enter_text "* id:'password'", pwd
     touch "* id:'birthday'"

@@ -1,4 +1,4 @@
-@ft @all
+@signup @ft @all
 Feature: Fertility Treatments
   Background:
     Given I am a new "fertility treatment" user

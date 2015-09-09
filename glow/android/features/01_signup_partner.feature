@@ -1,4 +1,4 @@
-@partner_signup @regression @all
+@signup @partner_signup @regression @all
 Feature: Partner signup
   @non_ttc_partner
   Scenario: female Non-TTC user invites her male partner

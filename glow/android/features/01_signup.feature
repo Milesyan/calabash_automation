@@ -1,4 +1,4 @@
-@signup @regression @all
+@female_signup @signup @regression @all
 Feature: Onboarding flow
   @non-ttc-signup
   Scenario: NonTTC user signup
