@@ -5,3 +5,4 @@ def me_page; page(MePage).await end
 def daily_log_page; page(DailyLogPage).await end
 def navbar_page; page(NavbarPage).await end
 def toolbar_page; page(ToolbarPage).await end
+def community_page;page(CommunityPage).await end
