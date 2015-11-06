@@ -31,18 +31,84 @@ end
 #end
 
 Then(/^I fill in the contents in "(.*?)" page$/) do |arg1|
-  if arg1 == 'Poll'
-  	community_page.fill_in_poll
-  elsif arg1 == 'Post'
-  	community_page.fill_in_post
-  elsif arg1 == 'Photo'
-  	community_page.fill_in_photo
-  elsif arg1 == 'Link'
-  	community_page.fill_in_link
-  end
-  			
+  community_page.fill_in_topic(arg1) 			
 end
 
 Then(/^I choose the group$/) do
 	community_page.choose_group
 end
+
+Then(/^I see "(.*?)" button is not enable$/) do |arg1|
+  wait_for_elements_exist(["* text:'Done',enable:'false'"])
+end
+
+Then(/^I touch glow done$/) do
+  community_page.touch_done
+end
+
+Then(/^I fill in a "(.*?)" title$/) do |arg1|
+  if arg1 == 'short'
+    enter_text "* id:'title_editor'","abc"
+  elsif arg1 == 'long'
+    enter_text "* id:'title_editor'","abcdefg_auto"
+  else
+    clear_text_in "* id:'title_editor'"
+    enter_text "* id:'title_editor'",arg1
+  end
+end
+
+Then(/^I fill in a "(.*?)" content$/) do |arg1|
+  if arg1 == 'short'
+    enter_text "* id:'content_editor'","abc"
+  elsif arg1 == 'long'
+    enter_text "* id:'content_editor'","abcdefg_auto"
+  else
+    clear_text_in "* id:'content_editor'"
+    enter_text "* id:'content_editor'",arg1
+  end
+end
+
+Then(/^I fill in a "(.*?)" answer$/) do |arg1|
+  if arg1 == 'short'
+    enter_text "* id:'text' index:0","Ans"
+    enter_text "* id:'text' index:1","Ans"
+  elsif arg1 == 'long'
+    enter_text "* id:'text' index:0","answer 1"
+    enter_text "* id:'text' index:1","answer 2"
+  elsif 
+    enter_text "* id:'text' index:0",arg1 
+    enter_text "* id:'text' index:1",arg1 
+  end
+end
+
+
+Then(/^I select the "(.*?)" group$/) do |arg1|
+ # if arg1 == "4"
+  sleep 0.5
+  touch "textview index:4"
+  #elsif 
+  #  touch "textview index:3"   
+  #end 
+end
+
+Then(/^I touch topic menu button$/) do
+  touch "* id:'topic_menu'"
+end
+
+Then(/^I touch the "(.*?)" I created$/) do |arg1|
+  sleep 1
+  if arg1 == "Post"
+    touch "* text:'posttest' index:0"
+  elsif arg1 == "Poll"
+    touch "* text:'polltest' index:0"
+  elsif arg1 == "Link"
+    touch "* text:'linktest' index:0"
+  elsif arg1 == "Photo"
+    touch "* text:'phototest' index:0"
+  end
+end
+
+Then(/^I touch Edit this post tab$/) do
+  tap_when_element_exists "* text:'Edit this post'"
+end
+

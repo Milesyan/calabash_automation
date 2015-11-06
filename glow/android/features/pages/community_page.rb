@@ -6,6 +6,18 @@ class CommunityPage < Calabash::ABase
     "*"
   end
 
+  def fill_in_topic(arg1='')
+  	if arg1 == 'Poll'
+  		community_page.fill_in_poll
+ 		elsif arg1 == 'Post'
+  		community_page.fill_in_post
+  	elsif arg1 == 'Photo'
+  		community_page.fill_in_photo
+  	elsif arg1 == 'Link'
+  		community_page.fill_in_link
+  	end
+  end
+
 	def fill_in_poll
 		enter_text "* id:'title_editor'","polltest"
 		enter_text "* id:'text' index:0","Answer No1"
@@ -18,9 +30,9 @@ class CommunityPage < Calabash::ABase
 		enter_text "* id:'title_editor'","posttest"
 		enter_text "* id:'content_editor'","Answer No1"
 		touch "* id:'insert_image_button'"
-		touch "* text:'Gallery'"
-		#perform_action('click_on_screen', 20, 8)
-		system("adb shell input keyevent KEYCODE_BACK")
+		#touch "* text:'Gallery'"
+		perform_action('click_on_screen', 20, 8)
+		#system("adb shell input keyevent KEYCODE_BACK")
 		touch "* id:'create_yes'"
 	end
 
@@ -41,10 +53,14 @@ class CommunityPage < Calabash::ABase
 	def fill_in_link
 		enter_text "* id:'title_editor'","linktest"
 		enter_text "* id:'content_editor'","www.google.com"
-		sleep 5
+		sleep 3
 		touch "* id:'create_yes'"	
 	end
 
+	def touch_done
+		tap_when_element_exists "* id:'create_yes'"
+	end
+	
 
 
 	def choose_group

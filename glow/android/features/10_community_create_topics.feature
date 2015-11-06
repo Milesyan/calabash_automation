@@ -8,7 +8,6 @@ Feature: create different kinds of topics
 		And I fill in the contents in "Poll" page
 		And I choose the group
 		Then I should see text containing "Your Poll is successfully posted"
-
 	Scenario:Create a Post topic
 		Given I log in as "miles@glowing.com"
 		Then a go to community page
@@ -26,7 +25,7 @@ Feature: create different kinds of topics
 		And I fill in the contents in "Photo" page
 		And I choose the group
 		Then I should see text containing "Your Photo is successfully posted"
-	@debug
+
 	Scenario:Create a Link topic
 		Given I log in as "miles@glowing.com"
 		Then a go to community page
