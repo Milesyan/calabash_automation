@@ -4,7 +4,7 @@ Feature: Partner signup
   Scenario: female Non-TTC user invites her male partner
     Given I am a new "Non-TTC" user
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Avoiding pregnancy"
     And I complete Non-TTC onboarding step 1
     And I complete Non-TTC onboarding step 2
@@ -25,7 +25,7 @@ Feature: Partner signup
   Scenario: TTC female user invites her male partner
     Given I am a new "TTC" user
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Trying to conceive"
     And I complete TTC onboarding step 1
     And I complete TTC onboarding step 2

@@ -22,7 +22,7 @@ class OnboardPage < Calabash::ABase
   end
 
   def sign_up_partner(gender="Male")
-    touch "* marked:'Get Started!'"
+    touch "* marked:'Sign up'"
     touch "* id:'male_user'"
     select_bmi
     touch "* marked:'Next'"
@@ -31,7 +31,7 @@ class OnboardPage < Calabash::ABase
   end
 
   def sign_up_single_male
-    touch "* marked:'Get Started!'"
+    touch "* marked:'Sign up'"
     touch "* id:'male_user'"
     select_bmi
     touch "* marked:'Next'"
@@ -69,13 +69,14 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'Next'"
   end
 
-  def ft_onboard_step2
-    touch "* id:'result_spinner' index:0"
-    touch "* marked:'Normal'"
-    touch "* id:'next_action'"
-  end
+  # def ft_onboard_step2
+  #   # the questions to answer for fertility test (removed since 3.7)
+  #   # touch "* id:'result_spinner' index:0"
+  #   # touch "* marked:'Normal'"
+  #   # touch "* id:'next_action'"
+  # end
 
-  def ft_onboard_step3
+  def ft_onboard_step2
     select_average_cycle_length
     select_last_period
     touch "* id:'next_action'"
@@ -128,7 +129,7 @@ class OnboardPage < Calabash::ABase
 
   def answer_ft_questions
     select_clinic
-    select_test_done
+    #select_test_done #removed in 3.7
     select_ft_type
     select_ft_start_date
     select_ft_end_date

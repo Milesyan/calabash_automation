@@ -6,39 +6,56 @@ class HomePage < Calabash::ABase
     "*"
   end
 
-  def complete_daily_log
+  def complete_daily_log(gender = "female")
     sleep 1
     touch "* id:'log_button_text'"
+    if gender.downcase == "female"
+      case $user.type
+      when "non-ttc"
+        choose_spotting
+        choose_sex
+        choose_cm_check
+        choose_cervical_position
+        choose_bbt
+      when "ttc", "ft"
+        choose_spotting
+        choose_ttc_sex
+        choose_female_orgasm
+        choose_cm_check
+        choose_bbt
+        choose_cervical_position
+      end
+      choose_ovulation
+      choose_pregnancy
+      choose_exercise
+      choose_weight
+      choose_physical_symptoms
+      choose_sleep
+      choose_smoke
+      choose_alcohol
+      choose_emotional
+      choose_stress
+      choose_medication_list
 
-    case $user.type
-    when "non-ttc"
-      choose_spotting
-      choose_sex
-      choose_cm_check
-      choose_cervical_position
-      choose_bbt
-    when "ttc", "ft"
-      choose_spotting
-      choose_ttc_sex
-      choose_female_orgasm
-      choose_cm_check
-      choose_bbt
-      choose_cervical_position
+      save_daily_log
+      close_invite_partner
+    elsif gender.downcase == "male"
+      choose_sex_for_male
+      choose_erection_for_male
+      choose_masturbation_for_male
+      choose_heat_sources_for_male
+      choose_ferver_for_male
+      choose_exercise
+      choose_weight
+      choose_sleep
+      choose_smoke
+      choose_alcohol
+      choose_physical_symptoms
+      #choose_emotional
+      #choose_stress
+      choose_medication_list
+      save_daily_log
     end
-    choose_ovulation
-    choose_pregnancy
-    choose_exercise
-    choose_weight
-    choose_physical_symptoms
-    choose_sleep
-    choose_smoke
-    choose_alcohol
-    choose_emotional
-    choose_stress
-    choose_medication_list
-
-    save_daily_log
-    close_invite_partner
   end
 
   def complete_ft_log
@@ -148,6 +165,7 @@ class HomePage < Calabash::ABase
     scroll_to("* id:'has_checked_cm'")
     touch "* marked:'In front'"
   end
+  
   def choose_sex
     touch "* id:'has_sex' * id:'yes_selector'"
     scroll_to("* id:'has_checked_cm'")
@@ -264,6 +282,34 @@ class HomePage < Calabash::ABase
     touch "* id:'save_medical_list'"
   end
 
+  def choose_sex_for_male
+    touch "* id:'has_sex' * id:'yes_selector'"
+    touch "* marked:'None'"
+  end
+
+  def choose_erection_for_male
+    touch "* id:'erection_trouble_input' * id:'no_selector'"
+  end
+
+  def choose_masturbation_for_male
+    scroll_to "* marked:'Did you masturbate?'"
+    touch "* id:'masturbation_input' * id:'no_selector'"
+    scroll_down
+  end
+
+  def choose_heat_sources_for_male
+    scroll_to "* marked:'Direct heat sources?'"
+    touch "* id:'heat_sources_input' * id:'yes_selector'"
+    touch "* marked:'Saunas'"
+  end
+
+  def choose_ferver_for_male
+    scroll_to "* marked:'Do you have a fever?'"
+    scroll_down
+    touch "* id:'fever_input' * id:'yes_selector'"
+    touch "* marked:'2 days'"
+  end
+
   def save_daily_log
     touch "* id:'save_daily_log'"
   end
@@ -276,6 +322,9 @@ class HomePage < Calabash::ABase
   end
 
   def finish_tutorial
+    wait_for(:timeout => 10, :retry_frequency => 2) do
+      element_exists "* id:'small_view'"
+    end
     touch "* id:'small_view'"
     touch "* marked:'Later'" unless $user.type == "ft"
   end

@@ -20,7 +20,7 @@ Given(/^I am a new "(.*?)" user$/) do |type|
 
   gender = type == "single male" ? "male" : "female"
 
-  $user = User.new(email: email, password: password, type: type, gender: gender)
+  $user = User.new(email: email, password: password, type: type, gender: gender, treatment_type: treatment_type)
   puts email + "/" + password + " #{type}"
 end
 
@@ -59,7 +59,7 @@ Given(/^I register a new "(.*?)" user$/) do |type|
   $user = User.new(email: email, password: password, type: type, treatment_type: treatment_type)
   puts email + "/" + password + " type: #{type}" + " treatment_type: #{treatment_type}"
 
-  touch "* marked:'Get Started!'"
+  touch "* marked:'Sign up'"
   onboard_page.select_user_type
 
   case $user.type
@@ -78,10 +78,10 @@ Given(/^I register a new "(.*?)" user$/) do |type|
   when "ft"
     onboard_page.ft_onboard_step1
     onboard_page.ft_onboard_step2
-    onboard_page.ft_onboard_step3
+    #onboard_page.ft_onboard_step3
     onboard_page.fill_in_email_password($user.email, $user.password)
   end
-
+  sleep 1
   home_page.finish_tutorial
 end
 

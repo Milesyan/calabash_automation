@@ -1,4 +1,4 @@
-@ft_log
+@ft_log @regression @all
 Feature: Complete fertility treatment log
 	@iui_ft_log
 	Scenario: IUI user completes ft log

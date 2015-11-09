@@ -42,8 +42,6 @@ Given(/^I complete Fertility Treatment onboarding step (\d+)$/) do |step_number|
   case step_number.to_s
   when "2"
     onboard_page.ft_onboard_step2
-  when "3"
-    onboard_page.ft_onboard_step3
   end
 end
 
@@ -53,6 +51,7 @@ Given(/^I choose "(.*?)" status for fertility treatment$/) do |status|
 end
 
 Given(/^I close the onboarding popup$/) do
-  sleep 1
+  sleep 2
   touch "* id:'close'" if element_exists "* id:'close'"
+  sleep 1
 end

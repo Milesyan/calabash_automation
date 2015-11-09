@@ -13,7 +13,7 @@ Feature: Male invites female partner
 
     And I am the female partner and my type is "Non-TTC"
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Avoiding pregnancy"
     And I complete Non-TTC onboarding step 1
     And I complete Non-TTC onboarding step 2
@@ -36,7 +36,7 @@ Feature: Male invites female partner
 
     And I am the female partner and my type is "TTC"
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Trying to conceive"
     And I complete TTC onboarding step 1
     And I complete TTC onboarding step 2
@@ -59,12 +59,11 @@ Feature: Male invites female partner
 
     And I am the female partner and my type is "Med"
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
     
     And I choose "Intercourse with fertility medication" status for fertility treatment
     And I complete Fertility Treatment onboarding step 2
-    And I complete Fertility Treatment onboarding step 3
     And I fill in email name password and birthday
     And I finish the tutorial
     Then I should see "Complete log"
@@ -83,12 +82,11 @@ Feature: Male invites female partner
 
     And I am the female partner and my type is "IUI"
     And I open Glow for the first time
-    And I touch the "Get Started!" button
+    And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
 
     And I choose "Intrauterine Insemination (IUI)" status for fertility treatment
     And I complete Fertility Treatment onboarding step 2
-    And I complete Fertility Treatment onboarding step 3
     And I fill in email name password and birthday
     And I finish the tutorial
     Then I should see "Complete log"
