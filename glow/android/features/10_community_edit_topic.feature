@@ -1,4 +1,5 @@
 @community
+@community2
 Feature: edit topics
 	
 	Scenario: create a post topic and edit it.
@@ -6,8 +7,7 @@ Feature: edit topics
 		Then a go to community page
 		And I touch "Community"
 		And I select the "4" group
-		And I touch "Post"
-		And I fill in the contents in "Post" page
+		And I post a "post" topic
 		Then I should see text containing "Your Post is successfully posted"
 		Then I wait for 2 seconds
 		Then I touch the "post" I created
@@ -23,8 +23,7 @@ Feature: edit topics
 		Then a go to community page
 		And I touch "Community"
 		And I select the "4" group
-		And I touch "Poll"
-		And I fill in the contents in "Poll" page
+		And I post a "poll" topic
 		Then I should see text containing "Your Poll is successfully posted"
 		Then I wait for 2 seconds
 		Then I touch the "Poll" I created
@@ -41,8 +40,7 @@ Feature: edit topics
 		Then a go to community page
 		And I touch "Community"
 		And I select the "4" group
-		And I touch "Link"
-		And I fill in the contents in "Link" page
+		And I post a "link" topic
 		Then I should see text containing "Your Link is successfully posted"
 		Then I wait for 2 seconds
 		Then I touch the "Link" I created

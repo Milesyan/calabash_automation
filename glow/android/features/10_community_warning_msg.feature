@@ -1,4 +1,5 @@
 @community
+@community3
 Feature: Create topic with short/empty title or body
 	Scenario: Create a Poll topic
 		Given I log in as "miles@glowing.com"
