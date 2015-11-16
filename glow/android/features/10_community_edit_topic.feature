@@ -1,4 +1,4 @@
-@community3
+@community
 Feature: edit topics
 	
 	Scenario: create a post topic and edit it.
