@@ -1,0 +1,50 @@
+  touch "textview index:(.*?)" do arg1
+flash "textview index:4"
+flash "textview index:4"
+start_test_server_in_background
+flash "textview index:4"
+query 
+query "*"
+flash "* id:expand_activities_button"
+flash "* id:'expand_activities_button'"
+flash "* id:'action_bar'"
+flash "* id:'topic_menu'"
+start_test_server_in_background
+query "* marked:'posttest'"
+query "* marked:'posttest' index:0"
+flash "* marked:'posttest' index:0"
+touch "* marked:'posttest'"
+touch "* text:'posttest'"
+touch "* text:'posttest'"
+start_test_server_in_background
+touch "* text:'posttest'"
+touch "* text:'posttest'"
+touch "* text:'posttest'"
+touch "* text:'posttest' index:0"
+start_test_server_in_background
+query "*"
+start_test_server_in_background
+touch "* id:'create_yes'"
+touch "* id:'create_yes'"
+start_test_server_in_background
+reinstall_apps
+start_test_server_in_background
+reinstall_apps
+start_test_server_in_background
+query "*"
+exit
+start_test_server_in_background
+exit
+start_test_server_in_background
+touch "* id:'create_poll_btn'"
+exit
+exit
+start_test_server_in_background
+touch "* id:'topic_menu'"
+touch "* id:'topic_menu'"
+ls
+exit
+start_test_server_in_background
+touch "* id:'topic_menu'"
+touch "* id:'topic_menu'"
+exit
