@@ -1,4 +1,4 @@
-@forum @regression
+@forum
 Feature: Community
   @poll_topic
   Scenario: Post a poll
