@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'glow_ios_test'
 
-Minitest::Reporters.use! Minitest::Reporters::HtmlReporter.new
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class GlowTest < Minitest::Test
   include Glow
@@ -182,6 +182,21 @@ class GlowTest < Minitest::Test
     assert_equal u.email, eval(u.res)[:user][:email]
   end
 
+  def test_login_correct_email_wrong_password
+    u = new_ttc_user
+    u.logout
+    u.login(u.email, "wrongpassword")
+    assert_equal 3024, u.res["user"]["rc"]
+    assert_equal "Wrong email and password combination.", u.res["user"]["msg"]
+  end
+
+  def test_login_wrong_email_correct_password
+    u = new_ttc_user
+    u.logout
+    u.login("wrong_#{u.email}", u.password)
+    assert_equal 3024, u.res["user"]["rc"]
+    assert_equal "Wrong email and password combination.", u.res["user"]["msg"]
+  end
 
   def test_non_ttc_user_disconnect_male_partner
     # a partner follows the primary's status

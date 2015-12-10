@@ -15,3 +15,6 @@ glow/ios/*.png
 glow/ios/features/screenshots/*
 glow/ios/calabash.framework/
 glow/ios/features/support/env.rb
+
+
+glow/www/test/
