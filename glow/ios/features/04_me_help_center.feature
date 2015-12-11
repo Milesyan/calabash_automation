@@ -1,7 +1,9 @@
-@help_center @regression
+@help_center
 Feature: Help center on Me page
   Scenario: All screens in Help center should be loaded fine
-    Given I register a new "Non-TTC" user
+    #Given I register a new "Non-TTC" user
+    Given I create a new "Non-TTC" user
+    And I login
     And I open "me" page
     And I open "Help center" on Me page
     Then "FAQ" screen in Help Center should be loaded fine

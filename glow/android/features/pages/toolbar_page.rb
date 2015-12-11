@@ -9,7 +9,12 @@ class ToolbarPage < Calabash::ABase
   def logout
     #touch "* id:'home_tool_bar'"
     #press_menu_button
-    touch "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
+    sleep 2
+    menu_button = "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
+    wait_for(:timeout => 10, :regry_frequency => 2) do
+      element_exists menu_button
+    end
+    touch menu_button
     touch "* text:'Log out'"
   end
 end

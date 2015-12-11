@@ -7,6 +7,11 @@ When(/^I login as the partner$/) do
   puts $user.partner_email
 end
 
+When(/^I sign up as a single male user$/) do
+  onboard_page.sign_up_single_male
+  puts $user.email
+end
+
 Then(/^I select the user type "(.*?)"$/) do |user_type|
   onboard_page.select_user_type(user_type)
 end
@@ -37,8 +42,6 @@ Given(/^I complete Fertility Treatment onboarding step (\d+)$/) do |step_number|
   case step_number.to_s
   when "2"
     onboard_page.ft_onboard_step2
-  when "3"
-    #onboard_page.ft_onboard_step3
   end
 end
 
@@ -48,6 +51,7 @@ Given(/^I choose "(.*?)" status for fertility treatment$/) do |status|
 end
 
 Given(/^I close the onboarding popup$/) do
+  sleep 2
+  touch "* id:'close'" if element_exists "* id:'close'"
   sleep 1
-  tap_when_element_exists "* id:'close'"
 end

@@ -1,8 +1,9 @@
-@male_daily_log
+@male_daily_log @regression @all
 Feature: Complete daily log
   @non_ttc_male_partner_daily_log
   Scenario: Non-TTC male partner completes daily log
     Given I register a new "Non-TTC" user
+    And I open "Me" page
     And I invite my male partner
     And I logout
 
@@ -14,6 +15,7 @@ Feature: Complete daily log
   @ttc_male_partner_daily_log
   Scenario: TTC male partner completes daily log
    	Given I register a new "TTC" user
+    And I open "Me" page
     And I invite my male partner
     And I logout
 
@@ -25,6 +27,7 @@ Feature: Complete daily log
   @iui_male_partner_daily_log
   Scenario: IUI male partner completes daily log
     Given I register a new "IUI" user
+    And I open "Me" page
     And I invite my male partner
     And I logout
 

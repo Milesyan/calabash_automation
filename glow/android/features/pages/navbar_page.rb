@@ -6,6 +6,7 @@ class NavbarPage < Calabash::ABase
   end
 
   def open(page)
+    sleep 1
     case page.downcase
     when 'home'
       touch "* id:'nav_home'"

@@ -19,4 +19,8 @@ module Glow
     wait_for_elements_do_not_exist("* id:'loading_view'", :timeout => 30)
     toolbar_page.logout if already_logged_in?
   end
+
+  def random_str(len = 8)
+    ('a'..'z').to_a.shuffle[0,len].join
+  end
 end

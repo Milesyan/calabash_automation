@@ -7,5 +7,9 @@ Given(/^I complete daily log$/) do
 end
 
 Given(/^I complate my daily log for male$/) do
-  pending # express the regexp above with the code you wish you had
+  home_page.complete_daily_log "male"
+end
+
+Given(/^I complete ft log$/) do
+  home_page.complete_ft_log
 end
