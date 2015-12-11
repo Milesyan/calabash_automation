@@ -41,8 +41,8 @@ module Glow
         "app_version" => "5.3.0",
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290BA690C71C",
-        "model" => "iPhone7,2",
-        "random" => random_str
+        "model" => "iPhone7,1",
+        "random" => random_str,
       }
     end
 
@@ -566,7 +566,7 @@ module Glow
         "content": "#{Time.now.strftime "%D %T"}",
         "title": args[:title] || "#{@email} #{Time.now}",
         "anonymous": 0,
-        "ut": @ut,
+        "ut": @ut
       }.merge(common_data)  # random_str isn't needed
 
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{GROUP_ID}/create_topic", :body => topic_data.to_json,
@@ -574,6 +574,26 @@ module Glow
       @topic_id = @res["topic"]["id"]
       title = @res["topic"]["title"]
       puts "topic #{title} created"
+      self
+    end
+
+    def create_poll(args = {})
+      topic_data = {
+        "code_name": "emma",
+        "content": "HELLO 123123",
+        "anonymous": 0,
+        "title": "test aaaaaaaaa",#args[:title] || #{}"#{@email} #{Time.now}",
+        "options": ["Field1","Field2","Field3"].to_s,
+        "ut": @ut
+      }.merge(common_data)
+
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{GROUP_ID}/create_poll", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      #@topic_id = @res["result"]["id"]
+      #title = @res["result"]["title"]
+      #puts "topic #{title} created, topic id is #{topic_id}"
+      puts @ut
+      puts @res
       self
     end
 
