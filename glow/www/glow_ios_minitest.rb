@@ -420,7 +420,7 @@ class GlowTest < Minitest::Test
 
 
   #--- Community ---
-
+  # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
     u = new_ttc_user
     u.create_topic
@@ -429,7 +429,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_create_poll_topic
-    
+    u = new_ttc_user
+    u.create_poll
+    assert_equal u.user_id, u.res["result"]["user_id"]
   end
 
   def test_create_photo_topic
@@ -439,7 +441,7 @@ class GlowTest < Minitest::Test
   def test_create_link_topic
 
   end
-
+  # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
     u1 = new_ttc_user
     u2 = new_ttc_user
@@ -448,6 +450,12 @@ class GlowTest < Minitest::Test
     u2.reply_to_topic u1.topic_id
     assert_equal u2.res["result"]["topic_id"], u1.topic_id
   end
+
+  def test_add_image_comments_to_a_topic
+
+  end
+
+
 
 
 end
