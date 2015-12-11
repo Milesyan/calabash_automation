@@ -22,12 +22,21 @@ class OnboardPage < Calabash::ABase
   end
 
   def sign_up_partner(gender="Male")
-    touch "* id:'partner_sign_up'"
-    enter_text "* id:'email'", $user.partner_email
-    touch "* marked:'Next'"
+    touch "* marked:'Sign up'"
+    touch "* id:'male_user'"
     select_bmi
     touch "* marked:'Next'"
-    fill_in_email_password($user.partner_email, GLOW_PASSWORD, full_name="Partner", is_partner = true)
+    sleep 1
+    fill_in_email_password($user.partner_email, GLOW_PASSWORD, full_name="Partner")
+  end
+
+  def sign_up_single_male
+    touch "* marked:'Sign up'"
+    touch "* id:'male_user'"
+    select_bmi
+    touch "* marked:'Next'"
+    sleep 1
+    fill_in_email_password($user.email, GLOW_PASSWORD, full_name="Partner")
   end
 
   def non_ttc_onboard_step1
@@ -60,14 +69,17 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'Next'"
   end
 
+  # def ft_onboard_step2
+  #   # the questions to answer for fertility test (removed since 3.7)
+  #   # touch "* id:'result_spinner' index:0"
+  #   # touch "* marked:'Normal'"
+  #   # touch "* id:'next_action'"
+  # end
+
   def ft_onboard_step2
     select_average_cycle_length
     select_last_period
     touch "* id:'next_action'"
-  end
-
-  def ft_onboard_step3
-    
   end
 
   def select_bmi
@@ -96,8 +108,8 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'30 days'"
   end
 
-  def fill_in_email_password(email, pwd, full_name="Glow Test", is_partner = false)
-    enter_text "* id:'email'", email unless is_partner
+  def fill_in_email_password(email, pwd, full_name="Glow Test")
+    enter_text "* id:'email'", email
     enter_text "* id:'full_name'", full_name
     enter_text "* id:'password'", pwd
     touch "* id:'birthday'"
@@ -117,7 +129,7 @@ class OnboardPage < Calabash::ABase
 
   def answer_ft_questions
     select_clinic
-    select_test_done
+    #select_test_done #removed in 3.7
     select_ft_type
     select_ft_start_date
     select_ft_end_date
@@ -130,7 +142,7 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'#{name}'"
   end
 
-  def select_test_done(yes_or_no = "No")
+  def select_test_done(yes_or_no = "YES")
     touch "* id:'radio_#{yes_or_no.downcase}'"
   end
 
@@ -159,12 +171,14 @@ class OnboardPage < Calabash::ABase
 
   def select_ft_start_date
     touch "* id:'ft_start_date'"
-    touch "* marked:'Done'"
+    #touch "* marked:'Done'"
+    touch "* id:'button1'" # Done button
   end
 
   def select_ft_end_date
     touch "* id:'ft_end_date'"
-    touch "* marked:'Done'"
+    #touch "* marked:'Done'"
+    touch "* id:'button1'" # Done button
   end
 
   def select_ttc_length
@@ -172,7 +186,7 @@ class OnboardPage < Calabash::ABase
     touch "* marked:'Set'"
   end
 
-  def select_children_number(text = "I have 1 child")
+  def select_children_number(text = "1")
     touch "* id:'children_count_picker'"
     touch "* marked:'#{text}'"
   end

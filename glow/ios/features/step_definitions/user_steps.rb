@@ -54,8 +54,17 @@ Given(/^I am a new "(.*?)" user "(.*?)"$/) do |type, who|
 
 end
 
-Given(/^I register a new "(.*?)" user$/) do |type|
+Given(/^I create a new "(.*?)" user$/) do |type|
+  case type.downcase
+  when "non-ttc"
+    $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial
+  when "ttc"
+    $user = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial
+  end
   logout_if_already_logged_in
+end
+
+Given(/^I register a new "(.*?)" user$/) do |type|
 
   email = get_email
   password = GLOW_PASSWORD
@@ -110,6 +119,5 @@ Given(/^I am a new "(.*?)" user$/) do |type|
 end
 
 Given(/^I login$/) do
-  onboard_page.tap_login
-  login_page.login
+  onboard_page.login($user.email, $user.password)
 end

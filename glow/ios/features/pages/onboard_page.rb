@@ -5,6 +5,16 @@ class OnboardPage < Calabash::IBase
     "*"
   end
 
+  def login(email, password)
+    open_login_link
+    wait_touch "* marked:'Email'"
+    keyboard_enter_text email
+    wait_touch "* marked:'Password'"
+    keyboard_enter_text password
+    touch "* marked:'Next'"
+    sleep 2
+  end
+
   def open_login_link
     wait_touch "* marked:'Log in'"
   end
@@ -57,7 +67,7 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Next'"
   end
 
-    def complete_ft_step3
+  def complete_ft_step3
     choose_average_cycle_length
     choose_last_period
     sleep 1

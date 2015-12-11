@@ -204,7 +204,7 @@ class HomePage < Calabash::IBase
 
   # for TTC
   def choose_female_orgasm
-    
+    # wait_touch "* marked:'Female orgasm?' sibling PillButton index:0"
   end
 
   def choose_have_sex_for_male(answer="yes")
