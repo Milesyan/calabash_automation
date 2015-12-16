@@ -12,7 +12,7 @@ module GlowAndroid
   #GLOW_ANDROID_BASE_URL = "https://www.glowing.com"
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
-  class User
+  class GlowUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res

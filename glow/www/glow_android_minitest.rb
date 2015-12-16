@@ -11,15 +11,15 @@ class GlowTest < Minitest::Test
   end
 
   def new_ttc_user
-    User.new.ttc_signup.login.complete_tutorial
+    GlowUser.new.ttc_signup.login.complete_tutorial
   end
     
   def new_non_ttc_user
-    User.new.non_ttc_signup.login.complete_tutorial
+    GlowUser.new.non_ttc_signup.login.complete_tutorial
   end
 
   def new_ft_user(args = {})
-    User.new.ft_signup(args).login.complete_tutorial
+    GlowUser.new.ft_signup(args).login.complete_tutorial
   end
 
   def assert_rc(res)
@@ -70,7 +70,7 @@ class GlowTest < Minitest::Test
 
   def test_single_male_user_signup
     # single male's default status is TTC
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     assert_rc u.res
     assert_equal 0, u.res["user"]["settings"]["current_status"]
   end
@@ -78,7 +78,7 @@ class GlowTest < Minitest::Test
   def test_non_ttc_male_partner_signup
     u = new_non_ttc_user
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -89,7 +89,7 @@ class GlowTest < Minitest::Test
   def test_ttc_male_partner_signup
     u = new_ttc_user
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -100,7 +100,7 @@ class GlowTest < Minitest::Test
   def test_ft_prep_male_partner_signup
     u = new_ft_user type: "prep"
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -112,7 +112,7 @@ class GlowTest < Minitest::Test
   def test_ft_med_male_partner_signup
     u = new_ft_user type: "med"
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -125,7 +125,7 @@ class GlowTest < Minitest::Test
   def test_ft_iui_male_partner_signup
     u = new_ft_user type: "iui"
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -138,7 +138,7 @@ class GlowTest < Minitest::Test
   def test_ft_ivf_male_partner_signup
     u = new_ft_user type: "ivf"
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal "M", male_partner.res["user"]["gender"]
@@ -151,7 +151,7 @@ class GlowTest < Minitest::Test
   def test_non_ttc_female_partner_signup
     u = new_non_ttc_user
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.ttc_signup
     assert_rc female_partner.res
     assert_equal "F", female_partner.res["user"]["gender"]
@@ -162,7 +162,7 @@ class GlowTest < Minitest::Test
   def test_ttc_female_partner_signup
     u = new_ttc_user
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.non_ttc_signup
     assert_rc female_partner.res
     assert_equal "F", female_partner.res["user"]["gender"]
@@ -173,7 +173,7 @@ class GlowTest < Minitest::Test
   def test_ft_iui_female_partner_signup
     u = new_ft_user type: "iui"
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.non_ttc_signup
     assert_rc female_partner.res
     assert_equal "F", female_partner.res["user"]["gender"]
@@ -182,9 +182,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_male_invite_non_ttc_female_partner
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.non_ttc_signup
     assert_rc female_partner.res
     u.logout.login
@@ -194,9 +194,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_male_invite_ttc_female_partner
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.ttc_signup
     assert_rc female_partner.res
     u.logout.login
@@ -206,9 +206,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_male_invite_ft_iui_female_partner
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.invite_partner
-    female_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    female_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     female_partner.ft_signup type: "iui"
     assert_rc female_partner.res
     u.logout.login
@@ -218,9 +218,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_male_to_male_signup
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.invite_partner
-    male_partner = User.new email: u.partner_email, first_name: u.partner_first_name
+    male_partner = GlowUser.new email: u.partner_email, first_name: u.partner_first_name
     male_partner.male_signup
     assert_equal "M", male_partner.res["user"]["gender"]
     assert_rc male_partner.res
@@ -231,9 +231,9 @@ class GlowTest < Minitest::Test
   # disconnect partner
 
   def test_primary_ttc_user_disconnect_male_partner
-    u = User.new.ttc_signup
+    u = new_ttc_user
     u.invite_partner
-    male_partner = User.new email: u.partner_email, password: u.password
+    male_partner = GlowUser.new email: u.partner_email, password: u.password
     male_partner.male_signup
 
     u.pull_content
@@ -247,9 +247,9 @@ class GlowTest < Minitest::Test
   end
 
   def test_male_partner_disconnect_primary_non_ttc_user
-    u = User.new.non_ttc_signup
+    u = new_non_ttc_user
     u.invite_partner
-    male_partner = User.new email: u.partner_email, password: u.password
+    male_partner = GlowUser.new email: u.partner_email, password: u.password
     male_partner.male_signup
 
     u.pull_content
@@ -330,7 +330,7 @@ class GlowTest < Minitest::Test
   end
 
   def test_single_male_user_daily_log
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.male_complete_daily_log
     assert_rc u.res
   end
@@ -338,7 +338,7 @@ class GlowTest < Minitest::Test
   def test_female_ttc_user_should_see_male_partner_daily_log_summary
     u = new_ttc_user.complete_tutorial.ttc_female_complete_daily_log
     u.invite_partner
-    male_partner = User.new email: u.partner_email, password: u.password
+    male_partner = GlowUser.new email: u.partner_email, password: u.password
     male_partner.male_signup.male_complete_daily_log
     u.pull_content
     partner_daily_data = u.res["partner"]["daily_data"].first
@@ -351,7 +351,7 @@ class GlowTest < Minitest::Test
   def test_male_user_should_see_female_partner_daily_log_summary
     u = new_ttc_user.complete_tutorial.ttc_female_complete_daily_log
     u.invite_partner
-    male_partner = User.new email: u.partner_email, password: u.password
+    male_partner = GlowUser.new email: u.partner_email, password: u.password
     male_partner.male_signup.male_complete_daily_log
     male_partner.pull_content
     partner_daily_data = male_partner.res["partner"]["daily_data"].first
