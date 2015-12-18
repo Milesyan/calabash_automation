@@ -9,7 +9,6 @@ glow/android/*.apk
 glow/android/calabash.framework/
 glow/android/Calabash/
 glow/android/features/support/env.rb
-
 glow/ios/features/*.png
 glow/ios/*.png
 glow/ios/features/screenshots/*
@@ -18,3 +17,4 @@ glow/ios/features/support/env.rb
 
 
 glow/www/test/
+glow/ios

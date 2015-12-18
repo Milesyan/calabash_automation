@@ -1,11 +1,9 @@
 @male_invite_female_partner @signup @regression @all
-Feature: Male invites female partner
+Feature: Male invites female partner and sign up
   @non_ttc_female_partner_signup
   Scenario: Male invites Non-TTC female partner
-    Given I am a new "Single Male" user
-    And I open Glow for the first time
-    When I sign up as a single male user
-    And I finish the tutorial
+    Given I create a new "Single Male" glow user
+    And I login
     Then I should see "Complete log"
     And I open "Me" page
     And I invite my female partner
@@ -25,10 +23,8 @@ Feature: Male invites female partner
 
   @ttc_female_partner_signup
   Scenario: Male invites TTC female partner
-    Given I am a new "Single Male" user
-    And I open Glow for the first time
-    When I sign up as a single male user
-    And I finish the tutorial
+    Given I create a new "Single Male" glow user
+    And I login
     Then I should see "Complete log"
     And I open "Me" page
     And I invite my female partner
@@ -48,10 +44,8 @@ Feature: Male invites female partner
 
   @med_female_partner_signup
   Scenario: Male invites Med female partner
-    Given I am a new "Single Male" user
-    And I open Glow for the first time
-    When I sign up as a single male user
-    And I finish the tutorial
+    Given I create a new "Single Male" glow user
+    And I login
     Then I should see "Complete log"
     And I open "Me" page
     And I invite my female partner
@@ -62,7 +56,7 @@ Feature: Male invites female partner
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
     
-    And I choose "Intercourse with fertility medication" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -71,10 +65,8 @@ Feature: Male invites female partner
 
   @iui_female_partner_signup
   Scenario: Male invites IUI female partner
-    Given I am a new "Single Male" user
-    And I open Glow for the first time
-    When I sign up as a single male user
-    And I finish the tutorial
+    Given I create a new "Single Male" glow user
+    And I login
     Then I should see "Complete log"
     And I open "Me" page
     And I invite my female partner
@@ -85,7 +77,7 @@ Feature: Male invites female partner
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
 
-    And I choose "Intrauterine Insemination (IUI)" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
