@@ -1,5 +1,5 @@
-# @forum
-# Feature: User should be able to follow/unfollow other users in the forum
+@forum_old
+Feature: User should be able to follow/unfollow other users in the forum
 #   Scenario: The same user upvote a topic, upvote a comment, upvote and reply
 #   @different_user_upvote
 #   Scenario: A different user upvote a topic, upvote a comment, upvote and reply

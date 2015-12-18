@@ -36,17 +36,15 @@ class ForumPage < Calabash::IBase
     check_element_exists "* marked:'#{title}'"
 
     $user.topic_title = title
-    wait_touch "* marked:'Back'"
-    wait_for_none_animating
   end
 
-  def create_post
+  def create_post(args={})
     wait_touch "label text:'Post'"
     wait_touch "UITextField"
-    title = "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     wait_touch "* marked:'Write a description!'"
-    keyboard_enter_text Time.now.to_s
+    keyboard_enter_text args[:text] ||Time.now.to_s
     wait_touch "label text:'Next'"
     sleep 1
     # select the first group
@@ -57,8 +55,6 @@ class ForumPage < Calabash::IBase
 
     $user.topic_title = title
     puts $user.topic_title
-    wait_touch "* marked:'Back'"
-    wait_for_none_animating
   end
 
   def create_photo
@@ -78,7 +74,6 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_for_elements_exist "* marked:'Your topic is successfully posted!"
     sleep 3
-    wait_touch "* marked:'Back'"
   end
 
   def create_link
@@ -93,7 +88,59 @@ class ForumPage < Calabash::IBase
     wait_touch "* marked:'Done!'"
     sleep 1
     check_element_exists "label text:'百度一下，你就知道'"
-    wait_touch "* marked:'Back'"
+  end
+
+  def select_a_group
+    wait_touch "UILabel index:2"
+    wait_for_none_animating
+  end
+    
+  def create_post_in_group(args={})
+    wait_touch "label text:'Post'"
+    wait_touch "UITextField"
+    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    keyboard_enter_text title
+    wait_touch "* marked:'Write a description!'"
+    keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
+    wait_touch "label text:'Post'"
+    sleep 1
+    # select the first group
+    # wait_touch "UITableViewCellContentView child label index:0"
+    # wait_touch "* marked:'Done!'"
+    sleep 1
+    #check_element_exists "* marked:'#{title}'"
+    $user.topic_title = title
+    @topic_title = title
+    puts $user.topic_title
+  end
+
+  def discard_topic
+    wait_touch "label text:'Close'"
+    wait_touch "UILabel marked:'Discard'"
+  end  
+
+  def back_to_group
+    wait_touch "label text:'Back'"
+  end  
+  
+
+  def edit_topic(args1)
+    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* id:'community-dots'"
+    wait_touch "UILabel marked:'Edit this post'"
+    wait_for_none_animating
+    sleep 1
+    puts $user.topic_title
+    
+    wait_touch "UIWebView"
+    scroll "scrollView", :up
+    wait_for_none_animating
+    wait_touch "UITextFieldLabel"
+    #keyboard_enter_text('Delete')
+    keyboard_enter_text("Modified title")
+    wait_touch "UIWebView index:0"
+    keyboard_enter_text("Modified content")
+    wait_touch "label text:'Update'"
   end
 
   def add_comment

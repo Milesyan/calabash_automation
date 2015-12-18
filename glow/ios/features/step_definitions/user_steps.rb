@@ -57,10 +57,11 @@ end
 Given(/^I create a new "(.*?)" user$/) do |type|
   case type.downcase
   when "non-ttc"
-    $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial
+    $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial.join_group
   when "ttc"
-    $user = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial
+    $user = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.join_group
   end
+  puts $user.email, $user.password
   logout_if_already_logged_in
 end
 
@@ -101,23 +102,75 @@ end
 
 Given(/^I am a new "(.*?)" user$/) do |type|
   logout_if_already_logged_in
-
   email = get_email
   password = GLOW_PASSWORD
-
   type = type.downcase
   type = "ft" if type == "fertility treatment"
   if %w(prep med iui ivf).include?(type)
     treatment_type = type
     type = "ft"
   end
-
   gender = type == "single male" ? "male" : "female"
-
   $user = User.new(email: email, password: password, type: type, gender: gender)
   puts email + "/" + password + " #{type}"
+end
+
+Given(/^I create a new "([^"]*)" user and the user create a "([^"]*)" topic in group "([^"]*)"$/) do |user_type, topic_type, group_id|
+  case user_type.downcase
+  when "non-ttc"
+    $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial.join_group
+  when "ttc"
+    $user = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  end
+  puts 'New User created'+ $user.email, $user.password
+
+  case topic_type.downcase
+  when "text"
+    $user.create_topic({:title => 'create topic by www api', :group_id => 4})
+  when "poll"
+    $user.create_poll({:title => 'create poll by www api', :group_id => 4})
+  end
+  logout_if_already_logged_in
 end
 
 Given(/^I login$/) do
   onboard_page.login($user.email, $user.password)
 end
+
+
+Then(/^I created another user to vote the poll$/) do
+  $user2 = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  $user2.vote_poll({ topic_id: $user.topic_id})
+  puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
