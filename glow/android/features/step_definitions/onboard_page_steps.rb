@@ -40,14 +40,11 @@ end
 
 Given(/^I complete Fertility Treatment onboarding step (\d+)$/) do |step_number|
   case step_number.to_s
+  when "1"
+    onboard_page.ft_onboard_step1
   when "2"
     onboard_page.ft_onboard_step2
   end
-end
-
-Given(/^I choose "(.*?)" status for fertility treatment$/) do |status|
-  # status is not used any mroe
-  onboard_page.ft_onboard_step1
 end
 
 Given(/^I close the onboarding popup$/) do

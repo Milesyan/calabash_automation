@@ -6,8 +6,7 @@ Feature: Fertility Treatments user signup
     And I open Glow for the first time
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
-
-    And I choose "Preparing for treatment" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -27,8 +26,7 @@ Feature: Fertility Treatments user signup
     And I open Glow for the first time
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
-
-    And I choose "Intercourse with fertility medication" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -48,8 +46,7 @@ Feature: Fertility Treatments user signup
     And I open Glow for the first time
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
-
-    And I choose "Intrauterine Insemination (IUI)" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -70,7 +67,7 @@ Feature: Fertility Treatments user signup
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
 
-    And I choose "In Vitro Fertilization (IVF)" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial

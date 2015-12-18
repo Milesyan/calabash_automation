@@ -1,14 +1,12 @@
-@signup @ft @all
-Feature: Fertility Treatments
-  Background:
-    Given I am a new "fertility treatment" user
+@signup @ft-signup @regression @all
+Feature: Fertility Treatment users sign up
+  @ft_prep
+  Scenario: Preparing for treatment user signs up
+    Given I am a new "Prep" user
     And I open Glow for the first time
     And I touch the "Sign up" button
     And I select the user type "Fertility treatments"
-
-  @ft_prep
-  Scenario: Preparing for treatment user signs up
-    And I choose "Preparing for treatment" status for fertility treatment
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -17,7 +15,11 @@ Feature: Fertility Treatments
 
   @ft_med
   Scenario: Med user signup
-    And I choose "Intercourse with fertility medication" status for fertility treatment
+    Given I am a new "Med" user
+    And I open Glow for the first time
+    And I touch the "Sign up" button
+    And I select the user type "Fertility treatments"
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -26,7 +28,11 @@ Feature: Fertility Treatments
 
   @ft_iui
   Scenario: IUI user signup
-    And I choose "Intrauterine Insemination (IUI)" status for fertility treatment
+    Given I am a new "IUI" user
+    And I open Glow for the first time
+    And I touch the "Sign up" button
+    And I select the user type "Fertility treatments"
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
@@ -35,7 +41,11 @@ Feature: Fertility Treatments
 
   @ft_ivf
   Scenario: IVF user signup
-    And I choose "In Vitro Fertilization (IVF)" status for fertility treatment
+    Given I am a new "IVF" user
+    And I open Glow for the first time
+    And I touch the "Sign up" button
+    And I select the user type "Fertility treatments"
+    And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial

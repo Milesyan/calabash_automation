@@ -1,5 +1,5 @@
 @female_signup @signup @regression @all
-Feature: Onboarding flow
+Feature: Onboarding flow for Non-TTC, TTC, Fertility treatment users
   @non-ttc-signup
   Scenario: NonTTC user signup
     Given I am a new "Non-TTC" user
@@ -24,20 +24,6 @@ Feature: Onboarding flow
     And I complete TTC onboarding step 2
     And I fill in email name password and birthday
     And I close the onboarding popup
-    And I finish the tutorial
-    Then I see "Complete log"
-    And I logout
-
-  @ft-signup
-  Scenario: Fertility treatment user signup
-    Given I am a new "Med" user
-    And I open Glow for the first time
-    And I touch the "Sign up" button
-    And I select the user type "Fertility treatments"
-    And I choose "Preparing for treatment" status for fertility treatment
-    And I complete Fertility Treatment onboarding step 1
-    And I complete Fertility Treatment onboarding step 2
-    And I fill in email name password and birthday
     And I finish the tutorial
     Then I see "Complete log"
     And I logout
