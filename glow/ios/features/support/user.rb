@@ -2,11 +2,13 @@ require 'httparty'
 require 'json'
 
 PASSWORD = 'Glow12345'
-GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
+# GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
+# SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
+GROUP_ID = 4  # local group id 
+SUBSCRIBE_GROUP_ID = 4 # local group id
 
-BASE_URL = "http://dragon-emma.glowing.com"
-FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+BASE_URL = "http://localhost:5010"
+FORUM_BASE_URL = "http://localhost:35010"
 
 module Glow
   class User
@@ -14,7 +16,7 @@ module Glow
     TREATMENT_TYPES = %w(prep, med, iui, ivf)
 
     attr_accessor :email, :password, :type, :partner_email, :treatment_type, :first_name, :last_name, :gender
-    attr_accessor :ut, :user_id, :topoc_id
+    attr_accessor :ut, :user_id, :topic_id, :group_id
     attr_accessor :topic_title
 
     def initialize(args = {})
@@ -154,5 +156,82 @@ module Glow
         :headers => { 'Content-Type' => 'application/json' })
       self
     end
+
+    def join_group
+      data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{SUBSCRIBE_GROUP_ID}/subscribe", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "     -----Join group #{SUBSCRIBE_GROUP_ID}-----    "
+      self
+    end
+
+    def leave_group(leave_group_id)
+      data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      unsubscribe_groupid = leave_group_id || SUBSCRIBE_GROUP_ID
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Leave group #{unsubscribe_groupid}"
+      self
+    end
+
+    def create_topic(args = {})
+      topic_data = {
+        "code_name": "emma",
+        "content": "#{Time.now.strftime "%D %T"}",
+        "title": args[:title] || "Topic + #{@email} #{Time.now}",
+        "anonymous": 0,
+        "ut": @ut
+      }.merge(common_data)  # random_str isn't needed
+      @group_id = args[:group_id] || GROUP_ID
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_topic", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @topic_id = @res["topic"]["id"]
+      @group_id = @res["topic"]["group_id"]
+      title = @res["topic"]["title"]
+      @topic_title = title
+      puts "topic #{title} created，topic id is #{topic_id}"
+      self
+    end
+
+    def create_poll(args = {})
+      topic_data = {
+        "code_name": "emma",
+        "content": "#{Time.now.strftime "%D %T"}",
+        "anonymous": 0,
+        "title": args[:title] || "Poll + #{@email} #{Time.now}",
+        "options": ["Field1","Field2","Field3"].to_s,
+        "ut": @ut
+      }.merge(common_data)
+      @group_id = args[:group_id] || GROUP_ID
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @topic_id = @res["result"]["id"]
+      title = @res["result"]["title"]
+      @topic_title = title
+      puts "Poll ‘#{title}’ created, topic id is #{topic_id}"
+      self
+    end
+
+    def vote_poll(args = {})
+      vote_data = {
+        "code_name": "emma",
+        "vote_index": 2,
+        "ut": @ut
+      }.merge(common_data)
+      topic_id = args[:topic_id]
+      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Topic #{topic_id} is voted"
+      self
+    end 
+
+
   end
 end
