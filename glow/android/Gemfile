@@ -2,3 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.2.1'
 gem 'calabash-android', '~> 0.5.12'
+gem 'm', '~> 1.4.0'
+gem 'minitest-reporters', '1.1.5'
+gem 'minitest', '5.7.0'
+gem 'httparty', '0.13.7'

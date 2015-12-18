@@ -23,4 +23,8 @@ module Glow
   def random_str(len = 8)
     ('a'..'z').to_a.shuffle[0,len].join
   end
+
+  def is_ft_user?(type)
+    ["prep", "med", "iui", "ivf"].include? type.downcase
+  end
 end

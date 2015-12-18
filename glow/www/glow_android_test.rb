@@ -16,6 +16,7 @@ module GlowAndroid
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
+    attr_accessor :gender
 
     def initialize(args = {})  
       @first_name = args[:first_name] || "ga" + Time.now.to_i.to_s
@@ -24,6 +25,8 @@ module GlowAndroid
       @password = args[:password] || PASSWORD
       @partner_email = "p#{@email}"
       @partner_first_name = "p#{@first_name}"
+      @gender = args[:gender] || "female"
+      @type = args[:type]
     end
 
     def random_str

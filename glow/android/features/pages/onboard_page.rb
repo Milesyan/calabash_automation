@@ -16,7 +16,7 @@ class OnboardPage < Calabash::ABase
       touch "* id:'nonttc_text'"
     when "ttc"
       touch "* id:'ttc_text'"
-    when "ft"
+    when "ft", "prep", "med", "iui", "ivf"
       touch "* id:'treatment_text'"
     end
   end
@@ -152,8 +152,8 @@ class OnboardPage < Calabash::ABase
   end
 
   def select_ft_type
-    unless $user.treatment_type.nil?
-      case $user.treatment_type.downcase
+    unless $user.type.nil?
+      case $user.type.downcase
       when "prep"  
         treatment_type = "Preparing for treatment"
       when "med"

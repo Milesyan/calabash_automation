@@ -8,34 +8,60 @@ class HomePage < Calabash::ABase
 
   def complete_daily_log(gender = "female")
     sleep 1
-    touch "* id:'log_button_text'"
+    wait_for_elements_exist( "* id:'log_button_text'", :timeout => 10)
+    scroll_to "* id:'log_button_text' marked:'Complete log'"
+    touch "* id:'log_button_text' marked:'Complete log'"
     if gender.downcase == "female"
-      case $user.type
+      case $user.type.downcase
       when "non-ttc"
         choose_spotting
         choose_sex
         choose_cm_check
         choose_cervical_position
         choose_bbt
-      when "ttc", "ft"
+
+        choose_ovulation
+        choose_pregnancy
+        choose_exercise
+        choose_weight
+        choose_physical_symptoms
+        choose_sleep
+        choose_smoke
+        choose_alcohol
+        choose_emotional
+        choose_stress
+        choose_medication_list
+      when "ttc", "ft", "prep", "med", "iui", "ivf"
         choose_spotting
         choose_ttc_sex
         choose_female_orgasm
         choose_cm_check
         choose_bbt
         choose_cervical_position
+
+        choose_ovulation
+        choose_pregnancy
+        choose_exercise
+        choose_weight
+        choose_physical_symptoms
+        choose_sleep
+        choose_smoke
+        choose_alcohol
+        choose_emotional
+        choose_stress
+        choose_medication_list
+      when "female-partner"
+        choose_exercise
+        choose_weight
+        choose_physical_symptoms
+        choose_sleep
+        choose_smoke
+        choose_alcohol
+        choose_emotional
+        choose_stress
+        choose_medication_list
       end
-      choose_ovulation
-      choose_pregnancy
-      choose_exercise
-      choose_weight
-      choose_physical_symptoms
-      choose_sleep
-      choose_smoke
-      choose_alcohol
-      choose_emotional
-      choose_stress
-      choose_medication_list
+
 
       save_daily_log
       close_invite_partner
@@ -59,14 +85,15 @@ class HomePage < Calabash::ABase
   end
 
   def complete_ft_log
-    sleep 1
+    sleep 2
     back_to_today
+    wait_for_elements_exist "* id:'log_button_text' * marked:'Add fertility treatment log'"
     touch "* id:'log_button_text' * marked:'Add fertility treatment log'"
 
     choose_blood_work
     choose_ultrasound
     choose_hcg_shot
-    case $user.treatment_type
+    case $user.type
     when "iui"
       choose_insemination
     when 'ivf'
@@ -326,6 +353,6 @@ class HomePage < Calabash::ABase
       element_exists "* id:'small_view'"
     end
     touch "* id:'small_view'"
-    touch "* marked:'Later'" unless $user.type == "ft"
+    touch "* marked:'Later'" unless is_ft_user? $user.type
   end
 end
