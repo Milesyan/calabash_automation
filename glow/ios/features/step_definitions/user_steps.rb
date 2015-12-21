@@ -122,7 +122,7 @@ Given(/^I create a new "([^"]*)" user and the user create a "([^"]*)" topic in g
   when "ttc"
     $user = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
   end
-  puts 'New User created'+ $user.email, $user.password
+  puts 'New User created '+ $user.email, $user.password
 
   case topic_type.downcase
   when "text"
@@ -130,6 +130,7 @@ Given(/^I create a new "([^"]*)" user and the user create a "([^"]*)" topic in g
   when "poll"
     $user.create_poll({:title => 'create poll by www api', :group_id => 4})
   end
+  puts 'Topic created, the title is '+ $user.topic_title
   logout_if_already_logged_in
 end
 
@@ -145,13 +146,67 @@ Then(/^I created another user to vote the poll$/) do
 end
 
 
+Then(/^the user add (\d+) comments and user2 added (\d+) subreplies to each comment\.$/) do |comment_number, subreply_number|
+  puts "User topic_id is #{$user.topic_id}"
+  $user2 = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  comment_number.to_i.times do |comment_number|
+    $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
+    puts "User reply_id is #{$user.reply_id}"
+    subreply_number.to_i.times do |subreply_number|
+      puts "User sub reply ++"
+      $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
+    end
+  end
+end
+
+
+
+Given(/^I create a new user and create (\d+) topics$/) do |arg1|
+  $user = User.new(type:"ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+
+  arg1.to_i.times do |arg1|
+    $user.create_topic({:title => "Test load more topic #{arg1+1}"})
+  end
+end
 
 
 
 
+Given(/^I create a new user and create (\d+) topics for search topics$/) do |arg1|
+  $user = User.new(type:"ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  $topic_numbers = arg1
+  $time_created = Time.now.to_i.to_s
+  arg1.to_i.times do |arg1|
+    $user.create_topic({:title => "Test search #{arg1+1} #{$time_created}" })
+  end
+end
 
 
+Given(/^I create a new user and create (\d+) topics and (\d+) comments and (\d+) subreply for each comments$/) do |arg1, comment_number, subreply_number|
+  $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial.join_group.create_topic
+  puts "User topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  comment_number.to_i.times do |comment_number|
+    $user.reply_to_topic $user.topic_id, reply_content: "Test search comment #{comment_number+1}"
+    puts "User reply_id is #{$user.reply_id}"
+    subreply_number.to_i.times do |subreply_number|
+      puts "User sub reply ++"
+      $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "Test search sub-reply #{subreply_number+1}"
+    end
+  end
+end
 
+
+Given(/^I create a new user and create topics and comments and replies for delete use$/) do
+  $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial.join_group.create_topic
+  puts "User topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  $random_str1 = $user.random_str
+  $random_str2 = $user.random_str
+  $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
+  puts "User reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
+  puts "User subreply content is #{$random_str2}"
+  $user.delete_topic
+end
 
 
 

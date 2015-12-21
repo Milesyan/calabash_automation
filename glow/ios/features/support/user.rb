@@ -16,7 +16,7 @@ module Glow
     TREATMENT_TYPES = %w(prep, med, iui, ivf)
 
     attr_accessor :email, :password, :type, :partner_email, :treatment_type, :first_name, :last_name, :gender
-    attr_accessor :ut, :user_id, :topic_id, :group_id
+    attr_accessor :ut, :user_id, :topic_id, :group_id, :reply_id, :topic_title, :reply_content
     attr_accessor :topic_title
 
     def initialize(args = {})
@@ -196,7 +196,7 @@ module Glow
       @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
       @topic_title = title
-      puts "topic #{title} created，topic id is #{topic_id}"
+      puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
     end
 
@@ -215,7 +215,7 @@ module Glow
       @topic_id = @res["result"]["id"]
       title = @res["result"]["title"]
       @topic_title = title
-      puts "Poll ‘#{title}’ created, topic id is #{topic_id}"
+      puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
     end
 
@@ -231,6 +231,36 @@ module Glow
       puts "Topic #{topic_id} is voted"
       self
     end 
+
+
+    def reply_to_topic(topic_id, args = {})
+      reply_data = {
+        "code_name": "emma",
+        "content": args[:reply_content] || "Reply to topic #{topic_id} and time is #{Time.now.to_i}",
+        "anonymous": 0,
+        "reply_to": 0,
+        "ut": @ut
+      }.merge(common_data)
+
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @reply_id = @res["result"]["id"] 
+      self
+    end
+
+    def reply_to_comment(topic_id,reply_id,args = {})
+      reply_data = {
+        "code_name": "emma",
+        "content": args[:reply_content] || "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
+        "anonymous": 0,
+        "reply_to": reply_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+    end
+    
 
 
   end

@@ -60,7 +60,7 @@ class ForumPage < Calabash::IBase
   def create_photo
     wait_touch "label text:'Photo'"
     wait_for_none_animating
-    wait_touch "* marked:'Moments'"
+    wait_touch "PUAlbumListTableViewCell index:0"
     wait_for_none_animating
     wait_touch "PUPhotosGridCell index:0"
     wait_touch "label text:'Choose'"
@@ -120,7 +120,7 @@ class ForumPage < Calabash::IBase
   end  
 
   def back_to_group
-    wait_touch "label text:'Back'"
+    wait_touch "* marked:'Back'"
   end  
   
 
@@ -155,6 +155,24 @@ class ForumPage < Calabash::IBase
     # end
   end
 
+  def add_image_comment
+    wait_touch "* marked:'Add a comment'"
+    wait_for_none_animating
+    comment = "Test image comment" 
+    keyboard_enter_text comment
+    wait_touch "UIButton marked:'gl community share story cam'"
+    wait_touch "UILabel marked:'Choose from library'"
+    wait_touch "PUAlbumListTableViewCell index:0"
+    wait_for_none_animating
+    wait_touch "PUPhotosGridCell index:1"
+    wait_for_none_animating
+    wait_touch "label text:'Post'"
+    sleep 2
+    # wait_for(:timeout => 10, :retry_frequency => 1) do
+    #   element_exists "* all marked:'#{comment}'"
+    # end
+  end
+
   def add_comments(n)
     n.times do
       wait_touch "* marked:'Add a comment'"
@@ -166,6 +184,7 @@ class ForumPage < Calabash::IBase
     end
   end
   def add_reply
+    scroll "scrollView", :down
     wait_touch "* marked:'Reply'"
     wait_for_none_animating
     reply = Time.now.to_s
@@ -200,5 +219,28 @@ class ForumPage < Calabash::IBase
   def downvote_reply
     
   end
+ 
+  def delete_topic(args)
+    wait_touch "* id:'community-dots' index:#{args}"
+    wait_touch "UILabel marked:'Delete this post'"
+    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this topic?'}"}
+    wait_touch "UILabel marked:'OK'"
+  end
+
+  def delete_comment(args)
+    wait_touch "* id:'community-dots' index:#{args}"
+    wait_touch "UILabel marked:'Delete'"
+    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
+    wait_touch "UILabel marked:'OK'"
+  end
+
+
+
+
+
+
+
+
+
 end
 

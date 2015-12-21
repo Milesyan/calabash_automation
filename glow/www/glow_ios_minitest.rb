@@ -455,6 +455,13 @@ class GlowTest < Minitest::Test
 
   end
 
+  def test_add_comment_and_subreply_to_a_topic
+    u = new_ttc_user
+    u.create_topic
+    u.reply_to_topic u.topic_id
+    u.reply_to_comment u.topic_id, u.reply_id
+  end  
+
 
 
 
