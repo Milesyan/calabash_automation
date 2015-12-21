@@ -600,7 +600,7 @@ module Glow
     def reply_to_topic(topic_id)
       reply_data = {
         "code_name": "emma",
-        "content": "Reply to topic #{Time.now.to_i}",
+        "content": "Reply to topic #{topic_id} and time is #{Time.now.to_i}",
         "anonymous": 0,
         "reply_to": 0,
         "ut": @ut
@@ -611,6 +611,22 @@ module Glow
       @reply_id = @res["result"]["id"] 
       self
     end
+
+    def reply_to_comment(topic_id,reply_id)
+      reply_data = {
+        "code_name": "emma",
+        "content": "Reply to topic #{topic_id} and reply #{reply_id}",
+        "anonymous": 0,
+        "reply_to": reply_id,
+        "ut": @ut
+      }.merge(common_data)
+
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @reply_id = @res["result"]["id"] 
+      self
+    end
+
 
     def join_group
       data = {
