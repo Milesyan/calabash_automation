@@ -168,6 +168,8 @@ Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
   until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
   wait_touch "UILabel marked:'#{search_result} #{random_number}'"
   wait_for_elements_exist("* marked:'#{search_result} #{random_number}'")
+  wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  puts "Comment linking works well"
   puts "See element '#{search_result} #{random_number}'"
 
 end
@@ -178,32 +180,50 @@ Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
   until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
   wait_touch "UILabel marked:'#{search_result} #{random_number}'"
   wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  puts "Comment linking works well"
   wait_touch "UILabel marked:'View all replies'"
   puts "Finding element '#{search_result} #{random_number}'"
   until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
 end
 
 
-Then(/^I click search for special comment$/) do
-  wait_touch "UISegment marked:'Comments'"
-  keyboard_enter_text "#{$random_str1}"
+Then(/^I click search for special "([^"]*)"$/) do |arg1|
+  case arg1
+  when "comment" 
+    string = $random_str1
+  when "reply"
+    string = $random_str2
+  end  
+  wait_touch "UISegment marked:'Comments'" 
+  keyboard_enter_text "#{string}"
   tap_keyboard_action_key
 end
 
-Then(/^I check the search result for special comment$/) do
-  puts "Search for #{$random_str1}"
-  until_element_exists("* marked:'#{$random_str1}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
-  wait_touch "UILabel marked:'#{$random_str1}'"
-  wait_for_elements_exist("* {text CONTAINS 'THis post has been removed'}")
+Then(/^I check the search result for special "([^"]*)"$/) do |arg1|
+  case arg1
+  when "comment" 
+    string = $random_str1
+  when "reply"
+    string = $random_str2
+  end
+  puts "Search for #{string}"
+  until_element_exists("* marked:'#{string}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+  wait_touch "UILabel marked:'#{string}' index:1"
+  wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout => 3)
   wait_touch "* marked:'OK'"
 end
 
 
 
 
+Then(/^I enter topic created in previous step$/) do 
+  forum_page.enter_topic "#{$user.topic_title}"
+end
 
-
-
+Then(/^I should see the last comment$/) do 
+  wait_for_elements_exist("* marked:'Test search comment #{$comment_number}'")
+  puts "check element: * marked:'Test search comment #{$comment_number}'"
+end
 
 
 

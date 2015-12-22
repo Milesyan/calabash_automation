@@ -149,6 +149,7 @@ end
 Then(/^the user add (\d+) comments and user2 added (\d+) subreplies to each comment\.$/) do |comment_number, subreply_number|
   puts "User topic_id is #{$user.topic_id}"
   $user2 = User.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  puts "user2 user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
     puts "User reply_id is #{$user.reply_id}"
@@ -185,6 +186,7 @@ end
 Given(/^I create a new user and create (\d+) topics and (\d+) comments and (\d+) subreply for each comments$/) do |arg1, comment_number, subreply_number|
   $user = User.new(type: "non-ttc").female_non_ttc_signup.login.complete_tutorial.join_group.create_topic
   puts "User topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  $comment_number = comment_number
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "Test search comment #{comment_number+1}"
     puts "User reply_id is #{$user.reply_id}"
@@ -205,7 +207,7 @@ Given(/^I create a new user and create topics and comments and replies for delet
   puts "User reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
   puts "User subreply content is #{$random_str2}"
-  $user.delete_topic
+  $user.delete_topic $user.topic_id
 end
 
 

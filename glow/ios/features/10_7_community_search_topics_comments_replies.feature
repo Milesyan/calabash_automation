@@ -23,7 +23,7 @@ Feature: Add topics and comments and user search for it.
     Then I return to group page from search result
     Then I logout
 
-  @search_subreply  @debug
+  @search_subreply 
   Scenario: User create 1 topic 1 comment and some sub replies
     Given I create a new user and create 1 topics and 2 comments and 10 subreply for each comments
     Then I login as the new user or default user
@@ -35,14 +35,24 @@ Feature: Add topics and comments and user search for it.
     Then I return to group page from search result
     Then I logout
 
-  @search_deleted_comment
-  Scenario: User create 1 topic 1 comment and delete the topic
-		Given I create a new user and create topics and comments and replies for delete use
+  @search_deleted_comment @debug
+  Scenario: User create 1 topic 1 comment and delete the topic and search the comment
+	Given I create a new user and create topics and comments and replies for delete use
     Then I login as the new user or default user
     And I open "community" page
     Then I go to search bar
-    Then I click search for special comment
-    Then I check the search result for special comment
+    Then I click search for special "comment"
+    Then I check the search result for special "comment"
     Then I return to group page from search result
     Then I logout
 
+  @search_deleted_subreply @debug
+  Scenario: User create 1 topic 1 comment 1 subreply and delete the topic, and search the subreply
+    Given I create a new user and create topics and comments and replies for delete use
+    Then I login as the new user or default user
+    And I open "community" page
+    Then I go to search bar
+    Then I click search for special "reply"
+    Then I check the search result for special "reply"
+    Then I return to group page from search result
+    Then I logout

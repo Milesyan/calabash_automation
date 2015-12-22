@@ -235,9 +235,9 @@ class ForumPage < Calabash::IBase
   end
 
 
-
-
-
+  def enter_topic(args1)
+    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+  end
 
 
 

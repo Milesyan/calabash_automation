@@ -4,7 +4,7 @@ require 'json'
 PASSWORD = 'Glow12345'
 # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
 # SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-GROUP_ID = 4  # local group id 
+GROUP_ID = 4 # local group id 
 SUBSCRIBE_GROUP_ID = 4 # local group id
 
 BASE_URL = "http://localhost:5010"
@@ -260,7 +260,19 @@ module Glow
         :headers => { 'Content-Type' => 'application/json' })
       self
     end
-    
+
+
+    def delete_topic(topic_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/remove", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{topic_id} deleted"
+    end
+
 
 
   end
