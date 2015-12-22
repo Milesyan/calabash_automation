@@ -573,7 +573,7 @@ module Glow
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["topic"]["id"]
       title = @res["topic"]["title"]
-      puts "topic #{title} created"
+      puts "topic #{title} created, topic id is #{@topic_id}"
       self
     end
 
@@ -638,6 +638,45 @@ module Glow
         :headers => { 'Content-Type' => 'application/json' })
       self
     end
+
+
+
+    def leave_group(leave_group_id)
+      data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      unsubscribe_groupid = leave_group_id || SUBSCRIBE_GROUP_ID
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Leave group #{unsubscribe_groupid}"
+      self
+    end
+
+    def vote_poll(args = {})
+      vote_data = {
+        "code_name": "emma",
+        "vote_index": 2,
+        "ut": @ut
+      }.merge(common_data)
+      topic_id = args[:topic_id]
+      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Topic #{topic_id} is voted"
+      self
+    end 
+
+    def delete_topic(topic_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/remove", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{topic_id} deleted"
+    end
+
 
     ###### Me #####
 

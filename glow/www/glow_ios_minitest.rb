@@ -462,6 +462,13 @@ class GlowTest < Minitest::Test
     u.reply_to_comment u.topic_id, u.reply_id
   end  
 
+  def test_delete_topic
+    u = new_ttc_user
+    u.create_topic
+    u.delete_topic u.topic_id
+    assert_rc u.res
+  end
+
 
 
 
