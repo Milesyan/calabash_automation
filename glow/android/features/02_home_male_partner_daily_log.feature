@@ -1,4 +1,4 @@
-@male_daily_log @regression @all
+@male_daily_log  @all
 Feature: Complete daily log
   @non_ttc_male_partner_daily_log
   Scenario: Non-TTC male partner completes daily log

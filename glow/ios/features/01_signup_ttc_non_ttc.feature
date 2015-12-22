@@ -10,7 +10,7 @@ Feature: Onboarding flow
     And I complete Non-TTC onboarding step 2
     And I fill in email name password and birthday
     And I finish the tutorial
-    Then I should see "Complete log!"
+    Then I wait until I see "Complete log!"
     And I logout
 
   @ttc_signup
@@ -22,20 +22,9 @@ Feature: Onboarding flow
     And I complete TTC onboarding step 1
     And I complete TTC onboarding step 2
     And I fill in email name password and birthday
-    And I finish the tutorial
-    Then I should see "Complete log!"
+    And I finish the tutorial via www
+    And I relaunch the app
+    And I login
+    Then I wait until I see "Complete log!"
     And I logout
 
-  @ft_signup
-  Scenario: Fertility treatment user signup
-    Given I am a new "Fertility treatment" user
-    And I open Glow for the first time
-    And I touch "Get Started!" button
-    And I select the user type "Fertility treatments"
-    And I choose "Preparing for treatment" status for fertility treatment
-    And I complete Fertility Treatment onboarding step 2
-    And I complete Fertility Treatment onboarding step 3
-    And I fill in email name password and birthday
-    And I finish the tutorial
-    Then I should see "Complete log!"
-    And I logout

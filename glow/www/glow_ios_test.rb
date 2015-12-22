@@ -2,7 +2,7 @@ require 'httparty'
 require 'json'
 require 'securerandom'
 
-module Glow
+module GlowIOS
 
   PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
@@ -13,11 +13,12 @@ module Glow
   BASE_URL = "http://dragon-emma.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 
-  class User
+  class GlowUser
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
+    attr_accessor :gender
 
     def initialize(args = {})  
       @first_name = args[:first_name] || "gi" + Time.now.to_i.to_s
@@ -26,6 +27,8 @@ module Glow
       @password = args[:password] || PASSWORD
       @partner_email = "p#{@email}"
       @partner_first_name = "p#{@first_name}"
+      @gender = args[:gender] || "female"
+      @type = args[:type]
     end
 
     def random_str
@@ -886,8 +889,8 @@ module Glow
             "tubal_pregnancy_number": 1,
             "considering": (1 if type.downcase == "non-ttc"),
             "birth_control_start": (Time.now.to_i if type.downcase == "non-ttc"),
-            "infertility_diagnosis": (30 if type.downcase == "ft"),
-            "height": (170 if type.downcase == "ft")
+            "infertility_diagnosis": (30 if ["iui", "ivf", "med", "prep", "ft"].include?(type.downcase)),
+            "height": (170 if ["iui", "ivf", "med", "prep", "ft"].include?(type.downcase))
           },
           "notifications": []
         },
@@ -900,6 +903,7 @@ module Glow
   end
 end
 
-
+# include GlowIOS
+# GlowUser.new(email: "1221001@g.com", password: "Glow12345").login.complete_tutorial
 
 

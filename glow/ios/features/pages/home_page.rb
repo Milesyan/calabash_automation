@@ -5,57 +5,112 @@ class HomePage < Calabash::IBase
     "*"
   end
 
+  def touch_later_link
+    begin
+      when_element_exists("* marked:'Later'", :timeout => 3)
+    rescue Calabash::Cucumber::WaitHelpers::WaitError
+    end
+  end
+
   def finish_tutorial
-    sleep 2
-    wait_touch "NewDateButton index:2"
-    swipe :left, :query => "NewDateButton index:2"
-    wait_touch "NewDateButton index:1"
-    sleep 1
+    when_element_exists("NewDateButton index:2", :timeout => 10)
+    wait_for_none_animating
+    until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
+    wait_for_none_animating
+    #wait_touch "NewDateButton index:1"
+    wait_touch "* marked:'Today'"
+    wait_for_none_animating
     from = "NewDateButton index:2"
     to = "* marked:'Complete log!'"
-    pan from, to, duration: 1
+    until_element_does_not_exist("* marked:'Pull down to see the full calendar view'", :action => lambda { pan from, to, duration: 1 } )  
+    wait_for_none_animating
+
     from = "* marked:'WED'"
-    to = "* marked:'Sex'" if $user.type == "ft"
-    sleep 1
-    pan from, to, duration: 1
-    wait_touch "* marked:'Later'" unless $user.type == "ft"
+    to = "* marked:'Sex'" #if ["iui", "ivf", "med", "prep"].include? $user.type
+    until_element_does_not_exist("* marked:'Pull down to see the small calendar view'", :action => lambda { pan from, to, duration: 1 })
+    wait_for_none_animating
+    
+    touch_later_link
+    wait_for_none_animating
+  end
+
+  def finish_tutorial_via_www
+    sleep 2
+    GlowUser.new(email: $user.email, password: $user.password).login.complete_tutorial
+  end
+
+  def finish_tutorial_for_partner_via_www
+    sleep 2
+    GlowUser.new(email: $user.partner_email, password: $user.password).login.complete_tutorial
   end
 
   def complete_daily_log(gender="female")
-    sleep 1
+    until_element_exists("* marked:'Complete log!'", :action => lambda { swipe :up })
+    swipe :up
+    wait_for_none_animating
     wait_touch "* marked:'Complete log!'"
     if gender == "female"
-      case $user.type
+      case $user.type.downcase
       when "non-ttc"
         choose_have_sex
         choose_flow
-      when "ttc", "ft"
+
+        choose_cm_check
+        choose_bbt
+        choose_ovulation_test
+        choose_pregnancy_test
+        choose_cervical_position
+        choose_exercise
+        choose_weight
+        choose_sleep_duration
+        choose_smoke
+        choose_drink
+        choose_physical_symptoms
+        choose_stressed
+        choose_your_mood
+
+      when "ttc", "ft", "prep", "med", "iui", "ivf"
         choose_flow
         choose_have_sex
         choose_female_orgasm
+
+        choose_cm_check
+        choose_bbt
+        choose_ovulation_test
+        choose_pregnancy_test
+        choose_cervical_position
+        choose_exercise
+        choose_weight
+        choose_sleep_duration
+        choose_smoke
+        choose_drink
+        choose_physical_symptoms
+        choose_stressed
+        choose_your_mood
+      when "female-partner"
+        choose_flow
+        choose_have_sex
+        choose_cm_check
+        choose_bbt
+        choose_ovulation_test
+        choose_pregnancy_test
+
+        choose_exercise
+        choose_weight
+        choose_sleep_duration
+        choose_smoke
+        choose_drink
+        choose_physical_symptoms
+        choose_stressed
+        choose_your_mood
       end
-      choose_cm_check
-      choose_bbt
-      choose_ovulation_test
-      choose_pregnancy_test
-      choose_cervical_position
-      choose_exercise
-      choose_weight
-      choose_sleep_duration
-      choose_smoke
-      choose_drink
-      choose_physical_symptoms
-      choose_stressed
-      choose_your_mood
     elsif gender == "male"
-      case $user.type
-      when "non-ttc", "ttc", "ft"
-        choose_have_sex_for_male
-        choose_erection
-        choose_masturbate
-        choose_exposed_to_heat_sources
-        choose_have_fever
-      end
+      choose_have_sex_for_male
+      choose_erection
+      choose_masturbate
+      choose_exposed_to_heat_sources
+      choose_have_fever
+
       choose_exercise
       choose_weight
       choose_sleep_duration
@@ -71,6 +126,122 @@ class HomePage < Calabash::IBase
     sleep 1
   end
 
+  def keyboard_input(n)
+    wait_touch "UIKBKeyView index:#{n}"
+  end
+
+  def complete_ft_log
+    wait_for_none_animating
+    wait_touch "* marked:'Add fertility treatment log'"
+    scroll_to_row "UITableView", 0
+    wait_touch "* marked:'Did you have blood work done?' sibling GLPillButton index:0"
+    wait_touch "* marked:'Estrogen level' sibling GLPillButton index:0"
+    keyboard_input 5
+    wait_touch "* marked:'Progesterone level' sibling GLPillButton index:0"
+    keyboard_input 5
+    wait_touch "* marked:'LH level' sibling GLPillButton index:0"
+    keyboard_input 5
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+
+    scroll_to_row "UITableView", 1
+    wait_for_none_animating
+
+    wait_touch "* marked:'Did you have an ultrasound?' sibling GLPillButton index:0"
+    wait_touch "* marked:'# of developed follicles' sibling GLPillButton index:0"
+    wait_touch "* marked:'2'"
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+
+    wait_touch "* marked:'Leading follicle size' sibling GLPillButton index:0"
+    wait_touch "* marked:'2 mm'"
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+
+    until_element_exists("* marked:'Was an hCG shot administered?'", :action => lambda { swipe :up })
+    
+    wait_touch "* marked:'Thickness of endometrial lining' sibling GLPillButton index:0"
+    wait_touch "* marked:'2 mm'"
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+
+    until_element_exists("* marked:'Medication list'", :action => lambda { swipe :up })
+    wait_touch "* marked:'Was an hCG shot administered?' sibling GLPillButton index:0"
+    until_element_exists("* marked:'Medication list'", :action => lambda { swipe :up })
+    wait_for_none_animating
+    wait_touch "* marked:'When' sibling GLPillButton index:0"
+    wait_touch "* marked:'Done'"
+    until_element_exists("* marked:'Medication list'", :action => lambda { swipe :up })
+    wait_for_none_animating
+
+    case $user.type.downcase
+    when "iui"
+      wait_touch "* marked:'Was your insemination today?' sibling GLPillButton index:0"
+    when "ivf"
+      wait_touch "* marked:'Was your egg retrieval today?' sibling GLPillButton index:0"
+      wait_touch "* marked:'How many?' sibling GLPillButton index:0"
+      wait_touch "* marked:'2'"
+      wait_touch "* marked:'Done'"
+      swipe :up
+      wait_for_none_animating
+      wait_touch "* marked:'Planning on freezing any embryos for future cycles?' sibling GLPillButton index:0"
+      swipe :up
+      wait_for_none_animating
+      wait_touch "* marked:'Have you frozen any embryos?' sibling GLPillButton index:0"
+      wait_touch "* marked:'2'"
+      wait_touch "* marked:'Done'"
+      wait_for_none_animating
+      swipe :up
+      wait_touch "* marked:'Was your embryo transfer today?' sibling GLPillButton index:0"
+      swipe :up
+      wait_touch "* marked:'How many embryos did you transfer?' sibling GLPillButton index:0"
+      wait_touch "* marked:'2'"
+      wait_touch "* marked:'Done'"
+      wait_for_none_animating
+      wait_touch "* marked:'Did you use fresh or frozen embryos?' sibling GLPillButton index:0"
+      wait_touch "* marked:'Done'"
+      wait_for_none_animating
+    end
+
+    # Medicatioin list
+    until_element_exists("* marked:'Medication list'", :action => lambda { swipe :up })
+    swipe :up
+
+    wait_touch "* marked:'Medication list'"
+    wait_touch "* marked:'Clomiphene citrate (Clomid; Serophene)' sibling GLPillButton index:0"
+
+    wait_touch "* marked:'Add a new med / supplement'"
+
+    wait_touch "* marked:'Enter name'"
+    keyboard_enter_text "coriander"
+    wait_touch "label {text  ENDSWITH 'as a new entry'}"
+    wait_touch "* marked:'Tablet'"
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+
+    until_element_exists("UIKBKeyView", :action => lambda { touch "UITextField index:1" })
+    keyboard_input 5
+    wait_touch "* marked:'Done'"
+    wait_for_none_animating
+    wait_touch "* marked:'Save'"
+
+    wait_touch "* marked:'coriander' sibling GLPillButton index:0"
+
+    wait_touch "UINavigationItemButtonView" # back button
+
+    wait_touch "* marked:'Save all changes'"
+    wait_for_none_animating
+  end
+
+  def close_insights_popup
+    wait_for_none_animating
+    begin
+      when_element_exists("* id:'icon-cancel-shadow'", :timeout => 5)
+    rescue Calabash::Cucumber::WaitHelpers::WaitError
+      puts "no popup"
+    end
+  end
+
   def choose_have_sex(answer = "yes")
     if answer == "yes"
       wait_touch "* marked:'Did you have sex?' sibling PillButton index:0"
@@ -82,12 +253,12 @@ class HomePage < Calabash::IBase
   end
 
   def choose_flow(answer = "yes")
-    wait_touch "* marked:'Record your menstrual flow?' sibling PillButton index:0"
-    if answer == "yes"
-      wait_touch "* marked:'Record your menstrual flow?' sibling PillButton index:0"
-      #wait_touch "* marked:'Heavy'"
-    else
-      wait_touch "* marked:'Record your menstrual flow?' sibling PillButton index:1"
+    begin
+      when_element_exists "* marked:'Record your menstrual flow?' sibling PillButton index:0", :timeout => 2
+      wait_touch "* marked:'Heavy'"
+    rescue Calabash::Cucumber::WaitHelpers::WaitError
+      wait_touch "* marked:'Any spotting?' sibling PillButton index:0"
+      wait_touch "* marked:'Light'"
     end
   end
 
