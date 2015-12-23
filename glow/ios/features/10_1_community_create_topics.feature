@@ -39,7 +39,7 @@ Feature: User create text/poll/image/url topics
 
   # @create_image 
   # Scenario: User create a image topic
-		# Given I create a new "ttc" user
+		# Given I create a new "ttc" glow user
 		# Then I login as the new user
   #   And I open "community" page
   #   And I post a "image" topic

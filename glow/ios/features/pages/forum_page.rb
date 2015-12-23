@@ -183,12 +183,12 @@ class ForumPage < Calabash::IBase
       sleep 4
     end
   end
+
   def add_reply
-    scroll "scrollView", :down
+    until_element_exists("* marked:'Reply'", :timeout => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
     wait_touch "* marked:'Reply'"
     wait_for_none_animating
-    reply = Time.now.to_s
-    keyboard_enter_text reply
+    keyboard_enter_text Time.now.to_s
     wait_touch "* marked:'Send'"
   end
 
@@ -239,8 +239,62 @@ class ForumPage < Calabash::IBase
     wait_touch "label {text CONTAINS '#{args1}'} index:0"
   end
 
+  def scroll_to_see(gesture,content)
+    if gesture == "up"
+      until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+    elsif  gesture == "down"
+      until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+    else 
+      puts "Gesture  Error"
+    end
+  end 
+
+  def evoke_search_bar
+    swipe :down, force: :strong
+    wait_touch "UIButton marked:'Topics/Comments'"
+  end
+
+  def search_topics(args)
+    wait_touch "UISegment marked:'Topics'"
+    puts "Search for topic: #{args}"
+    keyboard_enter_text args
+    tap_keyboard_action_key
+  end 
+
+  def search_comments(args)
+    wait_touch "UISegment marked:'Comments'"
+    puts "Search for comment: #{args}"
+    keyboard_enter_text args
+    tap_keyboard_action_key
+  end
+
+  def scroll_down_to_see(args)
+    puts "* marked:'#{args}'"
+    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+  end
+
+  def scroll_up_to_see(args)
+    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+  end
+
+  def click_cancel
+    wait_touch "* marked:'Cancel'"
+  end
+
+  def show_entire_discussion
+    wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  end
+
+  def view_all_replies
+    wait_touch "UILabel marked:'View all replies'"
+  end
+
+  def touch_search_result(args1,args2 = 0)
+    puts args1, args2
+    puts "UILabel marked:'#{args1}' index:#{args2}"
+  end 
 
 
-
+    
 end
 

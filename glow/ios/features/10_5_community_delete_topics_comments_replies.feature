@@ -2,7 +2,8 @@
 Feature: User create a topic and delete it
   @delete_topic  
   Scenario: User create a text topic and delete it.
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
     Then I login as the new user or default user
     And I open "community" page
@@ -13,7 +14,8 @@ Feature: User create a topic and delete it
 
   @delete_poll 
   Scenario: User create a poll topic and delete it.
-    Given I create a new "ttc" user and the user create a "poll" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "poll" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
     Then I login as the new user or default user
     And I open "community" page
@@ -25,7 +27,8 @@ Feature: User create a topic and delete it
 
   @delete_comment  
   Scenario: User create a text topic and delete the comment.
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
     Then I login as the new user or default user
     And I open "community" page
@@ -39,7 +42,8 @@ Feature: User create a topic and delete it
 
   @delete_reply  
   Scenario: User create a text topic and delete the subreply.
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
     Then I login as user2
     And I open "community" page

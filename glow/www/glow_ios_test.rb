@@ -592,20 +592,19 @@ module GlowIOS
     def create_poll(args = {})
       topic_data = {
         "code_name": "emma",
-        "content": "HELLO 123123",
+        "content": "#{Time.now.strftime "%D %T"}",
         "anonymous": 0,
-        "title": "test aaaaaaaaa",#args[:title] || #{}"#{@email} #{Time.now}",
+        "title": args[:title] || "Poll + #{@email} #{Time.now}",
         "options": ["Field1","Field2","Field3"].to_s,
         "ut": @ut
       }.merge(common_data)
-
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{GROUP_ID}/create_poll", :body => topic_data.to_json,
+      @group_id = args[:group_id] || GROUP_ID
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      #@topic_id = @res["result"]["id"]
-      #title = @res["result"]["title"]
-      #puts "topic #{title} created, topic id is #{topic_id}"
-      puts @ut
-      puts @res
+      @topic_id = @res["result"]["id"]
+      title = @res["result"]["title"]
+      @topic_title = title
+      puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
     end
 
@@ -626,7 +625,7 @@ module GlowIOS
     def reply_to_topic(topic_id, args = {})
       reply_data = {
         "code_name": "emma",
-        "content": "Reply to topic #{topic_id} and time is #{Time.now.to_i}",
+        "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
         "anonymous": 0,
         "reply_to": 0,
         "ut": @ut
@@ -638,18 +637,16 @@ module GlowIOS
       self
     end
 
-    def reply_to_comment(topic_id,reply_id)
+    def reply_to_comment(topic_id,reply_id,args = {})
       reply_data = {
         "code_name": "emma",
-        "content": "Reply to topic #{topic_id} and reply #{reply_id}",
+        "content": args[:reply_content] || "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
         "anonymous": 0,
         "reply_to": reply_id,
         "ut": @ut
       }.merge(common_data)
-
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @reply_id = @res["result"]["id"] 
       self
     end
 

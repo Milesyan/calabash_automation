@@ -2,7 +2,8 @@
 Feature: User add comments and subreplies
   @add_comment  
   Scenario: User create a text topic and add comment
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then I login as the new user or default user
     And I open "community" page
     Then I go to the first group
@@ -14,7 +15,8 @@ Feature: User add comments and subreplies
 
   @add_image_comment
   Scenario: User create a text topic and add an image comment
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then I login as the new user or default user
     And I open "community" page
     Then I go to the first group

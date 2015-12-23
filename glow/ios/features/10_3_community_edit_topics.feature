@@ -14,7 +14,8 @@ Feature: User edit topics
 
   @edit_existing_topic
   Scenario: Create a user and text topic through www and test edit it.
-    Given I create a new "ttc" user and the user create a "text" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "text" topic in group "4"
     Then I login as the new user or default user
     And I open "community" page
     Then I go to the first group
@@ -23,8 +24,10 @@ Feature: User edit topics
     Then I logout
 
   @edit_poll_before_voted
+  #!!!should add modify vote index
   Scenario: Create a user and a poll topic through www and test edit it
-    Given I create a new "ttc" user and the user create a "poll" topic in group "4"
+    Given I create a new "ttc" glow user 
+    And The user create a "poll" topic in group "4"
     Then I login as the new user or default user
     And I open "community" page
     Then I go to the first group
@@ -34,7 +37,8 @@ Feature: User edit topics
 
   @edit_poll_after_voted
   Scenario: Create a user and a poll topic through www and create another user to vote it.
-    Given I create a new "ttc" user and the user create a "poll" topic in group "4"
+    Given I create a new "non-ttc" glow user 
+    And The user create a "poll" topic in group "4"
     Then I created another user to vote the poll
     Then I login as the new user or default user
     And I open "community" page

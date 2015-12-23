@@ -97,16 +97,16 @@ Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
 end  
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
-  forum_page.edit_topic(topic_name)
+  forum_page.edit_topic topic_name
 end
 
 Then(/^I delete the topic index (\d+)$/) do |args1|
-  forum_page.delete_topic(args1)
+  forum_page.delete_topic args1
 end
 
 
 Then(/^I delete the comment index (\d+)$/) do |args1|
-  forum_page.delete_comment(args1)
+  forum_page.delete_comment args1
 end
 
 
@@ -121,85 +121,79 @@ end
 Then(/^I scroll "([^"]*)" to see "([^"]*)"$/) do |action,content|
   puts "the gesture is #{action}"
   puts "the target content is * marked:#{content}"
-  if action == "up"
-    until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
-  elsif  action == "down"
-    until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
-  else 
-    puts "Gesture  Error"
-  end
+  forum_page.scroll_to_see action, content
 end
 
 
 Then(/^I go to search bar$/) do
-  swipe :down, force: :strong
-  wait_touch "UIButton marked:'Topics/Comments'"
+  forum_page.evoke_search_bar
 end
 
-Then(/^I search the topic "([^"]*)"$/) do |text|
-  $rand_topic = Random.rand($topic_numbers.to_i)+1
-  text = "Test search #{$time_created}"
-  puts text
-  keyboard_enter_text text
-  tap_keyboard_action_key
+
+
+Then(/^I search the topic in the first step$/) do
+  $rand_topic = Random.rand($topic_numbers.to_i).to_i + 1
+  $search_content = "Test+search+#{$rand_topic}+#{$time_created}"
+  forum_page.search_topics $search_content
 end  
 
-Then(/^I should see the search result$/) do
-  #wait_for(:timeout=>3) {element_exists "* marked:''"}
-  puts "search for 'Test search #{$rand_topic} #{$time_created}'"
-  until_element_exists("* marked:'Test search #{$rand_topic} #{$time_created}'", :timeout => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
-  wait_touch "UILabel marked:'Test search #{$rand_topic} #{$time_created}'"
+
+Then(/^I should see the search result for topic$/) do
+  puts "search for #{$search_content}"
+  forum_page.scroll_down_to_see $search_content
+  forum_page.touch_search_result $search_content,1
 end
 
 Then(/^I return to group page from search result$/) do
   forum_page.back_to_group
-  wait_touch "* marked:'Cancel'"
+  forum_page.click_cancel
 end
 
-Then(/^I click search for comment "([^"]*)"$/) do |arg1|
-  wait_touch "UISegment marked:'Comments'"
-  keyboard_enter_text arg1
-  tap_keyboard_action_key
+
+Then(/^I click search for comment "([^"]*)"$/) do |comment|
+  forum_page.search_comments comment
 end
+
 
 Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
-  random_number = Random.rand(10).to_i+1
-  puts "Search for #{search_result} #{random_number}"
-  until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
-  wait_touch "UILabel marked:'#{search_result} #{random_number}'"
-  wait_for_elements_exist("* marked:'#{search_result} #{random_number}'")
-  wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  random_number = Random.rand($comment_number.to_i).to_i+1
+  search_content  = "#{search_result} #{random_number}"
+  puts "Search for #{search_content}"
+  # until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+  forum_page.scroll_down_to_see search_content
+
+  forum_page.touch_search_result search_content,0
+  wait_for_elements_exist("* marked:'#{search_content}'")
+  forum_page.show_entire_discussion
   puts "Comment linking works well"
   puts "See element '#{search_result} #{random_number}'"
-
 end
 
 Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
-  random_number = Random.rand(10).to_i+1
-  puts "Search for #{search_result} #{random_number}"
-  until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
-  wait_touch "UILabel marked:'#{search_result} #{random_number}'"
-  wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  random_number = Random.rand($subreply_number.to_i).to_i+1
+  search_content  = "#{search_result} #{random_number}"
+  puts "Search for #{search_content}"
+  forum_page.scroll_down_to_see search_content
+  wait_touch "UILabel marked:'#{search_content}'"
+  forum_page.show_entire_discussion
   puts "Comment linking works well"
-  wait_touch "UILabel marked:'View all replies'"
-  puts "Finding element '#{search_result} #{random_number}'"
-  until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+  forum_page.view_all_replies
+  puts "Finding element '#{search_content}'"
+  forum_page.scroll_up_to_see search_content
 end
 
 
-Then(/^I click search for special "([^"]*)"$/) do |arg1|
+Then(/^I click search for deleted "([^"]*)"$/) do |arg1|
   case arg1
   when "comment" 
     string = $random_str1
   when "reply"
     string = $random_str2
   end  
-  wait_touch "UISegment marked:'Comments'" 
-  keyboard_enter_text "#{string}"
-  tap_keyboard_action_key
+  forum_page.search_comments string
 end
 
-Then(/^I check the search result for special "([^"]*)"$/) do |arg1|
+Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
   case arg1
   when "comment" 
     string = $random_str1
