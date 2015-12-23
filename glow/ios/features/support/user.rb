@@ -43,6 +43,7 @@ module Glow
       }
     end
 
+ #removed
     def female_non_ttc_signup
       @first_name = "gi" + Time.now.to_i.to_s
       @last_name = "Glow"
@@ -272,8 +273,5 @@ module Glow
       self
       puts "#{topic_id} deleted"
     end
-
-
-
   end
 end

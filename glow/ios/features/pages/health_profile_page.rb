@@ -24,6 +24,11 @@ class HealthProfilePage < Calabash::IBase
     wait_touch "* id:'back'"
   end
 
+  def back_to_me_page
+    wait_touch "* id:'back'"
+    wait_for_none_animating
+  end
+
   def choose_cycle_regularity
     wait_touch "* marked:'Cycle regularity'"
     sleep 1

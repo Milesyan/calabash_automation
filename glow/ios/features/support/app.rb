@@ -52,4 +52,9 @@ module Glow
     wait_for_none_animating
   end
 
+  def relaunch_app
+    launcher = Calabash::Cucumber::Launcher.new
+    launcher.relaunch(:reset => true)
+  end
+
 end

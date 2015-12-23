@@ -1,5 +1,7 @@
-@home @male_partner_daily_log @regression @all
-Feature: Male partners complete daily log
+
+@male_daily_log  @all
+Feature: Complete daily log
+
   @non_ttc_male_partner_daily_log
   Scenario: Non-TTC male partner completes daily log
     Given I create a new "Non-TTC" "Male" glow partner user

@@ -12,7 +12,7 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
     touch "* marked:'Next'"
-    sleep 2
+    sleep 3
   end
 
   def open_login_link
@@ -52,10 +52,10 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Next'"
   end
 
-  def complete_ft_step1(treatment_type="Choose")
+  def complete_ft_step1(treatment_type="")
     choose_fertility_treatment_clinic
     #choose_fertility_testing (removed since Glow 5.2)
-    choose_fertility_treatment_status(treatment_type)
+    choose_ft_type(treatment_type)
     choose_ft_start_date
     choose_ft_end_date
     choose_ttc_time
@@ -76,21 +76,12 @@ class OnboardPage < Calabash::IBase
 
   def select_user_type(user = nil)
     wait_for_none_animating
-    # case user_type.downcase
-    # when "avoiding pregnancy"
-    #   wait_touch "button index:0"
-    # when "trying to conceive"
-    #   wait_touch "button index:1"
-    # when "fertility treatments"
-    #   wait_touch "button index:2"
-    # end
-
     case $user.type
     when "non-ttc"
       wait_touch "button index:0"
     when "ttc"
       wait_touch "button index:1"
-    when "ft"
+    when "prep", "med", "iui", "ivf"
       wait_touch "button index:2"
     end
   end
@@ -168,23 +159,23 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Done'"
   end
 
-  def choose_fertility_treatment_status(treatment_type="")
+  def choose_ft_type(treatment_type="")
+    sleep 1
     wait_touch "PillButton index:1"
     tap_mark("Intrauterine Insemination (IUI)") # in order to let all options be visible
     sleep 1 # necessary, otherwise a wrong option will be selected
 
-    unless $user.treatment_type.nil?
-      case $user.treatment_type.downcase
-      when "prep"  
-        treatment_type = "Preparing for treatment"
-      when "med"
-        treatment_type = "Intercourse with fertility med"
-      when "iui"
-        treatment_type = "Intrauterine Insemination (IUI)"
-      when "ivf"
-        treatment_type = "In Vitro Fertilization (IVF)"
-      end
+    case $user.type.downcase
+    when "prep"  
+      treatment_type = "Preparing for treatment"
+    when "med"
+      treatment_type = "Intercourse with fertility med"
+    when "iui"
+      treatment_type = "Intrauterine Insemination (IUI)"
+    when "ivf"
+      treatment_type = "In Vitro Fertilization (IVF)"
     end
+
     wait_touch "* marked:'#{treatment_type}'"
     wait_touch "* marked:'Done'"
   end
