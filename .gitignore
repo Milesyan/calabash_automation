@@ -10,7 +10,6 @@ glow/android/calabash.framework/
 glow/android/Calabash/
 glow/android/features/support/env.rb
 
-glow/ios
 glow/ios/features/*.png
 glow/ios/*.png
 glow/ios/features/screenshots/*
@@ -18,4 +17,22 @@ glow/ios/calabash.framework/
 glow/ios/features/support/env.rb
 
 glow/www/test/
+
+nurture/ios/features/*.png
+nurture/ios/*.png
+nurture/ios/features/screenshots/*
+nurture/ios/calabash.framework/
+nurture/ios/features/support/env.rb
+
+nurture/android/builds/
+nurture/android/test_servers
+nurture/android/features/*.png
+nurture/android/*.png
+nurture/android/features/screenshots/*
+nurture/android/*.apk
+nurture/android/calabash.framework/
+nurture/android/Calabash/
+nurture/android/features/support/env.rb
+
+nurture/www/test/
 
