@@ -45,8 +45,8 @@ Feature: Add topics and comments and user search for it.
     Then I login as the new user or default user
     And I open "community" page
     Then I go to search bar
-    Then I click search for special "comment"
-    Then I check the search result for special "comment"
+    Then I click search for deleted "comment"
+    Then I check the search result for deleted "comment"
     Then I return to group page from search result
     Then I logout
 

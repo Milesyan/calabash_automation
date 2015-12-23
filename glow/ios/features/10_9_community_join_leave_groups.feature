@@ -6,8 +6,7 @@ Feature: create/join/leave group
 		Then the user create 1 topics and 20 comments and 0 subreply for each comment	
 		And I open "community" page	
 		Then I click the plus button in community tab
-		Then I click Create a group
-		Then I create a group
+		Then I logout
 
 	@join_group
 	Scenario: User join a group
