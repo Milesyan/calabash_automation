@@ -129,7 +129,7 @@ Then(/^I go to search bar$/) do
   forum_page.evoke_search_bar
 end
 
-
+#--------Search Topics-----------
 
 Then(/^I search the topic in the first step$/) do
   $rand_topic = Random.rand($topic_numbers.to_i).to_i + 1
@@ -141,7 +141,7 @@ end
 Then(/^I should see the search result for topic$/) do
   puts "search for #{$search_content}"
   forum_page.scroll_down_to_see $search_content
-  forum_page.touch_search_result $search_content,1
+  forum_page.touch_search_result $search_content
 end
 
 Then(/^I return to group page from search result$/) do
@@ -149,39 +149,18 @@ Then(/^I return to group page from search result$/) do
   forum_page.click_cancel
 end
 
-
+#--------Search Comments-----------
 Then(/^I click search for comment "([^"]*)"$/) do |comment|
   forum_page.search_comments comment
 end
 
-
 Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
-  random_number = Random.rand($comment_number.to_i).to_i+1
-  search_content  = "#{search_result} #{random_number}"
-  puts "Search for #{search_content}"
-  # until_element_exists("* marked:'#{search_result} #{random_number}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
-  forum_page.scroll_down_to_see search_content
-
-  forum_page.touch_search_result search_content,0
-  wait_for_elements_exist("* marked:'#{search_content}'")
-  forum_page.show_entire_discussion
-  puts "Comment linking works well"
-  puts "See element '#{search_result} #{random_number}'"
+  forum_page.check_search_result_comment search_result
 end
 
 Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
-  random_number = Random.rand($subreply_number.to_i).to_i+1
-  search_content  = "#{search_result} #{random_number}"
-  puts "Search for #{search_content}"
-  forum_page.scroll_down_to_see search_content
-  wait_touch "UILabel marked:'#{search_content}'"
-  forum_page.show_entire_discussion
-  puts "Comment linking works well"
-  forum_page.view_all_replies
-  puts "Finding element '#{search_content}'"
-  forum_page.scroll_up_to_see search_content
+  forum_page.check_search_result_subreply
 end
-
 
 Then(/^I click search for deleted "([^"]*)"$/) do |arg1|
   case arg1
@@ -201,15 +180,12 @@ Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
     string = $random_str2
   end
   puts "Search for #{string}"
-  until_element_exists("* marked:'#{string}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
-  wait_touch "UILabel marked:'#{string}' index:1"
-  wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout => 3)
-  wait_touch "* marked:'OK'"
+  forum_page.scroll_down_to_see string
+  forum_page.check_search_result_deleted string
 end
 
 
-
-
+#-------------comment linking-------------
 Then(/^I enter topic created in previous step$/) do 
   forum_page.enter_topic "#{$user.topic_title}"
 end
@@ -223,9 +199,51 @@ end
 
 
 
+#-------------create/join/leave groups------------------
 
+Then(/^I click the plus button in community tab$/) do
+  wait_touch "* marked:'＋'"
+end
 
+Then(/^I click Create a group$/) do
+  wait_touch "UIButtonLabel marked:'Create a group'"
+end
 
+Then(/^I join the group "([^"]*)"$/) do |arg1|
+  forum_page.join_group arg1
+  if element_exists("* marked:'Cancel'") 
+    wait_touch "* marked:'Cancel'"
+  end
+  wait_for_elements_exist("* marked:'Post'")
+end
+
+Then(/^I long press group "([^"]*)"$/) do |arg1|
+  forum_page.long_press arg1
+end
+
+Then(/^I quit the group$/) do
+  forum_page.leave_group
+end
+
+#----------------profile page -------------------------
+
+Then(/^I go to community profile page$/) do
+  forum_page.enter_profile_page
+end
+
+Then(/^I click edit profile button$/) do
+  wait_touch "* marked:'Edit profile'"
+end
+
+Then(/^I edit some field in profile page$/) do
+  wait_touch "UITextFieldLabel marked:'Shanghai'"
+  keyboard_enter_text "Last name"
+  wait_touch "UILabel marked:'Bio'"
+  keyboard_enter_text "Edit Bio info"
+  touch "* id:'gl-community-back.png'"
+  wait_for_elements_exist("* marked:'Edit Bio info'")
+  wait_touch "UIButton index:5"
+end
 
 
 

@@ -289,12 +289,63 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'View all replies'"
   end
 
-  def touch_search_result(args1,args2 = 0)
-    puts args1, args2
-    puts "UILabel marked:'#{args1}' index:#{args2}"
+  def touch_search_result(args1, args2 = 1)
+    wait_touch "UILabel marked:'#{args1}' index:#{args2}"
   end 
 
+  def check_search_result_comment(search_result)
+    random_number = Random.rand($comment_number.to_i).to_i+1
+    search_content  = "#{search_result} #{random_number}"
+    puts "Search for #{search_content}"
+    forum_page.scroll_down_to_see search_content
+    forum_page.touch_search_result search_content,0
+    wait_for_elements_exist("* marked:'#{search_content}'")
+    forum_page.show_entire_discussion
+    puts "See element '#{search_result} #{random_number}'"
+  end
 
-    
+  def check_search_result_subreply(search_result)
+    random_number = Random.rand($subreply_number.to_i).to_i+1
+    search_content  = "#{search_result} #{random_number}"
+    puts "Search for #{search_content}"
+    forum_page.scroll_down_to_see search_content
+    forum_page.touch_search_result search_content,0
+    forum_page.show_entire_discussion
+    forum_page.view_all_replies
+    puts "Finding element '#{search_content}'"
+    forum_page.scroll_up_to_see search_content
+  end
+
+  def check_search_result_deleted(string)
+    wait_touch "UILabel marked:'#{string}' index:1"
+    wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout => 3)
+    wait_touch "* marked:'OK'"
+  end
+
+  def long_press(args)
+    x = query("* marked:'#{args}'")[0]["rect"]["x"]
+    y = query("* marked:'#{args}'")[0]["rect"]["y"]
+    puts "coordinate of item is x => #{x}, y => #{y}"
+    send_uia_command({:command => %Q[target.tapWithOptions({x: #{x}, y: #{y}}, {tapCount: 1, touchCount: 1, duration: 2.0})]})
+  end
+
+  def join_group(args)
+    wait_touch "* marked:'Join' index:0"
+    wait_for_none_animating
+    wait_touch "* marked:'#{args}'"
+  end  
+  
+  def leave_group
+    wait_touch "UIImageView index:0"
+    wait_touch "UIButtonLabel marked:'Leave'"
+    puts "Left group"
+    wait_touch "* marked:'Save'"
+  end
+
+  def enter_profile_page
+    swipe :down, force: :strong
+    wait_touch "UIImageView id:'gl-community-profile-empty'"
+  end
+
 end
 
