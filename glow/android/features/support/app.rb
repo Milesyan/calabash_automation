@@ -20,6 +20,15 @@ module Glow
     toolbar_page.logout if already_logged_in?
   end
 
+  def relaunch_app
+    launcher = Calabash::Cucumber::Launcher.new
+    launcher.relaunch(:reset => true)
+  end
+
+  def push_app_to_background(n)
+    send_app_to_background(n)
+  end
+
   def random_str(len = 8)
     ('a'..'z').to_a.shuffle[0,len].join
   end

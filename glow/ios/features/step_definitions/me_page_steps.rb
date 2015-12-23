@@ -41,3 +41,12 @@ Given(/^I open "(.*?)" on Me page$/) do |page_name|
     me_page.open_help_center
   end
 end
+
+When(/^my health profile should be "(.*?)"$/) do |percentage|
+  assert_equal percentage, query("PersistentBackgroundLabel", :text).first
+end
+
+When(/^I open and check my health profile$/) do
+  me_page.open_health_profile
+  health_profile_page.back_to_me_page
+end

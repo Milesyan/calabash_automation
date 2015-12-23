@@ -5,21 +5,21 @@ require_relative 'glow_ios_test'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class GlowTest < Minitest::Test
-  include Glow
+  include GlowIOS
 
   def setup
   end
 
   def new_ttc_user
-    User.new.ttc_signup.login.complete_tutorial
+    GlowUser.new.ttc_signup.login.complete_tutorial
   end
     
   def new_non_ttc_user
-    User.new.non_ttc_signup.login.complete_tutorial
+    GlowUser.new.non_ttc_signup.login.complete_tutorial
   end
 
   def new_ft_user(args = {})
-    User.new.ft_signup(args).login.complete_tutorial
+    GlowUser.new.ft_signup(args).login.complete_tutorial
   end
 
   def assert_rc(res)
@@ -71,7 +71,7 @@ class GlowTest < Minitest::Test
 
   def test_single_male_user_signup
     # single male's default status is TTC
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     assert_rc u.res
     assert_equal 0, u.res["user"]["settings"]["current_status"]
   end
@@ -80,7 +80,7 @@ class GlowTest < Minitest::Test
     # 3 for Non-TTC
     u = new_non_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 3, male_partner.res["user"]["settings"]["current_status"]
@@ -90,7 +90,7 @@ class GlowTest < Minitest::Test
     # 0 for TTC
     u = new_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 0, male_partner.res["user"]["settings"]["current_status"]
@@ -99,7 +99,7 @@ class GlowTest < Minitest::Test
   def test_prep_male_partner_signup
     u = new_ft_user type: "prep"
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 4, male_partner.res["user"]["settings"]["current_status"]
@@ -108,7 +108,7 @@ class GlowTest < Minitest::Test
   def test_med_ttc_male_partner_signup
     u = new_ft_user type: "med"
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 4, male_partner.res["user"]["settings"]["current_status"]
@@ -117,7 +117,7 @@ class GlowTest < Minitest::Test
   def test_iui_ttc_male_partner_signup
     u = new_ft_user type: "iui"
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 4, male_partner.res["user"]["settings"]["current_status"]
@@ -128,7 +128,7 @@ class GlowTest < Minitest::Test
     # 4 for fertility treatment
     u = new_ft_user type: "ivf"
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_rc male_partner.res
     assert_equal 4, male_partner.res["user"]["settings"]["current_status"]
@@ -138,7 +138,7 @@ class GlowTest < Minitest::Test
     # female partner should follow the primary female user's status
     # 3 for non ttc
     u = new_non_ttc_user.invite_partner
-    female_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    female_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     female_partner.ttc_signup
     assert_rc female_partner.res
     assert_equal 3, female_partner.res["user"]["settings"]["current_status"]
@@ -148,7 +148,7 @@ class GlowTest < Minitest::Test
     # female partner should follow the primary female user's status
     # 0 for non ttc
     u = new_ttc_user.invite_partner
-    female_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    female_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     female_partner.ttc_signup
     assert_rc female_partner.res
     assert_equal 0, female_partner.res["user"]["settings"]["current_status"]
@@ -158,7 +158,7 @@ class GlowTest < Minitest::Test
     # 0 for fertility treatment
     u = new_ft_user type: "prep"
     u.invite_partner
-    female_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    female_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     female_partner.ttc_signup
     assert_rc female_partner.res
     assert_equal 4, female_partner.res["user"]["settings"]["current_status"]
@@ -169,7 +169,7 @@ class GlowTest < Minitest::Test
   end
 
   def test_ttc_user_signup_less_than_13_years_old
-    u = User.new.ttc_signup(age: 12)
+    u = GlowUser.new.ttc_signup(age: 12)
     assert_equal 3008, u.res["rc"]
     assert_equal "We are sorry, you must be at least 13 years old to user Glow.", u.res["msg"]
   end
@@ -203,7 +203,7 @@ class GlowTest < Minitest::Test
     # even the partnership is disconnected, the status is still unchanged the for the partner
     u = new_non_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_equal 3, male_partner.res["user"]["settings"]["current_status"]
     u.login.remove_partner
@@ -217,7 +217,7 @@ class GlowTest < Minitest::Test
     # even the partnership is disconnected, the status is still unchanged the for the partner
     u = new_non_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup
     assert_equal 3, male_partner.res["user"]["settings"]["current_status"]
     male_partner.login.remove_partner
@@ -238,13 +238,13 @@ class GlowTest < Minitest::Test
   end
 
   def test_single_male_user_daily_log
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.login.male_complete_tutorial.ttc_male_complete_daily_log
     assert_rc u.res
   end
 
   def test_single_male_user_notifications
-    u = User.new.male_signup
+    u = GlowUser.new.male_signup
     u.login.male_complete_tutorial.ttc_male_complete_daily_log
     u.pull_content
     notifications = u.res["user"]["notifications"]
@@ -296,7 +296,7 @@ class GlowTest < Minitest::Test
     # female TTC user should see her male partner's log summary
     u = new_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     male_partner.male_signup.complete_tutorial.ttc_male_complete_daily_log
     u.login.pull_content
     partner_daily_data = u.res["user"]["partner"]["daily_data"].first
@@ -309,7 +309,7 @@ class GlowTest < Minitest::Test
     # male partner should see his female partner's daily log summary
     u = new_ttc_user
     u.invite_partner
-    male_partner = User.new(email: u.partner_email, first_name: u.partner_first_name)
+    male_partner = GlowUser.new(email: u.partner_email, first_name: u.partner_first_name)
     u.login.complete_daily_log
     male_partner.male_signup.login.pull_content
     daily_data = male_partner.res["user"]["partner"]["daily_data"].first
