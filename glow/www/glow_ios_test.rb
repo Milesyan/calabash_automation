@@ -6,12 +6,17 @@ module GlowIOS
 
   PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
-  GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-  SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-  TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
+  # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
+  # SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
+  # TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
-  BASE_URL = "http://dragon-emma.glowing.com"
-  FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+  # BASE_URL = "http://dragon-emma.glowing.com"
+  # FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+  GROUP_ID = 4 # local group id 
+  SUBSCRIBE_GROUP_ID = 4 # local group id
+
+  BASE_URL = "http://localhost:5010"
+  FORUM_BASE_URL = "http://localhost:35010"
 
   class GlowUser
 
@@ -571,12 +576,14 @@ module GlowIOS
         "anonymous": 0,
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
-
+      @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{GROUP_ID}/create_topic", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["topic"]["id"]
+      @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
-      puts "topic #{title} created, topic id is #{@topic_id}"
+      @topic_title = title
+      puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
     end
 
@@ -600,7 +607,21 @@ module GlowIOS
       self
     end
 
-    def reply_to_topic(topic_id)
+    def vote_poll(args = {})
+      vote_data = {
+        "code_name": "emma",
+        "vote_index": 2,
+        "ut": @ut
+      }.merge(common_data)
+      topic_id = args[:topic_id]
+      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Topic #{topic_id} is voted"
+      self
+    end 
+
+
+    def reply_to_topic(topic_id, args = {})
       reply_data = {
         "code_name": "emma",
         "content": "Reply to topic #{topic_id} and time is #{Time.now.to_i}",
@@ -639,6 +660,7 @@ module GlowIOS
 
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{SUBSCRIBE_GROUP_ID}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      puts "     -----Join group #{SUBSCRIBE_GROUP_ID}-----    "
       self
     end
 
