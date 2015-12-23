@@ -3,7 +3,7 @@ Feature: User create text/poll/image/url topics
 	
 	@create_post
 	Scenario: User create a text topic
-		Given I create a new "ttc" user
+		Given I create a new "ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
     And I post a "text" topic
@@ -12,7 +12,7 @@ Feature: User create text/poll/image/url topics
 
 	@create_poll
 	Scenario: User create a poll topic
-		Given I create a new "non-ttc" user
+		Given I create a new "non-ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
     And I post a "poll" topic
@@ -21,7 +21,7 @@ Feature: User create text/poll/image/url topics
 
   @create_link
 	Scenario: User create a link topic
-		Given I create a new "ttc" user
+		Given I create a new "ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
     And I post a "link" topic

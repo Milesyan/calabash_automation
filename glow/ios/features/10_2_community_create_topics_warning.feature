@@ -2,7 +2,7 @@
 Feature: User create topics with warning messages
 	
 	Scenario: User create a text topic with short title
-	Given I create a new "ttc" user
+	Given I create a new "ttc" glow user
 	Then I login as the new user or default user
     And I open "community" page
     Then I go to the first group

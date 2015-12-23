@@ -16,7 +16,7 @@ module Glow
     TREATMENT_TYPES = %w(prep, med, iui, ivf)
 
     attr_accessor :email, :password, :type, :partner_email, :treatment_type, :first_name, :last_name, :gender
-    attr_accessor :ut, :user_id, :topic_id, :group_id, :reply_id, :topic_title, :reply_content
+    attr_accessor :ut, :user_id, :topic_id, :group_id, :reply_id, :reply_content
     attr_accessor :topic_title
 
     def initialize(args = {})
@@ -42,6 +42,8 @@ module Glow
         "random" => random_str
       }
     end
+  end
+end
 
  #removed
   #   def female_non_ttc_signup
@@ -273,5 +275,3 @@ module Glow
   #     self
   #     puts "#{topic_id} deleted"
   #   end
-  # end
-end

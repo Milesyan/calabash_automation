@@ -6,12 +6,14 @@ module GlowIOS
 
   PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
+  TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
+
   # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
   # SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-  # TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   # BASE_URL = "http://dragon-emma.glowing.com"
   # FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+  
   GROUP_ID = 4 # local group id 
   SUBSCRIBE_GROUP_ID = 4 # local group id
 
@@ -20,7 +22,7 @@ module GlowIOS
 
   class GlowUser
 
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender

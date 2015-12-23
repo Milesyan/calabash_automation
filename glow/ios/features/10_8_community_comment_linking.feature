@@ -1,4 +1,4 @@
-@community @comment_linking
+@forum @comment_linking
 Feature: Comment linking function 
 	@group_commentlinking
 	Scenario: User clicks a topic in normal group
