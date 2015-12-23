@@ -13,14 +13,15 @@ end
 Given(/^I create a new "(.*?)" glow user$/) do |type|
   case type.downcase
   when "non-ttc"
-    $user = new_non_ttc_user.complete_tutorial
+    $user = new_non_ttc_user.complete_tutorial.join_group
   when "ttc"
-    $user = new_ttc_user.complete_tutorial
+    $user = new_ttc_user.complete_tutorial.join_group
   when "prep", "med", "iui", "ivf"
-    $user = new_ft_user(type: type).complete_tutorial
+    $user = new_ft_user(type: type).complete_tutorial.join_group
   when "single male"
-    $user = GlowUser.new(gender: "male").male_signup.complete_tutorial
+    $user = GlowUser.new(gender: "male").male_signup.complete_tutorial.join_group
   end
+  puts $user.email, $user.password
 end
 
 Given(/^I create a new "(.*?)" "(.*?)" glow partner user$/) do |type, gender|
