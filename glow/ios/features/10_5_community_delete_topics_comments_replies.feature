@@ -1,7 +1,7 @@
 @forum @forum_delete
 Feature: User create a topic and delete it
   @delete_topic  
-  Scenario: User create a text topic and delete it.
+  Scenario: User create a text topic and delete it. @delete_topic 
     Given I create a new "ttc" glow user 
     And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
@@ -13,7 +13,7 @@ Feature: User create a topic and delete it
     Then I logout
 
   @delete_poll 
-  Scenario: User create a poll topic and delete it.
+  Scenario: User create a poll topic and delete it. @delete_poll 
     Given I create a new "ttc" glow user 
     And The user create a "poll" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
@@ -26,7 +26,7 @@ Feature: User create a topic and delete it
     Then I logout
 
   @delete_comment  
-  Scenario: User create a text topic and delete the comment.
+  Scenario: User create a text topic and delete the comment. @delete_comment
     Given I create a new "ttc" glow user 
     And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.
@@ -41,7 +41,7 @@ Feature: User create a topic and delete it
     Then I logout
 
   @delete_reply  
-  Scenario: User create a text topic and delete the subreply.
+  Scenario: User create a text topic and delete the subreply. @delete_reply 
     Given I create a new "ttc" glow user 
     And The user create a "text" topic in group "4"
     Then the user add 2 comments and user2 added 2 subreplies to each comment.

@@ -1,7 +1,7 @@
 @forum @search_topics_comments
 Feature: Add topics and comments and user search for it.
   @search_topics  
-  Scenario: User create some topics and search between them
+  Scenario: User create some topics and search between them @search_topics 
     Given I create a new "ttc" glow user
     And the user create 10 topics for search topics
     Then I login as the new user or default user
@@ -14,7 +14,7 @@ Feature: Add topics and comments and user search for it.
 
 
   @search_comments
-  Scenario: User create 1 topic and some comments
+  Scenario: User create 1 topic and some comments @search_comments
     Given I create a new "non-ttc" glow user
     And the user create 1 topics and 10 comments and 0 subreply for each comment
     Then I login as the new user or default user
@@ -26,7 +26,7 @@ Feature: Add topics and comments and user search for it.
     Then I logout
 
   @search_subreply 
-  Scenario: User create 1 topic 1 comment and some sub replies
+  Scenario: User create 1 topic 1 comment and some sub replies @search_subreply 
     Given I create a new "ttc" glow user 
     And the user create 1 topics and 2 comments and 10 subreply for each comment
     Then I login as the new user or default user
@@ -38,8 +38,8 @@ Feature: Add topics and comments and user search for it.
     Then I return to group page from search result
     Then I logout
 
-  @search_deleted_comment @debug
-  Scenario: User create 1 topic 1 comment and delete the topic and search the comment
+  @search_deleted_comment 
+  Scenario: User create 1 topic 1 comment and delete the topic and search the comment @search_deleted_comment 
 	Given I create a new "non-ttc" glow user 
     And the user create topics and comments and replies for delete use
     Then I login as the new user or default user
@@ -50,8 +50,8 @@ Feature: Add topics and comments and user search for it.
     Then I return to group page from search result
     Then I logout
 
-  @search_deleted_subreply @debug
-  Scenario: User create 1 topic 1 comment 1 subreply and delete the topic, and search the subreply
+  @search_deleted_subreply
+  Scenario: User create 1 topic 1 comment 1 subreply and delete the topic, and search the subreply @search_deleted_subreply
     Given I create a new "ttc" glow user 
     And the user create topics and comments and replies for delete use
     Then I login as the new user or default user

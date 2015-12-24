@@ -159,7 +159,7 @@ Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
 end
 
 Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
-  forum_page.check_search_result_subreply
+  forum_page.check_search_result_subreply search_result
 end
 
 Then(/^I click search for deleted "([^"]*)"$/) do |arg1|

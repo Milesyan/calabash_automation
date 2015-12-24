@@ -1,7 +1,7 @@
 @forum @comment_linking
 Feature: Comment linking function 
 	@group_commentlinking
-	Scenario: User clicks a topic in normal group
+	Scenario: User clicks a topic in normal group @group_commentlinking
 		Given I create a new "ttc" glow user
 		And the user create 1 topics and 10 comments and 0 subreply for each comment
 		Then I login as the new user or default user
@@ -15,7 +15,7 @@ Feature: Comment linking function
     Then I logout
 
 	@search_commentlinking
-	Scenario: User create 1 topic and some comments(comments number must > 1)
+	Scenario: User create 1 topic and some comments(comments number must > 1) 	@search_commentlinking
     Given I create a new "non-ttc" glow user 
     And the user create 1 topics and 10 comments and 0 subreply for each comment
     Then I login as the new user or default user
@@ -28,7 +28,7 @@ Feature: Comment linking function
 
 
 	@notification_commentlinking
-	Scenario: User clicks a notification to enter a topic
+	Scenario: User clicks a notification to enter a topic @notification_commentlinking
     Given I create a new "ttc" glow user 
     And The user create a "poll" topic in group "4"
     Then the user add 4 comments and user2 added 2 subreplies to each comment.

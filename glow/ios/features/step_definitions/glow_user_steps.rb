@@ -76,7 +76,7 @@ end
 
 
 Then(/^I created another user to vote the poll$/) do
-  $user2 = GlowUser.new(type: "ttc").female_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  $user2 = new_ttc_user.leave_group(1).join_group
   $user2.vote_poll({ topic_id: $user.topic_id})
   puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
 end
