@@ -62,7 +62,7 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_touch "PUAlbumListTableViewCell index:0"
     wait_for_none_animating
-    wait_touch "PUPhotosGridCell index:0"
+    wait_touch "PUPhotosGridCell index:1"
     wait_touch "label text:'Choose'"
     wait_for_none_animating
     wait_touch "label marked:'Write a caption...'"
