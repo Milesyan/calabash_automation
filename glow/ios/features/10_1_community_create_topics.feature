@@ -2,7 +2,7 @@
 Feature: User create text/poll/image/url topics
 	
 	@create_post
-	Scenario: User create a text topic
+	Scenario: User create a text topic @create_post
 		Given I create a new "ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
@@ -11,7 +11,7 @@ Feature: User create text/poll/image/url topics
     And I logout
 
 	@create_poll
-	Scenario: User create a poll topic
+	Scenario: User create a poll topic @create_poll
 		Given I create a new "non-ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
@@ -19,8 +19,17 @@ Feature: User create text/poll/image/url topics
     Then I should see the topic is posted successfully
     And I logout
 
+  @create_image 
+  Scenario: User create a image topic
+    Given I create a new "ttc" glow user
+    Then I login as the new user or default user
+    And I open "community" page
+    And I post a "image" topic
+    Then I should see the topic is posted successfully
+    And I logout 
+
   @create_link
-	Scenario: User create a link topic
+	Scenario: User create a link topic @create_link
 		Given I create a new "ttc" glow user
 		Then I login as the new user or default user
     And I open "community" page
@@ -29,7 +38,7 @@ Feature: User create text/poll/image/url topics
     And I logout
 
   @create_post_in_group
-  Scenario: User create a text topic in group
+  Scenario: User create a text topic in group @create_post_in_group
   	Given I login as the new user or default user
     And I open "community" page
     Then I go to the first group
@@ -37,10 +46,3 @@ Feature: User create text/poll/image/url topics
     Then I should see the topic is posted successfully
     And I logout
 
-  # @create_image 
-  # Scenario: User create a image topic
-		# Given I create a new "ttc" glow user
-		# Then I login as the new user
-  #   And I open "community" page
-  #   And I post a "image" topic
-  #   And I logout 

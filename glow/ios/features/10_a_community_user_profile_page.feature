@@ -1,7 +1,7 @@
 @forum @profile
 Feature: check user profile
 	@edit_profile
-	Scenario: User create a group
+	Scenario: User create a group	@edit_profile
 		Given I create a new "ttc" glow user
 		Then I login as the new user or default user
 		And I open "community" page

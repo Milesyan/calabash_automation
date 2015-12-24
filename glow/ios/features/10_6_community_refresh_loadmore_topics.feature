@@ -1,7 +1,7 @@
 @forum @load_more
 Feature: Load more topics and comments
   @load_topics  
-  Scenario: User create 20+ topics 
+  Scenario: User create 20+ topics @load_topics 
     Given I create a new "non-ttc" glow user 
     Then the user create 30 topics
     Then I login as the new user or default user
@@ -12,7 +12,7 @@ Feature: Load more topics and comments
 
 
   @load_comments  
-  Scenario: User create a topic and 30+ comments 
+  Scenario: User create a topic and 30+ comments @load_comments 
     Given I create a new "non-ttc" glow user 
     Then the user create 1 topics
     Then the user add 50 comments and user2 added 2 subreplies to each comment.
@@ -26,7 +26,7 @@ Feature: Load more topics and comments
     Then I logout
 
   @load_subreplies  
-  Scenario: User create a topic and 30+ comments 
+  Scenario: User create a topic and 30+ comments @load_subreplies  
     Given I create a new "non-ttc" glow user 
     Then the user create 1 topics
     Then the user add 2 comments and user2 added 100 subreplies to each comment.

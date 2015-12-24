@@ -1,7 +1,7 @@
 @forum @comment_reply
 Feature: User add comments and subreplies
   @add_comment  
-  Scenario: User create a text topic and add comment
+  Scenario: User create a text topic and add comment @add_comment 
     Given I create a new "ttc" glow user 
     And The user create a "text" topic in group "4"
     Then I login as the new user or default user
@@ -14,7 +14,7 @@ Feature: User add comments and subreplies
     Then I logout
 
   @add_image_comment
-  Scenario: User create a text topic and add an image comment
+  Scenario: User create a text topic and add an image comment @add_image_comment
     Given I create a new "ttc" glow user 
     And The user create a "text" topic in group "4"
     Then I login as the new user or default user
