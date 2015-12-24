@@ -13,7 +13,7 @@ require_relative 'pages'
 
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-ENV["APP_BUNDLE_PATH"] = '/Users/Miles/automation/AutomationTests/emma/ios/emmadev_3.app'
+ENV["APP_BUNDLE_PATH"] = '/Users/Miles/automation/AutomationTests/emma/ios/emmadev_local.app'
 #ENV["APP_BUNDLE_PATH"] = '/Users/Miles/automation/AutomationTests/emma/ios/emmadev_sandbox.app'
 
 ENV["DEVICE_TARGET"] = "F4F0DFF2-C7DD-4518-9CAA-D3A0AF274438"
