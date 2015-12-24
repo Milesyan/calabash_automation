@@ -66,14 +66,18 @@ Given(/^The user create a "([^"]*)" topic in group "([^"]*)"$/) do |topic_type, 
   puts 'New GlowUser created '+ $user.email, $user.password
   case topic_type.downcase
   when "text"
-    $user.create_topic({:title => 'create topic by www api', :group_id => 4})
+    $user.create_topic({:title => 'create topic by www api', :group_id => group_id.to_i})
   when "poll"
-    $user.create_poll({:title => 'create poll by www api', :group_id => 4})
+    $user.create_poll({:title => 'create poll by www api', :group_id => group_id.to_i})
   end
   puts "Topic created, the title is  #{$user.topic_title}"
   logout_if_already_logged_in
 end
 
+Then(/^I create another glow user and create a topic in group (\d+)$/) do |arg1|
+  $user2 = new_non_ttc_user.complete_tutorial.join_group
+  $user2.create_topic({:title => "Test follow/block user", :group_id => arg1})
+end
 
 Then(/^I created another user to vote the poll$/) do
   $user2 = new_ttc_user.leave_group(1).join_group
@@ -143,3 +147,16 @@ Then(/^the user create topics and comments and replies for delete use$/) do
   puts "GlowUser subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
+
+
+Then(/^I follow another user and the user follows me$/) do
+  $user2 = new_non_ttc_user
+  $user.follow_user $user2.user_id
+  $user2.follow_user $user.user_id
+end
+
+
+Then(/^the user bookmarked the topic$/) do
+  $user.bookmark_topic $user.topic_id
+end
+

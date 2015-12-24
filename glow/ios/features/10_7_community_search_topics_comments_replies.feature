@@ -1,5 +1,5 @@
 @forum @search_topics_comments
-Feature: Add topics and comments and user search for it.
+Feature: Add topics and comments and user search for it. (7m20.777s 5 scenarios 46 steps)
   @search_topics  
   Scenario: User create some topics and search between them @search_topics 
     Given I create a new "ttc" glow user

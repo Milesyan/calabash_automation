@@ -28,7 +28,7 @@ module GlowIOS
     attr_accessor :gender
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || "gi" + Time.now.to_i.to_s
+      @first_name = args[:first_name] || "gi" + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD
@@ -699,6 +699,76 @@ module GlowIOS
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{topic_id} deleted"
+    end
+
+
+
+    def follow_user(user_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/follow", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{user_id} is followed by user #{self.user_id}"
+    end
+
+    def unfollow_user(user_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unfollow", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{user_id} is unfollowed by user #{self.user_id}"
+    end
+
+    def block_user(user_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/block", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{user_id} is blocked by user #{self.user_id}"
+    end
+
+    def unblock_user(user_id)
+      reply_data = {
+        "code_name": "emma",
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unblock", :body => reply_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+      puts "#{user_id} is unblocked by user #{self.user_id}"
+    end  
+
+    def bookmark_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "bookmarked": 1,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is bookmarked by #{self.user_id}"
+      self
+    end
+
+    def unbookmark_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "bookmarked": 0,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
+      self
     end
 
 

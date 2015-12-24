@@ -1,6 +1,7 @@
 @forum @create_topics_warning
-Feature: User create topics with warning messages
-	
+Feature: User create topics with warning messages (1m53.264s 1 scenario 9 steps)
+
+	@create_topics_warning
 	Scenario: User create a text topic with short title @create_topics_warning
 	Given I create a new "ttc" glow user
 	Then I login as the new user or default user

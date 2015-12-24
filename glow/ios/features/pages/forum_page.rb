@@ -347,5 +347,173 @@ class ForumPage < Calabash::IBase
     wait_touch "UIImageView id:'gl-community-profile-empty'"
   end
 
+  def edit_text_fields(args1,args2)
+    wait_touch "UITextFieldLabel marked:'#{args1}'"
+    keyboard_enter_text "#{args2}"
+  end  
+
+  def exit_edit_profile
+    touch "* id:'gl-community-back.png'"
+  end
+
+  def exit_profile_page(button_index)
+    wait_touch "UIButton index:#{button_index}"
+  end
+
+  def get_UIButton_number
+    query("UIButton").size  
+  end
+
+  def check_groups
+    wait_touch "UIButton index:0"
+    check_element_exists "* marked:'target group'"
+    puts "I can see target group"
+  end
+
+  def check_followers
+    wait_touch "UIButton index:1"
+    check_element_exists "* marked:'#{$user2.first_name}'"
+    check_element_exists "* marked:'Following'"
+    puts "I can see follower #{$user2.first_name}"
+  end
+
+  def check_following
+    wait_touch "UIButton index:2"
+    check_element_exists "* marked:'#{$user2.first_name}'"
+    check_element_exists "* marked:'Following'"
+    puts "I can see I'm following #{$user2.first_name}"
+  end
+
+  def check_participated
+    touch_HMScrollView_element 1
+    check_element_exists "* marked:'#{$user.topic_title}'"
+    touch "* marked:'#{$user.topic_title}'"
+    check_element_exists "* marked:'Show entire discussion'"
+  end
+
+  def check_created
+    touch_HMScrollView_element 2
+    check_element_exists "* marked:'#{$user.topic_title}'"
+    touch "* marked:'#{$user.topic_title}'"
+    check_element_does_not_exist "* marked:'Show entire discussion'"
+  end
+
+  def check_bookmarked
+    touch_HMScrollView_element 3
+    check_element_exists "* marked:'#{$user.topic_title}'"
+    touch "* marked:'#{$user.topic_title}'"
+    check_element_does_not_exist "* marked:'Show entire discussion'"
+  end
+
+  def check_profile_element(args)
+    case args
+    when "groups", "group"
+      check_groups
+    when "followers", "follower"
+      check_followers
+    when "following", "followings"
+      check_following
+    when "participated"
+      check_participated
+    when "created"
+      check_created
+    when "bookmarked"
+      check_bookmarked
+    else 
+      puts "Input argument is wrong."
+    end
+    puts "#{args} is checked"
+  end
+
+  def back_to_profile_page
+    wait_touch "* marked: 'Back'"
+  end
+
+  def touch_HMScrollView_element(args)
+    scroll_view_width = query("HMScrollView")[1]["rect"]["width"]
+    case args
+    when 1
+      touch("HMScrollView", :offset => {:x => scroll_view_width/4, :y => 0})
+    when 2
+      touch("HMScrollView", :offset => {:x => scroll_view_width/2, :y => 0})
+    when 3
+      touch("HMScrollView", :offset => {:x => scroll_view_width/3*2, :y => 0})
+    end
+  end
+
+  def touch_creator_name
+    wait_touch "* marked:'#{$user2.first_name}' index:0"
+  end
+
+  def action_to_other_user(action)
+    if element_exists "* marked:'Edit profile'"
+      puts "The profile is yours"
+    end
+    case action.downcase
+    when "follow"
+      check_element_exists "* marked:'Follow'"
+      wait_touch "ForumFollowButton"
+    when "unfollow"
+      check_element_exists "* marked:'Following'"
+      wait_touch "UILabel marked:'Unfollow'"
+    when "block"
+      wait_touch "* marked:'Follow' sibling UIButton"
+      wait_touch "UILabel marked:'Block'"
+      check_element_exists "* {text CONTAINS 'Block this user?'}"
+      wait_touch "UILabel marked:'Block'"
+    when "invite"
+      wait_touch "* marked:'Follow' sibling UIButton"
+      wait_touch "UILabel marked:'Invite to a group'"
+    when "unblock"
+      check_element_exists "* marked:'Blocked'"
+      touch "UIButton marked:'Blocked'"
+      check_element_does_not_exist "* marked:'Blocked'"
+    else
+      puts "Action error"
+    end
+  end
+
+  def click_filters_button
+    wait_touch "UILabel marked:'Filters'"
+  end
+
+  def click_save_button
+    wait_touch "UILabel marked:'Save'"
+  end
+
+  def go_to_community_settings
+    swipe :down, force: :strong
+    wait_touch "UIButton marked:'gl community filter'"
+  end
+
+  def click_blocked_users
+    wait_touch "* {text CONTAINS 'user(s)'}"
+  end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

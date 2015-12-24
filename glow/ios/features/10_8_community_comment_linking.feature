@@ -1,6 +1,6 @@
 @forum @comment_linking
-Feature: Comment linking function 
-	@group_commentlinking
+Feature: Comment linking function (3m4.334s 3 scenarios 25 steps)
+)	@group_commentlinking
 	Scenario: User clicks a topic in normal group @group_commentlinking
 		Given I create a new "ttc" glow user
 		And the user create 1 topics and 10 comments and 0 subreply for each comment
