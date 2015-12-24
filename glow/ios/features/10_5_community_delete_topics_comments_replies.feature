@@ -1,5 +1,5 @@
 @forum @forum_delete
-Feature: User create a topic and delete it
+Feature: User create a topic and delete it (5m8.716s 4 scenarios 43 steps)
   @delete_topic  
   Scenario: User create a text topic and delete it. @delete_topic 
     Given I create a new "ttc" glow user 

@@ -1,5 +1,5 @@
 @forum @edit_topic
-Feature: User edit topics
+Feature: User edit topics (6m24.188s 34 steps 4 scenarios)
   @edit_post  
   Scenario: User create a text topic and edit it
     Given I create a new "ttc" glow user
@@ -18,7 +18,6 @@ Feature: User edit topics
     And The user create a "text" topic in group "4"
     Then I login as the new user or default user
     And I open "community" page
-    Then I go to the first group
     Then I edit the topic "create topic by www api" and change the title and content
     Then I should see the topic is posted successfully
     Then I logout

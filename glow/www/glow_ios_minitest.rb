@@ -469,7 +469,74 @@ class GlowTest < Minitest::Test
     assert_rc u.res
   end
 
+#----- follow/unfollow/block/unblock users
+
+  def test_follow_user
+    u = new_ttc_user
+    sleep 1
+    u2 = new_non_ttc_user
+    u.follow_user u2.user_id
+    assert_rc u.res
+  end
+
+  def test_unfollow_user
+    u = new_ttc_user
+    sleep 1
+    u2 = new_non_ttc_user
+    u.follow_user u2.user_id
+    u.unfollow_user u2.user_id
+    assert_rc u.res
+  end
 
 
+  def test_block_user
+    u = new_ttc_user
+    sleep 1
+    u2 = new_non_ttc_user
+    u.block_user u2.user_id
+    assert_rc u.res
+  end
+
+
+  def test_unblock_user
+    u = new_ttc_user
+    sleep 1
+    u2 = new_non_ttc_user
+    u.block_user u2.user_id
+    u.unblock_user u2.user_id
+    assert_rc u.res
+  end
+
+  def test_bookmark
+    u = new_ttc_user
+    u.create_topic
+    u.bookmark_topic u.topic_id
+    assert_rc u.res
+  end
+
+
+  def test_unbookmark
+    u = new_ttc_user
+    u.create_topic
+    u.bookmark_topic u.topic_id
+    u.unbookmark_topic u.topic_id
+    assert_rc u.res
+  end
 
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

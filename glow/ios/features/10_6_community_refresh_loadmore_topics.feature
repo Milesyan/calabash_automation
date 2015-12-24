@@ -1,5 +1,5 @@
 @forum @load_more
-Feature: Load more topics and comments
+Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
   @load_topics  
   Scenario: User create 20+ topics @load_topics 
     Given I create a new "non-ttc" glow user 

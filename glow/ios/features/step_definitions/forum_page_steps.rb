@@ -238,22 +238,58 @@ Then(/^I click edit profile button$/) do
 end
 
 Then(/^I edit some field in profile page$/) do
-  wait_touch "UITextFieldLabel marked:'Shanghai'"
-  keyboard_enter_text "Last name"
+  forum_page.edit_text_fields "Glow", "Last name"
+  forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
+  forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
   wait_touch "UILabel marked:'Bio'"
   keyboard_enter_text "Edit Bio info"
-  touch "* id:'gl-community-back.png'"
-  wait_for_elements_exist("* marked:'Edit Bio info'")
-  wait_touch "UIButton index:5"
 end
 
+Then(/^I go back to user profile page and check the changes in profile page$/) do
+  forum_page.exit_edit_profile
+  wait_for_none_animating
+  check_element_exists("* marked:'Edit Bio info'")
+  check_element_exists("* marked:'#{$user.first_name}Edit first'")
+  check_element_exists("* marked:'Edit Shanghai'")
+end
 
+Then(/^I go back to forum page from forum profile page$/) do
+  forum_page.exit_profile_page forum_page.get_UIButton_number-1
+end
 
+Then(/^I check "([^"]*)" under forum profile page$/) do |arg1|
+  forum_page.check_profile_element arg1.downcase
+  forum_page.back_to_profile_page
+end
 
+Then(/^I click the name of the creator and enter the user's profile page$/) do
+  forum_page.touch_creator_name
+end
 
+Then(/^I "([^"]*)" the user$/) do |action|
+  forum_page.action_to_other_user action
+end
 
+Then(/^I go to community settings page$/) do
+  forum_page.go_to_community_settings
+end
 
+Then(/^I go to blocked users part under community settings$/) do
+  forum_page.click_blocked_users
+end
 
+Then(/^I exit blocking users page$/) do
+  forum_page.click_filters_button
+end
+
+Then(/^I click save of the community settings page$/) do
+  forum_page.click_save_button
+end
+
+Then(/^I can see the person I blocked$/) do
+  check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  check_element_exists "* marked:'Blocked'"
+end
 
 
 

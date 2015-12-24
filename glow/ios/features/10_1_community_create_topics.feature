@@ -1,5 +1,5 @@
 @forum @create_topics
-Feature: User create text/poll/image/url topics
+Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
 	
 	@create_post
 	Scenario: User create a text topic @create_post

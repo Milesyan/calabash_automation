@@ -1,5 +1,5 @@
 @forum @comment_reply
-Feature: User add comments and subreplies
+Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
   @add_comment  
   Scenario: User create a text topic and add comment @add_comment 
     Given I create a new "ttc" glow user 
