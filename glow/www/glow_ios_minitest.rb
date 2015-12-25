@@ -551,6 +551,29 @@ class GlowTest < Minitest::Test
     u.downvote_comment u.topic_id, u.reply_id
     assert_rc u.res
   end
+
+  def test_report_topic
+    reason_poll = ["Wrong group", "Rude", "Obscene", "Spam", "Solicitation"]
+    u1 = new_ttc_user
+    u1.create_topic
+    2.times do
+      u2 = new_ttc_user
+      u2.report_topic u1.topic_id, reason_poll.sample
+      assert_rc u2.res
+    end
+  end
+
+  def test_report_comment
+    reason_poll = ["Rude", "Obscene", "Spam", "Solicitation"]
+    u1 = new_ttc_user
+    u1.create_topic
+    2.times do
+      u2 = new_ttc_user
+      u2.report_comment u1.topic_id,u1.reply_id,reason_poll.sample
+      assert_rc u2.res
+    end
+  end
+
 end
 
 

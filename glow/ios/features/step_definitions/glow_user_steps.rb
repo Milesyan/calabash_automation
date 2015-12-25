@@ -186,3 +186,42 @@ end
 Given(/^the user upvote the first comment$/) do
   $user.upvote_comment $user.topic_id, $first_comment_id
 end
+
+Given(/^(\d+) other users upvote the topic and (\d+) other users downvote the topic$/) do |arg1, arg2|
+  arg1.to_i.times do
+    new_user = new_ttc_user.upvote_topic $user.topic_id
+    puts "#{new_user.first_name} upvoted #{$user.topic_id}  >> #{$user.topic_title} << "
+  end
+  arg2.to_i.times do
+    new_user = new_ttc_user.downvote_topic $user.topic_id
+    puts "#{new_user.first_name} downvoted #{$user.topic_id} >> #{$user.topic_title} << "
+  end
+end
+
+Given(/^(\d+) other users upvote the comment and (\d+) other users downvote the comment$/) do |arg1, arg2|
+  arg1.to_i.times do
+    new_user = new_ttc_user.upvote_comment $user.topic_id, $first_comment_id
+    puts "#{new_user.first_name} upvoted comment #{$first_comment_id} under #{$user.topic_id}  >> #{$user.topic_title} << "
+  end
+  arg2.to_i.times do
+    new_user = new_ttc_user.downvote_comment $user.topic_id, $first_comment_id
+    puts "#{new_user.first_name} downvoted comment #{$first_comment_id} under #{$user.topic_id} >> #{$user.topic_title} << "
+  end
+end
+
+Given(/^(\d+) other users reported the topic$/) do |arg1|
+  reason_poll = ["Wrong group", "Rude", "Obscene", "Spam", "Solicitation"]
+  arg1.to_i.times do
+    new_user = new_ttc_user.report_topic $user.topic_id, reason_poll.sample
+    puts "#{new_user.first_name} reported #{$user.topic_id}"
+  end
+end
+
+
+Given(/^(\d+) other users reported the comment$/) do |arg1|
+  reason_poll = ["Rude", "Obscene", "Spam", "Solicitation"]
+  arg1.to_i.times do
+    new_user = new_ttc_user.report_comment $user.topic_id, $first_comment_id, reason_poll.sample
+    puts "#{new_user.first_name} reported #{$user.topic_id}"
+  end
+end

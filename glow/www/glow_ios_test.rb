@@ -50,7 +50,7 @@ module GlowIOS
       {
         "app_version" => "5.3.0",
         "locale" => "en_US",
-        "device_id" => "139E7990-DB88-4D11-9D6B-290BA690C71C",
+        "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "model" => "iPhone7,1",
         "random" => random_str,
       }
@@ -835,7 +835,7 @@ module GlowIOS
       self
     end
 
-    def downvote_comment(topic_id, comment_id)
+    def downvote_comment(topic_id, reply_id)
       topic_data = {
         "code_name": "emma",
         "disliked": 1,
@@ -859,7 +859,7 @@ module GlowIOS
       self
     end
 
-    def cancel_downvote_comment(topic_id, comment_id)
+    def cancel_downvote_comment(topic_id, reply_id)
       topic_data = {
         "code_name": "emma",
         "disliked": 0,
@@ -869,6 +869,31 @@ module GlowIOS
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+      self
+    end
+#-----------Flag topic/comment--------------
+    def report_topic(topic_id,report_reason)
+      topic_data = {
+        "code_name": "emma",
+        "reason": report_reason,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
+      self
+    end
+
+    def report_comment(topic_id, reply_id, report_reason)
+      topic_data = {
+        "code_name": "emma",
+        "reason": report_reason,
+        "reply_id": reply_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
 
