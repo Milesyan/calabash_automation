@@ -160,3 +160,7 @@ Then(/^the user bookmarked the topic$/) do
   $user.bookmark_topic $user.topic_id
 end
 
+
+Given(/^the user upvote the first comment$/) do
+  $user.
+end

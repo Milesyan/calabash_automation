@@ -1,5 +1,5 @@
 @forum @comment_linking
-Feature: Comment linking function (3m4.334s 3 scenarios 25 steps)
+Feature: Comment linking function (3m47.074s 3 scenarios 25 steps)
 )	@group_commentlinking
 	Scenario: User clicks a topic in normal group @group_commentlinking
 		Given I create a new "ttc" glow user
@@ -34,3 +34,9 @@ Feature: Comment linking function (3m4.334s 3 scenarios 25 steps)
     Then the user add 4 comments and user2 added 2 subreplies to each comment.
 	  Then I login as the new user or default user
 	  And I open "alert" page
+	  Then I touch "Check it out" 
+	  Then I should see "Show entire discussion"
+		Then I expand all the comments
+		Then I click the bookmark icon
+		Then I click the close button and go back to previous page
+    Then I logout

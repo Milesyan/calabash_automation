@@ -275,6 +275,7 @@ module GlowIOS
       @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
+      puts "Login User id is #{@user_id}"
       self
     end
 
@@ -771,7 +772,106 @@ module GlowIOS
       self
     end
 
+#---------upvote downvote------------
+    def upvote_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "liked": 1,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is upvoted by #{self.user_id}"
+      self
+    end
 
+    def cancel_upvote_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "liked": 0,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is upvoted by #{self.user_id}"
+      self
+    end
+
+    def upvote_comment(topic_id, reply_id)
+      topic_data = {
+        "code_name": "emma",
+        "liked": 1,
+        "topic_id": topic_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
+      self
+    end
+
+    def cancel_upvote_comment(topic_id, reply_id)
+      topic_data = {
+        "code_name": "emma",
+        "liked": 0,
+        "topic_id": topic_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
+      self
+    end
+
+    def downvote_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "disliked": 1,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is downvoted by #{self.user_id}"
+      self
+    end
+
+    def downvote_comment(topic_id, comment_id)
+      topic_data = {
+        "code_name": "emma",
+        "disliked": 1,
+        "topic_id": topic_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+      self
+    end
+    def cancel_downvote_topic(topic_id)
+      topic_data = {
+        "code_name": "emma",
+        "disliked": 0,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "topic #{topic_id} is downvoted by #{self.user_id}"
+      self
+    end
+
+    def cancel_downvote_comment(topic_id, comment_id)
+      topic_data = {
+        "code_name": "emma",
+        "disliked": 0,
+        "topic_id": topic_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+      self
+    end
+    
     ###### Me #####
 
     def change_status(status)

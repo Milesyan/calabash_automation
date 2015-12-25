@@ -455,23 +455,24 @@ class ForumPage < Calabash::IBase
     if element_exists "* marked:'Edit profile'"
       puts "The profile is yours"
     end
+    puts "The action is #{action}"
     case action.downcase
-    when "follow"
+    when "follow", "followed"
       check_element_exists "* marked:'Follow'"
       wait_touch "ForumFollowButton"
-    when "unfollow"
+    when "unfollow", "unfollowed"
       check_element_exists "* marked:'Following'"
       wait_touch "* marked:'Following'"
       wait_touch "UILabel marked:'Unfollow'"
-    when "block"
+    when "block", "Blocked"
       wait_touch "* marked:'Follow' sibling UIButton"
       wait_touch "UILabel marked:'Block'"
       check_element_exists "* {text CONTAINS 'Block this user?'}"
       wait_touch "UILabel marked:'Block'"
-    when "invite"
+    when "invite", "invited"
       wait_touch "* marked:'Follow' sibling UIButton"
       wait_touch "UILabel marked:'Invite to a group'"
-    when "unblock"
+    when "unblock","unblocked"
       check_element_exists "* marked:'Blocked'"
       touch "UIButton marked:'Blocked'"
       check_element_does_not_exist "* marked:'Blocked'"
@@ -497,7 +498,36 @@ class ForumPage < Calabash::IBase
     wait_touch "* {text CONTAINS 'user(s)'}"
   end
 
+  def click_topnav_close
+    wait_touch "* marked:'gl community topnav close' UINavigationButton"
+  end
+
+  def click_bookmark_icon
+    wait_touch "* marked:'gl community topnav close' UINavigationButton sibling * index:2"
+  end
+
+  def click_hyperlink_comments
+    wait_touch "* marked:'Posted by' sibling UILabel index:0"  
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

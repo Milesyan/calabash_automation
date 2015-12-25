@@ -522,12 +522,36 @@ class GlowTest < Minitest::Test
     u.unbookmark_topic u.topic_id
     assert_rc u.res
   end
+#------------Up/Downvote topic/comment--------
+  
+  def test_upvote_topic
+    u = new_ttc_user
+    u.create_topic
+    u.upvote_topic u.topic_id
+    assert_rc u.res
+  end
 
+  def test_downvote_topic
+    u = new_ttc_user
+    u.create_topic
+    u.downvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_upvote_comment
+    u = new_ttc_user
+    u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
+    u.upvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  def test_downvote_comment
+    u = new_ttc_user
+    u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
+    u.downvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
 end
-
-
-
-
 
 
 

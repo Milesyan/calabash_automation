@@ -151,7 +151,7 @@ Then(/^I should see the search result for topic$/) do
 end
 
 Then(/^I return to group page from search result$/) do
-  forum_page.click_back_buttonp
+  forum_page.click_back_button
   forum_page.click_cancel
 end
 
@@ -304,7 +304,17 @@ Then(/^I can see the person I blocked$/) do
   check_element_exists "* marked:'Blocked'"
 end
 
+Then(/^I click the close button and go back to previous page$/) do
+  forum_page.click_topnav_close
+end
 
+Then(/^I click the bookmark icon$/) do
+  forum_page.click_bookmark_icon
+end
+
+Then(/^I click the hyperlink of comments$/) do
+  forum_page.click_hyperlink_comments
+end
 
 
 
