@@ -90,12 +90,16 @@ Then(/^I discard the topic$/) do
 end
 
 Then (/^I go back to group$/) do
-  forum_page.back_to_group
+  forum_page.click_back_button
+end
+
+Then (/^I go back to previous page$/) do
+  forum_page.click_back_button
 end
 
 Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
   touch "* marked:'#{topic_name}' index:1"
-  forum_page.back_to_group
+  forum_page.click_back_button
 end  
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
@@ -147,7 +151,7 @@ Then(/^I should see the search result for topic$/) do
 end
 
 Then(/^I return to group page from search result$/) do
-  forum_page.back_to_group
+  forum_page.click_back_buttonp
   forum_page.click_cancel
 end
 
@@ -257,9 +261,18 @@ Then(/^I go back to forum page from forum profile page$/) do
   forum_page.exit_profile_page forum_page.get_UIButton_number-1
 end
 
-Then(/^I check "([^"]*)" under forum profile page$/) do |arg1|
+Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|
   forum_page.check_profile_element arg1.downcase
   forum_page.back_to_profile_page
+end
+
+Then(/^I check "([^"]*)" without seeing the user under forum profile page and exit the page$/) do |arg1|
+  forum_page.check_following_not_exist
+  forum_page.back_to_profile_page
+end
+
+Then(/^I open "([^"]*)" under forum profile page$/) do |arg1|
+  forum_page.check_profile_element arg1.downcase
 end
 
 Then(/^I click the name of the creator and enter the user's profile page$/) do

@@ -119,7 +119,7 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Discard'"
   end  
 
-  def back_to_group
+  def click_back_button
     wait_touch "* marked:'Back'"
   end  
   
@@ -384,6 +384,12 @@ class ForumPage < Calabash::IBase
     puts "I can see I'm following #{$user2.first_name}"
   end
 
+  def check_following_not_exist
+    wait_touch "UIButton index:2"
+    check_element_does_not_exist "* marked:'#{$user2.first_name}'"
+    puts "I can NOT see I'm following #{$user2.first_name}"
+  end
+
   def check_participated
     touch_HMScrollView_element 1
     check_element_exists "* marked:'#{$user.topic_title}'"
@@ -455,6 +461,7 @@ class ForumPage < Calabash::IBase
       wait_touch "ForumFollowButton"
     when "unfollow"
       check_element_exists "* marked:'Following'"
+      wait_touch "* marked:'Following'"
       wait_touch "UILabel marked:'Unfollow'"
     when "block"
       wait_touch "* marked:'Follow' sibling UIButton"
