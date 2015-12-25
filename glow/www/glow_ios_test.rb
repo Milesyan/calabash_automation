@@ -871,7 +871,7 @@ module GlowIOS
       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
       self
     end
-    
+
     ###### Me #####
 
     def change_status(status)

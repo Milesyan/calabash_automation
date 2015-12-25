@@ -509,7 +509,45 @@ class ForumPage < Calabash::IBase
   def click_hyperlink_comments
     wait_touch "* marked:'Posted by' sibling UILabel index:0"  
   end
+
+  def hide_topic
+    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
+    puts "I can see topic #{$user2.topic_title}"
+    wait_touch "* id:'community-dots' index:1"
+    wait_touch "UILabel marked:'Hide this post'"
+    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Would you like to hide this topic?'}"}
+    wait_touch "UILabel marked:'Yes, hide it.'"  
+  end
+
+  def report_topic(args)
+    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
+    puts "I can see topic #{$user2.topic_title}"
+    wait_touch "* id:'community-dots' index:1"
+    wait_touch "UILabel marked:'Report this post'"
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_touch "UILabel marked:'#{args}'"  
+  end
+
+  def hide_comment
+    wait_for_elements_exist "* marked:'#{$hidereply_content}'"
+    puts "I can see comment #{$hidereply_content}"
+    wait_touch "* id:'community-dots' index:0"
+    wait_touch "UILabel marked:'Hide'"
+    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure to hide this comment?'}"}
+    wait_touch "UILabel marked:'Yes, hide it.'"  
+  end
+
+  def report_comment(args)
+    wait_for_elements_exist "* marked:'#{$hidereply_content}'"
+    puts "I can see comment #{$hidereply_content}"
+    wait_touch "* id:'community-dots' index:0"
+    wait_touch "UILabel marked:'Report'"
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_touch "UILabel marked:'#{args}'"  
+  end
+
 end
+
 
 
 

@@ -316,8 +316,35 @@ Then(/^I click the hyperlink of comments$/) do
   forum_page.click_hyperlink_comments
 end
 
+Then(/^I enter topic created by another user$/) do 
+  forum_page.enter_topic "#{$user2.topic_title}"
+end
 
+Then(/^I hide the topic$/) do 
+  forum_page.hide_topic
+end
 
+Then(/^I should not see the topic hidden by me$/) do 
+  check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
+  puts "I cannot see topic #{$user2.topic_title}"
+end
+
+Then(/^I report the topic by reason "([^"]*)"$/) do |report_reason|
+  forum_page.report_topic report_reason
+end
+
+Then(/^I hide the comment$/) do 
+  forum_page.hide_comment
+end
+
+Then(/^I should not see the comment hidden by me$/) do 
+  check_element_does_not_exist  "* marked:'#{$hidereply_content}'"
+  puts "I cannot see comment #{$hidereply_content}"
+end
+
+Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
+  forum_page.report_comment report_reason
+end
 
 
 

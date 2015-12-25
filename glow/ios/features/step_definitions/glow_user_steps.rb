@@ -127,6 +127,10 @@ Then(/^the user create (\d+) topics and (\d+) comments and (\d+) subreply for ea
   $subreply_number = subreply_number
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "Test search comment #{comment_number+1}"
+    if comment_number == 0
+      $first_comment_id = $user.reply_id
+      puts "first reply id is #{$first_comment_id}"
+    end
     puts "GlowUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       puts "GlowUser sub reply ++"
@@ -135,6 +139,24 @@ Then(/^the user create (\d+) topics and (\d+) comments and (\d+) subreply for ea
   end
 end
 
+
+
+Then(/^another user create (\d+) topics and (\d+) comments and (\d+) subreply for each comment$/) do |arg1, comment_number, subreply_number|
+  $user2 = new_ttc_user
+  $user2.create_topic :title => "Test hide/flag #{$user2.random_str}"
+  puts "Glow User2 topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
+  $comment_number2 = comment_number
+  $subreply_number2 = subreply_number
+  comment_number.to_i.times do |comment_number|
+    $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
+    $hidereply_content = "Test hide/report comment #{comment_number+1}"
+    puts "GlowUser2 reply_id is #{$user2.reply_id}"
+    subreply_number.to_i.times do |subreply_number|
+      puts "GlowUser2 sub reply ++"
+      $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
+    end
+  end
+end
 
 Then(/^the user create topics and comments and replies for delete use$/) do
   $user.create_topic
@@ -162,5 +184,5 @@ end
 
 
 Given(/^the user upvote the first comment$/) do
-  $user.
+  $user.upvote_comment $user.topic_id, $first_comment_id
 end
