@@ -1,0 +1,21 @@
+Searching 1 file for "click_back_buttonp" (case sensitive)
+
+/Users/Miles/automation/AutomationTests/glow/ios/features/step_definitions/forum_page_steps.rb:
+   91  
+   92  Then (/^I go back to group$/) do
+   93:   forum_page.click_back_button
+   94  end
+   95  
+   96  Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
+   97    touch "* marked:'#{topic_name}' index:1"
+   98:   forum_page.click_back_button
+   99  end  
+  100  
+  ...
+  148  
+  149  Then(/^I return to group page from search result$/) do
+  150:   forum_page.click_back_button
+  151    forum_page.click_cancel
+  152  end
+
+3 matches in 1 file
