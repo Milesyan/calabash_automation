@@ -106,7 +106,7 @@ Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_
   forum_page.edit_topic topic_name
 end
 
-Then(/^I delete the topic index (\d+)$/) do |args1|
+Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
   forum_page.delete_topic args1
 end
 

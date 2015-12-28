@@ -92,7 +92,7 @@ Then(/^I create another glow user "([^"]*)" and create a topic in the test group
 end
 
 Then(/^I created another user to vote the poll$/) do
-  $user2 = new_ttc_user.leave_group(1).join_group
+  $user2 = forum_new_ttc_user
   $user2.vote_poll({ topic_id: $user.topic_id})
   puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
 end
@@ -107,7 +107,7 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
     puts "GlowUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser #{user2_name}sub reply ++; subreply number is #{subreply_number+1}"
+      puts "GlowUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -115,9 +115,9 @@ end
 
 
 
-Then(/^"([^"]*)" create (\d+) topics$/) do |arg1|
-  arg1.to_i.times do |arg1|
-    $user.create_topic({:title => "Test load more topic #{arg1+1}"})
+Then(/^"([^"]*)" create (\d+) topics$/) do |name, number|
+  number.to_i.times do |number|
+    $user.create_topic({:title => "Test load more topic #{number+1}"})
   end
 end
 
@@ -133,7 +133,7 @@ Then(/^"([^"]*)" create (\d+) topics for searching topic$/) do |arg1|
 end
 
 
-Then(/^"([^"]*)" create (\d+) topic(:?s)? and (\d+) comment(:?s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
+Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
   puts "GlowUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
@@ -184,7 +184,7 @@ Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |na
 end
 
 
-Then(/^I follow another user "([^"]*)" and the user follows me$/) do |arg1|
+Then(/^I follow another user "([^"]*)" and the user also follows me$/) do |arg1|
   $user2 = forum_new_non_ttc_user(first_name: arg1)
   $user.follow_user $user2.user_id
   $user2.follow_user $user.user_id

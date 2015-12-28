@@ -4,7 +4,7 @@ Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
   Scenario: User create a text topic and add comment @add_comment 
     Given I create a new "ttc" glow user with name "Miles"
     And "Miles" create a "text" topic in the test group
-    Then I login as the new user created through www
+    And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
     And I open the topic "create topic by www api"
@@ -17,7 +17,7 @@ Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
   Scenario: User create a text topic and add an image comment @add_image_comment
     Given I create a new "ttc" glow user with name "Miles"
     And "Miles" create a "text" topic in the test group
-    Then I login as the new user created through www
+    And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
     And I open the topic "create topic by www api"
