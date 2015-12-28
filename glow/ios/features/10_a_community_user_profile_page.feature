@@ -33,8 +33,8 @@ Feature: check user profile (4m8.459s 3 scenarios 30 steps)
     Then I login as the new user or default user
     And I open "community" page
     Then I go to community profile page
-		Then I check "participated" under forum profile page
-		And I check "created" under forum profile page
-		And I check "bookmarked" under forum profile page
+		Then I check "participated" under forum profile page and exit the page
+		And I check "created" under forum profile page and exit the page
+		And I check "bookmarked" under forum profile page and exit the page
 		Then I go back to forum page from forum profile page
 		Then I logout
