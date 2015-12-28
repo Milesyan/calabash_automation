@@ -1,10 +1,9 @@
 @forum @create_topics
-Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
-	
+Feature: User create text/poll/image/url topics 
 	@create_post
-	Scenario: User create a text topic @create_post
-		Given I create a new "ttc" glow user
-		Then I login as the new user or default user
+	Scenario: User create a text topic
+		Given I create a new "ttc" glow user with name "Miles"
+		Then I login as the new user created through www
     And I open "community" page
     And I post a "text" topic
     Then I should see the topic is posted successfully
@@ -13,7 +12,7 @@ Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
 	@create_poll
 	Scenario: User create a poll topic @create_poll
 		Given I create a new "non-ttc" glow user
-		Then I login as the new user or default user
+		Then I login as the new user created through www
     And I open "community" page
     And I post a "poll" topic
     Then I should see the topic is posted successfully
@@ -22,7 +21,7 @@ Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
   @create_image 
   Scenario: User create a image topic
     Given I create a new "ttc" glow user
-    Then I login as the new user or default user
+    Then I login as the new user created through www
     And I open "community" page
     And I post a "image" topic
     Then I should see the topic is posted successfully
@@ -31,7 +30,7 @@ Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
   @create_link
 	Scenario: User create a link topic @create_link
 		Given I create a new "ttc" glow user
-		Then I login as the new user or default user
+		Then I login as the new user created through www
     And I open "community" page
     And I post a "link" topic
     Then I should see the topic is posted successfully
@@ -39,9 +38,9 @@ Feature: User create text/poll/image/url topics (7m38.675s 5cases 30steps)
 
   @create_post_in_group
   Scenario: User create a text topic in group @create_post_in_group
-  	Given I login as the new user or default user
+  	Given I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     And I post a text topic with title "Post in group topic"
     Then I should see the topic is posted successfully
     And I logout

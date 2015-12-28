@@ -4,9 +4,9 @@ Feature: User create topics with warning messages (1m53.264s 1 scenario 9 steps)
 	@create_topics_warning
 	Scenario: User create a text topic with short title @create_topics_warning
 	Given I create a new "ttc" glow user
-	Then I login as the new user or default user
+	Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     And I post a text topic with title "a"
     Then I discard the topic 
     And I post a text topic with title "a long topic"

@@ -14,7 +14,8 @@ module GlowIOS
   # BASE_URL = "http://dragon-emma.glowing.com"
   # FORUM_BASE_URL = "http://dragon-forum.glowing.com"
   
-  GROUP_ID = 4 # local group id 
+  GROUP_ID = 4 # local group id
+  $TEST_GROUP = GROUP_ID
   SUBSCRIBE_GROUP_ID = 4 # local group id
 
   BASE_URL = "http://localhost:5010"
@@ -28,7 +29,7 @@ module GlowIOS
     attr_accessor :gender
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || "gi" + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
+      @first_name = args[:first_name] + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1] || "gi" + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD

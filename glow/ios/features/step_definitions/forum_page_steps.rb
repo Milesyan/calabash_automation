@@ -275,8 +275,8 @@ Then(/^I open "([^"]*)" under forum profile page$/) do |arg1|
   forum_page.check_profile_element arg1.downcase
 end
 
-Then(/^I click the name of the creator and enter the user's profile page$/) do
-  forum_page.touch_creator_name
+Then(/^I click the name of the creator "([^"]*)" and enter the user's profile page$/) do |arg1|
+  forum_page.touch_creator_name arg1
 end
 
 Then(/^I "([^"]*)" the user$/) do |action|

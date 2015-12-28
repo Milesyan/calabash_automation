@@ -480,4 +480,10 @@ class GlowTest < Minitest::Test
     u.add_health_profile("ft")
     assert_rc u.res
   end
+
+  def test_community_first
+    u = new_ft_user.complete_tutorial
+    u.create_topic(123)
+  end
+
 end

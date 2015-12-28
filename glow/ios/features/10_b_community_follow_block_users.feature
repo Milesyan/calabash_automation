@@ -2,13 +2,13 @@
 Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 62 steps)
 	@follow_user
 	Scenario: User follow another user	@follow_user
-		Given I create a new "ttc" glow user
-		Then I create another glow user and create a topic in group 4
-		Then I login as the new user or default user
+		Given I create a new "ttc" glow user with name "Miles"
+		Then I create another glow user "Charlotte" and create a topic in the test group
+		Then I login as the new user "Miles" created through www
 		And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I open the topic "Test follow/block user"
-    Then I click the name of the creator and enter the user's profile page
+    Then I click the name of the creator "Charlotte" and enter the user's profile page
     Then I "follow" the user
 		Then I go back to forum page from forum profile page
 		And I go back to group
@@ -19,13 +19,13 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
 
 	@block_user
 	Scenario: User block another user	@block_user
-		Given I create a new "ttc" glow user
-		Then I create another glow user and create a topic in group 4
-		Then I login as the new user or default user
+		Given I create a new "ttc" glow user with name "Miles"
+		Then I create another glow user "Charlotte" and create a topic in the test group
+		Then I login as the new user "Miles" created through www
 		And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I open the topic "Test follow/block user"
-    Then I click the name of the creator and enter the user's profile page
+    Then I click the name of the creator "Charlotte" and enter the user's profile page
     Then I "block" the user
 		Then I go back to forum page from forum profile page
 		And I go back to group
@@ -38,13 +38,13 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
 
 	@unfollow_user
 	Scenario: User follow a user and unfollow her @unfollow_user
-		Given I create a new "ttc" glow user
-		Then I follow another user and the user follows me
-		Then I login as the new user or default user
+		Given I create a new "ttc" glow user with name "Miles"
+		Then I follow another user "Charlotte" and the user also follows me
+		Then I login as the new user "Miles" created through www
 		Then I open "community" page
 		Then I go to community profile page
 		And I open "following" under forum profile page
-		Then I click the name of the creator and enter the user's profile page
+    Then I click the name of the creator "Charlotte" and enter the user's profile page
     Then I "unfollow" the user
 		Then I go back to forum page from forum profile page
     And I go back to previous page
@@ -58,12 +58,12 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
 	@unblock_user
 	Scenario: User block a user and unblock the user	@block_user
 		Given I create a new "ttc" glow user
-		Then I create another glow user and create a topic in group 4
-		Then I login as the new user or default user
+		Then I create another glow user "Charlotte" and create a topic in the test group
+		Then I login as the new user "Miles" created through www
 		And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I open the topic "Test follow/block user"
-    Then I click the name of the creator and enter the user's profile page
+    Then I click the name of the creator "Charlotte" and enter the user's profile page
     Then I "block" the user
 		Then I go back to forum page from forum profile page
 		And I go back to group

@@ -2,26 +2,26 @@
 Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
   @add_comment  
   Scenario: User create a text topic and add comment @add_comment 
-    Given I create a new "ttc" glow user 
-    And The user create a "text" topic in group "4"
-    Then I login as the new user or default user
+    Given I create a new "ttc" glow user with name "Miles"
+    And "Miles" create a "text" topic in the test group
+    Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
-    Then I open the topic "create topic by www api"
+    And I go to the first group
+    And I open the topic "create topic by www api"
     Then I add a comment
     Then I add a reply
     Then I go to group page in topic "create topic by www api"
-    Then I logout
+    And I logout
 
   @add_image_comment
   Scenario: User create a text topic and add an image comment @add_image_comment
-    Given I create a new "ttc" glow user 
-    And The user create a "text" topic in group "4"
-    Then I login as the new user or default user
+    Given I create a new "ttc" glow user with name "Miles"
+    And "Miles" create a "text" topic in the test group
+    Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
-    Then I open the topic "create topic by www api"
+    And I go to the first group
+    And I open the topic "create topic by www api"
     Then I add an image comment
     Then I add a reply
     Then I go to group page in topic "create topic by www api"
-    Then I logout
+    And I logout

@@ -447,7 +447,8 @@ class ForumPage < Calabash::IBase
     end
   end
 
-  def touch_creator_name
+  def touch_creator_name(args)
+    check_element_exists "* {text CONTAINS '#{args}'}"
     wait_touch "* marked:'#{$user2.first_name}' index:0"
   end
 

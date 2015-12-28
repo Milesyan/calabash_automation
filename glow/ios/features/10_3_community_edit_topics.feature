@@ -1,48 +1,48 @@
 @forum @edit_topic
-Feature: User edit topics (6m24.188s 34 steps 4 scenarios)
+Feature: User edit topics.
   @edit_post  
-  Scenario: User create a text topic and edit it  @edit_post  
-    Given I create a new "ttc" glow user
-    Then I login as the new user or default user
+  Scenario: User create a text topic and edit it.
+    Given I create a new "ttc" glow user with name "Charlotte"
+    Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
-    And I post a text topic with title "test edit topic"
-    Then I go back to group
-    Then I edit the topic "test edit topic" and change the title and content
+    And I go to the first group
+    Then I post a text topic with title "test edit topic"
+    And I go back to group
+    And I edit the topic "test edit topic" and change the title and content
     Then I should see the topic is posted successfully
-    Then I logout
+    And I logout
 
   @edit_existing_topic
   Scenario: Create a user and text topic through www and test edit it. @edit_existing_topic
-    Given I create a new "ttc" glow user 
-    And The user create a "text" topic in group "4"
-    Then I login as the new user or default user
+    Given I create a new "ttc" glow user with name "Alex"
+    And "Alex" create a "text" topic in the test group
+    And I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I edit the topic "create topic by www api" and change the title and content
     Then I should see the topic is posted successfully
-    Then I logout
+    And I logout
 
   @edit_poll_before_voted
   #!!!should add modify vote index
   Scenario: Create a user and a poll topic through www and test edit it @edit_poll_before_voted
-    Given I create a new "ttc" glow user 
-    And The user create a "poll" topic in group "4"
-    Then I login as the new user or default user
+    Given I create a new "ttc" glow user with name "Miles"
+    And "Miles" create a "poll" topic in the test group
+    Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I edit the topic "create poll by www api" and change the title and content
     Then I should see the topic is posted successfully
     Then I logout
 
   @edit_poll_after_voted
   Scenario: Create a user and a poll topic through www and create another user to vote it. @edit_poll_after_voted
-    Given I create a new "non-ttc" glow user 
-    And The user create a "poll" topic in group "4"
+    Given I create a new "non-ttc" glow user with name "Miles"
+    And "Miles" create a "poll" topic in the test group
     Then I created another user to vote the poll
-    Then I login as the new user or default user
+    Then I login as the new user created through www
     And I open "community" page
-    Then I go to the first group
+    And I go to the first group
     Then I edit the topic "create poll by www api" and change the title and content
     Then I should see the topic is posted successfully
     Then I logout

@@ -9,6 +9,7 @@ module GlowAndroid
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
+  GLOW_ANDROID_BASE_FORUM_RUL = "http://titan-forum.glowing.com/android/forum"
   #GLOW_ANDROID_BASE_URL = "https://www.glowing.com"
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
@@ -27,6 +28,14 @@ module GlowAndroid
       @partner_first_name = "p#{@first_name}"
       @gender = args[:gender] || "female"
       @type = args[:type]
+      @forum_hl = "en_US"
+      @forum_fc = 1
+      @forum_random = random_str
+      @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
+      @forum_android_version = "3.8.0-play-beta"
+      @forum_vc = 376
+      @forum_time_zone = "America%2FNew_York"
+      @forum_code_name = "emma"
     end
 
     def random_str
@@ -788,6 +797,333 @@ module GlowAndroid
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
       self
     end
+
+  ######## Community-----community-----------
+
+
+
+    def create_topic(group_id, args = {})
+      topic_data = {
+        "title":  "teststets",
+        "anonymous": 0,
+        "content": "testesttest" 
+      }
+      @group_id = group_id
+      @res =  HTTParty.post("#{GLOW_ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?hl=en_US&fc=1&random=#{forum_random}&device_id=#{forum_device_id}&android_version=3.7.6-play-beta&vc=376&time_zone=America%2FNew_York&code_name=emma", :body => topic_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      puts @res
+      puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
+      self
+    end
+
+#     def create_poll(args = {})
+#       topic_data = {
+#         "code_name": "emma",
+#         "content": "#{Time.now.strftime "%D %T"}",
+#         "anonymous": 0,
+#         "title": args[:title] || "Poll + #{@email} #{Time.now}",
+#         "options": ["Field1","Field2","Field3"].to_s,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @group_id = args[:group_id] || GROUP_ID
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       @topic_id = @res["result"]["id"]
+#       title = @res["result"]["title"]
+#       @topic_title = title
+#       puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
+#       self
+#     end
+
+#     def vote_poll(args = {})
+#       vote_data = {
+#         "code_name": "emma",
+#         "vote_index": 2,
+#         "ut": @ut
+#       }.merge(common_data)
+#       topic_id = args[:topic_id]
+#       @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Topic #{topic_id} is voted"
+#       self
+#     end 
+
+
+#     def reply_to_topic(topic_id, args = {})
+#       reply_data = {
+#         "code_name": "emma",
+#         "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
+#         "anonymous": 0,
+#         "reply_to": 0,
+#         "ut": @ut
+#       }.merge(common_data)
+
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       @reply_id = @res["result"]["id"] 
+#       self
+#     end
+
+#     def reply_to_comment(topic_id,reply_id,args = {})
+#       reply_data = {
+#         "code_name": "emma",
+#         "content": args[:reply_content] || "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
+#         "anonymous": 0,
+#         "reply_to": reply_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#     end
+
+
+#     def join_group
+#       data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{SUBSCRIBE_GROUP_ID}/subscribe", :body => data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "     -----Join group #{SUBSCRIBE_GROUP_ID}-----    "
+#       self
+#     end
+
+
+
+#     def leave_group(leave_group_id)
+#       data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       unsubscribe_groupid = leave_group_id || SUBSCRIBE_GROUP_ID
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Leave group #{unsubscribe_groupid}"
+#       self
+#     end
+
+#     def vote_poll(args = {})
+#       vote_data = {
+#         "code_name": "emma",
+#         "vote_index": 2,
+#         "ut": @ut
+#       }.merge(common_data)
+#       topic_id = args[:topic_id]
+#       @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Topic #{topic_id} is voted"
+#       self
+#     end 
+
+#     def delete_topic(topic_id)
+#       reply_data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/remove", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#       puts "#{topic_id} deleted"
+#     end
+
+
+
+#     def follow_user(user_id)
+#       reply_data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/follow", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#       puts "#{user_id} is followed by user #{self.user_id}"
+#     end
+
+#     def unfollow_user(user_id)
+#       reply_data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unfollow", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#       puts "#{user_id} is unfollowed by user #{self.user_id}"
+#     end
+
+#     def block_user(user_id)
+#       reply_data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/block", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#       puts "#{user_id} is blocked by user #{self.user_id}"
+#     end
+
+#     def unblock_user(user_id)
+#       reply_data = {
+#         "code_name": "emma",
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unblock", :body => reply_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       self
+#       puts "#{user_id} is unblocked by user #{self.user_id}"
+#     end  
+
+#     def bookmark_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "bookmarked": 1,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is bookmarked by #{self.user_id}"
+#       self
+#     end
+
+#     def unbookmark_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "bookmarked": 0,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
+#       self
+#     end
+
+# #---------upvote downvote------------
+#     def upvote_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "liked": 1,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is upvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def cancel_upvote_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "liked": 0,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is upvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def upvote_comment(topic_id, reply_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "liked": 1,
+#         "topic_id": topic_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def cancel_upvote_comment(topic_id, reply_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "liked": 0,
+#         "topic_id": topic_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def downvote_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "disliked": 1,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is downvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def downvote_comment(topic_id, reply_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "disliked": 1,
+#         "topic_id": topic_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+#       self
+#     end
+#     def cancel_downvote_topic(topic_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "disliked": 0,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is downvoted by #{self.user_id}"
+#       self
+#     end
+
+#     def cancel_downvote_comment(topic_id, reply_id)
+#       topic_data = {
+#         "code_name": "emma",
+#         "disliked": 0,
+#         "topic_id": topic_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+#       self
+#     end
+# #-----------Flag topic/comment--------------
+#     def report_topic(topic_id,report_reason)
+#       topic_data = {
+#         "code_name": "emma",
+#         "reason": report_reason,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
+#       self
+#     end
+
+#     def report_comment(topic_id, reply_id, report_reason)
+#       topic_data = {
+#         "code_name": "emma",
+#         "reason": report_reason,
+#         "reply_id": reply_id,
+#         "ut": @ut
+#       }.merge(common_data)
+#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+#         :headers => { 'Content-Type' => 'application/json' })
+#       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
+#       self
+#     end
+
+
 
   end
 end
