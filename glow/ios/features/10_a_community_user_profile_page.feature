@@ -9,7 +9,7 @@ Feature: check user profile (4m8.459s 3 scenarios 30 steps)
 		And I click edit profile button
 		Then I edit some field in profile page
 		Then I go back to user profile page and check the changes in profile page
-		Then I go back to forum page from forum profile page
+		And I go back to forum page from forum profile page
 		And I logout
 
 	@check_groups_followers_following
@@ -22,7 +22,7 @@ Feature: check user profile (4m8.459s 3 scenarios 30 steps)
 		Then I check "groups" under forum profile page and exit the page
 		And I check "followers" under forum profile page and exit the page
 		And I check "following" under forum profile page and exit the page
-		Then I go back to forum page from forum profile page
+		And I go back to forum page from forum profile page
 		And I logout
 
 	@check_tabs
@@ -36,5 +36,5 @@ Feature: check user profile (4m8.459s 3 scenarios 30 steps)
 		Then I check "participated" under forum profile page and exit the page
 		And I check "created" under forum profile page and exit the page
 		And I check "bookmarked" under forum profile page and exit the page
-		Then I go back to forum page from forum profile page
+		And I go back to forum page from forum profile page
 		And I logout

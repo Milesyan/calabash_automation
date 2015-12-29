@@ -2,7 +2,7 @@
 Feature: Test order by time and order by upvote (1m40.347s 1 scenario 21 steps)
 	Scenario: User create a topic and switch between order by time and upvote.
 		Given I create a new "ttc" glow user with name "Miles"
-		And another user "Charlotte" create 1 topic and 10 comments and 3 subreplies for each comment
+		And "Miles" create 1 topic and 10 comments and 3 subreplies for each comment
 		And the user upvote the first comment
 		And I login as the new user "Miles" created through www
 		And I open "community" page
