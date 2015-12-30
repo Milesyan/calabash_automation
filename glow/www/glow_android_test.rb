@@ -1,5 +1,7 @@
 require 'httparty'
 require 'json'
+require 'net/http'
+require_relative 'test_miles'
 
 module GlowAndroid
 
@@ -9,7 +11,7 @@ module GlowAndroid
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
-  GLOW_ANDROID_BASE_FORUM_RUL = "http://titan-forum.glowing.com/android/forum"
+  GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
   #GLOW_ANDROID_BASE_URL = "https://www.glowing.com"
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
@@ -238,6 +240,8 @@ module GlowAndroid
         "password": password || @password
       }.merge(additional_post_data)
 
+      # puts "debug #{data}"
+      # puts "#{@res} res"
       @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/signin", :body => data.to_json,
         :headers => {'Content-Type' => 'application/json' })
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
@@ -801,23 +805,32 @@ module GlowAndroid
   ######## Community-----community-----------
 
 
+      # @forum_hl = "en_US"
+      # @forum_fc = 1
+      # @forum_random = random_str
+      # @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
+      # @forum_android_version = "3.8.0-play-beta"
+      # @forum_vc = 376
+      # @forum_time_zone = "America%2FNew_York"
+      # @forum_code_name = "emma"
+
 
     def create_topic(group_id, args = {})
-      topic_data = {
-        "title":  "teststets",
+      data = {
+        "title": "test"+Time.now.to_s,
         "anonymous": 0,
-        "content": "testesttest" 
+        "content": "asdfasdf"
       }
-      @group_id = group_id
-      @res =  HTTParty.post("#{GLOW_ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?hl=en_US&fc=1&random=#{forum_random}&device_id=#{forum_device_id}&android_version=3.7.6-play-beta&vc=376&time_zone=America%2FNew_York&code_name=emma", :body => topic_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      url = "http://titan-forum.glowing.com/android/forum/group/1/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json,
+        :headers => { "Authorization" => @ut ',Content-Type' => 'application/json' }) 
       puts @res
       puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
     end
 
 #     def create_poll(args = {})
-#       topic_data = {
+#       topic_data = {#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic
 #         "code_name": "emma",
 #         "content": "#{Time.now.strftime "%D %T"}",
 #         "anonymous": 0,
@@ -1127,4 +1140,3 @@ module GlowAndroid
 
   end
 end
-

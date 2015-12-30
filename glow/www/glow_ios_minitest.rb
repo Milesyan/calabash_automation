@@ -573,7 +573,6 @@ class GlowTest < Minitest::Test
       assert_rc u2.res
     end
   end
-
 end
 
 
