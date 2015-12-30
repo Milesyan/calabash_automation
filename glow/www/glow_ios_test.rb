@@ -794,7 +794,7 @@ module GlowIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "topic #{topic_id} is upvoted by #{self.user_id}"
+      puts "topic #{topic_id} is no longer upvoted by #{self.user_id}"
       self
     end
 
@@ -820,7 +820,7 @@ module GlowIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
+      puts "Comment #{reply_id} under topic #{topic_id}is no longer upvoted by #{self.user_id}"
       self
     end
 
@@ -856,7 +856,7 @@ module GlowIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "topic #{topic_id} is downvoted by #{self.user_id}"
+      puts "topic #{topic_id} is no longer downvoted by #{self.user_id}"
       self
     end
 
@@ -869,7 +869,7 @@ module GlowIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
+      puts "Comment #{reply_id} under topic #{topic_id}is no longer downvoted by #{self.user_id}"
       self
     end
 #-----------Flag topic/comment--------------

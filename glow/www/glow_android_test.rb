@@ -1,7 +1,7 @@
 require 'httparty'
 require 'json'
 require 'net/http'
-require_relative 'test_miles'
+# require_relative 'test_miles'
 
 module GlowAndroid
 
@@ -16,7 +16,7 @@ module GlowAndroid
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
   class GlowUser
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
@@ -108,6 +108,7 @@ module GlowAndroid
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       puts email + " has been signed up"
+      puts "User id is #{@user_id}"
       self
     end
 
@@ -803,340 +804,278 @@ module GlowAndroid
     end
 
   ######## Community-----community-----------
-
-
-      # @forum_hl = "en_US"
-      # @forum_fc = 1
-      # @forum_random = random_str
-      # @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
-      # @forum_android_version = "3.8.0-play-beta"
-      # @forum_vc = 376
-      # @forum_time_zone = "America%2FNew_York"
-      # @forum_code_name = "emma"
-
-
-    def create_topic(group_id, args = {})
+    def create_topic(group_id = 1, args = {})
       data = {
-        "title": "test"+Time.now.to_s,
-        "anonymous": 0,
-        "content": "asdfasdf"
+        "title": (args[:topic_title] || "test_topic")+ Time.now.to_s,
+        "anonymous": args[:anonymous]|| 0,
+        "content": args[:topic_content] || ("Example create topic" + Time.now.to_s)
       }
-      url = "http://titan-forum.glowing.com/android/forum/group/1/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
-      @res = HTTParty.post(url, :body => data.to_json,
-        :headers => { "Authorization" => @ut ',Content-Type' => 'application/json' }) 
-      puts @res
-      puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @title = @res["result"]["title"]
+      @topic_id = @res["result"]["id"]
+      puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
-#     def create_poll(args = {})
-#       topic_data = {#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic
-#         "code_name": "emma",
-#         "content": "#{Time.now.strftime "%D %T"}",
-#         "anonymous": 0,
-#         "title": args[:title] || "Poll + #{@email} #{Time.now}",
-#         "options": ["Field1","Field2","Field3"].to_s,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @group_id = args[:group_id] || GROUP_ID
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       @topic_id = @res["result"]["id"]
-#       title = @res["result"]["title"]
-#       @topic_title = title
-#       puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
-#       self
-#     end
-
-#     def vote_poll(args = {})
-#       vote_data = {
-#         "code_name": "emma",
-#         "vote_index": 2,
-#         "ut": @ut
-#       }.merge(common_data)
-#       topic_id = args[:topic_id]
-#       @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Topic #{topic_id} is voted"
-#       self
-#     end 
+    def create_poll(group_id = 1, args = {})
+      data = {
+        "title": (args[:topic_title] || "Test Poll")+ Time.now.to_s,
+        "anonymous": args[:anonymous]|| 0,
+        "content": args[:topic_content] || ("Example create Poll" + Time.now.to_s),
+        "poll_options": ["option1", "opiton2", "option3"].to_s
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @title = @res["result"]["title"]
+      @topic_id = @res["result"]["id"]
+      puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
+      self
+    end
 
 
-#     def reply_to_topic(topic_id, args = {})
-#       reply_data = {
-#         "code_name": "emma",
-#         "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
-#         "anonymous": 0,
-#         "reply_to": 0,
-#         "ut": @ut
-#       }.merge(common_data)
-
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       @reply_id = @res["result"]["id"] 
-#       self
-#     end
-
-#     def reply_to_comment(topic_id,reply_id,args = {})
-#       reply_data = {
-#         "code_name": "emma",
-#         "content": args[:reply_content] || "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
-#         "anonymous": 0,
-#         "reply_to": reply_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#     end
-
-
-#     def join_group
-#       data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{SUBSCRIBE_GROUP_ID}/subscribe", :body => data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "     -----Join group #{SUBSCRIBE_GROUP_ID}-----    "
-#       self
-#     end
+    def vote_poll(topic_id, vote_index=1)
+      data = {
+        "vote_index": vote_index
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/vote?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      if @res["rc"] == 0
+        puts "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
+      else 
+        puts "#{@res}<<<  Expected repeated vote"
+      end
+      self
+    end
 
 
 
-#     def leave_group(leave_group_id)
-#       data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       unsubscribe_groupid = leave_group_id || SUBSCRIBE_GROUP_ID
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Leave group #{unsubscribe_groupid}"
-#       self
-#     end
+    def reply_to_topic(topic_id, args = {})
+      data = {
+        "content": args[:topic_content] || ("Example reply to topic" + Time.now.to_s)
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @reply_id = @res["result"]["id"]
+      puts "reply_id is #{@reply_id}"
+      self
+    end
 
-#     def vote_poll(args = {})
-#       vote_data = {
-#         "code_name": "emma",
-#         "vote_index": 2,
-#         "ut": @ut
-#       }.merge(common_data)
-#       topic_id = args[:topic_id]
-#       @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Topic #{topic_id} is voted"
-#       self
-#     end 
+    def reply_to_comment(topic_id, reply_id, args = {})
+      data = {
+        "content": args[:topic_content] || ("Example reply to comment" + Time.now.to_s),
+        "reply_to": reply_id
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @sub_reply_id = @res["result"]["id"]
+      self
+    end
 
-#     def delete_topic(topic_id)
-#       reply_data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/remove", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#       puts "#{topic_id} deleted"
-#     end
+    def join_group(group_id)
+      data = {
+        "group_id": group_id
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/subscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "       ------------#{self.user_id} joined group >>>#{group_id}<<<-------------"
+      self
+    end
 
+    def leave_group(group_id)
+      data = {
+        "group_id": group_id
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/unsubscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
+      self
+    end
 
+    def delete_topic(topic_id)
+      data = {}
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.delete(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
 
-#     def follow_user(user_id)
-#       reply_data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/follow", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#       puts "#{user_id} is followed by user #{self.user_id}"
-#     end
+    def follow_user(user_id)
+      data = {
+        "empty_stub": ""
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/follow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "User #{user_id} is followed by current user #{self.user_id}"  
+      self
+    end
 
-#     def unfollow_user(user_id)
-#       reply_data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unfollow", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#       puts "#{user_id} is unfollowed by user #{self.user_id}"
-#     end
+    def unfollow_user(user_id)
+      data = {
+        "empty_stub": ""
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unfollow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "User #{user_id} is unfollowed by current user #{self.user_id}"  
+      self
+    end
 
-#     def block_user(user_id)
-#       reply_data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/block", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#       puts "#{user_id} is blocked by user #{self.user_id}"
-#     end
+    def block_user(user_id)
+      data = {
+        "empty_stub": ""
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/block?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "User #{user_id} is blocked by current user #{self.user_id}"  
+      self
+    end
 
-#     def unblock_user(user_id)
-#       reply_data = {
-#         "code_name": "emma",
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unblock", :body => reply_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       self
-#       puts "#{user_id} is unblocked by user #{self.user_id}"
-#     end  
-
-#     def bookmark_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "bookmarked": 1,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is bookmarked by #{self.user_id}"
-#       self
-#     end
-
-#     def unbookmark_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "bookmarked": 0,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
-#       self
-#     end
-
-# #---------upvote downvote------------
-#     def upvote_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "liked": 1,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is upvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def cancel_upvote_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "liked": 0,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is upvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def upvote_comment(topic_id, reply_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "liked": 1,
-#         "topic_id": topic_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def cancel_upvote_comment(topic_id, reply_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "liked": 0,
-#         "topic_id": topic_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Comment #{reply_id} under topic #{topic_id}is upvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def downvote_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "disliked": 1,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is downvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def downvote_comment(topic_id, reply_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "disliked": 1,
-#         "topic_id": topic_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
-#       self
-#     end
-#     def cancel_downvote_topic(topic_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "disliked": 0,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is downvoted by #{self.user_id}"
-#       self
-#     end
-
-#     def cancel_downvote_comment(topic_id, reply_id)
-#       topic_data = {
-#         "code_name": "emma",
-#         "disliked": 0,
-#         "topic_id": topic_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
-#       self
-#     end
-# #-----------Flag topic/comment--------------
-#     def report_topic(topic_id,report_reason)
-#       topic_data = {
-#         "code_name": "emma",
-#         "reason": report_reason,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
-#       self
-#     end
-
-#     def report_comment(topic_id, reply_id, report_reason)
-#       topic_data = {
-#         "code_name": "emma",
-#         "reason": report_reason,
-#         "reply_id": reply_id,
-#         "ut": @ut
-#       }.merge(common_data)
-#       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
-#         :headers => { 'Content-Type' => 'application/json' })
-#       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
-#       self
-#     end
+    def unblock_user(user_id)
+      data = {
+        "empty_stub": ""
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unblock?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "User #{user_id} is unblocked by current user #{self.user_id}"  
+      self
+    end
 
 
+    def bookmark_topic(topic_id)
+      data = {
+        "bookmarked": 1
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is bookmarked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
 
+    def unbookmark_topic(topic_id)
+      data = {
+        "bookmarked": 0
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is unbookmarked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
+
+# ------------upvote downvote -----------
+    def upvote_topic(topic_id)
+      data = {
+        "liked": 1
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is liked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
+
+    def cancel_upvote_topic(topic_id)
+      data = {
+        "liked": 0
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is no longer liked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
+
+    def downvote_topic(topic_id)
+      data = {
+        "disliked": 1
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is disliked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
+
+    def cancel_downvote_topic(topic_id)
+      data = {
+        "disliked": 0
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "topic >>>>>'#{@title}'<<<<< is no longer disliked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      self
+    end
+
+    def upvote_comment(topic_id, reply_id)
+      data = {
+        "topic_id": topic_id,
+        "liked": 1
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by #{self.user_id}\n"
+      self
+    end
+
+    def cancel_upvote_comment(topic_id, reply_id)
+      data = {
+        "topic_id": topic_id,
+        "liked": 0
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer upvoted by #{self.user_id}\n"
+      self
+    end
+
+    def downvote_comment(topic_id, reply_id)
+      data = {
+        "topic_id": topic_id,
+        "disliked": 1
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is downvoted by #{self.user_id}\n"
+      self
+    end
+
+    def cancel_downvote_comment(topic_id, reply_id)
+      data = {
+        "topic_id": topic_id,
+        "disliked": 0
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer downvoted by #{self.user_id}\n"
+      self
+    end
+ #-----------Flag topic/comment--------------
+
+    def report_topic(topic_id, report_reason)
+      data = {
+        "reason": report_reason
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
+      self
+    end
+
+    def report_comment(topic_id, reply_id, report_reason)
+      data = {
+        "reply_id": reply_id,
+        "reason": report_reason
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
+      self
+    end
   end
+
+  def hide_topic(topic_id, report_reason)
+      data = {
+        "reason": report_reason
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
+      self
+    end
 end

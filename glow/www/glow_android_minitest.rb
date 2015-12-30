@@ -481,14 +481,207 @@ class GlowTest < Minitest::Test
     assert_rc u.res
   end
 
-  def test_community_first
+  def test_community_create_topic
     u = new_ttc_user.complete_tutorial
-    u.create_topic(123)
+    u.create_topic 1
+    assert_rc u.res
   end
-  
-  def test_debug
-    u=new_ttc_user
-    u.login
+
+  def test_community_create_anonymous_topic
+    u = new_ttc_user.complete_tutorial
+    u.create_topic 1,:anonymous => 1
+    assert_rc u.res
   end
+
+  def test_community_create_topic_with_title_and_content
+    u = new_ttc_user.complete_tutorial
+    u.create_topic 1,:topic_title => "hahahaha",:topic_content => "Test for www"
+    assert_equal u.res["result"]["content"], "Test for www"
+  end
+
+  def test_community_create_poll
+    u = new_ttc_user.complete_tutorial
+    u.create_poll
+    assert_rc u.res
+  end
+
+  def test_community_vote_poll
+    u = new_ttc_user.complete_tutorial.create_poll 1,:topic_title => "Test vote poll"
+    u.vote_poll u.topic_id,3 
+    assert_rc u.res
+  end
+
+  def test_community_vote_poll_repeatedly
+    u = new_ttc_user.complete_tutorial.create_poll 1,:topic_title => "Test vote poll"
+    u.vote_poll u.topic_id,3
+    assert_rc u.res
+    u2 = new_non_ttc_user.complete_tutorial.vote_poll u.topic_id,2
+    assert_rc u2.res
+    u2.vote_poll u.topic_id,3
+    assert_equal u2.res["msg"], "Already voted the poll"
+  end
+
+  def test_reply_to_topic
+    u = new_ttc_user.complete_tutorial.create_topic 1
+    u.reply_to_topic u.topic_id
+    assert_equal u.res["result"]["topic_id"], u.topic_id
+  end
+
+  def test_reply_to_comment
+    u = new_non_ttc_user.complete_tutorial.create_topic 1
+    u.reply_to_topic u.topic_id
+    u.reply_to_comment u.topic_id, u.reply_id
+    assert_equal u.res["result"]["reply_to"], u.reply_id
+  end
+
+  def test_join_group
+    u = new_non_ttc_user.complete_tutorial
+    u.join_group 25
+    assert_rc u.res
+  end
+
+  def test_leave_group
+    u = new_ttc_user.complete_tutorial
+    u.join_group 25
+    u.leave_group 25
+    assert_rc u.res
+  end
+
+  def test_delete_topic
+    u = new_ttc_user.complete_tutorial
+    u.create_topic
+    u.delete_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_follow_user
+    u = new_non_ttc_user.complete_tutorial
+    u2 = new_ttc_user.complete_tutorial
+    u.follow_user u2.user_id
+    assert_rc u.res
+  end
+
+  def test_unfollow_user
+    u = new_non_ttc_user.complete_tutorial
+    u2 = new_ttc_user.complete_tutorial
+    u.follow_user u2.user_id
+    u.unfollow_user u2.user_id
+    assert_rc u.res
+  end
+
+  def test_block_user
+    u = new_ttc_user.complete_tutorial
+    u2 = new_non_ttc_user.block_user u.user_id
+    assert_rc u2.res
+  end
+
+  def test_unblock_user
+    u = new_ttc_user.complete_tutorial
+    u2 = new_non_ttc_user.block_user u.user_id
+    u2.unblock_user u.user_id
+    assert_rc u2.res
+  end
+
+  def test_bookmark_user
+    u = new_ttc_user.create_topic
+    u.bookmark_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_unbookmark_user
+    u = new_ttc_user.create_topic
+    u.bookmark_topic u.topic_id
+    u.unbookmark_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_upvote_topic
+    u = new_ttc_user.create_topic
+    u.upvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_cancel_upvote_topic
+    u = new_ttc_user.create_topic
+    u.upvote_topic u.topic_id
+    u.cancel_upvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_downvote_topic
+    u = new_ttc_user.create_topic
+    u.downvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_cancel_downvote_topic
+    u = new_ttc_user.create_topic
+    u.downvote_topic u.topic_id
+    u.cancel_downvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_upvote_comment
+    u = new_ttc_user.create_topic
+    u.reply_to_topic u.topic_id
+    u.upvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  def test_cancel_upvote_comment
+    u = new_ttc_user.create_topic
+    u.reply_to_topic u.topic_id
+    u.upvote_comment u.topic_id, u.reply_id
+    u.cancel_upvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  def test_downvote_comment
+    u = new_ttc_user.create_topic
+    u.reply_to_topic u.topic_id
+    u.downvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  def test_cancel_upvote_comment
+    u = new_ttc_user.create_topic
+    u.reply_to_topic u.topic_id
+    u.downvote_comment u.topic_id, u.reply_id
+    u.cancel_downvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  def test_report_topic
+    u = new_ttc_user.create_topic
+    u2 = new_ttc_user.report_topic u.topic_id, "Other"
+    assert_rc u2.res  
+  end
+
+  def test_report_comment
+    u = new_ttc_user.create_topic
+    u.reply_to_topic u.topic_id
+    u2 = new_ttc_user.report_comment u.topic_id, u.reply_id, "Obscene"
+    assert_rc u2.res
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 end
