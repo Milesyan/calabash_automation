@@ -7,13 +7,14 @@ class OnboardPage < Calabash::ABase
   end
 
   def tap_login
+    puts "TOUCH LOGIN HERE "
     touch "* id:'log_in'"
   end
 
   def select_user_type(user_type = "")
     case $user.type
     when "non-ttc"
-      touch "* id:'nonttc_text'"
+      touch "* id:'nonttc_text'" 
     when "ttc"
       touch "* id:'ttc_text'"
     when "ft", "prep", "med", "iui", "ivf"

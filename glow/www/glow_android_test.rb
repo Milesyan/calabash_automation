@@ -22,7 +22,7 @@ module GlowAndroid
     attr_accessor :gender
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || "ga" + Time.now.to_i.to_s
+      @first_name = (args[:first_name] || "ga") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD
