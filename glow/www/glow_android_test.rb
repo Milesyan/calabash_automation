@@ -11,7 +11,11 @@ module GlowAndroid
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
-  GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
+  GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
+  # GLOW_ANDROID_BASE_URL = "http://192.168.1.39:5010"
+  # GLOW_ANDROID_BASE_FORUM_URL = "http://192.168.1.39:35010/android/forum"
+ 
+   
   #GLOW_ANDROID_BASE_URL = "https://www.glowing.com"
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
@@ -896,7 +900,7 @@ module GlowAndroid
       data = {}
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.delete(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic >>>>>'#{self.title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
     end
 
@@ -947,7 +951,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is bookmarked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is is bookmarked by #{self.user_id}\n\n"
       self
     end
 
@@ -957,7 +961,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is unbookmarked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is unbookmarked by #{self.user_id}\n\n"
       self
     end
 
@@ -968,7 +972,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is liked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is liked by #{self.user_id}\n\n"
       self
     end
 
@@ -978,7 +982,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is no longer liked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is no longer liked by #{self.user_id}\n\n"
       self
     end
 
@@ -988,7 +992,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is disliked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is disliked by #{self.user_id}\n\n"
       self
     end
 
@@ -998,7 +1002,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{@title}'<<<<< is no longer disliked by #{self.user_id}\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic id >>>>>'#{topic_id}'<<<<< is no longer disliked by #{self.user_id}\n\n"
       self
     end
 

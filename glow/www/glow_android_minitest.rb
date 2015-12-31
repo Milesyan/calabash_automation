@@ -664,6 +664,24 @@ class GlowTest < Minitest::Test
     assert_rc u2.res
   end
 
+  def test_five_like_trigger_notification
+    u = new_ttc_user.create_topic
+    u2 = new_ttc_user.upvote_topic u.topic_id
+    u3 = new_ttc_user.upvote_topic u.topic_id    
+    u4 = new_ttc_user.upvote_topic u.topic_id
+    u5 = new_ttc_user.upvote_topic u.topic_id
+    u6 = new_ttc_user.upvote_topic u.topic_id
+    puts u.topic_id, u.user_id
+  end
+
+  def test_add_15_more_comments
+    u = new_ttc_user.complete_tutorial
+    20.times do
+      u.create_topic
+      u.reply_to_topic u.topic_id
+    end
+    puts "#{u.user_id} comment 20 times"
+  end
 
 
 

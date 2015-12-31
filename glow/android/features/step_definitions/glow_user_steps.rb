@@ -12,15 +12,15 @@ end
 
 
 def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_group(1).join_group(1)
+  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_group(1).join_group(4)
 end
   
 def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_group(1).join_group(1)
+  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_group(1).join_group(4)
 end
 
 def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_group(1).join_group(1)
+  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_group(1).join_group(4)
 end
 
 

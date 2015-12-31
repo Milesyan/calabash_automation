@@ -24,7 +24,7 @@ class ForumPage < Calabash::ABase
 
   def create_post
     touch "* id:'create_topic_btn'"
-    title = "Topic " + random_str
+    title = "Test create topic UI " + Time.now.to_s
     description = "topic #{Time.now.to_i}"
     enter_text "* id:'title_editor'", title
     enter_text "* id:'content_editor'", description
@@ -40,7 +40,7 @@ class ForumPage < Calabash::ABase
 
   def create_link
     touch "* id:'create_url_btn'"
-    title = "link " + random_str
+    title = "Test create topic UI " + random_str
     link = "www.baidu.com "
     enter_text "* id:'title_editor'", title
     enter_text "* id:'content_editor'", link
@@ -57,21 +57,21 @@ class ForumPage < Calabash::ABase
   end
 
   def select_a_group
-    touch "UILabel index:2"
-    wait_for_none_animating
+    sleep 1
+    touch "* marked:'New' sibling * index:1"
   end
     
   def create_post_in_group(args={})
-    touch "label text:'Post'"
-    touch "UITextField"
+    touch "* text:'Post'"
+    touch "*"
     title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
-    touch "label text:'Post'"
+    touch "* text:'Post'"
     sleep 1
     # select the first group
-    # touch "UITableViewCellContentView child label index:0"
+    # touch "UITableViewCellContentView child * index:0"
     # touch "* marked:'Done!'"
     sleep 1
     #check_element_exists "* marked:'#{title}'"
@@ -81,7 +81,7 @@ class ForumPage < Calabash::ABase
   end
 
   def discard_topic
-    touch "label text:'Close'"
+    touch "* text:'Close'"
     touch "UILabel marked:'Discard'"
   end  
 
@@ -91,30 +91,27 @@ class ForumPage < Calabash::ABase
   
 
   def edit_topic(args1)
-    touch "label {text CONTAINS '#{args1}'} index:0"
+    touch "* {text CONTAINS '#{args1}'} index:0"
     touch "* id:'community-dots'"
     touch "UILabel marked:'Edit this post'"
-    wait_for_none_animating
-    sleep 1
+      sleep 1
     puts $user.topic_title
     
     touch "UIWebView"
     scroll "scrollView", :up
-    wait_for_none_animating
-    touch "UITextFieldLabel"
+      touch "*Label"
     #keyboard_enter_text('Delete')
     keyboard_enter_text("Modified title")
     touch "UIWebView index:0"
     keyboard_enter_text("Modified content")
-    touch "label text:'Update'"
+    touch "* text:'Update'"
   end
 
   def add_comment
     touch "* marked:'Add a comment'"
-    wait_for_none_animating
-    comment = "comment " + Time.now.to_s
+      comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
-    touch "label text:'Post'"
+    touch "* text:'Post'"
     sleep 2
     # wait_for(:timeout => 10, :retry_frequency => 1) do
     #   element_exists "* all marked:'#{comment}'"
@@ -123,16 +120,13 @@ class ForumPage < Calabash::ABase
 
   def add_image_comment
     touch "* marked:'Add a comment'"
-    wait_for_none_animating
-    comment = "Test image comment" 
+      comment = "Test image comment" 
     keyboard_enter_text comment
     touch "UIButton marked:'gl community share story cam'"
     touch "UILabel marked:'Choose from library'"
     touch "PUAlbumListTableViewCell index:0"
-    wait_for_none_animating
-    touch "PUPhotosGridCell index:1"
-    wait_for_none_animating
-    touch "label text:'Post'"
+      touch "PUPhotosGridCell index:1"
+      touch "* text:'Post'"
     sleep 2
     # wait_for(:timeout => 10, :retry_frequency => 1) do
     #   element_exists "* all marked:'#{comment}'"
@@ -142,10 +136,9 @@ class ForumPage < Calabash::ABase
   def add_comments(n)
     n.times do
       touch "* marked:'Add a comment'"
-      wait_for_none_animating
-      comment = "comment " + Time.now.to_s
+          comment = "comment " + Time.now.to_s
       keyboard_enter_text comment
-      touch "label text:'Post'"
+      touch "* text:'Post'"
       sleep 4
     end
   end
@@ -153,15 +146,13 @@ class ForumPage < Calabash::ABase
   def add_reply
     until_element_exists("* marked:'Reply'", :timeout => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
     touch "* marked:'Reply'"
-    wait_for_none_animating
-    keyboard_enter_text Time.now.to_s
+      keyboard_enter_text Time.now.to_s
     touch "* marked:'Send'"
   end
 
   def upvote_topic
     upvote_button = query("ForumUpvoteButton").last
     touch upvote_button
-    wait_for_none_animating
   end
 
   def upvote_reply
@@ -171,7 +162,6 @@ class ForumPage < Calabash::ABase
   def upvote_comment
     upvote_button = query("ForumUpvoteButton").first
     touch upvote_button
-    wait_for_none_animating
   end
 
   def downvote_topic
@@ -189,20 +179,20 @@ class ForumPage < Calabash::ABase
   def delete_topic(args)
     touch "* id:'community-dots' index:#{args}"
     touch "UILabel marked:'Delete this post'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this topic?'}"}
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this topic?'}"}
     touch "UILabel marked:'OK'"
   end
 
   def delete_comment(args)
     touch "* id:'community-dots' index:#{args}"
     touch "UILabel marked:'Delete'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
     touch "UILabel marked:'OK'"
   end
 
 
   def enter_topic(args1)
-    touch "label {text CONTAINS '#{args1}'} index:0"
+    touch "* {text CONTAINS '#{args1}'} index:0"
   end
 
   def scroll_to_see(gesture,content)
@@ -297,8 +287,7 @@ class ForumPage < Calabash::ABase
 
   def join_group(args)
     touch "* marked:'Join' index:0"
-    wait_for_none_animating
-    touch "* marked:'#{args}'"
+      touch "* marked:'#{args}'"
   end  
   
   def leave_group
@@ -314,7 +303,7 @@ class ForumPage < Calabash::ABase
   end
 
   def edit_text_fields(args1,args2)
-    touch "UITextFieldLabel marked:'#{args1}'"
+    touch "*Label marked:'#{args1}'"
     keyboard_enter_text "#{args2}"
   end  
 
@@ -482,7 +471,7 @@ class ForumPage < Calabash::ABase
     puts "I can see topic #{$user2.topic_title}"
     touch "* id:'community-dots' index:1"
     touch "UILabel marked:'Hide this post'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Would you like to hide this topic?'}"}
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Would you like to hide this topic?'}"}
     touch "UILabel marked:'Yes, hide it.'"  
   end
 
@@ -491,7 +480,7 @@ class ForumPage < Calabash::ABase
     puts "I can see topic #{$user2.topic_title}"
     touch "* id:'community-dots' index:1"
     touch "UILabel marked:'Report this post'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
     touch "UILabel marked:'#{args}'"  
   end
 
@@ -500,7 +489,7 @@ class ForumPage < Calabash::ABase
     puts "I can see comment #{$hidereply_content}"
     touch "* id:'community-dots' index:0"
     touch "UILabel marked:'Hide'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure to hide this comment?'}"}
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure to hide this comment?'}"}
     touch "UILabel marked:'Yes, hide it.'"  
   end
 
@@ -509,7 +498,7 @@ class ForumPage < Calabash::ABase
     puts "I can see comment #{$hidereply_content}"
     touch "* id:'community-dots' index:0"
     touch "UILabel marked:'Report'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
     touch "UILabel marked:'#{args}'"  
   end
 end

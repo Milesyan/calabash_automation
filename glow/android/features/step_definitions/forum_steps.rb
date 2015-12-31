@@ -22,10 +22,7 @@ Then(/^I should see "(.*?)"$/) do |arg1|
 end
 
 Then(/^I should see the topic is posted successfully$/) do
-    sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
-    touch "* marked:'Back'"
-    wait_for_none_animating
+  wait_for_elements_exist "* {text CONTAINS 'Your Post is successfully posted'}", :timeout=>3
 end
 
 Then(/^I touch "(.*?)"$/) do |arg1|
@@ -34,18 +31,15 @@ end
 
 Given(/^I open "(.*?)" tab in community$/) do |tab_name|
   sleep 2
-  wait_for_none_animating
   touch "* marked:'#{tab_name}'"
 end
 
 Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
   touch "* marked:'#{$user_a.topic_title}'"
-  wait_for_none_animating
 end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
-  touch "label {text CONTAINS '#{arg1}'} index:0"
-  wait_for_none_animating
+  touch "* {text CONTAINS '#{arg1}'} index:0"
 end
 
 
@@ -263,7 +257,6 @@ end
 
 Then(/^I go back to user profile page and check the changes in profile page$/) do
   forum_page.exit_edit_profile
-  wait_for_none_animating
   check_element_exists("* marked:'Edit Bio info'")
   check_element_exists("* marked:'#{$user.first_name}Edit first'")
   check_element_exists("* marked:'Edit Shanghai'")

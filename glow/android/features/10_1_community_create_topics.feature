@@ -25,7 +25,7 @@ Feature: User create text/poll/image/url topics
     And I open "community" page
     And I post a "image" topic
     Then I should see the topic is posted successfully
-    And I logout 
+    And I logout
 
   @create_link
 	Scenario: User create a link topic @create_link
@@ -45,4 +45,3 @@ Feature: User create text/poll/image/url topics
     And I post a text topic with title "Post in group topic"
     Then I should see the topic is posted successfully
     And I logout
-
