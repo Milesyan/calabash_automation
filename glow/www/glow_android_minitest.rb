@@ -676,11 +676,11 @@ class GlowTest < Minitest::Test
 
   def test_add_15_more_comments
     u = new_ttc_user.complete_tutorial
-    20.times do
+    3.times do
       u.create_topic
       u.reply_to_topic u.topic_id
     end
-    puts "#{u.user_id} comment 20 times"
+    puts "#{u.user_id} comment 3 times"
   end
 
 

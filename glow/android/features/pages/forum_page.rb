@@ -63,17 +63,15 @@ class ForumPage < Calabash::ABase
     
   def create_post_in_group(args={})
     touch "* text:'Post'"
-    touch "*"
     title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
-    touch "* marked:'Write a description!'"
+    touch "* id:'content_editor'"
     keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
-    touch "* text:'Post'"
+    touch "* id:'create_yes'"
     sleep 1
     # select the first group
     # touch "UITableViewCellContentView child * index:0"
-    # touch "* marked:'Done!'"
-    sleep 1
+    # touch "* marked:'Done!'"qwe
     #check_element_exists "* marked:'#{title}'"
     $user.topic_title = title
     @topic_title = title
@@ -81,52 +79,43 @@ class ForumPage < Calabash::ABase
   end
 
   def discard_topic
-    touch "* text:'Close'"
-    touch "UILabel marked:'Discard'"
+    touch "* id:'create_cancel'"
+    # touch "UILabel marked:'Discard'"
   end  
 
   def click_back_button
-    touch "* marked:'Back'"
+    "* contentDescription:'Navigate up'"
   end  
   
 
   def edit_topic(args1)
     touch "* {text CONTAINS '#{args1}'} index:0"
-    touch "* id:'community-dots'"
-    touch "UILabel marked:'Edit this post'"
-      sleep 1
+    touch "* id:'topic_menu'"
+    touch "* marked:'Edit this post'"
+    sleep 1
     puts $user.topic_title
-    
-    touch "UIWebView"
     scroll "scrollView", :up
-      touch "*Label"
-    #keyboard_enter_text('Delete')
-    keyboard_enter_text("Modified title")
-    touch "UIWebView index:0"
-    keyboard_enter_text("Modified content")
-    touch "* text:'Update'"
+    set_text "* id:'title_editor'", "Modified title"
+    set_text "* id:'content_editor'", "Modified content"
+    touch "* id:'create_yes'"
   end
 
   def add_comment
     touch "* marked:'Add a comment'"
-      comment = "comment " + Time.now.to_s
+    comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
-    touch "* text:'Post'"
-    sleep 2
-    # wait_for(:timeout => 10, :retry_frequency => 1) do
-    #   element_exists "* all marked:'#{comment}'"
-    # end
+    touch "* id:'add_reply_yes'"
+    sleep 1
   end
 
   def add_image_comment
     touch "* marked:'Add a comment'"
-      comment = "Test image comment" 
+    comment = "Test image comment" 
     keyboard_enter_text comment
-    touch "UIButton marked:'gl community share story cam'"
-    touch "UILabel marked:'Choose from library'"
-    touch "PUAlbumListTableViewCell index:0"
-      touch "PUPhotosGridCell index:1"
-      touch "* text:'Post'"
+    touch "* id:'insert_image_button'"
+    touch "* marked:'Gallery'"
+    puts "Cannot add image in android\n"
+    touch "* id:'add_reply_yes'"
     sleep 2
     # wait_for(:timeout => 10, :retry_frequency => 1) do
     #   element_exists "* all marked:'#{comment}'"
@@ -136,9 +125,9 @@ class ForumPage < Calabash::ABase
   def add_comments(n)
     n.times do
       touch "* marked:'Add a comment'"
-          comment = "comment " + Time.now.to_s
+      comment = "comment " + Time.now.to_s
       keyboard_enter_text comment
-      touch "* text:'Post'"
+      touch "* id:'add_reply_yes'"
       sleep 4
     end
   end
