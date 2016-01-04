@@ -22,6 +22,7 @@ def forum_new_ft_user(args = {})
   GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_group(1).join_group
 end
 
+
 Given(/^I create a new "(.*?)" glow user$/) do |type|
   case type.downcase
   when "non-ttc"

@@ -1,6 +1,7 @@
 require 'httparty'
 require 'json'
 require 'securerandom'
+require_relative "MultipartImage_IOS.rb"
 
 module GlowIOS
 
@@ -581,7 +582,7 @@ module GlowIOS
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
       @group_id = args[:group_id] || GROUP_ID
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{GROUP_ID}/create_topic", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_topic", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["topic"]["id"]
       @group_id = @res["topic"]["group_id"]
@@ -609,6 +610,30 @@ module GlowIOS
       puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
     end
+
+
+    def create_image(args={})
+      topic_data = {
+        "code_name": "emma",
+        "app_version": "5.3.0",
+        "locale": "en_US",
+        "device_id": "139E7990-DB88-4D11-9D6B-290" + random_str,
+        "random": random_str,
+        "title": "Image topic" + Time.now.to_s,
+        "anonymous": 0,
+        "ut": @ut,
+        "model": "iPhone7,1",
+        "warning": 0,
+        "image": File.new('1.png')
+      }
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/1/create_photo")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      self
+    end
+
 
     def vote_poll(args = {})
       vote_data = {
@@ -653,15 +678,15 @@ module GlowIOS
     end
 
 
-    def join_group
+    def join_group(group_id = SUBSCRIBE_GROUP_ID )
       data = {
         "code_name": "emma",
         "ut": @ut
       }.merge(common_data)
 
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{SUBSCRIBE_GROUP_ID}/subscribe", :body => data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{group_id}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "     -----Join group #{SUBSCRIBE_GROUP_ID}-----    "
+      puts "     -----Join group #{group_id}-----    "
       self
     end
 
@@ -897,6 +922,26 @@ module GlowIOS
       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
+
+
+
+
+    def create_group(args={})
+      topic_data = {
+        "code_name": "emma",
+        "category_id": 7,
+        "desc": "test create group",
+        "name": "GROUPNAME" + Time.now.to_s,
+        "image": File.new('1.jpg'),
+        "ut": @ut
+      }.merge(common_data)
+      @res =  Multipart_miles.post("#{FORUM_BASE_URL}/ios/forum/group/create", :body => topic_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts @res
+      self
+    end
+
+
 
     ###### Me #####
 

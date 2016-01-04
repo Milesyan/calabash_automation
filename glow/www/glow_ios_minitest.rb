@@ -431,11 +431,14 @@ class GlowTest < Minitest::Test
   def test_create_poll_topic
     u = new_ttc_user
     u.create_poll
+    puts u.res
     assert_equal u.user_id, u.res["result"]["user_id"]
   end
 
   def test_create_photo_topic
-    
+    u = new_ttc_user.complete_tutorial.join_group 1
+    u.create_image
+    assert_rc u.res
   end
 
   def test_create_link_topic
