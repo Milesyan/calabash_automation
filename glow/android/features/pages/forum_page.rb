@@ -133,9 +133,9 @@ class ForumPage < Calabash::ABase
   end
 
   def add_reply
-    until_element_exists("* marked:'Reply'", :timeout => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
+    scroll_down
     touch "* marked:'Reply'"
-      keyboard_enter_text Time.now.to_s
+    keyboard_enter_text Time.now.to_s
     touch "* marked:'Send'"
   end
 
