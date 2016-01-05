@@ -686,7 +686,14 @@ class GlowTest < Minitest::Test
 
 
 
-
+  def test_prepare_notification
+    u = new_ttc_user.join_group 1
+    u.create_topic 1
+    u2 = new_ttc_user
+    u2.reply_to_topic u.topic_id
+    u.reply_to_topic u.topic_id
+    u2.reply_to_comment u.topic_id, u.reply_id
+  end
 
 
 

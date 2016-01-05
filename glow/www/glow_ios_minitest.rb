@@ -595,6 +595,15 @@ class GlowTest < Minitest::Test
     u = new_ttc_user.leave_all_groups
   end
 
+  def test_prepare_notification
+    u = new_ttc_user.leave_all_groups.join_group 1
+    u.create_topic :group_id => 1
+    u2 = new_ttc_user
+    u2.reply_to_topic u.topic_id
+    u.reply_to_topic u.topic_id
+    u2.reply_to_comment u.topic_id, u.reply_id
+  end
+
 end
 
 

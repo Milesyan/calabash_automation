@@ -16,7 +16,6 @@ module GlowIOS
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
   
   GROUP_ID = 4 # local group id
-  $TEST_GROUP = GROUP_ID
   SUBSCRIBE_GROUP_ID = 4 # local group id
 
   # BASE_URL = "http://localhost:5010"
@@ -661,6 +660,7 @@ module GlowIOS
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @reply_id = @res["result"]["id"] 
+      puts "Reply to topic >>>>>#{topic_id}<<<<<"
       self
     end
 
@@ -674,6 +674,7 @@ module GlowIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
       self
     end
 
