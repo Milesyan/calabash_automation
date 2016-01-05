@@ -24,7 +24,7 @@ module GlowIOS
 
   class GlowUser
 
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
@@ -926,22 +926,46 @@ module GlowIOS
 
 
 
-    def create_group(args={})
-      topic_data = {
+    # def create_group(args={})
+    #   group_data = {
+    #     "code_name": "emma",
+    #     "category_id": 7,
+    #     "desc": "test create group",
+    #     "name": "GROUPNAME" + Time.now.to_s,
+    #     "image": File.new('1.jpg'),
+    #     "ut": @ut
+    #   }.merge(common_data)
+    #   @res =  Multipart_miles.post("#{FORUM_BASE_URL}/ios/forum/group/create", :body => group_data.to_json,
+    #     :headers => { 'Content-Type' => 'application/json' })
+    #   puts @res
+    #   self
+    # end
+
+    def get_all_groups
+      group_data = {
         "code_name": "emma",
-        "category_id": 7,
-        "desc": "test create group",
-        "name": "GROUPNAME" + Time.now.to_s,
-        "image": File.new('1.jpg'),
         "ut": @ut
       }.merge(common_data)
-      @res =  Multipart_miles.post("#{FORUM_BASE_URL}/ios/forum/group/create", :body => topic_data.to_json,
+      _res =  HTTParty.get("#{FORUM_BASE_URL}/ios/forum/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts @res
+      @all_groups_id = []
+      _res["groups"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_groups_id.push v
+          end
+        end
+      end
       self
     end
 
-
+    def leave_all_groups
+      get_all_groups
+      all_groups_id.each do |group_id|
+        leave_group group_id
+      end
+      self
+    end
 
     ###### Me #####
 

@@ -576,6 +576,25 @@ class GlowTest < Minitest::Test
       assert_rc u2.res
     end
   end
+
+  def test_get_all_groups
+    u = new_ttc_user
+    u.get_all_groups
+  end
+
+  def test_quit_all_groups
+    u = new_ttc_user
+    u.get_all_groups
+    u.all_groups_id.each do |group_id|
+      u.leave_group group_id
+    end
+  end
+
+
+  def test_quit_all_groups_method
+    u = new_ttc_user.leave_all_groups
+  end
+
 end
 
 
