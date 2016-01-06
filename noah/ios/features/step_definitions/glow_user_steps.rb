@@ -83,8 +83,9 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
   puts "NoahUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
+  $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
   comment_number.to_i.times do |comment_number|
-    $user.reply_to_topic $user.topic_id, reply_content: "Test search comment #{comment_number+1}"
+    $user.reply_to_topic $user.topic_id, reply_content: "#{$random_prefix} comment #{comment_number+1}"
     if comment_number == 0
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
@@ -92,7 +93,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
     puts "NoahUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       puts "NoahUser sub reply ++"
-      $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "Test search sub-reply #{subreply_number+1}"
+      $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
   end
 end

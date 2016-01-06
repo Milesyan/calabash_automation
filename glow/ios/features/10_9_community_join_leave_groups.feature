@@ -23,7 +23,7 @@ Feature: create/join/leave group (3m24.806s 3 scenarios 18 steps)
 		Given I create a new "ttc" glow user with name "Miles"
 		And I login as the new user "Miles" created through www
 		And I open "community" page	
-		Then I long press group "Twins"
+		Then I long press group "High Risk Pregnancies"
 		Then I quit the group
 		And I logout
 

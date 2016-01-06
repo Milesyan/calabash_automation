@@ -179,7 +179,7 @@ Then(/^I click search for deleted "([^"]*)"$/) do |arg1|
   when "reply"
     string = $random_str2
   end  
-  forum_page.search_comments string
+  forum_page.search_deleted_comments string
 end
 
 Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
@@ -201,8 +201,8 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* marked:'Test+search+comment #{$comment_number}'")
-  puts "check element: * marked:'Test+search+comment #{$comment_number}'"
+  wait_for_elements_exist("* {text CONTAINS 'comment #{$comment_number}'")
+  puts "check element: * with text 'comment #{$comment_number}'"
 end
 
 
@@ -350,6 +350,9 @@ Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
   forum_page.report_comment report_reason
 end
 
+Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
+  wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
+end
 
 
 

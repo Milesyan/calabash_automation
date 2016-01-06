@@ -269,9 +269,16 @@ class ForumPage < Calabash::IBase
     tap_keyboard_action_key
   end
 
+  def search_deleted_comments(args)
+    touch "UISegment marked:'Comments'"
+    puts "Search for comment: #{args}"
+    keyboard_enter_text args
+    tap_keyboard_action_key
+  end
+
   def search_subreplies
     wait_touch "UISegment marked:'Comments'"
-    $search_content  = "#{$random_prefix} subreplies"
+    $search_content  = "#{$random_prefix} sub-reply"
     puts "Search for subreply: #{$search_content}"
     keyboard_enter_text $search_content
     tap_keyboard_action_key
