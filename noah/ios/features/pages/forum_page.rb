@@ -332,7 +332,7 @@ class ForumPage < Calabash::IBase
   def join_group(args)
     wait_touch "* marked:'#{args}' sibling * marked:'Join'"
     wait_for_none_animating
-    sleep 2s
+    sleep 2
     wait_touch "* marked:'#{args}'"
   end  
   
@@ -345,7 +345,7 @@ class ForumPage < Calabash::IBase
 
   def enter_profile_page
     swipe :down, force: :strong
-    wait_touch "UIImageView id:'gl-community-profile-empty'"
+    wait_touch "UIButton marked:'gl community filter' sibling * index:0"
   end
 
   def edit_text_fields(args1,args2)
