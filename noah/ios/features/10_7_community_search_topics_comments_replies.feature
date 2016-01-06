@@ -4,7 +4,7 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create some topics and search between them.
     Given I create a new noah user with name "Paddington"
     And "Paddington" create 10 topics for searching topic
-    And I login as the new user "Miles" created through www
+    And I login as the new user "Paddingtong" created through www
     And I open "community" page
     And I go to search bar
     And I search the topic in the first step
@@ -17,11 +17,11 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create 1 topic and some comments.
     Given I create a new noah user with name "Winnie"
     And "Winnie" create 1 topic and 10 comments and 0 subreplies for each comment
-    And I login as the new user "Miles" created through www
+    And I login as the new user "Winnie" created through www
     And I open "community" page
     And I go to search bar
-    And I click search for comment "Test search comment"
-    Then I check the search result for comment "Test search comment"
+    And I click search for comment 
+    Then I check the search result for comment
     And I return to group page from search result
     And I logout
 
@@ -29,11 +29,11 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create 1 topic 1 comment and some sub replies. 
     Given I create a new noah user with name "June"
     And "June" create 1 topic and 2 comments and 10 subreplies for each comment
-    And I login as the new user "Miles" created through www
+    And I login as the new user "June" created through www
     And I open "community" page
     And I go to search bar
-    And I click search for comment "Test search sub-reply"
-    Then I check the search result for sub-reply "Test search sub-reply"
+    And I click search for subreply
+    Then I check the search result for sub-reply
     And I go back to group
     And I return to group page from search result
     And I logout
@@ -42,7 +42,7 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create 1 topic 1 comment and delete the topic and search the comment.
 	Given I create a new noah user with name "Devil"
     And "Devil" create topics and comments and replies for delete use
-    And I login as the new user "Miles" created through www
+    And I login as the new user "Devil" created through www
     And I open "community" page
     And I go to search bar
     Then I click search for deleted "comment"
@@ -54,7 +54,7 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create 1 topic 1 comment 1 subreply and delete the topic, and search the subreply.
     Given I create a new noah user with name "Devil"
     And "Devil" create topics and comments and replies for delete use
-    And I login as the new user "Miles" created through www
+    And I login as the new user "Devil" created through www
     And I open "community" page
     And I go to search bar
     Then I click search for deleted "reply"

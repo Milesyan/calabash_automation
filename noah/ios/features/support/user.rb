@@ -1,17 +1,11 @@
 require 'httparty'
 require 'json'
-
 PASSWORD = 'Glow12345'
-GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-# GROUP_ID = 4 # local group id 
-# SUBSCRIBE_GROUP_ID = 4 # local group id
 
-# BASE_URL = "http://localhost:5010"
-# FORUM_BASE_URL = "http://localhost:35010"
+GROUP_ID = 5 # local group id 
+#NOTE!!! The TARGET_GROUP_NAME must be corresponding to GROUP_ID
+TARGET_GROUP_NAME = "High Risk Pregnancies"
 
-# BASE_URL = "http://dragon-emma.glowing.com"
-# FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 module Glow
   class User
     attr_accessor :email, :password, :type, :partner_email, :treatment_type, :first_name, :last_name, :gender

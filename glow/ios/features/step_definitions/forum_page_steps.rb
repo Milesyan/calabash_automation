@@ -78,7 +78,7 @@ Given(/^I downvote the reply$/) do
 end
 
 Then(/^I go to the first group$/) do
-  forum_page.select_a_group
+  forum_page.select_target_group
 end
 
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|

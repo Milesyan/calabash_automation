@@ -90,8 +90,8 @@ class ForumPage < Calabash::IBase
     check_element_exists "label text:'百度一下，你就知道'"
   end
 
-  def select_a_group
-    wait_touch "* marked:'New' parent * index:1 child ForumTabButton index:1"
+  def select_target_group
+    wait_touch "* marked:'#{TARGET_GROUP_NAME}'"
     wait_for_none_animating
   end
     
@@ -259,12 +259,21 @@ class ForumPage < Calabash::IBase
     puts "Search for topic: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
-  end 
+  end
 
-  def search_comments(args)
+  def search_subreplies
     wait_touch "UISegment marked:'Comments'"
-    puts "Search for comment: #{args}"
-    keyboard_enter_text args
+    $search_content  = "#{$random_prefix} subreplies"
+    puts "Search for subreply: #{$search_content}"
+    keyboard_enter_text $search_content
+    tap_keyboard_action_key
+  end
+
+  def search_comments
+    wait_touch "UISegment marked:'Comments'"
+    $search_content  = "#{$random_prefix} comment"
+    puts "Search for comment: #{$search_content}"
+    keyboard_enter_text $search_content
     tap_keyboard_action_key
   end
 
@@ -293,27 +302,27 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'#{args1}' index:#{args2}"
   end 
 
-  def check_search_result_comment(search_result)
+  def check_search_result_comment
     random_number = Random.rand($comment_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
-    wait_for_elements_exist("* marked:'#{search_content}'")
+    search_result = $search_content+" "+random_number.to_s
+    puts "Search for #{search_result}"
+    forum_page.scroll_down_to_see search_result
+    forum_page.touch_search_result search_result,0
+    wait_for_elements_exist("* marked:'#{search_result}'")
     forum_page.show_entire_discussion
-    puts "See element '#{search_result} #{random_number}'"
+    puts "See element '#{search_result}'"
   end
 
-  def check_search_result_subreply(search_result)
-    random_number = Random.rand($subreply_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
+  def check_search_result_subreply
+    random_number = Random.rand($comment_number.to_i).to_i+1
+    search_result = $search_content+" "+random_number.to_s
+    puts "Search for #{search_result}"
+    forum_page.scroll_down_to_see search_result
+    forum_page.touch_search_result search_result,0
     forum_page.show_entire_discussion
     forum_page.view_all_replies
-    puts "Finding element '#{search_content}'"
-    forum_page.scroll_up_to_see search_content
+    puts "Finding element '#{search_result}'"
+    forum_page.scroll_up_to_see search_result
   end
 
   def check_search_result_deleted(string)
@@ -393,6 +402,7 @@ class ForumPage < Calabash::IBase
 
   def check_participated
     touch_HMScrollView_element 1
+    sleep 1
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     check_element_exists "* marked:'Show entire discussion'"
@@ -400,6 +410,7 @@ class ForumPage < Calabash::IBase
 
   def check_created
     touch_HMScrollView_element 2
+    sleep 2
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     check_element_does_not_exist "* marked:'Show entire discussion'"
@@ -407,6 +418,7 @@ class ForumPage < Calabash::IBase
 
   def check_bookmarked
     touch_HMScrollView_element 3
+    sleep 2
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     check_element_does_not_exist "* marked:'Show entire discussion'"

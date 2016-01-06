@@ -10,14 +10,11 @@ module NoahIOS
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-  # SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
+  # GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
 
   BASE_URL = "http://dragon-noah.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
   
-  GROUP_ID = 72057594037927939 # local group id
-  SUBSCRIBE_GROUP_ID = 72057594037927939 # local group id
-
   # BASE_URL = "http://localhost:5010"
   # FORUM_BASE_URL = "http://localhost:35010"
 
@@ -202,7 +199,7 @@ module NoahIOS
     end
 
 
-    def join_group(group_id = SUBSCRIBE_GROUP_ID )
+    def join_group(group_id = GROUP_ID )
       data = {
         "code_name": "noah",
         "ut": @ut
@@ -221,7 +218,7 @@ module NoahIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      unsubscribe_groupid = leave_group_id || SUBSCRIBE_GROUP_ID
+      unsubscribe_groupid = leave_group_id || GROUP_ID
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Leave group #{unsubscribe_groupid}"

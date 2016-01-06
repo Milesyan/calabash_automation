@@ -7,7 +7,7 @@ module GlowAndroid
 
   PASSWORD = 'Glow12345'
   GROUP_ID =  # sandbox1 Health & Lifestyle
-  SUBSCRIBE_GROUP_ID =  # sandbox1 Sex & Relationships
+  GROUP_ID =  # sandbox1 Sex & Relationships
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
 
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"

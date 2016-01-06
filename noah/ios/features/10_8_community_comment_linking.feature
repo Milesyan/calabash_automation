@@ -21,8 +21,8 @@ Feature: Comment linking function
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to search bar
-    And I click search for comment "Test search comment"
-    Then I check the search result for comment "Test search comment"
+    And I click search for comment
+    Then I check the search result for comment
     And I return to group page from search result
     And I logout
 

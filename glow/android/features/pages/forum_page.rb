@@ -56,7 +56,7 @@ class ForumPage < Calabash::ABase
     login_page.login
   end
 
-  def select_a_group
+  def select_target_group
     sleep 1
     touch "* marked:'New' sibling * index:1"
   end
