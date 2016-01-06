@@ -50,7 +50,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Community rules"
     And I go back to previous page
 		And I touch "Show Content"
-		Then I should see "Test search comment 1"
+		Then I should see "Test+search+comment 1"
 		And I go back to group
     And I logout
 
@@ -68,6 +68,6 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Community rules"
     And I go back to previous page
 		And I touch "Show Content"
-		Then I should see "Test search comment 1"
+		Then I should see "Test+search+comment 1"
 		And I go back to group
     And I logout

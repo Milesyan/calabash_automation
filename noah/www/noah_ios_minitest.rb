@@ -4,15 +4,16 @@ require_relative 'noah_ios_test'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-class GlowTest < Minitest::Test
-  include GlowIOS
+class NoahTest < Minitest::Test
+  include NoahIOS
 
   def setup
   end
 
   def new_noah_user
-    GlowUser.new.parent_signup.login.leave_group 72057594037927941
+    NoahUser.new.parent_signup.login.leave_group 72057594037927941
   end
+
   def test_new_noah_user
     u = new_noah_user
   end
@@ -45,7 +46,6 @@ class GlowTest < Minitest::Test
   def test_create_poll_topic
     u = new_noah_user
     u.create_poll
-    puts u.res
     assert_equal u.user_id, u.res["data"]["result"]["user_id"]
   end
 

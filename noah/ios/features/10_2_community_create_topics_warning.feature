@@ -3,7 +3,7 @@ Feature: User create topics with warning messages
 
 	@create_topics_warning
 	Scenario: User create a text topic with short title
-	Given I create a new "ttc" glow user with name "Miles"
+	Given I create a new noah user with name "Miles"
 	And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group

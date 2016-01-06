@@ -10,13 +10,10 @@ SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
 # BASE_URL = "http://localhost:5010"
 # FORUM_BASE_URL = "http://localhost:35010"
 
-BASE_URL = "http://dragon-emma.glowing.com"
-FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+# BASE_URL = "http://dragon-emma.glowing.com"
+# FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 module Glow
   class User
-    USER_TYPES = %w(non-ttc, ttc, ft)
-    TREATMENT_TYPES = %w(prep, med, iui, ivf)
-
     attr_accessor :email, :password, :type, :partner_email, :treatment_type, :first_name, :last_name, :gender
     attr_accessor :ut, :user_id, :topic_id, :group_id, :reply_id, :reply_content
     attr_accessor :topic_title

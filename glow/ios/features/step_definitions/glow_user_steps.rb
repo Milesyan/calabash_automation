@@ -11,15 +11,15 @@ def new_ft_user(args = {})
 end
 
 def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group 4
+  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
   
 def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group 4
+  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
 
 def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group 4
+  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group
 end
 
 
@@ -77,6 +77,7 @@ end
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
   puts "New Glow User '#{user_name}' created: #{$user.email}, #{$user.password}"
+  puts "GROUP id = #{GROUP_ID}"
   case topic_type.downcase
   when "text"
     $user.create_topic({:title => 'create topic by www api', :group_id => GROUP_ID})
@@ -139,8 +140,9 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
   puts "GlowUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
+  $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
   comment_number.to_i.times do |comment_number|
-    $user.reply_to_topic $user.topic_id, reply_content: "Test search comment #{comment_number+1}"
+    $user.reply_to_topic $user.topic_id, reply_content: "#{$random_prefix} comment #{comment_number+1}"
     if comment_number == 0
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
@@ -148,7 +150,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
     puts "GlowUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       puts "GlowUser sub reply ++"
-      $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "Test search sub-reply #{subreply_number+1}"
+      $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
   end
 end
@@ -252,5 +254,5 @@ Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
     $user = GlowUser.new(gender: "male", first_name: name).male_signup.complete_tutorial.join_group
   end
   puts $user.email, $user.password
-  puts "Default group id is #{$TEST_GROUP}"
+  puts "Default group id is #{GROUP_ID}"
 end

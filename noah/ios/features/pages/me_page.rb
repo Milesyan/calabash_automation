@@ -1,26 +1,9 @@
 require 'calabash-cucumber/ibase'
 class MePage < Calabash::IBase
 
-  def check_user_status(expected_status)
-    if $user.instance_of? GlowUser
-      wait_for timeout: 30, retry_frequency: 3 do
-        $user.pull_content
-        case expected_status.downcase
-        when "ttc"
-          0 == $user.res["user"]["settings"]["current_status"]
-        when "non-ttc"
-          3 == $user.res["user"]["settings"]["current_status"]
-        when "pregnant"
-          2 == $user.res["user"]["settings"]["current_status"]
-        when "iui", "ivf", "med", "prep"
-          4 == $user.res["user"]["settings"]["current_status"]
-        end
-      end
-    end
-  end
 
   def trait
-    "* marked:'Health profile'"
+    "*"
   end
 
   def change_status_to(status)

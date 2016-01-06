@@ -156,16 +156,20 @@ Then(/^I return to group page from search result$/) do
 end
 
 #--------Search Comments-----------
-Then(/^I click search for comment "([^"]*)"$/) do |comment|
-  forum_page.search_comments comment
+Then(/^I click search for comment$/) do
+  forum_page.search_comments
 end
 
-Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
-  forum_page.check_search_result_comment search_result
+Then(/^I click search for subreply$/) do
+  forum_page.search_subreplies
 end
 
-Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
-  forum_page.check_search_result_subreply search_result
+Then(/^I check the search result for comment$/) do
+  forum_page.check_search_result_comment
+end
+
+Then(/^I check the search result for sub-reply$/) do
+  forum_page.check_search_result_subreply
 end
 
 Then(/^I click search for deleted "([^"]*)"$/) do |arg1|
@@ -197,8 +201,8 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* marked:'Test search comment #{$comment_number}'")
-  puts "check element: * marked:'Test search comment #{$comment_number}'"
+  wait_for_elements_exist("* marked:'Test+search+comment #{$comment_number}'")
+  puts "check element: * marked:'Test+search+comment #{$comment_number}'"
 end
 
 

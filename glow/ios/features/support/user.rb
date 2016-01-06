@@ -2,10 +2,12 @@ require 'httparty'
 require 'json'
 
 PASSWORD = 'Glow12345'
-GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-# GROUP_ID = 4 # local group id 
-# SUBSCRIBE_GROUP_ID = 4 # local group id
+
+# GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
+# SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
+GROUP_ID = 5 # local group id 
+SUBSCRIBE_GROUP_ID = 5 # local group id
+TARGET_GROUP_NAME = "High Risk Pregnancies"
 
 # BASE_URL = "http://localhost:5010"
 # FORUM_BASE_URL = "http://localhost:35010"

@@ -1,18 +1,13 @@
 def new_noah_user(args={})
-  GlowUser.new(args).parent_signup.login.leave_group 72057594037927941
+  NoahUser.new(args).parent_signup.login.leave_group 72057594037927941
 end
 
 def forum_new_noah_user(args={})
-  GlowUser.new(args).parent_signup.login.leave_group 72057594037927941
+  NoahUser.new(args).parent_signup.login.leave_group 72057594037927941
 end
   
-Given(/^I create a new "(.*?)" glow user$/) do |type|
-  case type.downcase
-  when "non-ttc"
-    $user = new_noah_user
-  when "ttc"
-    $user = new_noah_user
-  end
+Given(/^I create a new noah user$/) do |type|
+  $user = new_noah_user
   puts $user.email, $user.password
 end
 
@@ -24,7 +19,7 @@ end
 
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
-  puts "New Glow User '#{user_name}' created: #{$user.email}, #{$user.password}"
+  puts "New Noah User '#{user_name}' created: #{$user.email}, #{$user.password}"
   case topic_type.downcase
   when "text"
     $user.create_topic({:title => 'create topic by www api', :group_id => GROUP_ID})
@@ -35,7 +30,7 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
   logout_if_already_logged_in
 end
 
-Then(/^I create another glow user "([^"]*)" and create a topic in the test group$/) do |user_name|
+Then(/^I create another noah user "([^"]*)" and create a topic in the test group$/) do |user_name|
   $user2 = forum_new_noah_user(first_name: user_name).join_group
   puts GROUP_ID
   $user2.create_topic({:title => "Test follow/block user", :group_id => GROUP_ID})
@@ -50,14 +45,14 @@ end
 
 # Then(/^the user add (\d+) comments and user2 added (\d+) subreplies to each comment\.$/) do |comment_number, subreply_number|
 Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|ies) to each comment\.$/) do |user1_name, comment_number, user2_name, subreply_number|
-  puts "Glow User #{user1_name} topic_id is #{$user.topic_id}"
+  puts "Noah User #{user1_name} topic_id is #{$user.topic_id}"
   $user2 = forum_new_noah_user(first_name: user2_name)
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "GlowUser #{user1_name} reply_id is #{$user.reply_id}"
+    puts "NoahUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
+      puts "NoahUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -85,7 +80,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "GlowUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "NoahUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   comment_number.to_i.times do |comment_number|
@@ -94,9 +89,9 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
     end
-    puts "GlowUser reply_id is #{$user.reply_id}"
+    puts "NoahUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser sub reply ++"
+      puts "NoahUser sub reply ++"
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "Test search sub-reply #{subreply_number+1}"
     end
   end
@@ -107,15 +102,15 @@ end
 Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |name, arg1, comment_number, subreply_number|
   $user2 = forum_new_noah_user(first_name: name)
   $user2.create_topic :title => "Test hide/flag #{$user2.random_str}"
-  puts "Glow User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
+  puts "Noah User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
   $comment_number2 = comment_number
   $subreply_number2 = subreply_number
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "GlowUser2 reply_id is #{$user2.reply_id}"
+    puts "NoahUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser2 sub reply ++"
+      puts "NoahUser2 sub reply ++"
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
   end
@@ -123,13 +118,13 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "GlowUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "NoahUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "GlowUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  puts "NoahUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "GlowUser #{name} subreply content is #{$random_str2}"
+  puts "NoahUser #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 
@@ -189,17 +184,8 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
   end
 end
 
-Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
-  case type.downcase
-  when "non-ttc"
-    $user = forum_new_noah_user(first_name: name)
-  when "ttc"
-    $user = forum_new_noah_user(first_name: name)
-  when "prep", "med", "iui", "ivf"
-    $user = forum_new_ft_user(type: type, first_name: name)
-  when "single male"
-    $user = GlowUser.new(gender: "male", first_name: name).male_signup.join_group
-  end
+Given(/^I create a new noah user with name "(.*?)"$/) do |type,name|
+  $user = forum_new_noah_user(first_name: name)
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
 end

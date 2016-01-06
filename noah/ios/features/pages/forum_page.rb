@@ -91,7 +91,7 @@ class ForumPage < Calabash::IBase
   end
 
   def select_a_group
-    wait_touch "UILabel index:2"
+    wait_touch "* marked:'New' parent * index:1 child ForumTabButton index:1"
     wait_for_none_animating
   end
     

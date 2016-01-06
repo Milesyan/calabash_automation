@@ -91,7 +91,7 @@ class ForumPage < Calabash::IBase
   end
 
   def select_a_group
-    wait_touch "UILabel index:2"
+    wait_touch "* marked:'New' parent * index:1 child ForumTabButton index:1"
     wait_for_none_animating
   end
     
@@ -251,7 +251,7 @@ class ForumPage < Calabash::IBase
 
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "UIButton marked:'Topics/Comments'"
+    wait_touch "UIButtonLabel {text CONTAINS 'Topics/Comments'}"
   end
 
   def search_topics(args)
@@ -261,12 +261,22 @@ class ForumPage < Calabash::IBase
     tap_keyboard_action_key
   end 
 
-  def search_comments(args)
+  def search_comments
     wait_touch "UISegment marked:'Comments'"
-    puts "Search for comment: #{args}"
-    keyboard_enter_text args
+    $search_content  = "#{$random_prefix} comment"
+    puts "Search for comment: #{$search_content}"
+    keyboard_enter_text $search_content
     tap_keyboard_action_key
   end
+
+  def search_subreplies
+    wait_touch "UISegment marked:'Comments'"
+    $search_content  = "#{$random_prefix} subreplies"
+    puts "Search for subreply: #{$search_content}"
+    keyboard_enter_text $search_content
+    tap_keyboard_action_key
+  end
+
 
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
@@ -293,27 +303,27 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'#{args1}' index:#{args2}"
   end 
 
-  def check_search_result_comment(search_result)
+  def check_search_result_comment
     random_number = Random.rand($comment_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
-    wait_for_elements_exist("* marked:'#{search_content}'")
+    search_result = $search_content+" "+random_number
+    puts "Search for #{$search_result}"
+    forum_page.scroll_down_to_see $search_result
+    forum_page.touch_search_result $search_result,0
+    wait_for_elements_exist("* marked:'#{$search_result}'")
     forum_page.show_entire_discussion
-    puts "See element '#{search_result} #{random_number}'"
+    puts "See element '#{$search_result}'"
   end
 
-  def check_search_result_subreply(search_result)
-    random_number = Random.rand($subreply_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
+  def check_search_result_subreply
+    random_number = Random.rand($comment_number.to_i).to_i+1
+    search_result = $search_content+" "+random_number
+    puts "Search for #{$search_result}"
+    forum_page.scroll_down_to_see $search_result
+    forum_page.touch_search_result $search_result,0
     forum_page.show_entire_discussion
     forum_page.view_all_replies
-    puts "Finding element '#{search_content}'"
-    forum_page.scroll_up_to_see search_content
+    puts "Finding element '#{$search_result}'"
+    forum_page.scroll_up_to_see $search_result
   end
 
   def check_search_result_deleted(string)
@@ -367,8 +377,8 @@ class ForumPage < Calabash::IBase
 
   def check_groups
     wait_touch "UIButton index:0"
-    check_element_exists "* marked:'target group'"
-    puts "I can see target group"
+    check_element_exists  "* marked:'#{TARGET_GROUP_NAME }'"
+    puts "I can see target group #{TARGET_GROUP_NAME }"
   end
 
   def check_followers

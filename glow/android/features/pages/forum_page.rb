@@ -240,7 +240,7 @@ class ForumPage < Calabash::ABase
 
   def check_search_result_comment(search_result)
     random_number = Random.rand($comment_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
+    search_content  = "#{search_result}#{random_number}"
     puts "Search for #{search_content}"
     forum_page.scroll_down_to_see search_content
     forum_page.touch_search_result search_content,0
@@ -310,7 +310,7 @@ class ForumPage < Calabash::ABase
 
   def check_groups
     touch "UIButton index:0"
-    check_element_exists "* marked:'target group'"
+    check_element_exists "* marked:'#{TARGET_GROUP_NAME }'"
     puts "I can see target group"
   end
 

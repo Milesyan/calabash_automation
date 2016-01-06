@@ -203,8 +203,8 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* marked:'Test search comment #{$comment_number}'")
-  puts "check element: * marked:'Test search comment #{$comment_number}'"
+  wait_for_elements_exist("* marked:'Test+search+comment #{$comment_number}'")
+  puts "check element: * marked:'Test+search+comment #{$comment_number}'"
 end
 
 
