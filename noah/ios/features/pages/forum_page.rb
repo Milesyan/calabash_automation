@@ -277,6 +277,14 @@ class ForumPage < Calabash::IBase
     tap_keyboard_action_key
   end
 
+  def search_deleted_comments(args)
+    touch "UISegment marked:'Comments'"
+    puts "Search for comment: #{args}"
+    keyboard_enter_text args
+    tap_keyboard_action_key
+  end
+
+  
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
