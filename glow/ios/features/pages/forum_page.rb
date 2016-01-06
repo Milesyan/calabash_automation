@@ -330,8 +330,9 @@ class ForumPage < Calabash::IBase
   end
 
   def join_group(args)
-    wait_touch "* marked:'Join' index:0"
+    wait_touch "* marked:'#{args}' sibling * marked:'Join'"
     wait_for_none_animating
+    sleep 2
     wait_touch "* marked:'#{args}'"
   end  
   
