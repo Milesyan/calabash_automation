@@ -50,13 +50,12 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
 		And I enter topic created by another user
 		And I report the comment by reason "Spam"
 		And I click confirm to hide it
-		# Then I report the topic by reason "Spam"
 		Then I should not see the comment hidden by me
 		And I go back to previous page
 		And I logout
 
 	@report_reason
-	Scenario: User create a topic and hide it.
+	Scenario: Check report topic and report comment reasons, and report by other reason.
 		Given I create a new "ttc" glow user with name "Miles"
 		And another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
 		And I login as the new user "Miles" created through www

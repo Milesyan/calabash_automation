@@ -5,52 +5,126 @@ class ForumPage < Calabash::ABase
     "*"
   end
 
-  def create_poll
-    touch "* id:'create_poll_btn'"
-    title = "Poll " + random_str
-    answer1 = random_str
-    answer2 = random_str
-    answer3 = random_str
-    description = "poll #{Time.now.to_i}"
-    enter_text "* id:'title_editor'", title
-    enter_text "* id:'text' index:0", answer1
-    enter_text "* id:'text' index:1", answer2
-    enter_text "* id:'text' index:2", answer3
-    enter_text "* id:'content_editor'", description
-    touch "* id:'create_yes'"
-    touch "* id:'text1'" # select a group
-    sleep 2
+#--------New create topic flow itmes----
+  def touch_floating_menu
+    wait_for_elements_exist "* id:'fab_expand_menu_button'"
+    touch "* id:'fab_expand_menu_button'"
+    sleep 0.5
   end
 
-  def create_post
-    touch "* id:'create_topic_btn'"
-    title = "Test create topic UI " + Time.now.to_s
-    description = "topic #{Time.now.to_i}"
-    enter_text "* id:'title_editor'", title
-    enter_text "* id:'content_editor'", description
-    touch "* id:'create_yes'" # done button
-    touch "* id:'text1'" # select a group
-    sleep 2
+  def touch_floating_poll
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:0"
+    sleep 1
   end
 
-  def create_photo
-    touch "* id:'create_photo_btn'"
-    touch "* marked:'Take a photo'"
+  def touch_floating_photo
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:1"
+    sleep 1
   end
 
-  def create_link
-    touch "* id:'create_url_btn'"
-    title = "Test create topic UI " + random_str
+  def touch_floating_text
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:2"
+    sleep 1
+  end
+
+  def touch_floating_link
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:3"
+    sleep 1
+  end
+
+#------------create topics-----------------
+  def create_poll(args={})
+    if element_exists "* id:'community_home_floating_actions_menu'"
+      touch_floating_menu
+      touch_floating_poll
+    else 
+      touch "* id:'create_poll_btn'"
+    end
+    create_poll_common args
+  end
+
+  def select_first_group
+    touch "* id:'text1' index:0" # select a group
+  end
+
+  def create_poll_in_group(args={})
+    create_poll args
+    $user.topic_title = @title
+    puts $user.topic_title
+  end
+
+  def create_post_in_group(args={})
+    create_post args
+    $user.topic_title = @title
+    puts $user.topic_title
+  end
+
+
+  def create_post(args={})
+    if element_exists "* id:'community_home_floating_actions_menu'"
+      touch_floating_menu
+      touch_floating_text
+    else 
+      touch "* id:'create_topic_btn'"
+    end
+    create_post_common args
+  end
+
+  def create_photo(args={})
+    if element_exists "* id:'community_home_floating_actions_menu'"
+      touch_floating_menu
+      touch_floating_photo
+    else 
+      touch "* id:'create_photo_btn'"
+      touch "* marked:'Take a photo'"    
+    end
+    create_photo_common args
+  end
+
+  def create_link(args={})
+    if element_exists "* id:'community_home_floating_actions_menu'"
+      touch_floating_menu
+      touch_floating_link
+    else 
+      touch "* id:'create_url_btn'"
+    end
+    create_link_common
+  end
+
+  def create_link_common
+    @title = "Test create topic UI " + random_str
     link = "www.baidu.com "
-    enter_text "* id:'title_editor'", title
+    enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", link
     sleep 1
     wait_for_elements_do_not_exist "* id:'progress_bar'"
     touch "* id:'create_yes'" # done button
-    touch "* id:'text1'" # select a group
-    sleep 2
   end
 
+  def create_poll_common(args={}) 
+    @title = args[:title] || "Post Poll " + Time.now.strftime("%m%d-%H:%M:%S")
+    content = args[:text] ||"Test post topic"+Time.now.to_s
+    answer1 = random_str
+    answer2 = random_str
+    answer3 = random_str
+    enter_text "* id:'title_editor'", @title
+    enter_text "* id:'text' index:0", answer1
+    enter_text "* id:'text' index:1", answer2
+    enter_text "* id:'text' index:2", answer3
+    enter_text "* id:'content_editor'", content
+    touch "* id:'create_yes'"
+    sleep 1
+  end
+
+  def create_post_common(args={})
+    @title = args[:title] || "Post Text " + Time.now.strftime("%m%d-%H:%M:%S")
+    description = "topic #{Time.now.to_i}"
+    enter_text "* id:'title_editor'", @title
+    enter_text "* id:'content_editor'", description
+    touch "* id:'create_yes'" # done button
+    sleep 2
+  end
+#-----------------
   def login
     onboard_page.tap_login
     login_page.login
@@ -58,26 +132,9 @@ class ForumPage < Calabash::ABase
 
   def select_target_group
     sleep 1
-    touch "* marked:'New' sibling * index:1"
+    touch "* marked:'#{TARGET_GROUP_NAME}'"
   end
     
-  def create_post_in_group(args={})
-    touch "* text:'Post'"
-    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
-    keyboard_enter_text title
-    touch "* id:'content_editor'"
-    keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
-    touch "* id:'create_yes'"
-    sleep 1
-    # select the first group
-    # touch "UITableViewCellContentView child * index:0"
-    # touch "* marked:'Done!'"qwe
-    #check_element_exists "* marked:'#{title}'"
-    $user.topic_title = title
-    @topic_title = title
-    puts $user.topic_title
-  end
-
   def discard_topic
     touch "* id:'create_cancel'"
     # touch "UILabel marked:'Discard'"

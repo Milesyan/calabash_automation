@@ -11,7 +11,7 @@ module GlowIOS
 
   # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
   # GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-
+  GROUP_ID = 5
   BASE_URL = "http://dragon-emma.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 
@@ -959,7 +959,7 @@ module GlowIOS
 
     def leave_all_groups
       get_all_groups
-      all_groups_id.each do |group_id|
+      @all_groups_id.each do |group_id|
         leave_group group_id
       end
       self

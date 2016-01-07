@@ -356,6 +356,11 @@ Then(/^I hide the comment$/) do
   forum_page.hide_comment
 end
 
+
+Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
+  wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
+end
+
 Then(/^I should not see the comment hidden by me$/) do 
   check_element_does_not_exist  "* marked:'#{$hidereply_content}'"
   puts "I cannot see comment #{$hidereply_content}"
@@ -385,10 +390,6 @@ Then(/^I type in report reason and click flag$/) do
   wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
   keyboard_enter_text "Test Flag reason by Miles"
   wait_touch "* marked:'Flag'"
-end
-
-Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
-  wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
 end
 
 

@@ -1,14 +1,16 @@
 Given(/^I post a "(.*?)" topic$/) do |topic_type|
-  case topic_type.downcase
-  when "poll"
-    forum_page.create_poll
-  when "text"
-    forum_page.create_post
-  when "photo"
-    forum_page.create_photo
-  when "link"
-    forum_page.create_link
-  end
+    sleep 3
+    case topic_type.downcase
+    when "poll"
+      forum_page.create_poll
+    when "text"
+      forum_page.create_post
+    when "photo"
+      forum_page.create_photo
+    when "link"
+      forum_page.create_link
+    end
+    forum_page.select_first_group
 end
 
 
@@ -22,7 +24,7 @@ Then(/^I should see "(.*?)"$/) do |arg1|
 end
 
 Then(/^I should see the topic is posted successfully$/) do
-  wait_for_elements_exist "* {text CONTAINS 'Your Post is successfully posted'}", :timeout=>3
+  wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>3
 end
 
 Then(/^I touch "(.*?)"$/) do |arg1|
@@ -349,4 +351,46 @@ end
 
 Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
   forum_page.report_comment report_reason
+end
+#--------New added steps-----
+
+Then(/^I click confirm to hide it$/) do
+  forum_page.confirm_hide
+end
+
+Then(/^I click confirm not to hide it$/) do
+  forum_page.confirm_hide 2
+end
+
+
+Then(/^I should still see the comment$/) do
+  check_element_exists "* marked:'#{$hidereply_content}'"
+  puts "I can still see comment #{$hidereply_content}"
+end
+
+Then(/^I should still see the topic$/) do
+  check_element_exists "* marked:'#{$user2.topic_title}'"
+  puts "I can sitll see topic #{$user2.topic_title}"
+end
+
+
+Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
+  forum_page.report_comment report_reason
+end
+
+Then(/^I click to report the "([^"]*)" and check the reasons:$/) do |arg1,table|
+  case arg1.downcase
+  when "topic"
+    forum_page.report_topic_check_reasons table
+  when "comment"
+    forum_page.report_comment_check_reasons table
+  else
+    puts "Wrong input"
+  end
+end
+
+Then(/^I type in report reason and click flag$/) do
+  wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
+  keyboard_enter_text "Test Flag reason by Miles"
+  wait_touch "* marked:'Flag'"
 end

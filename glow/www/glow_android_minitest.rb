@@ -11,11 +11,11 @@ class GlowTest < Minitest::Test
   end
 
   def new_ttc_user
-    GlowUser.new.ttc_signup.login.complete_tutorial
+    GlowUser.new.ttc_signup.login.complete_tutorial.join_group
   end
     
   def new_non_ttc_user
-    GlowUser.new.non_ttc_signup.login.complete_tutorial
+    GlowUser.new.non_ttc_signup.login.complete_tutorial.join_group
   end
 
   def new_ft_user(args = {})
@@ -683,9 +683,6 @@ class GlowTest < Minitest::Test
     puts "#{u.user_id} comment 3 times"
   end
 
-
-
-
   def test_prepare_notification
     u = new_ttc_user.join_group 1
     u.create_topic 1
@@ -695,6 +692,18 @@ class GlowTest < Minitest::Test
     u2.reply_to_comment u.topic_id, u.reply_id
   end
 
+  def test_get_all_groups
+    u = new_ttc_user
+    u.get_all_groups
+    puts u.all_groups_id
+  end
+
+  def test_leave_all_groups
+    u = new_ttc_user.leave_all_groups
+    u.get_all_groups
+    puts u.all_groups_id
+    assert_equal u.all_groups_id, []
+  end
 
 
 

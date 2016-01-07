@@ -12,15 +12,15 @@ end
 
 
 def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
   
 def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_group(1).join_group
+  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
 
 def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_group(1).join_group
+  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group
 end
 
 
@@ -243,6 +243,7 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
 end
 
 Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
+  logout_if_already_logged_in
   case type.downcase
   when "non-ttc"
     $user = forum_new_non_ttc_user(first_name: name).complete_tutorial

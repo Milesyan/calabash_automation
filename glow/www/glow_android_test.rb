@@ -6,10 +6,8 @@ require 'net/http'
 module GlowAndroid
 
   PASSWORD = 'Glow12345'
-  GROUP_ID =  # sandbox1 Health & Lifestyle
-  GROUP_ID =  # sandbox1 Sex & Relationships
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
-
+  GROUP_ID = 5
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
   # GLOW_ANDROID_BASE_URL = "http://192.168.1.39:5010"
@@ -20,7 +18,7 @@ module GlowAndroid
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
   class GlowUser
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
@@ -808,7 +806,7 @@ module GlowAndroid
     end
 
   ######## Community-----community-----------
-    def create_topic(group_id = 1, args = {})
+    def create_topic(group_id = GROUP_ID, args = {})
       data = {
         "title": (args[:topic_title] || "test_topic")+ Time.now.to_s,
         "anonymous": args[:anonymous]|| 0,
@@ -822,7 +820,7 @@ module GlowAndroid
       self
     end
 
-    def create_poll(group_id = 1, args = {})
+    def create_poll(group_id = GROUP_ID, args = {})
       data = {
         "title": (args[:topic_title] || "Test Poll")+ Time.now.to_s,
         "anonymous": args[:anonymous]|| 0,
@@ -875,8 +873,8 @@ module GlowAndroid
       @sub_reply_id = @res["result"]["id"]
       self
     end
-
-    def join_group(group_id)
+#---------GROUPS----------
+    def join_group(group_id = GROUP_ID )
       data = {
         "group_id": group_id
       }
@@ -893,6 +891,31 @@ module GlowAndroid
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/unsubscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
+      self
+    end
+
+    def get_all_groups
+      group_data = {
+      }
+      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/0/groups?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      _res =  HTTParty.get(url, :body => group_data.to_json,
+        :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
+      @all_groups_id = []
+      _res["groups"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_groups_id.push v
+          end
+        end
+      end
+      self
+    end
+
+    def leave_all_groups
+      get_all_groups
+      @all_groups_id.each do |group_id|
+        leave_group group_id
+      end
       self
     end
 
