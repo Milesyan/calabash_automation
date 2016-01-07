@@ -806,30 +806,32 @@ module GlowAndroid
     end
 
   ######## Community-----community-----------
-    def create_topic(group_id = GROUP_ID, args = {})
+    def create_topic(args = {})
       data = {
-        "title": (args[:topic_title] || "test_topic")+ Time.now.to_s,
+        "title": args[:topic_title] || "#{@email} #{Time.now}",
         "anonymous": args[:anonymous]|| 0,
         "content": args[:topic_content] || ("Example create topic" + Time.now.to_s)
       }
+      group_id = args[:group_id]|| GROUP_ID 
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      @title = @res["result"]["title"]
+      @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
-    def create_poll(group_id = GROUP_ID, args = {})
+    def create_poll(args = {})
       data = {
         "title": (args[:topic_title] || "Test Poll")+ Time.now.to_s,
         "anonymous": args[:anonymous]|| 0,
         "content": args[:topic_content] || ("Example create Poll" + Time.now.to_s),
         "poll_options": ["option1", "opiton2", "option3"].to_s
       }
+      group_id = args[:group_id]|| GROUP_ID 
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      @title = @res["result"]["title"]
+      @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self

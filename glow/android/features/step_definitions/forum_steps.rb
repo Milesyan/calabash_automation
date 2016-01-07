@@ -27,6 +27,10 @@ Then(/^I should see the topic is posted successfully$/) do
   wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>3
 end
 
+Then(/^I should see the topic is edited successfully$/) do
+  wait_for_elements_exist "* {text CONTAINS 'Success!'}", :timeout=>3
+end
+
 Then(/^I touch "(.*?)"$/) do |arg1|
   touch "* marked:'#{arg1}'"
 end
@@ -106,7 +110,8 @@ Then (/^I go back to previous page$/) do
 end
 
 Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
-  touch "* marked:'#{topic_name}' index:1"
+  forum_page.click_back_button
+  sleep 0.5
   forum_page.click_back_button
 end  
 
@@ -116,20 +121,22 @@ end
 
 Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
   forum_page.delete_topic args1
+  wait_for_elements_exist "* marked:'Post deleted'"
 end
 
 
 Then(/^I delete the comment index (\d+)$/) do |args1|
   forum_page.delete_comment args1
+  wait_for_elements_exist "* marked:'Comment deleted'"
 end
 
 
 Then(/^I expand all the comments$/) do
-  touch "UIButtonLabel marked:'Show entire discussion'"
+  wait_touch "* marked:'Show entire discussion'"
 end
 
 Then(/^I click view all replies$/) do
-  touch "UILabel marked:'View all replies'"
+  wait_touch "* id:'view_sub_replies'"
 end
 
 Then(/^I scroll "([^"]*)" to see "([^"]*)"$/) do |action,content|

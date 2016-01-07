@@ -573,7 +573,7 @@ module GlowIOS
       topic_data = {
         "code_name": "emma",
         "content": "#{Time.now.strftime "%D %T"}",
-        "title": args[:title] || "#{@email} #{Time.now}",
+        "title": args[:topic_title] || "#{@email} #{Time.now}",
         "anonymous": 0,
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
@@ -593,7 +593,7 @@ module GlowIOS
         "code_name": "emma",
         "content": "#{Time.now.strftime "%D %T"}",
         "anonymous": 0,
-        "title": args[:title] || "Poll + #{@email} #{Time.now}",
+        "title": args[:topic_title] || "Poll + #{@email} #{Time.now}",
         "options": ["Field1","Field2","Field3"].to_s,
         "ut": @ut
       }.merge(common_data)

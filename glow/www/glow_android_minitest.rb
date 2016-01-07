@@ -483,19 +483,19 @@ class GlowTest < Minitest::Test
 
   def test_community_create_topic
     u = new_ttc_user.complete_tutorial
-    u.create_topic 1
+    u.create_topic
     assert_rc u.res
   end
 
   def test_community_create_anonymous_topic
     u = new_ttc_user.complete_tutorial
-    u.create_topic 1,:anonymous => 1
+    u.create_topic :group_id => GROUP_ID, :anonymous => 1
     assert_rc u.res
   end
 
   def test_community_create_topic_with_title_and_content
     u = new_ttc_user.complete_tutorial
-    u.create_topic 1,:topic_title => "hahahaha",:topic_content => "Test for www"
+    u.create_topic :topic_title => "hahahaha",:topic_content => "Test for www"
     assert_equal u.res["result"]["content"], "Test for www"
   end
 

@@ -5,11 +5,17 @@ class ForumPage < Calabash::ABase
     "*"
   end
 
+  def wait_touch(query_str)
+    sleep 1
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+  end
+
 #--------New create topic flow itmes----
   def touch_floating_menu
     wait_for_elements_exist "* id:'fab_expand_menu_button'"
     touch "* id:'fab_expand_menu_button'"
-    sleep 0.5
+    sleep 1
   end
 
   def touch_floating_poll
@@ -63,6 +69,7 @@ class ForumPage < Calabash::ABase
   def create_post(args={})
     if element_exists "* id:'community_home_floating_actions_menu'"
       touch_floating_menu
+      sleep 1
       touch_floating_text
     else 
       touch "* id:'create_topic_btn'"
@@ -102,7 +109,7 @@ class ForumPage < Calabash::ABase
   end
 
   def create_poll_common(args={}) 
-    @title = args[:title] || "Post Poll " + Time.now.strftime("%m%d-%H:%M:%S")
+    @title = args[:topic_title] || "Post Poll " + Time.now.strftime("%m%d-%H:%M:%S")
     content = args[:text] ||"Test post topic"+Time.now.to_s
     answer1 = random_str
     answer2 = random_str
@@ -117,7 +124,7 @@ class ForumPage < Calabash::ABase
   end
 
   def create_post_common(args={})
-    @title = args[:title] || "Post Text " + Time.now.strftime("%m%d-%H:%M:%S")
+    @title = args[:topic_title] || "Post Text " + Time.now.strftime("%m%d-%H:%M:%S")
     description = "topic #{Time.now.to_i}"
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", description
@@ -137,28 +144,34 @@ class ForumPage < Calabash::ABase
     
   def discard_topic
     touch "* id:'create_cancel'"
+    sleep 1
     # touch "UILabel marked:'Discard'"
+    if element_exists "* id:'fab_expand_menu_button'"
+      touch_floating_menu 
+      sleep 1
+    end
   end  
 
   def click_back_button
-    "* contentDescription:'Navigate up'"
+    touch "* contentDescription:'Navigate up'"
   end  
   
 
   def edit_topic(args1)
     touch "* {text CONTAINS '#{args1}'} index:0"
-    touch "* id:'topic_menu'"
+    wait_touch "* id:'topic_menu'"
     touch "* marked:'Edit this post'"
     sleep 1
     puts $user.topic_title
     scroll "scrollView", :up
-    set_text "* id:'title_editor'", "Modified title"
-    set_text "* id:'content_editor'", "Modified content"
+    enter_text "* id:'title_editor'", "Modified title"
+    enter_text "* id:'content_editor'", "Modified content"
     touch "* id:'create_yes'"
   end
 
   def add_comment
-    touch "* marked:'Add a comment'"
+    wait_touch "* marked:'Add a comment'"
+    wait_touch "* id:'reply_text'"
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
     touch "* id:'add_reply_yes'"
@@ -166,17 +179,17 @@ class ForumPage < Calabash::ABase
   end
 
   def add_image_comment
-    touch "* marked:'Add a comment'"
+    wait_touch "* marked:'Add a comment'"
+    wait_touch "* id:'reply_text'"
     comment = "Test image comment" 
     keyboard_enter_text comment
-    touch "* id:'insert_image_button'"
+    wait_touch "* id:'insert_image_button'"
     touch "* marked:'Gallery'"
     puts "Cannot add image in android\n"
+    sleep 3
     touch "* id:'add_reply_yes'"
     sleep 2
-    # wait_for(:timeout => 10, :retry_frequency => 1) do
-    #   element_exists "* all marked:'#{comment}'"
-    # end
+
   end
 
   def add_comments(n)
@@ -191,8 +204,8 @@ class ForumPage < Calabash::ABase
 
   def add_reply
     scroll_down
-    touch "* marked:'Reply'"
-    keyboard_enter_text Time.now.to_s
+    wait_touch "* marked:'Reply'"
+    enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s
     touch "* marked:'Send'"
   end
 
@@ -223,17 +236,17 @@ class ForumPage < Calabash::ABase
   end
  
   def delete_topic(args)
-    touch "* id:'community-dots' index:#{args}"
-    touch "UILabel marked:'Delete this post'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this topic?'}"}
-    touch "UILabel marked:'OK'"
+    wait_touch "* id:'topic_menu'"
+    wait_touch "* marked:'Delete this post'"
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
+    touch "* marked:'OK'"
   end
 
   def delete_comment(args)
-    touch "* id:'community-dots' index:#{args}"
-    touch "UILabel marked:'Delete'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
-    touch "UILabel marked:'OK'"
+    touch "* id:'reply_menu' index:#{args}"
+    touch "* marked:'Delete this reply'"
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this comment?'}"}
+    touch "* marked:'OK'"
   end
 
 
@@ -243,40 +256,53 @@ class ForumPage < Calabash::ABase
 
   def scroll_to_see(gesture,content)
     if gesture == "up"
-      until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      if element_does_not_exist "* marked:'#{content}'"
+        scroll_up
+      end
     elsif  gesture == "down"
-      until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      if element_does_not_exist "* marked:'#{content}'"
+        scroll_down
+      end    
     else 
       puts "Gesture  Error"
     end
   end 
 
   def evoke_search_bar
-    swipe :down, force: :strong
-    touch "UIButton marked:'Topics/Comments'"
+    swipe_down
+    wait_touch "* id:'menu_community_search'"
+    wait_touch "* id:'menu_search'"
+  end
+
+  def tap_keyboard_search
+    press_user_action_button('search')
   end
 
   def search_topics(args)
-    touch "UISegment marked:'Topics'"
+    wait_touch "* id:'tab_title' marked:'TOPICS'"
     puts "Search for topic: #{args}"
-    keyboard_enter_text args
-    tap_keyboard_action_key
+    enter_text "* id:'menu_search'", args
+    tap_keyboard_search
   end 
 
   def search_comments(args)
     touch "UISegment marked:'Comments'"
     puts "Search for comment: #{args}"
-    keyboard_enter_text args
-    tap_keyboard_action_key
+    enter_text "* id:'menu_search'", args
+    tap_keyboard_search
   end
 
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    if element_does_not_exist "* marked:'#{args}'"
+      scroll_down
+    end  
   end
 
   def scroll_up_to_see(args)
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    if element_does_not_exist "* marked:'#{args}'"
+      scroll_up
+    end   
   end
 
   def click_cancel
@@ -284,15 +310,15 @@ class ForumPage < Calabash::ABase
   end
 
   def show_entire_discussion
-    touch "UIButtonLabel marked:'Show entire discussion'"
+    forum_page.show_entire_discussion
   end
 
   def view_all_replies
-    touch "UILabel marked:'View all replies'"
+    forum_page.view_all_replies
   end
 
   def touch_search_result(args1, args2 = 1)
-    touch "UILabel marked:'#{args1}' index:#{args2}"
+    touch "* marked:'#{args1}' index:#{args2}"
   end 
 
   def check_search_result_comment(search_result)
@@ -319,52 +345,53 @@ class ForumPage < Calabash::ABase
   end
 
   def check_search_result_deleted(string)
-    touch "UILabel marked:'#{string}' index:1"
-    wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout => 3)
-    touch "* marked:'OK'"
+    touch "* marked:'#{string}' index:1"
+    wait_for_elements_exist("* {text CONTAINS 'Topic does not exist!'}", :timeout => 3)
   end
 
   def long_press(args)
-    x = query("* marked:'#{args}'")[0]["rect"]["x"]
-    y = query("* marked:'#{args}'")[0]["rect"]["y"]
-    puts "coordinate of item is x => #{x}, y => #{y}"
-    send_uia_command({:command => %Q[target.tapWithOptions({x: #{x}, y: #{y}}, {tapCount: 1, touchCount: 1, duration: 2.0})]})
+    puts "NO long press in android"
   end
 
   def join_group(args)
     touch "* marked:'Join' index:0"
-      touch "* marked:'#{args}'"
+    touch "* marked:'#{args}'"
   end  
   
   def leave_group
-    touch "UIImageView index:0"
-    touch "UIButtonLabel marked:'Leave'"
+    pan("* id:'title' index:0", :right)
+    wait_touch "* marked:'Leave'"
     puts "Left group"
-    touch "* marked:'Save'"
+  end
+
+  def enter_group_page
+    wait_touch "* contentDescription:'More options'"
+    wait_touch "* id:'title' marked:'Groups'"
   end
 
   def enter_profile_page
-    swipe :down, force: :strong
-    touch "UIImageView id:'gl-community-profile-empty'"
+    wait_touch "* contentDescription:'More options'"    
+    wait_touch "* id:'title' marked:'Profile'"
   end
 
   def edit_text_fields(args1,args2)
-    touch "*Label marked:'#{args1}'"
-    keyboard_enter_text "#{args2}"
+    enter "* marked:'#{args1}'", "#{args2}"
   end  
 
   def exit_edit_profile
-    touch "* id:'gl-community-back.png'"
+    touch "* contentDescription:'Navigate up'"
   end
 
   def exit_profile_page(button_index)
-    touch "UIButton index:#{button_index}"
+    touch "* contentDescription:'Navigate up'"
   end
 
   def get_UIButton_number
-    query("UIButton").size  
+    puts "NOt useful in android"
   end
 
+
+#---to be done---
   def check_groups
     touch "UIButton index:0"
     check_element_exists "* marked:'#{TARGET_GROUP_NAME }'"

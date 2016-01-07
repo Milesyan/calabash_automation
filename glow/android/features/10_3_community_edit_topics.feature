@@ -7,9 +7,9 @@ Feature: User edit topics.
     And I open "community" page
     And I go to the first group
     Then I post a text topic with title "test edit topic"
-    And I go back to group
     And I edit the topic "test edit topic" and change the title and content
-    Then I should see the topic is posted successfully
+    Then I should see the topic is edited successfully
+    And I go back to group
     And I logout
 
   @edit_existing_topic
@@ -20,7 +20,8 @@ Feature: User edit topics.
     And I open "community" page
     And I go to the first group
     Then I edit the topic "create topic by www api" and change the title and content
-    Then I should see the topic is posted successfully
+    Then I should see the topic is edited successfully
+    And I go back to group
     And I logout
 
   @edit_poll_before_voted
@@ -31,7 +32,8 @@ Feature: User edit topics.
     And I open "community" page
     And I go to the first group
     Then I edit the topic "create poll by www api" and change the title and content
-    Then I should see the topic is posted successfully
+    Then I should see the topic is edited successfully
+    And I go back to group
     And I logout
 
   @edit_poll_after_voted
@@ -43,5 +45,6 @@ Feature: User edit topics.
     And I open "community" page
     And I go to the first group
     Then I edit the topic "create poll by www api" and change the title and content
-    Then I should see the topic is posted successfully
+    Then I should see the topic is edited successfully
+    And I go back to group
     And I logout
