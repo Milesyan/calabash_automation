@@ -541,15 +541,6 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
-  def report_topic(args)
-    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
-    wait_touch "* id:'community-dots' index:1"
-    wait_touch "UILabel marked:'Report this post'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
-    wait_touch "UILabel marked:'#{args}'"  
-  end
-
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
@@ -559,13 +550,66 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
+
+  def confirm_hide(args = 1)
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'to hide this'}"}
+    if args ==1 
+      wait_touch "UILabel marked:'Yes, hide it.'"
+      puts "User hide it"
+    else 
+      wait_touch "UILabel marked:'No'"
+      puts "User not hide it"
+    end
+  end
+
+  def report_topic(args)
+    sleep 1
+    if element_does_not_exist "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"
+      enter_report_topic
+    end
+    wait_touch "UILabel marked:'#{args}'"  
+  end
+
   def report_comment(args)
+    sleep 1
+    if element_does_not_exist "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"
+      enter_report_comment
+    end
+    wait_touch "UILabel marked:'#{args}'" 
+  end
+
+  def enter_report_topic
+    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
+    puts "I can see topic #{$user2.topic_title}"
+    wait_touch "* id:'community-dots' index:1"
+    wait_touch "UILabel marked:'Report this post'"
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+  end
+
+  def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
-    wait_touch "UILabel marked:'#{args}'"  
+  end
+
+  def report_topic_check_reasons(table)
+    enter_report_topic
+    table.rows.each do |row|
+      tmp = escape_quotes(row[0].to_s)
+      check_element_exists "* marked:'#{tmp}'"
+      puts "check #{tmp} pass"
+    end
+  end
+
+  def report_comment_check_reasons(table)
+    enter_report_comment
+    table.rows.each do |row|
+      tmp = escape_quotes(row[0].to_s)
+      check_element_exists "* marked:'#{tmp}'"
+      puts "check #{tmp} pass"
+    end
   end
 
 end

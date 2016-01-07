@@ -243,6 +243,7 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
 end
 
 Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
+  logout_if_already_logged_in
   case type.downcase
   when "non-ttc"
     $user = forum_new_non_ttc_user(first_name: name).complete_tutorial

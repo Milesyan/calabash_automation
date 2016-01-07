@@ -15,6 +15,12 @@ class OnboardPage < Calabash::IBase
     sleep 3
   end
 
+  def dismiss_install_message
+    if element_exists "* {text CONTAINS 'Congrats'}"
+      puts "Add dismiss install"
+    end
+  end 
+
   def open_login_link
     wait_touch "* marked:'Log in'"
   end

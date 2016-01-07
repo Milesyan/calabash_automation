@@ -71,3 +71,39 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I wait to see comment contains "comment 1"
 		And I go back to group
     And I logout
+
+  @report_reason
+	Scenario: User create a topic and hide it.
+		Given I create a new "ttc" glow user with name "Miles"
+		And another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
+		And I login as the new user "Miles" created through www
+		And I open "community" page
+		And I go to the first group
+		And I enter topic created by another user
+		Then I click to report the "topic" and check the reasons:
+			|Topic flag reasons|
+			|Wrong group	|
+			|Rude					|
+			|Obscene			|
+			|Spam					|
+			|Solicitation	|
+			|Other				|
+			|Cancel				|
+		And I report the topic by reason "Other"
+		And I type in report reason and click flag
+		And I click confirm not to hide it
+		Then I should still see the topic
+		And I click to report the "comment" and check the reasons:
+			|Comment flag reasons|
+			|Rude|
+			|Obscene|
+			|Spam|
+			|Solicitation|
+			|Other|
+			|Cancel|
+		And I report the comment by reason "Other"
+		And I type in report reason and click flag
+		And I click confirm not to hide it
+		Then I should still see the comment
+		And I go back to previous page
+		And I logout
