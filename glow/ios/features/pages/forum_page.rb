@@ -563,7 +563,7 @@ class ForumPage < Calabash::IBase
 
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
+    puts "I can see topic >>>#{$user2.topic_title}<<<"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
@@ -579,7 +579,7 @@ class ForumPage < Calabash::IBase
 
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
+    puts "I can see comment >>>#{$hidereply_content}<<<"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
@@ -590,7 +590,7 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check #{tmp} pass"
+      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -599,7 +599,7 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check #{tmp} pass"
+      puts "check >>'#{tmp}'<< pass"
     end
   end
 
