@@ -5,11 +5,6 @@ class ForumPage < Calabash::ABase
     "*"
   end
 
-  def wait_touch(query_str)
-    sleep 1
-    wait_for_elements_exist([query_str])
-    touch(query_str)
-  end
 
 #--------New create topic flow itmes----
   def touch_floating_menu
@@ -38,6 +33,11 @@ class ForumPage < Calabash::ABase
     sleep 1
   end
 
+  def touch_floating_create_group
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:0"
+    sleep 1
+  end
+
 #------------create topics-----------------
   def create_poll(args={})
     if element_exists "* id:'community_home_floating_actions_menu'"
@@ -48,6 +48,16 @@ class ForumPage < Calabash::ABase
     end
     create_poll_common args
   end
+
+  def create_group
+    if element_exists "* id:'community_home_floating_actions_menu'"
+      touch_floating_menu
+      touch_floating_create_group
+    else 
+      touch "* marked:'Create a group'"
+    end
+    create_poll_common args
+  end 
 
   def select_first_group
     touch "* id:'text1' index:0" # select a group
@@ -145,7 +155,6 @@ class ForumPage < Calabash::ABase
   def discard_topic
     touch "* id:'create_cancel'"
     sleep 1
-    # touch "UILabel marked:'Discard'"
     if element_exists "* id:'fab_expand_menu_button'"
       touch_floating_menu 
       sleep 1
@@ -243,6 +252,8 @@ class ForumPage < Calabash::ABase
   end
 
   def delete_comment(args)
+    sleep 2
+    scroll_down
     touch "* id:'reply_menu' index:#{args}"
     touch "* marked:'Delete this reply'"
     wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this comment?'}"}
@@ -252,24 +263,20 @@ class ForumPage < Calabash::ABase
 
   def enter_topic(args1)
     touch "* {text CONTAINS '#{args1}'} index:0"
+    sleep 1
   end
 
   def scroll_to_see(gesture,content)
     if gesture == "up"
-      if element_does_not_exist "* marked:'#{content}'"
-        scroll_up
-      end
+      until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_up },:time_out => 20)
     elsif  gesture == "down"
-      if element_does_not_exist "* marked:'#{content}'"
-        scroll_down
-      end    
+      until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_down },:time_out => 30)  
     else 
       puts "Gesture  Error"
     end
   end 
 
   def evoke_search_bar
-    swipe_down
     wait_touch "* id:'menu_community_search'"
     wait_touch "* id:'menu_search'"
   end
@@ -286,8 +293,15 @@ class ForumPage < Calabash::ABase
   end 
 
   def search_comments(args)
-    touch "UISegment marked:'Comments'"
+    wait_touch "* id:'tab_title' marked:'COMMENTS'"
     puts "Search for comment: #{args}"
+    enter_text "* id:'menu_search'", args
+    tap_keyboard_search
+  end
+
+  def search_groups(args)
+    wait_touch "* id:'tab_title' marked:'GROUPS'"
+    puts "Search for group : #{args}"
     enter_text "* id:'menu_search'", args
     tap_keyboard_search
   end
@@ -319,6 +333,7 @@ class ForumPage < Calabash::ABase
 
   def touch_search_result(args1, args2 = 1)
     touch "* marked:'#{args1}' index:#{args2}"
+    sleep 2
   end 
 
   def check_search_result_comment(search_result)
@@ -347,6 +362,7 @@ class ForumPage < Calabash::ABase
   def check_search_result_deleted(string)
     touch "* marked:'#{string}' index:1"
     wait_for_elements_exist("* {text CONTAINS 'Topic does not exist!'}", :timeout => 3)
+    sleep 1
   end
 
   def long_press(args)
@@ -354,8 +370,8 @@ class ForumPage < Calabash::ABase
   end
 
   def join_group(args)
-    touch "* marked:'Join' index:0"
-    touch "* marked:'#{args}'"
+    wait_touch "* marked:'#{args}' parent * index:2 child * id:'community_recommended_group_join'"
+    wait_touch "* marked:'#{args}' parent * index:2 child * index:1 child * marked:'Joined'"
   end  
   
   def leave_group
@@ -372,85 +388,81 @@ class ForumPage < Calabash::ABase
   def enter_profile_page
     wait_touch "* contentDescription:'More options'"    
     wait_touch "* id:'title' marked:'Profile'"
+    wait_for_elements_do_not_exist "* id:'title' marked:'Profile'"
   end
 
-  def edit_text_fields(args1,args2)
-    enter "* marked:'#{args1}'", "#{args2}"
-  end  
-
-  def exit_edit_profile
-    touch "* contentDescription:'Navigate up'"
-  end
-
-  def exit_profile_page(button_index)
-    touch "* contentDescription:'Navigate up'"
-  end
-
-  def get_UIButton_number
-    puts "NOt useful in android"
-  end
-
-
-#---to be done---
   def get_element_x_y(args)
+    wait_for_elements_exist "* id:'#{args}'"
     x = query("* id:'#{args}'")[0]["rect"]["x"]
     y = query("* id:'#{args}'")[0]["rect"]["center_y"]
     width = query("* id:'#{args}'")[0]["rect"]["width"]
-    x,y,width
+    puts  x,y,width
+    return x,y,width
   end
+
+
   def check_groups
-    x,y,width = get_element_x_y user_social_stats
-    if element_exists "* {text CONTAINS 'groups'}" || element_exists "* {text CONTAINS 'group'}"
-      performAction('touch_coordinate',(x+width/6, y)
+    x,y,width = get_element_x_y "user_social_stats"
+
+    if element_exists "* {text CONTAINS 'group'}"
+      perform_action('touch_coordinate',(x+width*0.1), y)
       sleep 1
+      puts "Group #{(x+width/6)} , #{y}"
+    elsif element_exists "* {text CONTAINS 'groups'}"
+      perform_action('touch_coordinate',(x+width*0.1), y)
+      sleep 1
+      puts "Groups #{(x+width/6)} , #{y}"
     else
       puts "Group text does not exist on screen."
     end
-    check_element_exists "* marked:'#{ TARGET_GROUP_NAME }'"
+    wait_for_elements_exist "* marked:'#{ TARGET_GROUP_NAME }'"
     puts "I can see target group"
   end
 
   def check_followers
-    x,y,width = get_element_x_y user_social_stats
-    if element_exists "* {text CONTAINS 'follower'}" || element_exists "* {text CONTAINS 'followers'}"
-      performAction('touch_coordinate',(x+width*5/6, y)
+    x,y,width = get_element_x_y "user_social_stats"
+    if element_exists "* {text CONTAINS 'follower'}"
+      perform_action('touch_coordinate',(x+width*0.5), y)
+      sleep 1
+    elsif element_exists "* {text CONTAINS 'followers'}"
+      perform_action('touch_coordinate',(x+width*0.5), y)
       sleep 1
     else
       puts "Follower text does not exist on screen."
     end
-    check_element_exists "* marked:'#{$user2.first_name}'"
+    wait_for_elements_exist "* marked:'#{$user2.first_name}'"
     puts "I can see follower #{$user2.first_name}"
   end
 
   def check_following
-    x,y,width = get_element_x_y user_social_stats
+    x,y,width = get_element_x_y "user_social_stats"
     if element_exists "* {text CONTAINS 'following'}"
-      performAction('touch_coordinate',(x+width/2, y)
+      perform_action('touch_coordinate',(x+width*0.2), y)
       sleep 1
     else
       puts "Following text does not exist on screen."
     end
-    check_element_exists "* marked:'#{$user2.first_name}'"
-    check_element_exists "* marked:'Following'"
+    wait_for_elements_exist "* marked:'#{$user2.first_name}'"
+    wait_for_elements_exist "* marked:'Following'"
     puts "I can see I'm following #{$user2.first_name}"
   end
 
   def check_following_not_exist
-    x,y,width = get_element_x_y user_social_stats
+    x,y,width = get_element_x_y "user_social_stats"
     if element_exists "* {text CONTAINS 'following'}"
-      performAction('touch_coordinate',(x+width/2, y)
+      perform_action('touch_coordinate',(x+width*0.2), y)
       sleep 1
     else
       puts "Following text does not exist on screen."
     end
-    check_element_does_not_exist "* marked:'#{$user2.first_name}'"
+    sleep 0.5
+    wait_for_elements_do_not_exist "* marked:'#{$user2.first_name}'"
     puts "I can NOT see I'm following #{$user2.first_name}"
   end
 
   def check_participated
     wait_touch "* marked:'Participated'"
-    sleep 0.5
-    check_element_exists "* marked:'#{$user.topic_title}'"
+    wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
     check_element_exists "* marked:'Show entire discussion'"
@@ -458,8 +470,7 @@ class ForumPage < Calabash::ABase
 
   def check_created
     wait_touch "* marked:'Created'"
-    sleep 0.5
-    check_element_exists "* marked:'#{$user.topic_title}'"
+    wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
     check_element_does_not_exist "* marked:'Show entire discussion'"
@@ -468,7 +479,7 @@ class ForumPage < Calabash::ABase
   def check_bookmarked
     wait_touch "* marked:'bookmarked'"
     sleep 0.5
-    check_element_exists "* marked:'#{$user.topic_title}'"
+    wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
     check_element_does_not_exist "* marked:'Show entire discussion'"
@@ -495,12 +506,12 @@ class ForumPage < Calabash::ABase
   end
 
   def touch_creator_name(args)
-    x,y,width = get_element_x_y topic_author_date
+    x,y,width = get_element_x_y "topic_author_date"
     if element_exists "* {text CONTAINS 'Posted by'}"
-      performAction('touch_coordinate',(x+width*0.5, y)
+      perform_action('touch_coordinate',(x+width*0.5), y)
       sleep 1
       if element_exists "* {text CONTAINS 'Posted by'}"
-        performAction('touch_coordinate',(x+width*0.3, y)
+        perform_action('touch_coordinate',(x+width*0.3), y)
         sleep 1
       end
     else
@@ -565,6 +576,7 @@ class ForumPage < Calabash::ABase
   end
 
   def hide_topic
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
     touch "* id:'topic_menu'"
@@ -573,14 +585,34 @@ class ForumPage < Calabash::ABase
     touch "* marked:'OK'"  
   end
 
+  def confirm_hide(args = 1)
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'to hide this'}"}
+    if args ==1 
+      wait_touch "* marked:'OK'"
+      puts "User hide it"
+    else 
+      wait_touch "* marked:'Cancel'"
+      puts "User not hide it"
+    end
+    wait_for_elements_do_not_exist "* {text CONTAINS 'to hide this'}"
+  end
+
+
   def report_topic(args)
-    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
-    touch "* id:'topic_menu'"
-    touch "* marked:'Report this post'"
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    enter_report_topic
     touch "* marked:'#{args}'"  
   end
+
+
+  def enter_report_topic
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
+    puts "I can see topic >>>#{$user2.topic_title}<<<"
+    touch "* id:'topic_menu'"
+    wait_touch "* marked:'Report this post'"
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"}
+  end
+
 
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
@@ -592,11 +624,33 @@ class ForumPage < Calabash::ABase
   end
 
   def report_comment(args)
+    enter_report_comment
+    touch "* marked:'#{args}'"  
+  end
+  
+  def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"}
-    touch "* marked:'#{args}'"  
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+  end
+
+  def report_topic_check_reasons(table)
+    enter_report_topic
+    table.rows.each do |row|
+      tmp = escape_quotes(row[0].to_s)
+      check_element_exists "* marked:'#{tmp}'"
+      puts "check >>'#{tmp}'<< pass"
+    end
+  end
+
+  def report_comment_check_reasons(table)
+    enter_report_comment
+    table.rows.each do |row|
+      tmp = escape_quotes(row[0].to_s)
+      check_element_exists "* marked:'#{tmp}'"
+      puts "check >>'#{tmp}'<< pass"
+    end
   end
 end

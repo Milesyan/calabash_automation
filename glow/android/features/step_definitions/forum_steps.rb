@@ -13,16 +13,6 @@ Given(/^I post a "(.*?)" topic$/) do |topic_type|
     forum_page.select_first_group
 end
 
-
-Then(/^I scroll down$/) do
-  scroll_down
-end
-
-
-Then(/^I should see "(.*?)"$/) do |arg1|
-  wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
-end
-
 Then(/^I should see the topic is posted successfully$/) do
   wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>3
 end
@@ -31,8 +21,10 @@ Then(/^I should see the topic is edited successfully$/) do
   wait_for_elements_exist "* {text CONTAINS 'Success!'}", :timeout=>3
 end
 
-Then(/^I touch "(.*?)"$/) do |arg1|
-  touch "* marked:'#{arg1}'"
+
+Given(/^I touch "(.*?)" and wait for (\d+) seconds$/) do |arg1, arg2|
+  wait_touch "* marked:'#{arg1}'"
+  sleep arg2.to_i
 end
 
 Given(/^I open "(.*?)" tab in community$/) do |tab_name|
@@ -107,13 +99,8 @@ end
 
 Then (/^I go back to previous page$/) do
   forum_page.click_back_button
+  sleep 1
 end
-
-Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
-  forum_page.click_back_button
-  sleep 0.5
-  forum_page.click_back_button
-end  
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
   forum_page.edit_topic topic_name
@@ -133,6 +120,7 @@ end
 
 Then(/^I expand all the comments$/) do
   wait_touch "* marked:'Show entire discussion'"
+  sleep 1
 end
 
 Then(/^I click view all replies$/) do
@@ -166,8 +154,9 @@ Then(/^I should see the search result for topic$/) do
 end
 
 Then(/^I return to group page from search result$/) do
-  forum_page.click_back_button
-  forum_page.click_cancel
+  2.times do
+    forum_page.click_back_button
+  end
 end
 
 #--------Search Comments-----------
@@ -212,8 +201,8 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* marked:'Test+search+comment #{$comment_number}'")
-  puts "check element: * marked:'Test+search+comment #{$comment_number}'"
+  wait_for_elements_exist("* marked:'Test+search+comment#{$comment_number}'")
+  puts "check element: * marked:'Test+search+comment#{$comment_number}'"
 end
 
 
@@ -226,8 +215,8 @@ Then(/^I click the plus button in community tab$/) do
   touch "* marked:'＋'"
 end
 
-Then(/^I click Create a group$/) do
-  touch "UIButtonLabel marked:'Create a group'"
+Then(/^I click create a group$/) do
+  forum_page.create_group
 end
 
 Then(/^I join the group "([^"]*)"$/) do |arg1|
@@ -235,13 +224,10 @@ Then(/^I join the group "([^"]*)"$/) do |arg1|
   if element_exists("* marked:'Cancel'") 
     touch "* marked:'Cancel'"
   end
-  wait_for_elements_exist("* marked:'Post'")
+  if element_does_not_exist "* marked:'Post'"
+    wait_for_element_exists "* id:'community_home_floating_actions_menu'"
+  end
 end
-
-Then(/^I long press group "([^"]*)"$/) do |arg1|
-  forum_page.long_press arg1
-end
-
 Then(/^I quit the group$/) do
   forum_page.leave_group
 end
@@ -257,22 +243,22 @@ Then(/^I click edit profile button$/) do
 end
 
 Then(/^I edit some field in profile page$/) do
-  forum_page.edit_text_fields "Glow", "Last name"
-  forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
-  forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
-  touch "UILabel marked:'Bio'"
-  keyboard_enter_text "Edit Bio info"
+  enter_text "* id:'first_name'", "Testname"
+  enter_text "* id:'last_name'", "TestLast"
+  enter_text "* id:'bio'", "Add Bio info"
+  enter_text "* id:'location'", "New York"
+  wait_touch "* marked:'Save'"
 end
 
 Then(/^I go back to user profile page and check the changes in profile page$/) do
-  forum_page.exit_edit_profile
-  check_element_exists("* marked:'Edit Bio info'")
-  check_element_exists("* marked:'#{$user.first_name}Edit first'")
-  check_element_exists("* marked:'Edit Shanghai'")
+  wait_for_elements_exist "* {text CONTAINS 'Created'}"
+  check_element_exists("* marked:'Add Bio info'")
+  check_element_exists("* marked:'#{$user.first_name}Testname'")
+  check_element_exists("* marked:'New York'")
 end
 
 Then(/^I go back to forum page from forum profile page$/) do
-  forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  forum_page.click_back_button
 end
 
 Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|
@@ -320,14 +306,17 @@ end
 
 Then(/^I click the close button and go back to previous page$/) do
   forum_page.click_back_button
+  sleep 1
 end
 
 Then(/^I click the bookmark icon$/) do
   forum_page.click_bookmark_icon
+  sleep 1
 end
 
 Then(/^I click the hyperlink of comments$/) do
   forum_page.click_hyperlink_comments
+  sleep 0.5
 end
 
 Then(/^I enter topic created by another user$/) do 
@@ -339,6 +328,8 @@ Then(/^I hide the topic$/) do
 end
 
 Then(/^I should not see the topic hidden by me$/) do 
+  sleep 1.5
+  wait_for_elements_exist "* marked:'Community'"
   check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
   puts "I cannot see topic #{$user2.topic_title}"
 end
@@ -381,10 +372,6 @@ Then(/^I should still see the topic$/) do
 end
 
 
-Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
-  forum_page.report_comment report_reason
-end
-
 Then(/^I click to report the "([^"]*)" and check the reasons:$/) do |arg1,table|
   case arg1.downcase
   when "topic"
@@ -397,7 +384,8 @@ Then(/^I click to report the "([^"]*)" and check the reasons:$/) do |arg1,table|
 end
 
 Then(/^I type in report reason and click flag$/) do
-  wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
-  keyboard_enter_text "Test Flag reason by Miles"
-  wait_touch "* marked:'Flag'"
+  # wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
+  # keyboard_enter_text "Test Flag reason by Miles"
+  # wait_touch "* marked:'Flag'"
+  puts "Not realized in Android yet"
 end

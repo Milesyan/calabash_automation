@@ -37,7 +37,7 @@ Feature: User create a topic and delete it (5m8.716s 4 scenarios 43 steps)
     And I expand all the comments
     Then I delete the comment index 0
     Then I delete the comment index 0
-    Then I go to group page in topic "create topic by www api"
+    And I go to previous page
     And I logout
 
   @delete_reply  
@@ -52,7 +52,7 @@ Feature: User create a topic and delete it (5m8.716s 4 scenarios 43 steps)
     And I click view all replies
     Then I delete the comment index 0
     # Then I delete the comment index 0
-    Then I go to group page in topic "create topic by www api"
+    And I go to previous page
     And I logout
 
 

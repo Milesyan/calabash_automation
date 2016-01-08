@@ -777,7 +777,6 @@ module GlowAndroid
           "last_sync_time": 1450216427,
           "settings": {
             "insurance": 1,
-            "time_zone": 8,
             "occupation": "Employed",
             "live_birth_number": 1,
             "miscarriage_number": 1,
@@ -817,7 +816,7 @@ module GlowAndroid
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
+      puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
@@ -833,7 +832,7 @@ module GlowAndroid
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts "topic >>>>>'#{@title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
+      puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
@@ -856,7 +855,7 @@ module GlowAndroid
 
     def reply_to_topic(topic_id, args = {})
       data = {
-        "content": args[:topic_content] || ("Example reply to topic" + Time.now.to_s)
+        "content": args[:reply_content] || ("Example reply to topic" + Time.now.to_s)
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
@@ -867,7 +866,7 @@ module GlowAndroid
 
     def reply_to_comment(topic_id, reply_id, args = {})
       data = {
-        "content": args[:topic_content] || ("Example reply to comment" + Time.now.to_s),
+        "content": args[:reply_content] || ("Example reply to comment" + Time.now.to_s),
         "reply_to": reply_id
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
@@ -925,7 +924,7 @@ module GlowAndroid
       data = {}
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.delete(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "topic >>>>>'#{self.title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
+      puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
     end
 

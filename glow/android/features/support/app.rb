@@ -20,6 +20,12 @@ module Glow
     toolbar_page.logout if already_logged_in?
   end
 
+  def wait_touch(query_str)
+    sleep 1
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+  end
+  
   def relaunch_app
     launcher = Calabash::Cucumber::Launcher.new
     launcher.relaunch(:reset => true)
