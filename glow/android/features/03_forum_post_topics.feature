@@ -1,4 +1,4 @@
-@forum @all
+@forum_old @all
 Feature: Community
   @poll_topic
   Scenario: Post a poll

@@ -436,7 +436,7 @@ class GlowTest < Minitest::Test
   end
 
   def test_create_photo_topic
-    u = new_ttc_user.complete_tutorial.join_group 1
+    u = new_ttc_user.complete_tutorial.leave_all_groups.join_group
     u.create_image
     assert_rc u.res
   end

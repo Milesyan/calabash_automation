@@ -253,6 +253,6 @@ Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
   when "single male"
     $user = GlowUser.new(gender: "male", first_name: name).male_signup.complete_tutorial.join_group
   end
-  puts $user.email, $user.password
+  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}"
 end
