@@ -290,7 +290,7 @@ class ForumPage < Calabash::IBase
 
   def search_deleted_comments(args)
     touch "UISegment marked:'Comments'"
-    puts "Search for comment: #{args}"
+    puts "Search for deleted comment: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
   end
@@ -346,7 +346,6 @@ class ForumPage < Calabash::IBase
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
-    wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     forum_page.view_all_replies
     puts "Finding element '#{search_result}'"

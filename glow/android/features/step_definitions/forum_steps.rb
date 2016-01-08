@@ -195,7 +195,7 @@ Then(/^I click search for deleted "([^"]*)"$/) do |arg1|
   when "reply"
     string = $random_str2
   end  
-  forum_page.search_comments string
+  forum_page.search_deleted_comments string
 end
 
 Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|

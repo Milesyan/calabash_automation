@@ -303,6 +303,13 @@ class ForumPage < Calabash::ABase
     tap_keyboard_search
   end
 
+  def search_deleted_comments(args)
+    wait_touch "* id:'tab_title' marked:'COMMENTS'"
+    puts "Search for deleted comment: #{args}"
+    enter_text "* id:'menu_search'", args
+    tap_keyboard_search
+  end
+
   def search_subreplies
     wait_touch "* id:'tab_title' marked:'COMMENTS'"
     $search_content  = "#{$random_prefix} sub-reply"
@@ -362,7 +369,6 @@ class ForumPage < Calabash::ABase
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
-    scroll_down_to_see "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     forum_page.view_all_replies
     puts "Finding element '#{search_result}'"
