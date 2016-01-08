@@ -80,17 +80,30 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
   puts "GROUP id = #{GROUP_ID}"
   case topic_type.downcase
   when "text"
-    $user.create_topic({:title => 'create topic by www api', :group_id => GROUP_ID})
+    $user.create_topic({:topic_title => 'create topic by www api', :group_id => GROUP_ID})
   when "poll"
-    $user.create_poll({:title => 'create poll by www api', :group_id => GROUP_ID})
+    $user.create_poll({:topic_title => 'create poll by www api', :group_id => GROUP_ID})
+  when "photo"
+    $user.create_photo({:topic_title => 'create photo by www api', :group_id => GROUP_ID})
   end
   puts "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
   logout_if_already_logged_in
 end
 
+Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |user_name, topic_type|
+  puts "GROUP id = #{GROUP_ID}"
+  if topic_type.downcase == "photo"
+    $user.create_photo({:topic_title => 'TEST TMI IMAGE', :group_id => GROUP_ID, :tmi_flag => 1})
+  else 
+    puts "ONlY PHOTO HAS TMI MODE!!!"
+  end
+  puts "TMI Photo, the title is  >>>>#{$user.topic_title}<<<<"
+  logout_if_already_logged_in
+end
+
 Then(/^I create another glow user "([^"]*)" and create a topic in the test group$/) do |user_name|
   $user2 = forum_new_non_ttc_user(first_name: user_name).complete_tutorial.join_group
-  $user2.create_topic({:title => "Test follow/block user", :group_id => GROUP_ID})
+  $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
 
 Then(/^I created another user to vote the poll$/) do
@@ -119,7 +132,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topics$/) do |name, number|
   number.to_i.times do |number|
-    $user.create_topic({:title => "Test load more topic #{number+1}"})
+    $user.create_topic({:topic_title => "Test load more topic #{number+1}"})
   end
 end
 
@@ -130,7 +143,7 @@ Then(/^"([^"]*)" create (\d+) topics for searching topic$/) do |name, arg1|
   $topic_numbers = arg1
   $time_created = $user.random_str
   arg1.to_i.times do |arg1|
-    $user.create_topic({:title => "Test+search+#{arg1+1}+#{$time_created}" })
+    $user.create_topic({:topic_title => "Test+search+#{arg1+1}+#{$time_created}" })
   end
 end
 
@@ -159,7 +172,7 @@ end
 
 Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |name, arg1, comment_number, subreply_number|
   $user2 = forum_new_ttc_user(first_name: name)
-  $user2.create_topic :title => "Test hide/flag #{$user2.random_str}"
+  $user2.create_topic :topic_title => "Test hide/flag #{$user2.random_str}"
   puts "Glow User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
   $comment_number2 = comment_number
   $subreply_number2 = subreply_number

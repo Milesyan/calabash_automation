@@ -14,7 +14,7 @@ module GlowIOS
   GROUP_ID = 5
   BASE_URL = "http://dragon-emma.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
-
+  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www"
   # BASE_URL = "http://localhost:5010"
   # FORUM_BASE_URL = "http://localhost:35010"
 
@@ -601,49 +601,36 @@ module GlowIOS
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["result"]["id"]
-      title = @res["result"]["title"]
-      @topic_title = title
-      puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
+      @topic_title = @res["result"]["title"]
+      puts "Poll >>>>>'#{@topic_title}'<<<<< created, topic id is #{topic_id}"
       self
     end
 
 
-    def create_image(args={})
+    def create_photo(args={})
       topic_data = {
         "code_name": "emma",
         "app_version": "5.3.0",
         "locale": "en_US",
         "device_id": "139E7990-DB88-4D11-9D6B-290" + random_str,
         "random": random_str,
-        "title": "Image topic" + Time.now.to_s,
+        "title": args[:topic_title] || "Image topic" + Time.now.to_s,
         "anonymous": 0,
         "ut": @ut,
         "model": "iPhone7,1",
-        "warning": 0,
-        "image": File.new('1.png')
+        "warning": args[:tmi_flag] || 0,
+        "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
       }
+      @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
-      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/1/create_photo")
+      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_photo")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
+      @topic_title = @res["result"]["title"] 
+      puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end
-
-
-    def vote_poll(args = {})
-      vote_data = {
-        "code_name": "emma",
-        "vote_index": 2,
-        "ut": @ut
-      }.merge(common_data)
-      topic_id = args[:topic_id]
-      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      puts "Topic #{topic_id} is voted"
-      self
-    end 
-
 
     def reply_to_topic(topic_id, args = {})
       reply_data = {

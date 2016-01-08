@@ -837,7 +837,9 @@ module GlowAndroid
     end
 
 
-    def vote_poll(topic_id, vote_index=1)
+    def vote_poll(args= {})
+      topic_id = args[:topic_id]
+      vote_index = args[:vote_index] || 1
       data = {
         "vote_index": vote_index
       }

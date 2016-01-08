@@ -12,7 +12,7 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
     touch "* marked:'Next'"
-    sleep 3
+    sleep 2
   end
 
   def dismiss_install_message

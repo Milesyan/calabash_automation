@@ -44,7 +44,7 @@ Feature: User edit topics.
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    Then I edit the topic "create poll by www api" and change the title and content
-    Then I should see the topic is edited successfully
+    Then I edit the topic "create poll by www api" which has been voted
+    Then I should see the topic cannot be voted
     And I go back to group
     And I logout

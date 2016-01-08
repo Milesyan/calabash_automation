@@ -71,8 +71,7 @@ class ForumPage < Calabash::ABase
 
   def create_post_in_group(args={})
     create_post args
-    $user.topic_title = @title
-    puts $user.topic_title
+    puts "In group post title $user.topic_title"
   end
 
 
@@ -153,7 +152,7 @@ class ForumPage < Calabash::ABase
   end
     
   def discard_topic
-    touch "* id:'create_cancel'"
+    wait_touch "* id:'create_cancel'"
     sleep 1
     if element_exists "* id:'fab_expand_menu_button'"
       touch_floating_menu 
@@ -165,6 +164,11 @@ class ForumPage < Calabash::ABase
     touch "* contentDescription:'Navigate up'"
   end  
   
+  def edit_topic_voted (args1)
+    touch "* {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* id:'topic_menu'"
+    touch "* marked:'Edit this post'"
+  end
 
   def edit_topic(args1)
     touch "* {text CONTAINS '#{args1}'} index:0"
@@ -198,7 +202,6 @@ class ForumPage < Calabash::ABase
     sleep 3
     touch "* id:'add_reply_yes'"
     sleep 2
-
   end
 
   def add_comments(n)
@@ -292,10 +295,19 @@ class ForumPage < Calabash::ABase
     tap_keyboard_search
   end 
 
-  def search_comments(args)
+  def search_comments
     wait_touch "* id:'tab_title' marked:'COMMENTS'"
-    puts "Search for comment: #{args}"
-    enter_text "* id:'menu_search'", args
+    $search_content  = "#{$random_prefix} comment"
+    puts "Search for comment: >>>>#{$search_content}<<<<"
+    enter_text "* id:'menu_search'", $search_content
+    tap_keyboard_search
+  end
+
+  def search_subreplies
+    wait_touch "* id:'tab_title' marked:'COMMENTS'"
+    $search_content  = "#{$random_prefix} sub-reply"
+    puts "Search for subreply: >>>>#{$search_content}<<<<"
+    enter_text "* id:'menu_search'", $search_content
     tap_keyboard_search
   end
 
@@ -307,16 +319,13 @@ class ForumPage < Calabash::ABase
   end
 
   def scroll_down_to_see(args)
-    puts "* marked:'#{args}'"
-    if element_does_not_exist "* marked:'#{args}'"
-      scroll_down
-    end  
+    puts "Scroll down to see >>>* marked:'#{args}'<<<<"
+    sleep 1
+    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
   end
 
   def scroll_up_to_see(args)
-    if element_does_not_exist "* marked:'#{args}'"
-      scroll_up
-    end   
+    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_up },:time_out => 10,:interval => 1.5)    
   end
 
   def click_cancel
@@ -324,11 +333,11 @@ class ForumPage < Calabash::ABase
   end
 
   def show_entire_discussion
-    forum_page.show_entire_discussion
+    wait_touch "* marked:'Show entire discussion'"
   end
 
   def view_all_replies
-    forum_page.view_all_replies
+    wait_touch "* id:'view_sub_replies'"
   end
 
   def touch_search_result(args1, args2 = 1)
@@ -336,27 +345,28 @@ class ForumPage < Calabash::ABase
     sleep 2
   end 
 
-  def check_search_result_comment(search_result)
+  def check_search_result_comment
     random_number = Random.rand($comment_number.to_i).to_i+1
-    search_content  = "#{search_result}#{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
-    wait_for_elements_exist("* marked:'#{search_content}'")
+    search_result = $search_content+" "+random_number.to_s
+    puts "Search for #{search_result}"
+    scroll_down_to_see search_result
+    touch_search_result search_result,0
+    wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
-    puts "See element '#{search_result} #{random_number}'"
+    puts "See element '#{search_result}'"
   end
 
-  def check_search_result_subreply(search_result)
+  def check_search_result_subreply
     random_number = Random.rand($subreply_number.to_i).to_i+1
-    search_content  = "#{search_result} #{random_number}"
-    puts "Search for #{search_content}"
-    forum_page.scroll_down_to_see search_content
-    forum_page.touch_search_result search_content,0
+    search_result = $search_content+" "+random_number.to_s
+    puts "Search for #{search_result}"
+    forum_page.scroll_down_to_see search_result
+    forum_page.touch_search_result search_result,0
+    scroll_down_to_see "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     forum_page.view_all_replies
-    puts "Finding element '#{search_content}'"
-    forum_page.scroll_up_to_see search_content
+    puts "Finding element '#{search_result}'"
+    forum_page.scroll_down_to_see search_result
   end
 
   def check_search_result_deleted(string)

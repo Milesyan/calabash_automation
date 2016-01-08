@@ -9,7 +9,7 @@ end
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
 	logout_if_already_logged_in
-	puts "Log in as #{arg1}" + $user2.email, $user2.password 
+	puts "Log in as #{arg1}; Email>>>#{$user2.email} Password>>>#{$user2.password }"
 	onboard_page.tap_login
 	forum_page.login_with $user2.email,$user2.password
 end

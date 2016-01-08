@@ -21,6 +21,9 @@ Then(/^I should see the topic is edited successfully$/) do
   wait_for_elements_exist "* {text CONTAINS 'Success!'}", :timeout=>3
 end
 
+Then(/^I should see the topic cannot be voted$/) do
+  wait_for_elements_exist "* {text CONTAINS 'Once a poll has votes, it cannot be edited.'}", :timeout=>3
+end
 
 Given(/^I touch "(.*?)" and wait for (\d+) second(?:s)?$/) do |arg1, arg2|
   wait_touch "* marked:'#{arg1}'"
@@ -91,7 +94,7 @@ Then(/^I go to the first group$/) do
 end
 
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
-  forum_page.create_post_in_group({'title': arg1})
+  forum_page.create_post_in_group({'topic_title': arg1})
 end
 
 Then(/^I discard the topic$/) do
@@ -109,6 +112,10 @@ end
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
   forum_page.edit_topic topic_name
+end
+
+Then(/^I edit the topic "([^"]*)" which has been voted$/) do |topic_name|
+  forum_page.edit_topic_voted topic_name
 end
 
 Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
@@ -129,7 +136,7 @@ Then(/^I expand all the comments$/) do
 end
 
 Then(/^I click view all replies$/) do
-  wait_touch "* id:'view_sub_replies'"
+  forum_page.view_all_replies
 end
 
 Then(/^I scroll "([^"]*)" to see "([^"]*)"$/) do |action,content|
@@ -165,16 +172,20 @@ Then(/^I return to group page from search result$/) do
 end
 
 #--------Search Comments-----------
-Then(/^I click search for comment "([^"]*)"$/) do |comment|
-  forum_page.search_comments comment
+Then(/^I click search for comment$/) do
+  forum_page.search_comments
 end
 
-Then(/^I check the search result for comment "([^"]*)"$/) do |search_result|
-  forum_page.check_search_result_comment search_result
+Then(/^I click search for subreply$/) do
+  forum_page.search_subreplies
 end
 
-Then(/^I check the search result for sub-reply "([^"]*)"$/) do |search_result|
-  forum_page.check_search_result_subreply search_result
+Then(/^I check the search result for comment$/) do
+  forum_page.check_search_result_comment
+end
+
+Then(/^I check the search result for sub-reply$/) do
+  forum_page.check_search_result_subreply
 end
 
 Then(/^I click search for deleted "([^"]*)"$/) do |arg1|

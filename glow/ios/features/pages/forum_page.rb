@@ -41,7 +41,7 @@ class ForumPage < Calabash::IBase
   def create_post(args={})
     wait_touch "label text:'Post'"
     wait_touch "UITextField"
-    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    title = args[:topic_title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     wait_touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||Time.now.to_s
@@ -57,7 +57,7 @@ class ForumPage < Calabash::IBase
     puts $user.topic_title
   end
 
-  def create_photo
+  def create_photo_common
     wait_touch "label text:'Photo'"
     wait_for_none_animating
     wait_touch "PUAlbumListTableViewCell index:0"
@@ -68,12 +68,27 @@ class ForumPage < Calabash::IBase
     wait_touch "label marked:'Write a caption...'"
     description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text description
+  end
+  def create_photo
+    create_photo_common
     wait_touch "* marked:'Next'"
     wait_touch "UITableViewCellContentView child label index:0"
     wait_touch "* marked:'Done!'"
     wait_for_none_animating
     wait_for_elements_exist "* marked:'Your topic is successfully posted!"
-    sleep 3
+    sleep 1
+  end
+
+  def create_photo_tmi
+    create_photo_common
+    wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
+    sleep 1
+    wait_touch "* marked:'Next'"
+    wait_touch "UITableViewCellContentView child label index:0"
+    wait_touch "* marked:'Done!'"
+    wait_for_none_animating
+    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
+    sleep 1
   end
 
   def create_link
@@ -98,10 +113,14 @@ class ForumPage < Calabash::IBase
   def create_post_in_group(args={})
     wait_touch "label text:'Post'"
     wait_touch "UITextField"
-    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    title = args[:topic_title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     wait_touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
+    if args[:anonymous] == 1
+      puts "Anonymous Mode"
+      wait_touch "* id:'gl-community-anonymous-uncheck.png'"
+    end
     wait_touch "label text:'Post'"
     sleep 1
     # select the first group
@@ -316,7 +335,7 @@ class ForumPage < Calabash::IBase
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
-    wait_for_elements_exist("* marked:'#{search_result}'")
+    wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     puts "See element '#{search_result}'"
   end
@@ -327,6 +346,7 @@ class ForumPage < Calabash::IBase
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
+    wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     forum_page.view_all_replies
     puts "Finding element '#{search_result}'"
