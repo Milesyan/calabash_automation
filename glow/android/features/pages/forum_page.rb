@@ -392,50 +392,85 @@ class ForumPage < Calabash::ABase
 
 
 #---to be done---
+  def get_element_x_y(args)
+    x = query("* id:'#{args}'")[0]["rect"]["x"]
+    y = query("* id:'#{args}'")[0]["rect"]["center_y"]
+    width = query("* id:'#{args}'")[0]["rect"]["width"]
+    x,y,width
+  end
   def check_groups
-    touch "UIButton index:0"
-    check_element_exists "* marked:'#{TARGET_GROUP_NAME }'"
+    x,y,width = get_element_x_y user_social_stats
+    if element_exists "* {text CONTAINS 'groups'}" || element_exists "* {text CONTAINS 'group'}"
+      performAction('touch_coordinate',(x+width/6, y)
+      sleep 1
+    else
+      puts "Group text does not exist on screen."
+    end
+    check_element_exists "* marked:'#{ TARGET_GROUP_NAME }'"
     puts "I can see target group"
   end
 
   def check_followers
-    touch "UIButton index:1"
+    x,y,width = get_element_x_y user_social_stats
+    if element_exists "* {text CONTAINS 'follower'}" || element_exists "* {text CONTAINS 'followers'}"
+      performAction('touch_coordinate',(x+width*5/6, y)
+      sleep 1
+    else
+      puts "Follower text does not exist on screen."
+    end
     check_element_exists "* marked:'#{$user2.first_name}'"
-    check_element_exists "* marked:'Following'"
     puts "I can see follower #{$user2.first_name}"
   end
 
   def check_following
-    touch "UIButton index:2"
+    x,y,width = get_element_x_y user_social_stats
+    if element_exists "* {text CONTAINS 'following'}"
+      performAction('touch_coordinate',(x+width/2, y)
+      sleep 1
+    else
+      puts "Following text does not exist on screen."
+    end
     check_element_exists "* marked:'#{$user2.first_name}'"
     check_element_exists "* marked:'Following'"
     puts "I can see I'm following #{$user2.first_name}"
   end
 
   def check_following_not_exist
-    touch "UIButton index:2"
+    x,y,width = get_element_x_y user_social_stats
+    if element_exists "* {text CONTAINS 'following'}"
+      performAction('touch_coordinate',(x+width/2, y)
+      sleep 1
+    else
+      puts "Following text does not exist on screen."
+    end
     check_element_does_not_exist "* marked:'#{$user2.first_name}'"
     puts "I can NOT see I'm following #{$user2.first_name}"
   end
 
   def check_participated
-    touch_HMScrollView_element 1
+    wait_touch "* marked:'Participated'"
+    sleep 0.5
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
+    wait_for_element_exists "* id:'topic_menu'"
     check_element_exists "* marked:'Show entire discussion'"
   end
 
   def check_created
-    touch_HMScrollView_element 2
+    wait_touch "* marked:'Created'"
+    sleep 0.5
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
+    wait_for_element_exists "* id:'topic_menu'"
     check_element_does_not_exist "* marked:'Show entire discussion'"
   end
 
   def check_bookmarked
-    touch_HMScrollView_element 3
+    wait_touch "* marked:'bookmarked'"
+    sleep 0.5
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
+    wait_for_element_exists "* id:'topic_menu'"
     check_element_does_not_exist "* marked:'Show entire discussion'"
   end
 
@@ -459,119 +494,109 @@ class ForumPage < Calabash::ABase
     puts "#{args} is checked"
   end
 
-  def back_to_profile_page
-    touch "* marked: 'Back'"
-  end
-
-  def touch_HMScrollView_element(args)
-    scroll_view_width = query("HMScrollView")[1]["rect"]["width"]
-    case args
-    when 1
-      touch("HMScrollView", :offset => {:x => scroll_view_width/4, :y => 0})
-    when 2
-      touch("HMScrollView", :offset => {:x => scroll_view_width/2, :y => 0})
-    when 3
-      touch("HMScrollView", :offset => {:x => scroll_view_width/3*2, :y => 0})
-    end
-  end
-
   def touch_creator_name(args)
-    check_element_exists "* {text CONTAINS '#{args}'}"
-    touch "* marked:'#{$user2.first_name}' index:0"
+    x,y,width = get_element_x_y topic_author_date
+    if element_exists "* {text CONTAINS 'Posted by'}"
+      performAction('touch_coordinate',(x+width*0.5, y)
+      sleep 1
+      if element_exists "* {text CONTAINS 'Posted by'}"
+        performAction('touch_coordinate',(x+width*0.3, y)
+        sleep 1
+      end
+    else
+      puts "Posted by text does not exist on screen."
+    end
   end
 
   def action_to_other_user(action)
     if element_exists "* marked:'Edit profile'"
       puts "The profile is yours"
-    end
-    puts "The action is #{action}"
-    case action.downcase
-    when "follow", "followed"
-      check_element_exists "* marked:'Follow'"
-      touch "ForumFollowButton"
-    when "unfollow", "unfollowed"
-      check_element_exists "* marked:'Following'"
-      touch "* marked:'Following'"
-      touch "UILabel marked:'Unfollow'"
-    when "block", "Blocked"
-      touch "* marked:'Follow' sibling UIButton"
-      touch "UILabel marked:'Block'"
-      check_element_exists "* {text CONTAINS 'Block this user?'}"
-      touch "UILabel marked:'Block'"
-    when "invite", "invited"
-      touch "* marked:'Follow' sibling UIButton"
-      touch "UILabel marked:'Invite to a group'"
-    when "unblock","unblocked"
-      check_element_exists "* marked:'Blocked'"
-      touch "UIButton marked:'Blocked'"
-      check_element_does_not_exist "* marked:'Blocked'"
     else
-      puts "Action error"
+      puts "The action is #{action}"
+      case action.downcase
+      when "follow", "followed"
+        check_element_exists "* marked:'Follow'"
+        touch "* id:'follow_button'"
+      when "unfollow", "unfollowed"
+        check_element_exists "* marked:'Following'"
+        touch "* marked:'Following'"
+        wait_for_element_exists "* {text BEGINSWITH 'Stop following'}"
+        touch "* marked:'OK'"
+        sleep 1
+        wait_for_element_exists "* marked:'Follow'"
+      when "block", "Blocked"
+        wait_touch "* id:'other_action_menu'"
+        wait_touch "* marked:'Block user'"
+        check_element_exists "* {text CONTAINS 'will make all posts by this user invisible'}"
+        touch "* marked:'OK'"
+      when "invite", "invited"
+        "Invite user feature is not included in Android"
+      when "unblock","unblocked"
+        check_element_exists "* marked:'Blocked'"
+        wait_touch "* id:'other_action_menu'"
+        wait_touch "* marked:'Unblock user'"
+        sleep 0.5
+        check_element_does_not_exist "* marked:'Blocked'"
+      else
+        puts "Action error"
+      end
     end
   end
 
   def click_filters_button
-    touch "UILabel marked:'Filters'"
-  end
-
-  def click_save_button
-    touch "UILabel marked:'Save'"
+    wait_touch "* marked:'Age Filter'"
   end
 
   def go_to_community_settings
-    swipe :down, force: :strong
-    touch "UIButton marked:'gl community filter'"
+    wait_touch "* contentDescription:'More options'"
+    wait_touch "* marked:'Groups'"
   end
 
   def click_blocked_users
-    touch "* {text CONTAINS 'user(s)'}"
-  end
-
-  def click_topnav_close
-    touch "* marked:'gl community topnav close' UINavigationButton"
+    wait_touch "* {text CONTAINS 'Users'}"
   end
 
   def click_bookmark_icon
-    touch "* marked:'gl community topnav close' UINavigationButton sibling * index:2"
+    wait_touch "* id:'menu_item_add_bookmark'"
   end
 
   def click_hyperlink_comments
-    touch "* marked:'Posted by' sibling UILabel index:0"  
+    wait_touch "* id:'topic_statistics'"  
   end
 
   def hide_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    touch "* id:'community-dots' index:1"
-    touch "UILabel marked:'Hide this post'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Would you like to hide this topic?'}"}
-    touch "UILabel marked:'Yes, hide it.'"  
+    touch "* id:'topic_menu'"
+    wait_touch "* marked:'Hide this post'"
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this post?'}"}
+    touch "* marked:'OK'"  
   end
 
   def report_topic(args)
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    touch "* id:'community-dots' index:1"
-    touch "UILabel marked:'Report this post'"
+    touch "* id:'topic_menu'"
+    touch "* marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
-    touch "UILabel marked:'#{args}'"  
+    touch "* marked:'#{args}'"  
   end
 
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
-    touch "* id:'community-dots' index:0"
-    touch "UILabel marked:'Hide'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure to hide this comment?'}"}
-    touch "UILabel marked:'Yes, hide it.'"  
+    touch "* id:'reply_menu'"
+    wait_touch "* marked:'Hide this reply'"
+    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this reply?'}"}
+    touch "* marked:'OK'"  
   end
 
   def report_comment(args)
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
-    touch "* id:'community-dots' index:0"
-    touch "UILabel marked:'Report'"
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
-    touch "UILabel marked:'#{args}'"  
+    touch "* id:'reply_menu'"
+    wait_touch "* marked:'Report this reply'"
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"}
+    touch "* marked:'#{args}'"  
   end
 end

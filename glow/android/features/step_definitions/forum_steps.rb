@@ -277,12 +277,12 @@ end
 
 Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|
   forum_page.check_profile_element arg1.downcase
-  forum_page.back_to_profile_page
+  forum_page.click_back_button
 end
 
 Then(/^I check "([^"]*)" without seeing the user under forum profile page and exit the page$/) do |arg1|
   forum_page.check_following_not_exist
-  forum_page.back_to_profile_page
+  forum_page.click_back_button
 end
 
 Then(/^I open "([^"]*)" under forum profile page$/) do |arg1|
@@ -310,7 +310,7 @@ Then(/^I exit blocking users page$/) do
 end
 
 Then(/^I click save of the community settings page$/) do
-  forum_page.click_save_button
+  forum_page.click_back_button
 end
 
 Then(/^I can see the person I blocked$/) do
@@ -319,7 +319,7 @@ Then(/^I can see the person I blocked$/) do
 end
 
 Then(/^I click the close button and go back to previous page$/) do
-  forum_page.click_topnav_close
+  forum_page.click_back_button
 end
 
 Then(/^I click the bookmark icon$/) do
