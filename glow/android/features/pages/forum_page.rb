@@ -172,7 +172,7 @@ class ForumPage < Calabash::ABase
     touch "* marked:'Edit this post'"
     sleep 1
     puts $user.topic_title
-    scroll "scrollView", :up
+    scroll_down
     enter_text "* id:'title_editor'", "Modified title"
     enter_text "* id:'content_editor'", "Modified content"
     touch "* id:'create_yes'"
@@ -396,14 +396,12 @@ class ForumPage < Calabash::ABase
     x = query("* id:'#{args}'")[0]["rect"]["x"]
     y = query("* id:'#{args}'")[0]["rect"]["center_y"]
     width = query("* id:'#{args}'")[0]["rect"]["width"]
-    puts  x,y,width
     return x,y,width
   end
 
 
   def check_groups
     x,y,width = get_element_x_y "user_social_stats"
-
     if element_exists "* {text CONTAINS 'group'}"
       perform_action('touch_coordinate',(x+width*0.1), y)
       sleep 1
@@ -599,7 +597,10 @@ class ForumPage < Calabash::ABase
 
 
   def report_topic(args)
-    enter_report_topic
+    sleep 1
+    if element_does_not_exist "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"
+      enter_report_topic
+    end
     touch "* marked:'#{args}'"  
   end
 
@@ -624,16 +625,20 @@ class ForumPage < Calabash::ABase
   end
 
   def report_comment(args)
-    enter_report_comment
+    sleep 1
+    if element_does_not_exist "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"
+      enter_report_comment
+    end
     touch "* marked:'#{args}'"  
   end
-  
+
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
+    scroll_down
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"}
   end
 
   def report_topic_check_reasons(table)
@@ -653,4 +658,19 @@ class ForumPage < Calabash::ABase
       puts "check >>'#{tmp}'<< pass"
     end
   end
+
+  def touch_hidden_topic_element(args)
+    sleep 1
+    x,y,width = get_element_x_y "low_ratting_mask_content"
+    case args.downcase
+    when "view rules"
+      perform_action('touch_coordinate',(x+width*0.4), y)
+    when "show content"
+      perform_action('touch_coordinate',(x+width*0.1), y)
+    else 
+      puts "Only 'view rules' and 'show content' is accepted"
+    end
+    sleep 1
+  end
+
 end

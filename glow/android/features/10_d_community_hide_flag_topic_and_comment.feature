@@ -80,7 +80,7 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
       |Obscene             |
       |Spam                |
       |Solicitation        |
-      |other               |
+      |Other               |
     And I report the comment by reason "Other"
     And I type in report reason and click flag
     And I click confirm not to hide it

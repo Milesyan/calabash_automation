@@ -9,10 +9,11 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I open "community" page
     And I go to the first group
     Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    And I touch "View Rules" in auto-hidden topic
+    Then I should see "Rules"
+    And I go back to previous page
     And I go to the first group
-    And I touch "Show Content"
+    And I touch "Show Content" in auto-hidden topic
     And I enter topic created in previous step
     Then I should see "Show entire discussion"
     And I go back to group
@@ -27,10 +28,11 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I open "community" page
     And I go to the first group
     Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    And I touch "View Rules" in auto-hidden topic
+    Then I should see "Rules"
+    And I go back to previous page
     And I go to the first group
-    And I touch "Show Content"
+    And I touch "Show Content" in auto-hidden topic
     And I enter topic created in previous step
     Then I should see "Show entire discussion"
     And I go back to group
@@ -46,10 +48,10 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I go to the first group
     And I enter topic created in previous step
     Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    And I touch "View Rules" in auto-hidden topic
+    Then I should see "Rules"
     And I go back to previous page
-    And I touch "Show Content"
+    And I touch "Show Content" in auto-hidden topic
     Then I should see "Test+search+comment1"
     And I go back to group
     And I logout
@@ -64,10 +66,10 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I go to the first group
     And I enter topic created in previous step
     Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    And I touch "View Rules" in auto-hidden topic
+    Then I should see "Rules" 
     And I go back to previous page
-    And I touch "Show Content"
+    And I touch "Show Content" in auto-hidden topic
     Then I should see "Test+search+comment1"
     And I go back to group
     And I logout

@@ -22,7 +22,7 @@ Then(/^I should see the topic is edited successfully$/) do
 end
 
 
-Given(/^I touch "(.*?)" and wait for (\d+) seconds$/) do |arg1, arg2|
+Given(/^I touch "(.*?)" and wait for (\d+) second(?:s)?$/) do |arg1, arg2|
   wait_touch "* marked:'#{arg1}'"
   sleep arg2.to_i
 end
@@ -30,6 +30,11 @@ end
 Given(/^I open "(.*?)" tab in community$/) do |tab_name|
   sleep 2
   touch "* marked:'#{tab_name}'"
+end
+
+Given(/^I scroll down and wait for a while$/) do
+  scroll_down
+  sleep 0.5
 end
 
 Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
@@ -387,5 +392,11 @@ Then(/^I type in report reason and click flag$/) do
   # wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
   # keyboard_enter_text "Test Flag reason by Miles"
   # wait_touch "* marked:'Flag'"
-  puts "Not realized in Android yet"
+  puts ">>>>>>>>>>Other reason dialog is not realized in Android yet<<<<<<<<<<<<<"
 end
+
+Then(/^I touch "(.*?)" in auto\-hidden topic$/) do |arg1|
+  forum_page.touch_hidden_topic_element arg1
+end
+
+

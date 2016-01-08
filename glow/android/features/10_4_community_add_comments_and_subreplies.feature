@@ -10,7 +10,7 @@ Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
     And I open the topic "create topic by www api"
     Then I add a comment
     Then I add a reply
-    And I go to previous page
+    And I go back to previous page
     And I logout
 
   @add_image_comment
@@ -23,5 +23,5 @@ Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
     And I open the topic "create topic by www api"
     Then I add an image comment
     Then I add a reply
-    And I go to previous page
+    And I go back to previous page
     And I logout

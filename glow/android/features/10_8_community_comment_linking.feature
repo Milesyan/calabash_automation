@@ -35,7 +35,7 @@ Feature: Comment linking function
     And I login as the new user "Miles" created through www
     And I open "alert" page
     And I touch "Check it out" and wait for 2 seconds
-    And I scroll down 
+    And I scroll down and wait for a while 
     Then I should see "Show entire discussion"
     And I expand all the comments
     Then I click the bookmark icon
