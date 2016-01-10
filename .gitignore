@@ -17,4 +17,8 @@ glow/ios/calabash.framework/
 glow/ios/features/support/env.rb
 
 
+nurture/
+baby/
+
 glow/www/test/
+glow/www/temp/
