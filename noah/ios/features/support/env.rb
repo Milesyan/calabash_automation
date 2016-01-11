@@ -1,7 +1,7 @@
 # Requiring this file will import Calabash and the Calabash predefined Steps.
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
-require_relative '../../../www/noah_ios_test'
+require_relative '../../../www/noah_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'
 

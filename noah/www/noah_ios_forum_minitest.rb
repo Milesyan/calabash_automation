@@ -1,11 +1,11 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'noah_ios_test'
+require_relative 'noah_ios_forum_test'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NoahTest < Minitest::Test
-  include NoahIOS
+  include NoahForumIOS
 
   def setup
   end

@@ -1,39 +1,34 @@
 require 'httparty'
 require 'json'
 require 'securerandom'
+require 'active_support/all'
+require 'yaml'
 require_relative "MultipartImage_IOS.rb"
+require_relative 'noah_test_helper'
 
-module NoahIOS
-
+module NoahForumIOS
+  extend BabyTestHelper 
   PASSWORD = 'Glow12345'
-  NEW_PASSWORD = 'Glow1234'
-  TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
-
-  # GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-  # GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
-
-  BASE_URL = "http://dragon-noah.glowing.com"
-  FORUM_BASE_URL = "http://dragon-forum.glowing.com"
-  
-  # BASE_URL = "http://localhost:5010"
-  # FORUM_BASE_URL = "http://localhost:35010"
+  BASE_URL = load_config["base_urls"]["Sandbox"]
+  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
+  GROUP_ID = 5
 
   class NoahUser
-
+    include BabyTestHelper
+    include HTTParty
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
-    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
+    attr_accessor :first_name, :last_name, :gender,:birth_due_date, :birth_timezone
     attr_accessor :res
-    attr_accessor :gender
+    attr_accessor :baby_id, :birthday
 
     def initialize(args = {})  
       @first_name = (args[:first_name] || "noah") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Noah"
       @password = args[:password] || PASSWORD
-      @partner_email = "p#{@email}"
-      @partner_first_name = "p#{@first_name}"
-      @gender = args[:gender] || "female"
-      @type = args[:type]
+      @partners = []
+      @birthday = args[:birthday] || 25.years.ago.to_i
+      @babies = []
     end
 
     def random_str
@@ -42,6 +37,10 @@ module NoahIOS
 
     def uuid
       SecureRandom.uuid
+    end
+
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
     end
 
     def common_data
@@ -55,30 +54,31 @@ module NoahIOS
     end
 
     def parent_signup(args = {})
+      user = args[:user] || self
       data = {
         "onboarding_info": {
-        "birthday": 1041696000,
-        "first_name": @first_name,
-        "email": @email,
-        "password": @password
+        "birthday": user.birthday,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "email": args[:email] || user.email,
+        "password": args[:password] || user.password
         },
       }.merge(common_data)
-      @res = HTTParty.post("#{BASE_URL}/ios/user/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      puts email + " has been signed up"
+
+      @res = HTTParty.post "#{BASE_URL}/ios/user/signup", options(data)
+      user.user_id = @res["data"]["user"]["user_id"]
+      puts "#{user.email} has been signed up"
+      puts "User id is >>>>#{user.user_id}<<<<"
       self
     end
 
     def login(email = nil, password = nil)
       # the response of login doesn't return the rc code
-      login_data = {
+      data = {
         "email": email || @email,
         "password": password || @password
       }.merge(common_data)
-
-      res = HTTParty.post("#{BASE_URL}/ios/user/login", :body => login_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' }).to_json
-      @res = JSON.parse(res)
+      @res = HTTParty.post "#{BASE_URL}/ios/user/login", options(data)
       @ut = @res["data"]["user"]["encrypted_token"]
       @user_id = @res["data"]["user"]["id"]
       puts "Login User id is #{@user_id}"
@@ -485,301 +485,6 @@ module NoahIOS
       all_groups_id.each do |group_id|
         leave_group group_id
       end
-      self
-    end
-
-    ###### Me #####
-
-    def change_status(status)
-      ttc_to_preg_data = {
-        "data": {
-          "reminders": [],
-          "daily_data": [],
-          "last_sync_time": 1447934411,
-          "periods": {
-            "alive": [{
-              "pb": "2015\/11\/05",
-              "pe": "2015\/11\/09",
-              "flag": 2
-            }],
-            "archived": []
-          },
-          "status_history": [],
-          "daily_checks": [],
-          "medical_logs": [],
-          "settings": {
-            "current_status": 2,
-            "prediction_switch": 0,
-            "previous_status": 0,
-            "last_pregnant_date": "2015\/11\/19"
-          },
-          "notifications": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      preg_to_none_ttc_data = {
-        "data": {
-          "reminders": [],
-          "daily_data": [],
-          "last_sync_time": 1447935312,
-          "status_history": [],
-          "daily_checks": [],
-          "medical_logs": [],
-          "settings": {
-            "previous_status": 2,
-            "current_status": 3,
-            "birth_control": 1
-          },
-          "notifications": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      case status.downcase
-      when "pregnant"
-        ttc_to_preg_data[:data][:settings][:current_status] = 2 
-      when "ttc"
-      when "non-ttc"
-      end
-
-      @res = HTTParty.post("http://dragon-emma.glowing.com/api/v2/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def change_password
-      data = {
-        "userinfo": {
-          "user_id": @user_id,
-          "password": NEW_PASSWORD
-        }
-      }.merge(common_data)
-      @res = HTTParty.post("http://dragon-emma.glowing.com/api/users/update_password", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def invite_partner
-      data = {
-        "is_mom": 0,
-        "email": @partner_email,
-        "ut": @ut,
-        "name": @partner_first_name
-      }.merge(common_data)
-
-      @res = HTTParty.post("#{BASE_URL}/api/users/partner/email", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      puts "partner #{@partner_email} has been invited"
-      self
-    end
-
-    def remove_partner
-      data = {
-        "ut": @ut
-      }.merge(common_data)
-      @res = HTTParty.post("#{BASE_URL}/api/users/remove_partner", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      # if a user is signed up as a partner, then remove 'p' from the email
-      if @partner_email.match /^pp/
-        puts "partner #{@partner_email.sub('pp','')} has been disconnected"
-      else
-        puts "partner #{@partner_email} has been disconnected"
-      end
-      
-      self
-    end
-
-    def turn_off_period_prediction
-      data = {
-        "data": {
-          "reminders": [],
-          "daily_data": [],
-          "last_sync_time": 1449635974,
-          "periods": {
-            "alive": live_periods,
-            "archived": []
-          },
-          "daily_checks": [],
-          "medical_logs": [],
-          "settings": {
-            "prediction_switch": 0
-          },
-          "notifications": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      @res =  HTTParty.post("#{BASE_URL}/api/v2/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def add_fertility_tests
-      today = Time.now.strftime("%Y/%m/%d")
-      data = {
-        "data": [{
-          "test_val": 4,
-          "test_key": "fertility_clinic"
-        }, {
-          "test_val": "Doctor Wu",
-          "test_key": "doctor_name"
-        }, {
-          "test_val": "Nurse Wang",
-          "test_key": "nurse_name"
-        }, {
-          "test_val": today,
-          "test_key": "cycle_day_three_blood_work"
-        }, {
-          "test_val": 15,
-          "test_key": "cycle_day_three_blood_work_e2"
-        }, {
-          "test_val": 15,
-          "test_key": "cycle_day_three_blood_work_fsh"
-        }, {
-          "test_val": 15,
-          "test_key": "cycle_day_three_blood_work_lh"
-        }, {
-          "test_val": 15,
-          "test_key": "cycle_day_three_blood_work_prl"
-        }, {
-          "test_val": 15,
-          "test_key": "cycle_day_three_blood_work_tsh"
-        }, {
-          "test_val": today,
-          "test_key": "other_blood_tests"
-        }, {
-          "test_val": 15,
-          "test_key": "other_blood_tests_amh"
-        }, {
-          "test_val": 1,
-          "test_key": "other_blood_tests_infectious_disease"
-        }, {
-          "test_val": today,
-          "test_key": "vaginal_ultrasound"
-        }, {
-          "test_val": 15,
-          "test_key": "vaginal_ultrasound_antral_follicle_count"
-        }, {
-          "test_val": 15,
-          "test_key": "vaginal_ultrasound_lining"
-        }, {
-          "test_val": today,
-          "test_key": "hysterosalpingogram"
-        }, {
-          "test_val": 1,
-          "test_key": "hysterosalpingogram_result"
-        }, {
-          "test_val": today,
-          "test_key": "genetic_screening"
-        }, {
-          "test_val": 1,
-          "test_key": "genetic_screening_result"
-        }, {
-          "test_val": today,
-          "test_key": "saline_sonogram"
-        }, {
-          "test_val": 1,
-          "test_key": "saline_sonogram_result"
-        }, {
-          "test_val": today,
-          "test_key": "ovarian_reserve_testing"
-        }, {
-          "test_val": 1,
-          "test_key": "ovarian_reserve_testing_result"
-        }, {
-          "test_val": today,
-          "test_key": "mammogram"
-        }, {
-          "test_val": 1,
-          "test_key": "mammogram_result"
-        }, {
-          "test_val": today,
-          "test_key": "papsmear"
-        }, {
-          "test_val": 1,
-          "test_key": "papsmear_result"
-        }, {
-          "test_val": today,
-          "test_key": "partner_semen_analysis"
-        }, {
-          "test_val": 15,
-          "test_key": "partner_semen_analysis_volume"
-        }, {
-          "test_val": 15,
-          "test_key": "partner_semen_analysis_concentration"
-        }, {
-          "test_val": 1515,
-          "test_key": "partner_semen_analysis_motility"
-        }, {
-          "test_val": 1,
-          "test_key": "partner_semen_analysis_morphology"
-        }, {
-          "test_val": today,
-          "test_key": "partner_infectious_disease_blood_test"
-        }, {
-          "test_val": 1,
-          "test_key": "partner_infectious_disease_blood_test_result"
-        }, {
-          "test_val": today,
-          "test_key": "partner_genetic_screening"
-        }, {
-          "test_val": 1,
-          "test_key": "partner_genetic_screening_result"
-        }],
-        "ut": @ut
-      }.merge(common_data)
-
-      @res =  HTTParty.post("#{BASE_URL}/api/v2/users/push/fertility_tests", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def export_pdf
-      pdf_data = {
-        "unit": "",
-        "email": "linus@glowing.com",
-        "ut": @ut
-      }.merge(common_data)
-
-      @res =  HTTParty.post("#{BASE_URL}/api/users/export", :body => pdf_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def female_complete_health_profile(type)
-      data = {
-        "data": {
-          "reminders": [],
-          "last_sync_time": 1449574337,
-          "daily_data": [],
-          "daily_checks": [],
-          "medical_logs": [],
-          "settings": {
-            "miscarriage_number": 1,
-            "partner_erection": 1,
-            "cycle_regularity": 1,
-            "live_birth_number": 1,
-            "diagnosed_conditions": 14,
-            "relationship_status": 2,
-            "insurance": 1,
-            "ethnicity": 2,
-            "occupation": "Employed",
-            "exercise": 8,
-            "stillbirth_number": 1,
-            "abortion_number": 1,
-            "tubal_pregnancy_number": 1,
-            "considering": (1 if type.downcase == "non-ttc"),
-            "birth_control_start": (Time.now.to_i if type.downcase == "non-ttc"),
-            "infertility_diagnosis": (30 if ["iui", "ivf", "med", "prep", "ft"].include?(type.downcase)),
-            "height": (170 if ["iui", "ivf", "med", "prep", "ft"].include?(type.downcase))
-          },
-          "notifications": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-      @res =  HTTParty.post("#{BASE_URL}/api/v2/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
       self
     end
   end
