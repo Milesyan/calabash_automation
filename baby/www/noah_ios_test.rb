@@ -10,7 +10,7 @@ module BabyIOS
   extend BabyTestHelper
 
   PASSWORD = '111222'
-  BASE_URL = load_config["base_urls"]["home"]
+  BASE_URL = load_config["base_urls"]["sandbox0"]
   TIME_ZONES = ['Africa/Abidjan','Brazil/East','Brazil/West','America/New_York','America/Los_Angeles','Europe/Paris','Asia/Shanghai','Australia/Sydney','Asia/Tokyo']
 
   class Baby
@@ -348,9 +348,6 @@ module BabyIOS
       self
     end
 
-
-
-
     def new_weight(args = {})
       {
         "uuid": uuid,
@@ -450,39 +447,6 @@ module BabyIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = self.class.post "/ios/user/push", options(data)
-      self
-    end
-
-    def create_baby_feed(args = {})
-      start_time = args[:start_time] || 50.minutes.ago
-
-      {
-        "breast_left_time": 50,
-        "uuid": uuid,
-        "baby_id": @current_baby.baby_id,
-        "feed_type": 1,
-        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyFeedData\/p1",
-        "start_timestamp": start_time.to_i,
-        "start_time_label": start_time.strftime("%Y\/%m\/%d %H:%M:%S"), # "2016\/01\/05 14:37:43",
-        "date_label": args[:date] || date_str(Date.today),
-        "breast_right_time": 0,
-        "action_user_id": @user_id
-      }
-    end
-
-    def add_baby_feed_data(args = {})
-      data = {
-        "data": {
-          "babies": [{
-            "baby_id": @current_baby.baby_id,
-            "BabyFeedData": {
-              "create": [create_baby_feed(args)]
-            }
-          }]
-        },
-        "ut": @ut
-      }.merge(common_data)
       @res = self.class.post "/ios/user/push", options(data)
       self
     end
