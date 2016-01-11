@@ -18,11 +18,6 @@ def forum_new_non_ttc_user(args = {})
   GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
 
-def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group
-end
-
-
 Given(/^I create a new "(.*?)" glow user$/) do |type|
   case type.downcase
   when "non-ttc"
@@ -262,10 +257,8 @@ Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
     $user = forum_new_non_ttc_user(first_name: name).complete_tutorial
   when "ttc"
     $user = forum_new_ttc_user(first_name: name).complete_tutorial
-  when "prep", "med", "iui", "ivf"
-    $user = forum_new_ft_user(type: type, first_name: name).complete_tutorial
-  when "single male"
-    $user = GlowUser.new(gender: "male", first_name: name).male_signup.complete_tutorial.join_group
+  else 
+    puts "Only ttc and non-ttc users can be created"
   end
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
