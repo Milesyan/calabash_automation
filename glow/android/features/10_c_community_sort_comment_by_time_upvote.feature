@@ -15,10 +15,10 @@ Feature: Test order by time and order by upvote (1m40.347s 1 scenario 21 steps)
     Then I should see "✓Sort by Upvotes"
     And I should see "Sort by Time"
     And I touch "Sort by Time" and wait for 2 seconds
-    Then I should see "Test+search+comment10"
+    Then I wait to see comment contains "comment 10"
     Then I click the hyperlink of comments
     Then I should see "✓Sort by Time"
     And I touch "Sort by Upvotes" and wait for 2 seconds
-    Then I should see "Test+search+comment1"
+    Then I wait to see comment contains "comment 1"
     And I go back to group
     And I logout

@@ -479,23 +479,27 @@ class ForumPage < Calabash::ABase
     wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
+    sleep 1
     check_element_exists "* marked:'Show entire discussion'"
   end
 
   def check_created
     wait_touch "* marked:'Created'"
+    sleep 1
     wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
+    sleep 1
     check_element_does_not_exist "* marked:'Show entire discussion'"
   end
 
   def check_bookmarked
-    wait_touch "* marked:'bookmarked'"
-    sleep 0.5
+    wait_touch "* marked:'Bookmarked'"
+    sleep 1
     wait_for_elements_exist "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
+    sleep 1
     check_element_does_not_exist "* marked:'Show entire discussion'"
   end
 
@@ -520,6 +524,7 @@ class ForumPage < Calabash::ABase
   end
 
   def touch_creator_name(args)
+    sleep 1
     x,y,width = get_element_x_y "topic_author_date"
     if element_exists "* {text CONTAINS 'Posted by'}"
       perform_action('touch_coordinate',(x+width*0.5), y)
@@ -537,6 +542,7 @@ class ForumPage < Calabash::ABase
     if element_exists "* marked:'Edit profile'"
       puts "The profile is yours"
     else
+      sleep 0.5
       puts "The action is #{action}"
       case action.downcase
       when "follow", "followed"
@@ -552,14 +558,21 @@ class ForumPage < Calabash::ABase
       when "block", "Blocked"
         wait_touch "* id:'other_action_menu'"
         wait_touch "* marked:'Block user'"
+        sleep 1
         check_element_exists "* {text CONTAINS 'will make all posts by this user invisible'}"
         touch "* marked:'OK'"
       when "invite", "invited"
         "Invite user feature is not included in Android"
       when "unblock","unblocked"
+        sleep 0.5
         check_element_exists "* marked:'Blocked'"
-        wait_touch "* id:'other_action_menu'"
-        wait_touch "* marked:'Unblock user'"
+        if element_exists "* id:'other_action_menu'"
+          wait_touch "* id:'other_action_menu'"
+          wait_touch "* marked:'Unblock user'"
+        else 
+          wait_touch "* marked:'Blocked'"
+          wait_touch "* marked:'OK'"
+        end
         sleep 0.5
         check_element_does_not_exist "* marked:'Blocked'"
       else
@@ -578,7 +591,7 @@ class ForumPage < Calabash::ABase
   end
 
   def click_blocked_users
-    wait_touch "* {text CONTAINS 'Users'}"
+    wait_touch "* marked:'Blocking'"
   end
 
   def click_bookmark_icon

@@ -171,6 +171,11 @@ Then(/^I return to group page from search result$/) do
   end
 end
 
+Then(/^I return to group page from search result after search deleted comment$/) do
+  forum_page.click_back_button
+end
+
+
 #--------Search Comments-----------
 Then(/^I click search for comment$/) do
   forum_page.search_comments
@@ -210,6 +215,9 @@ Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
   forum_page.check_search_result_deleted string
 end
 
+Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
+  wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
+end
 
 #-------------comment linking-------------
 Then(/^I enter topic created in previous step$/) do 
@@ -217,8 +225,8 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* marked:'Test+search+comment#{$comment_number}'")
-  puts "check element: * marked:'Test+search+comment#{$comment_number}'"
+  wait_for_elements_exist "* {text CONTAINS 'comment #{$comment_number}'}"
+  puts "check element: * with text 'comment #{$comment_number}'"
 end
 
 
@@ -268,9 +276,11 @@ end
 
 Then(/^I go back to user profile page and check the changes in profile page$/) do
   wait_for_elements_exist "* {text CONTAINS 'Created'}"
-  check_element_exists("* marked:'Add Bio info'")
-  check_element_exists("* marked:'#{$user.first_name}Testname'")
-  check_element_exists("* marked:'New York'")
+  sleep 0.5
+  check_element_exists "* marked:'Add Bio info'"
+  check_element_exists "* marked:'#{$user.first_name}Testname'"
+  check_element_exists "* marked:'New York'"
+  puts "Checked profile page"
 end
 
 Then(/^I go back to forum page from forum profile page$/) do
@@ -308,16 +318,16 @@ Then(/^I go to blocked users part under community settings$/) do
 end
 
 Then(/^I exit blocking users page$/) do
-  forum_page.click_filters_button
+  forum_page.click_back_button
 end
 
-Then(/^I click save of the community settings page$/) do
+Then(/^I click back button in the community settings page$/) do
   forum_page.click_back_button
 end
 
 Then(/^I can see the person I blocked$/) do
-  check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
-  check_element_exists "* marked:'Blocked'"
+  wait_for_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
+  wait_for_element_exists "* marked:'Blocked'"
 end
 
 Then(/^I click the close button and go back to previous page$/) do

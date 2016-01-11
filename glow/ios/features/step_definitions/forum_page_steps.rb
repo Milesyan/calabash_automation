@@ -225,7 +225,7 @@ Then(/^I enter topic created in previous step$/) do
 end
 
 Then(/^I should see the last comment$/) do 
-  wait_for_elements_exist("* {text CONTAINS 'comment #{$comment_number}'")
+  wait_for_elements_exist("* {text CONTAINS 'comment #{$comment_number}'}")
   puts "check element: * with text 'comment #{$comment_number}'"
 end
 
@@ -328,7 +328,7 @@ Then(/^I click save of the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  check_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
   check_element_exists "* marked:'Blocked'"
 end
 

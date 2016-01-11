@@ -52,7 +52,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     Then I should see "Rules"
     And I go back to previous page
     And I touch "Show Content" in auto-hidden topic
-    Then I should see "Test+search+comment1"
+    Then I wait to see comment contains "comment 1"
     And I go back to group
     And I logout
 
@@ -70,6 +70,6 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     Then I should see "Rules" 
     And I go back to previous page
     And I touch "Show Content" in auto-hidden topic
-    Then I should see "Test+search+comment1"
+    Then I wait to see comment contains "comment 1"
     And I go back to group
     And I logout

@@ -47,7 +47,7 @@ Feature: Add topics and comments and user search for it.
     And I go to search bar
     Then I click search for deleted "comment"
     Then I check the search result for deleted "comment"
-    And I return to group page from search result
+    And I return to group page from search result after search deleted comment
     And I logout
 
   @search_deleted_subreply
@@ -59,5 +59,5 @@ Feature: Add topics and comments and user search for it.
     And I go to search bar
     Then I click search for deleted "reply"
     Then I check the search result for deleted "reply"
-    And I return to group page from search result
+    And I return to group page from search result after search deleted comment
     And I logout

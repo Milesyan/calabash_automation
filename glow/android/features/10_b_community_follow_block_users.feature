@@ -33,7 +33,7 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
     And I go to blocked users part under community settings
     Then I can see the person I blocked
     Then I exit blocking users page
-    And I click save of the community settings page
+    And I click back button in the community settings page
     And I logout
 
   @unfollow_user
@@ -44,14 +44,11 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
     And I open "community" page
     Then I go to community profile page
     And I open "following" under forum profile page
-    And I click the name of the creator "Charlotte" and enter the user's profile page
     Then I "unfollow" the user
-    And I go back to forum page from forum profile page
     And I go back to previous page
     And I go back to forum page from forum profile page
     Then I go to community profile page
     And I check "following" without seeing the user under forum profile page and exit the page
-    And I go back to forum page from forum profile page
     And I logout
 
 
@@ -72,5 +69,5 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
     Then I can see the person I blocked
     Then I "unblock" the user
     Then I exit blocking users page
-    And I click save of the community settings page
+    And I click back button in the community settings page
     And I logout
