@@ -257,3 +257,17 @@ Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}"
 end
+
+
+Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
+  number.to_i.times do
+    new_user = new_ttc_user.create_topic
+    $user.reply_to_topic new_user.topic_id
+  end
+  puts "#{name} replied to #{number} topics. "
+end
+
+Given(/^a user created a group in "(.*?)" category$/) do |arg1|
+  other_user = new_ttc_user
+  other_user.create_group
+end

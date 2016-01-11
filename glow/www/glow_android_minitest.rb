@@ -481,6 +481,11 @@ class GlowTest < Minitest::Test
     assert_rc u.res
   end
 
+
+  def test_new_ttc_user
+    u = new_ttc_user.leave_all_groups.join_group
+  end
+  
   def test_community_create_topic
     u = new_ttc_user.complete_tutorial
     u.create_topic

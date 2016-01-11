@@ -69,6 +69,7 @@ class ForumPage < Calabash::IBase
     description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text description
   end
+
   def create_photo
     create_photo_common
     wait_touch "* marked:'Next'"
@@ -141,6 +142,12 @@ class ForumPage < Calabash::IBase
   def click_back_button
     wait_touch "* marked:'Back'"
   end  
+
+  def edit_topic_voted (args1)
+    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* id:'community-dots'"
+    wait_touch "UILabel marked:'Edit this post'"
+  end
   
 
   def edit_topic(args1)
@@ -306,7 +313,7 @@ class ForumPage < Calabash::IBase
 
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
   end
 
   def scroll_up_to_see(args)
@@ -631,6 +638,33 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
+  def click_discover
+    wait_touch "UILabel marked:'Discover'"
+  end
+
+  def click_explore
+    wait_touch "UIButton marked:'Explore'"
+  end
+
+  def create_a_group
+    wait_touch "* marked:'Group name'"
+    keyboard_enter_text "MilesGroup"
+    wait_touch "* marked:'Group description'"
+    keyboard_enter_text "This is a test group."
+    scroll_down_to_see "General Support"
+    wait_touch "* marked:'General Support'"
+    scroll_down_to_see "Add a group photo"
+    touch "* markd:'Add a group photo'"
+    wait_touch "* marked:'Choose from library'"
+    sleep 0.5
+    if element_exists "* marked:'OK'"
+      touch "* marked:'OK'"
+    end  
+    wait_touch "PUAlbumListTableViewCell index:0"
+    wait_for_none_animating
+    wait_touch "PUPhotosGridCell index:1"
+    wait_touch "UIButtonLabel text:'Create'"
+  end
 end
 
 

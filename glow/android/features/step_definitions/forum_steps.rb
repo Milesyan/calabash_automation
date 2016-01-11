@@ -239,8 +239,21 @@ Then(/^I click the plus button in community tab$/) do
   touch "* marked:'＋'"
 end
 
+
+Then(/^I click the DISCOVER button in community tab$/) do
+  forum_page.click_discover
+end
+
 Then(/^I click create a group$/) do
-  forum_page.create_group
+  forum_page.click_create_group
+end
+
+Then(/^I create a group$/) do
+  forum_page.create_a_group
+end
+
+Then(/^I click Explore button$/) do
+  forum_page.click_explore
 end
 
 Then(/^I join the group "([^"]*)"$/) do |arg1|
@@ -248,13 +261,32 @@ Then(/^I join the group "([^"]*)"$/) do |arg1|
   if element_exists("* marked:'Cancel'") 
     touch "* marked:'Cancel'"
   end
+end
+
+Then(/^I check the floating button menu$/) do
   if element_does_not_exist "* marked:'Post'"
-    wait_for_element_exists "* id:'community_home_floating_actions_menu'"
+    wait_for_element_exists "* id:'topic_create_fab_menu'"
+  else
+    puts "OLD VERSION!!!"
   end
 end
+
 Then(/^I quit the group$/) do
   forum_page.leave_group
 end
+
+Then(/^I click "(.*?)" category$/) do |arg1|
+  wait_for_element_exists "* marked:'Join'"
+  sleep 0.5
+  touch "* marked:'#{arg1}'"
+end
+
+Then(/^I should not see the group which I left$/) do
+  wait_for_element_exists "* marked:'Top'"
+  puts "I cannot see the group #{$group_name} anymore"
+  check_element_does_not_exist "* marked:'$group_name'"
+end
+
 
 #----------------profile page -------------------------
 
@@ -291,6 +323,11 @@ Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|
   forum_page.check_profile_element arg1.downcase
   forum_page.click_back_button
 end
+
+Then(/^I go to group page through community settings$/) do
+  forum_page.go_to_group_page_under_settings
+end
+
 
 Then(/^I check "([^"]*)" without seeing the user under forum profile page and exit the page$/) do |arg1|
   forum_page.check_following_not_exist
@@ -369,7 +406,8 @@ Then(/^I hide the comment$/) do
 end
 
 Then(/^I should not see the comment hidden by me$/) do 
-  check_element_does_not_exist  "* marked:'#{$hidereply_content}'"
+  sleep 1.5
+  wait_for_element_does_not_exist  "* marked:'#{$hidereply_content}'"
   puts "I cannot see comment #{$hidereply_content}"
 end
 

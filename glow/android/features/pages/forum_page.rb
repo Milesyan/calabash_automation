@@ -49,15 +49,20 @@ class ForumPage < Calabash::ABase
     create_poll_common args
   end
 
-  def create_group
+  def click_create_group
     if element_exists "* id:'community_home_floating_actions_menu'"
       touch_floating_menu
       touch_floating_create_group
     else 
       touch "* marked:'Create a group'"
     end
-    create_poll_common args
   end 
+
+  def create_a_group
+    wait_for_element_exists "* id:'group_category'"
+    wait_touch "* id:'create_cancel'"
+    touch_floating_menu
+  end
 
   def select_first_group
     touch "* id:'text1' index:0" # select a group
@@ -392,11 +397,13 @@ class ForumPage < Calabash::ABase
   
   def leave_group
     pan("* id:'title' index:0", :right)
+    $group_name = query("* id:'title' index:0")[0]["text"]
+    puts $group_name.to_s + "<<<<<<Group name lefted."
     wait_touch "* marked:'Leave'"
     puts "Left group"
   end
 
-  def enter_group_page
+  def enter_community_settings
     wait_touch "* contentDescription:'More options'"
     wait_touch "* id:'title' marked:'Groups'"
   end
@@ -415,8 +422,7 @@ class ForumPage < Calabash::ABase
     return x,y,width
   end
 
-
-  def check_groups
+  def go_to_group_page_under_profile
     x,y,width = get_element_x_y "user_social_stats"
     if element_exists "* {text CONTAINS 'group'}"
       perform_action('touch_coordinate',(x+width*0.1), y)
@@ -429,9 +435,19 @@ class ForumPage < Calabash::ABase
     else
       puts "Group text does not exist on screen."
     end
+  end
+
+  def go_to_group_page_under_settings
+    enter_community_settings
+    wait_touch "* marked:'My Groups'"
+  end
+
+  def check_groups
+    go_to_group_page_under_profile
     wait_for_elements_exist "* marked:'#{ TARGET_GROUP_NAME }'"
     puts "I can see target group"
   end
+
 
   def check_followers
     x,y,width = get_element_x_y "user_social_stats"
@@ -606,6 +622,7 @@ class ForumPage < Calabash::ABase
     wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
+    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Hide this post'"
     wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this post?'}"}
@@ -638,6 +655,7 @@ class ForumPage < Calabash::ABase
     wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
+    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"}
@@ -647,6 +665,7 @@ class ForumPage < Calabash::ABase
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
+    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Hide this reply'"
     wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this reply?'}"}
@@ -664,7 +683,7 @@ class ForumPage < Calabash::ABase
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
-    scroll_down
+    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"}
@@ -702,4 +721,13 @@ class ForumPage < Calabash::ABase
     sleep 1
   end
 
+  def click_explore
+    wait_touch "* marked:'Explore'"
+    sleep 1
+  end
+
+  def click_discover
+    wait_touch "* marked:'Discover'"
+    sleep 0.2
+  end
 end

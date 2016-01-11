@@ -97,16 +97,26 @@ Given(/^I downvote the reply$/) do
   forum_page.downvote_reply
 end
 
+
+#----------GROUP-------------
 Then(/^I go to the first group$/) do
   forum_page.select_target_group
 end
 
+Then(/^I click the DISCOVER button in community tab$/) do
+  forum_page.click_discover
+end
+
+Then(/^I click Explore button$/) do
+  forum_page.click_explore
+end
+
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
-  forum_page.create_post_in_group({'title': arg1})
+  forum_page.create_post_in_group :topic_title => arg1
 end
 
 And(/^I post a text topic with title "([^"]*)" anonymously$/) do |arg1|
-  forum_page.create_post_in_group({'title': arg1, 'anonymous': 1})
+  forum_page.create_post_in_group :topic_title => arg1, :anonymous => 1
 end
 
 Then(/^I discard the topic$/) do
@@ -126,8 +136,32 @@ Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
   forum_page.click_back_button
 end  
 
+
+Then(/^I click create a group$/) do
+  forum_page.scroll_down_to_see "Create my own group"
+  wait_touch "* id:'gl-community-create-group'"
+end
+
+Then(/^I create a group$/) do
+  forum_page.create_a_group
+end
+
+Then(/^I should see the group name which I created$/) do
+  wait_for_elements_exist "* {text CONTAINS 'MilesGroup'}"
+end
+
+Then(/^I click "([^"]*)" category$/) do |arg1|
+  wait_touch "UIButton marked:'#{arg1}'"
+end
+
+
+#---------EDIT TOPIC--------
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
   forum_page.edit_topic topic_name
+end
+
+Then(/^I edit the topic "([^"]*)" which has been voted$/) do |topic_name|
+  forum_page.edit_topic_voted topic_name
 end
 
 Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
@@ -154,12 +188,10 @@ Then(/^I scroll "([^"]*)" to see "([^"]*)"$/) do |action,content|
   forum_page.scroll_to_see action, content
 end
 
-
+#--------Search Topics-----------
 Then(/^I go to search bar$/) do
   forum_page.evoke_search_bar
 end
-
-#--------Search Topics-----------
 
 Then(/^I search the topic in the first step$/) do
   $rand_topic = Random.rand($topic_numbers.to_i).to_i + 1
@@ -257,6 +289,11 @@ end
 
 Then(/^I quit the group$/) do
   forum_page.leave_group
+end
+
+Then(/^I check the button in the group$/) do
+  wait_for_elements_exist "* marked:'Poll'"
+  check_element_exists "* marked:'Post'"
 end
 
 #----------------profile page -------------------------

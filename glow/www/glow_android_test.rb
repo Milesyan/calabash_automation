@@ -822,7 +822,7 @@ module GlowAndroid
 
     def create_poll(args = {})
       data = {
-        "title": (args[:topic_title] || "Test Poll")+ Time.now.to_s,
+        "title": args[:topic_title] || ("Test Poll" + Time.now.to_s),
         "anonymous": args[:anonymous]|| 0,
         "content": args[:topic_content] || ("Example create Poll" + Time.now.to_s),
         "poll_options": ["option1", "opiton2", "option3"].to_s
