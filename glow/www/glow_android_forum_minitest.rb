@@ -269,7 +269,11 @@ class GlowTest < Minitest::Test
   end
 
 
-
+  def test_post_image
+    u = new_ttc_user.complete_tutorial.join_group
+    u.create_photo
+    assert_rc u.res
+  end
 
 
 

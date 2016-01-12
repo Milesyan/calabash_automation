@@ -10,7 +10,7 @@ module GlowForumIOS
   GROUP_ID = 5
   BASE_URL = "http://dragon-emma.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
-  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www"
+  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www/1.png"
 
   class GlowUser
 
@@ -212,7 +212,8 @@ module GlowForumIOS
         "ut": @ut,
         "model": "iPhone7,1",
         "warning": args[:tmi_flag] || 0,
-        "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
+        # "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
+         "image": File.new(IMAGE_PWD)
       }
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)

@@ -1,6 +1,7 @@
 require 'httparty'
 require 'json'
 require 'net/http'
+require_relative "MultipartImage_Android.rb"
 
 module GlowForumAndroid
 
@@ -8,10 +9,11 @@ module GlowForumAndroid
   GROUP_ID = 5
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
+  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www/1.png"
 
   class GlowUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
-    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
+    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag
     attr_accessor :res
     attr_accessor :gender
 
@@ -237,6 +239,26 @@ module GlowForumAndroid
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
+
+    def create_photo(args={})
+      topic_data = {
+        "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
+        "anonymous": args[:anonymous]|| 0,
+        "warning": args[:tmi_flag] || 0,
+        "image": File.new(IMAGE_PWD)
+      }.merge(additional_post_data)
+      @group_id = args[:group_id] || GROUP_ID
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      headers = headers.merge({ "Authorization" => @ut })
+      uri = URI("#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      @topic_title = @res["result"]["title"] 
+      puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
+      self
+    end
+
 
 
     def vote_poll(args= {})
