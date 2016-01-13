@@ -273,7 +273,7 @@ Then(/^I click edit profile button$/) do
 end
 
 Then(/^I edit some field in profile page$/) do
-  forum_page.edit_text_fields "Glow", "Last name"
+  forum_page.edit_text_fields "Noah", "Last name"
   forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
   forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
   wait_touch "UILabel marked:'Bio'"

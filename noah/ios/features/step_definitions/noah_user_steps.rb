@@ -1,17 +1,15 @@
 def new_noah_user(args={})
-  NoahUser.new(args).parent_signup.login.leave_group 72057594037927941
+  NoahUser.new(args).parent_signup.login.leave_all_groups.join_group
 end
 
 def forum_new_noah_user(args={})
-  NoahUser.new(args).parent_signup.login.leave_group 72057594037927941
+  NoahUser.new(args).parent_signup.login.leave_all_groups.join_group
 end
   
 Given(/^I create a new noah user$/) do |type|
   $user = new_noah_user
   puts $user.email, $user.password
 end
-
-
 
 
 
@@ -190,3 +188,16 @@ Given(/^I create a new noah user with name "(.*?)"$/) do |name|
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
 end
+
+
+Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |user_name, topic_type|
+  puts "GROUP id = #{GROUP_ID}"
+  if topic_type.downcase == "photo"
+    $user.create_photo({:topic_title => 'TEST TMI IMAGE', :group_id => GROUP_ID, :tmi_flag => 1})
+  else 
+    puts "ONlY PHOTO HAS TMI MODE!!!"
+  end
+  puts "TMI Photo, the title is  >>>>#{$user.topic_title}<<<<"
+  logout_if_already_logged_in
+end
+

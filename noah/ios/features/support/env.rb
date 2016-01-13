@@ -12,9 +12,8 @@ require_relative 'pages'
 # World(Calabash::Cucumber::Operations)
 
 
+
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-# ENV["APP_BUNDLE_PATH"] = '/Users/Miles/automation/AutomationTests/emma/ios/emmadev_local.app'
-# ENV["APP_BUNDLE_PATH"] = "/Users/Miles/automation/AutomationTests/emma/ios/emmadev_sandbox.app"
 ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/noah/iOS/Noah_sandbox.app"
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
 

@@ -57,24 +57,7 @@ class ForumPage < Calabash::IBase
     puts $user.topic_title
   end
 
-  def create_photo
-    wait_touch "label text:'Photo'"
-    wait_for_none_animating
-    wait_touch "PUAlbumListTableViewCell index:0"
-    wait_for_none_animating
-    wait_touch "PUPhotosGridCell index:1"
-    wait_touch "label text:'Choose'"
-    wait_for_none_animating
-    wait_touch "label marked:'Write a caption...'"
-    description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
-    keyboard_enter_text description
-    wait_touch "* marked:'Next'"
-    wait_touch "UITableViewCellContentView child label index:0"
-    wait_touch "* marked:'Done!'"
-    wait_for_none_animating
-    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
-    sleep 3
-  end
+
 
   def create_link
     wait_touch "UIButtonLabel text:' Link '"
@@ -291,11 +274,11 @@ class ForumPage < Calabash::IBase
   
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def scroll_up_to_see(args)
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def click_cancel
@@ -303,6 +286,7 @@ class ForumPage < Calabash::IBase
   end
 
   def show_entire_discussion
+    sleep 2
     wait_touch "UIButtonLabel marked:'Show entire discussion'"
   end
 
@@ -388,7 +372,7 @@ class ForumPage < Calabash::IBase
 
   def check_groups
     wait_touch "UIButton index:0"
-    check_element_exists "* marked:'target group'"
+    check_element_exists "* marked:'#{TARGET_GROUP_NAME}'"
     puts "I can see target group"
   end
 
@@ -620,6 +604,20 @@ class ForumPage < Calabash::IBase
 
 #------------------NEW added-----------------
 
+  def create_photo_common
+    wait_touch "label text:'Photo'"
+    wait_for_none_animating
+    wait_touch "PUAlbumListTableViewCell index:0"
+    wait_for_none_animating
+    wait_touch "PUPhotosGridCell index:1"
+    wait_touch "label text:'Choose'"
+    wait_for_none_animating
+    wait_touch "label marked:'Write a caption...'"
+    description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
+    keyboard_enter_text description
+  end
+
+
   def create_photo_tmi
     create_photo_common
     wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
@@ -630,6 +628,16 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_for_elements_exist "* marked:'Your topic is successfully posted!"
     sleep 1
+  end
+
+  def create_photo
+    create_photo_common
+    wait_touch "* marked:'Next'"
+    wait_touch "UITableViewCellContentView child label index:0"
+    wait_touch "* marked:'Done!'"
+    wait_for_none_animating
+    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
+    sleep 3
   end
 
 end

@@ -6,12 +6,14 @@ require 'yaml'
 require_relative "MultipartImage_IOS.rb"
 require_relative 'noah_test_helper'
 
+GROUP_ID = 3
+TARGET_GROUP_NAME = "1st Child"
+
 module NoahForumIOS
   extend BabyTestHelper 
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  GROUP_ID = 3
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class NoahUser
@@ -183,7 +185,9 @@ module NoahForumIOS
 
       @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{group_id}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "     -----Join group #{group_id}-----    "
+      puts "     -----Should Join group #{group_id}-----    "
+      get_all_groups
+      puts "User current group : >>>#{@all_groups_id} <<<"
       self
     end
 
@@ -454,7 +458,6 @@ module NoahForumIOS
         "anonymous": 0,
         "ut": @ut,
         "warning": args[:tmi_flag] || 0,
-        # "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
         "image": File.new(image_pwd)
       }
       @group_id = args[:group_id] || GROUP_ID

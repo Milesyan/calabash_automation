@@ -2,9 +2,6 @@ require 'httparty'
 require 'json'
 PASSWORD = 'Glow12345'
 
-GROUP_ID = 5 # local group id 
-#NOTE!!! The TARGET_GROUP_NAME must be corresponding to GROUP_ID
-TARGET_GROUP_NAME = "High Risk Pregnancies"
 
 module Glow
   class User
