@@ -103,7 +103,7 @@ Then(/^I go to the first group$/) do
 end
 
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
-  forum_page.create_post_in_group({'title': arg1})
+  forum_page.create_post_in_group :topic_title => arg1
 end
 
 And(/^I post a text topic with title "([^"]*)" anonymously$/) do |arg1|

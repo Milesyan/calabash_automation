@@ -15,7 +15,7 @@ Feature: create/join/leave group (3m24.806s 3 scenarios 18 steps)
 		And I login as the new user "Rachel" created through www
 		And I open "community" page	
 		Then I click the plus button in community tab
-		Then I join the group "Period Talk"
+		Then I join the group "Success Stories"
 		And I logout
 
 	@leave_group
@@ -23,7 +23,7 @@ Feature: create/join/leave group (3m24.806s 3 scenarios 18 steps)
 		Given I create a new noah user with name "Miles"
 		And I login as the new user "Miles" created through www
 		And I open "community" page	
-		Then I long press group "Health & Lifestyle"
+		Then I long press group "1st Child"
 		Then I quit the group
 		And I logout
 

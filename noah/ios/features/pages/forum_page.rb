@@ -250,7 +250,7 @@ class ForumPage < Calabash::IBase
 
   def search_subreplies
     wait_touch "UISegment marked:'Comments'"
-    $search_content  = "#{$random_prefix} subreplies"
+    $search_content  = "#{$random_prefix} sub-reply"
     puts "Search for subreply: #{$search_content}"
     keyboard_enter_text $search_content
     tap_keyboard_action_key
@@ -569,7 +569,7 @@ class ForumPage < Calabash::IBase
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    wait_touch "* id:'community-dots' index:1"
+    wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
   end

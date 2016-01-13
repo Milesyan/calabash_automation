@@ -80,7 +80,7 @@ class ForumPage < Calabash::IBase
     sleep 1
   end
 
-  def create_photo_tmi
+  def 
     create_photo_common
     wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
     sleep 1
@@ -110,6 +110,7 @@ class ForumPage < Calabash::IBase
     wait_touch "* marked:'#{TARGET_GROUP_NAME}'"
     wait_for_none_animating
   end
+    
     
   def create_post_in_group(args={})
     wait_touch "label text:'Post'"
