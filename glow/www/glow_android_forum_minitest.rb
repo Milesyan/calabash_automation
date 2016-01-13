@@ -258,14 +258,14 @@ class GlowTest < Minitest::Test
   def test_get_all_groups
     u = new_ttc_user
     u.get_all_groups
-    puts u.all_groups_id
+    puts u.all_group_ids
   end
 
   def test_leave_all_groups
     u = new_ttc_user.leave_all_groups
     u.get_all_groups
-    puts u.all_groups_id
-    assert_equal u.all_groups_id, []
+    puts u.all_group_ids
+    assert_equal u.all_group_ids, []
   end
 
 
@@ -295,11 +295,10 @@ class GlowTest < Minitest::Test
     end 
   end
 
-
-
-
-
-
+  def test_get_all_group_names
+    u = new_ttc_user
+    puts u.get_all_group_names
+  end
 
 
 end

@@ -189,7 +189,7 @@ class GlowTest < Minitest::Test
   def test_quit_all_groups
     u = new_ttc_user
     u.get_all_groups
-    u.all_groups_id.each do |group_id|
+    u.all_group_ids.each do |group_id|
       u.leave_group group_id
     end
   end
@@ -254,7 +254,12 @@ class GlowTest < Minitest::Test
   def test_miles
     u = new_ttc_user
   end
-
+  
+  def test_get_all_group_names
+    u = new_ttc_user
+    puts u.get_all_group_names
+  end
+  
 
 end
 

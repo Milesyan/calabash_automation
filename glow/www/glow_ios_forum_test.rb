@@ -19,7 +19,7 @@ module GlowForumIOS
 
   class GlowUser
 
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category 
 
 
@@ -515,11 +515,14 @@ module GlowForumIOS
       }.merge(common_data)
       _res =  HTTParty.get("#{FORUM_BASE_URL}/ios/forum/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @all_groups_id = []
+      @all_group_ids = []
+      @all_group_names = []
       _res["groups"].each do |element|
         element.each do |k,v|
           if k == "id"
-            @all_groups_id.push v
+            @all_group_ids.push v
+          elsif k == "name"
+            @all_group_names.push v
           end
         end
       end
@@ -528,10 +531,20 @@ module GlowForumIOS
 
     def leave_all_groups
       get_all_groups
-      @all_groups_id.each do |group_id|
+      @all_group_ids.each do |group_id|
         leave_group group_id
       end
       self
+    end
+
+    def get_all_group_names
+      get_all_groups
+      return @all_group_names
+    end
+
+    def get_all_group_ids
+      get_all_groups
+      return @all_group_ids
     end
 
     def create_group(args={})

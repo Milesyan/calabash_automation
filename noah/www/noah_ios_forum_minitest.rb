@@ -200,7 +200,7 @@ class NoahTest < Minitest::Test
   def test_quit_all_groups
     u = new_noah_user
     u.get_all_groups
-    u.all_groups_id.each do |group_id|
+    u.all_group_ids.each do |group_id|
       u.leave_group group_id
     end
   end
@@ -223,7 +223,15 @@ class NoahTest < Minitest::Test
     assert_equal u.res["data"]["group"]["creator_name"], u.first_name
   end
 
-
+  def test_get_all_group_names
+    u = new_noah_user
+    puts u.get_all_group_names
+  end
+  
+  def test_get_all_group_ids
+    u = new_noah_user
+    puts u.get_all_group_ids
+  end
 end
 
 

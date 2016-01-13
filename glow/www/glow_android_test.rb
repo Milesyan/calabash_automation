@@ -18,7 +18,7 @@ module GlowAndroid
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
   class GlowUser
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
+    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
@@ -903,11 +903,11 @@ module GlowAndroid
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/0/groups?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       _res =  HTTParty.get(url, :body => group_data.to_json,
         :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
-      @all_groups_id = []
+      @all_group_ids = []
       _res["groups"].each do |element|
         element.each do |k,v|
           if k == "id"
-            @all_groups_id.push v
+            @all_group_ids.push v
           end
         end
       end
@@ -916,7 +916,7 @@ module GlowAndroid
 
     def leave_all_groups
       get_all_groups
-      @all_groups_id.each do |group_id|
+      @all_group_ids.each do |group_id|
         leave_group group_id
       end
       self
