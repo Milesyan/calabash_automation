@@ -7,12 +7,12 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class GlowTest < Minitest::Test
   include GlowForumIOS
 
-  def new_ttc_user
-    GlowUser.new.ttc_signup.login.complete_tutorial
+  def new_ttc_user(args={})
+    GlowUser.new(args).ttc_signup.login.complete_tutorial
   end
     
-  def new_non_ttc_user
-    GlowUser.new.non_ttc_signup.login.complete_tutorial
+  def new_non_ttc_user(args={})
+    GlowUser.new(args).non_ttc_signup.login.complete_tutorial
   end
 
   def new_ft_user(args = {})
@@ -207,6 +207,54 @@ class GlowTest < Minitest::Test
     u.reply_to_topic u.topic_id
     u2.reply_to_comment u.topic_id, u.reply_id
   end
+
+  def test_create_group 
+    u = new_ttc_user
+    u.create_group
+  end
+
+  def test_create_multiple_groups
+    u2 = new_ttc_user
+    20.times do |arg1|
+      u = new_ttc_user
+      u.create_group :group_name => "Test group JOIN  #{arg1}"
+      u2.join_group u.group_id
+    end
+  end
+
+  def test_invite_friends
+    u = new_ttc_user
+    2.times do
+      u2 = new_ttc_user :first_name=>"BothFollowandFollowing"
+      u.follow_user u2.user_id
+      u2.follow_user u.user_id
+    end
+
+    3.times do
+      u2 = new_ttc_user :first_name=>"My Follower"
+      u2.follow_user u.user_id
+    end      
+
+    3.times do
+      u2 = new_ttc_user :first_name=>"My following"
+      u.follow_user u2.user_id
+    end
+
+    puts "MY user id is >>>>>>> #{u.user_id} <<<<<<< Email #{u.email}"
+  end
+
+
+
+  def test_leo_group
+    u = new_ttc_user :first_name => "Glow"
+    u.create_group :group_name => "Baby articles"
+  end
+
+
+  def test_miles
+    u = new_ttc_user
+  end
+
 
 end
 

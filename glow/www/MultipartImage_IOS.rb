@@ -5,10 +5,8 @@ require 'mime/types'
 module MultipartImage
   VERSION = "1.0.0"
   class Post
-    # We have to pretend we're a web browser...
     BOUNDARY = "----------------------120024863801960615717959499895"
     HEADER_CONTENT_TYPE = "multipart/form-data; boundary=#{ BOUNDARY }"
-    # UT = "eSUquebm1-FtQNrvNCbxtAZItVFEeoREat5FBlrRjKKzAeKouEInuT420T9jW-QK1qt5edg4P44x54yEOu6Q6Q=="
     HEADER = { "Content-Type" => HEADER_CONTENT_TYPE, "User-Agent" => "Glow%20Beta/201511301906 CFNetwork/711.5.6 Darwin/14.0.0" }
     def self.prepare_query(params)
       fp = []

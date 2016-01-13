@@ -10,12 +10,12 @@ class GlowTest < Minitest::Test
   def setup
   end
 
-  def new_ttc_user
-    GlowUser.new.ttc_signup.login.complete_tutorial.join_group
+  def new_ttc_user(args = {})
+    GlowUser.new(args).ttc_signup.login.complete_tutorial.join_group
   end
     
-  def new_non_ttc_user
-    GlowUser.new.non_ttc_signup.login.complete_tutorial.join_group
+  def new_non_ttc_user(args = {})
+    GlowUser.new(args).non_ttc_signup.login.complete_tutorial.join_group
   end
 
   def new_ft_user(args = {})
@@ -275,9 +275,25 @@ class GlowTest < Minitest::Test
     assert_rc u.res
   end
 
+  def test_create_group
+    u = new_ttc_user
+    u.create_group
+  end
 
+  def test_multiple_groups
+    u = new_ttc_user
+    30.times do |n|
+      u.create_group :group_name => "Test Load More #{n}"
+    end
+  end
 
-
+  def test_temp
+    u = new_ttc_user.leave_all_groups
+    3.times do
+      u2 = new_ttc_user.create_topic
+      u.reply_to_topic u2.topic_id
+    end 
+  end
 
 
 

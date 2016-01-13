@@ -32,7 +32,7 @@ World do
 end
 
 include Glow
-include GlowIOS
+include NoahForumIOS
 include Minitest::Assertions
 
 

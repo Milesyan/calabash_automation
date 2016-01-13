@@ -9,11 +9,12 @@ module GlowForumAndroid
   GROUP_ID = 5
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
-  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www/1.png"
+  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class GlowUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
-    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag
+    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category 
+
     attr_accessor :res
     attr_accessor :gender
 
@@ -241,11 +242,12 @@ module GlowForumAndroid
     end
 
     def create_photo(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       topic_data = {
         "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
         "anonymous": args[:anonymous]|| 0,
         "warning": args[:tmi_flag] || 0,
-        "image": File.new(IMAGE_PWD)
+        "image": File.new(image_pwd)
       }.merge(additional_post_data)
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
@@ -521,9 +523,9 @@ module GlowForumAndroid
       puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
-  end
 
-  def hide_topic(topic_id, report_reason)
+
+    def hide_topic(topic_id, report_reason)
       data = {
         "reason": report_reason
       }
@@ -532,4 +534,25 @@ module GlowForumAndroid
       puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
+
+    def create_group(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
+      topic_data = {
+        "name": args[:group_name] || ("Test Create Group"),
+        "desc": args[:group_description]|| "Test Create Group Description",
+        "category_id": args[:group_category] || 6,
+        "image": File.new(image_pwd)
+      }.merge(additional_post_data)
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      headers = headers.merge({ "Authorization" => @ut })
+      uri = URI("#{GLOW_ANDROID_BASE_FORUM_URL}/group")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      @group_id = @res["group"]["id"]
+      @group_name = @res["group"]["name"]
+      puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
+      self
+    end  
+  end
 end

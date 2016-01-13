@@ -10,12 +10,12 @@ module GlowForumIOS
   GROUP_ID = 5
   BASE_URL = "http://dragon-emma.glowing.com"
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
-  IMAGE_PWD = "/Users/Miles/automation/AutomationTests/glow/www/1.png"
+  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class GlowUser
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_groups_id
-    attr_accessor :first_name, :last_name, :type, :res, :gender
+    attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category 
 
 
     def initialize(args = {})  
@@ -201,6 +201,7 @@ module GlowForumIOS
 
 
     def create_photo(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
       topic_data = {
         "code_name": "emma",
         "app_version": "5.3.0",
@@ -213,7 +214,7 @@ module GlowForumIOS
         "model": "iPhone7,1",
         "warning": args[:tmi_flag] || 0,
         # "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
-         "image": File.new(IMAGE_PWD)
+        "image": File.new(IMAGE_PWD)
       }
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
@@ -501,20 +502,6 @@ module GlowForumIOS
       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
-    # def create_group(args={})
-    #   group_data = {
-    #     "code_name": "emma",
-    #     "category_id": 7,
-    #     "desc": "test create group",
-    #     "name": "GROUPNAME" + Time.now.to_s,
-    #     "image": File.new('1.jpg'),
-    #     "ut": @ut
-    #   }.merge(common_data)
-    #   @res =  Multipart_miles.post("#{FORUM_BASE_URL}/ios/forum/group/create", :body => group_data.to_json,
-    #     :headers => { 'Content-Type' => 'application/json' })
-    #   puts @res
-    #   self
-    # end
 
     def get_all_groups
       group_data = {
@@ -541,5 +528,33 @@ module GlowForumIOS
       end
       self
     end
+
+    def create_group(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
+      topic_data = {
+        "code_name": "emma",
+        "app_version": "5.4.0",
+        "locale": "en_US",
+        "device_id": "139E7990-DB88-4D11-9D6B-290" + random_str,
+        "random": random_str,
+        "category_id": args[:group_category] || 7,
+        "model": "iPhone7,1",
+        "ut": @ut,
+        "desc": args[:group_description] || "Test group discription",
+        "name": args[:group_name] || "Test create group",
+        "image": File.new(image_pwd)
+      }
+
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/create")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      @group_id = @res["group"]["id"]
+      @group_name = @res["group"]["name"]
+      puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
+      self
+    end
+
   end
 end

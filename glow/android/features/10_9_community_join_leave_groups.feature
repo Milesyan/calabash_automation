@@ -1,6 +1,6 @@
-@forum @group
-Feature: create/join/leave group (3m24.806s 3 scenarios 18 steps)
-  @create_group_able
+@forum_n @group
+Feature: create/join/leave group 
+
   Scenario: User create a group.
     Given I create a new "ttc" glow user with name "Julie"
     Then "Julie" reply to 3 topics created by others 

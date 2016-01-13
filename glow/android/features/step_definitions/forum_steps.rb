@@ -41,11 +41,11 @@ Given(/^I scroll down and wait for a while$/) do
 end
 
 Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
-  touch "* marked:'#{$user_a.topic_title}'"
+  wait_touch "* marked:'#{$user_a.topic_title}'"
 end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
-  touch "* {text CONTAINS '#{arg1}'} index:0"
+  wait_touch "* {text CONTAINS '#{arg1}'} index:0"
 end
 
 
@@ -308,10 +308,10 @@ end
 
 Then(/^I go back to user profile page and check the changes in profile page$/) do
   wait_for_elements_exist "* {text CONTAINS 'Created'}"
-  sleep 0.5
-  check_element_exists "* marked:'Add Bio info'"
-  check_element_exists "* marked:'#{$user.first_name}Testname'"
-  check_element_exists "* marked:'New York'"
+  sleep 1
+  wait_for_elements_exist "* marked:'Add Bio info'"
+  wait_for_elements_exist "* marked:'#{$user.first_name}Testname'"
+  wait_for_elements_exist "* marked:'New York'"
   puts "Checked profile page"
 end
 

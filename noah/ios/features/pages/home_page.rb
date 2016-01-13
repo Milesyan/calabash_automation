@@ -28,4 +28,4 @@ class HomePage < Calabash::IBase
   def keyboard_input(n)
     wait_touch "UIKBKeyView index:#{n}"
   end
-
+end
