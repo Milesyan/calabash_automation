@@ -19,6 +19,20 @@ class NoahTest < Minitest::Test
     puts u.first_name
   end
 
+  def test_user_becomes_mother
+    u = new_noah_user
+    baby = u.new_born_baby(relation: "Mother", gender: "M")
+    u.add_born_baby(baby)
+    assert_rc u.res
+    actual_baby = u.res["data"]["Baby"]["update"].first
+    assert_equal u.current_baby.first_name, actual_baby["first_name"]
+    assert_equal u.current_baby.last_name, actual_baby["last_name"]
+    assert_equal u.current_baby.gender, actual_baby["gender"]
+    assert_equal u.user_id, actual_baby["owner_user_id"]
+    assert_equal "Mother", u.res["data"]["UserBabyRelation"]["update"].first["relation"]
+  end
+
+
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end

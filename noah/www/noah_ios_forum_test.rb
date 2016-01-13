@@ -1,4 +1,5 @@
 require 'httparty'
+require 'faker'
 require 'json'
 require 'securerandom'
 require 'active_support/all'
@@ -16,13 +17,41 @@ module NoahForumIOS
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
+
+  class Baby
+    attr_accessor :first_name, :last_name, :gender
+    attr_accessor :birthday, :birth_due_date, :birth_timezone
+    attr_accessor :baby_id
+    attr_accessor :relation
+    attr_accessor :weight_all, :height_all, :headcirc_all
+    attr_accessor :birth_weight, :birth_height, :birth_headcirc, :ethnicity
+
+    def initialize(args)
+      @first_name = args[:first_name]
+      @last_name = args[:last_name]
+      @gender = args[:gender]
+      @relation = args[:relation]
+      @birthday = args[:birthday]
+      @birth_due_date = args[:birth_due_date]
+      @birth_timezone = args[:birth_timezone]
+      @baby_id = args[:baby_id]
+      @weight_all = []
+      @height_all = []
+      @birth_weight = args[:birth_weight]
+      @birth_height = args[:birth_height]
+      @birth_headcirc = args[:birth_headcirc] || args[:birth_head]
+      @headcirc_all = []
+      @ethnicity = [1]
+    end
+  end
+
   class NoahUser
     include BabyTestHelper
     include HTTParty
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :gender,:birth_due_date, :birth_timezone
     attr_accessor :res
-    attr_accessor :baby_id, :birthday
+    attr_accessor :current_baby, :current_baby_id, :birthday, :relation 
 
     def initialize(args = {})  
       @first_name = (args[:first_name] || "noah") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
@@ -41,6 +70,15 @@ module NoahForumIOS
     def uuid
       SecureRandom.uuid
     end
+
+    def date_str(t)
+      t.strftime("%Y/%m/%d")
+    end
+
+    def time_str(t)
+      t.strftime("%Y/%m/%d %H:%M:%S")
+    end
+
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -90,6 +128,126 @@ module NoahForumIOS
     def logout
       @ut = nil
     end
+
+    ######## Baby Info
+    def pull
+      data = {
+        "data": {
+          "user": {
+            "user_id": @user_id,
+            "sync_time": 0
+          },
+          "babies": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "#{BASE_URL}/ios/user/pull", options(data)
+
+      if @res["rc"] == 0
+        @notifications = @res["data"]["user"]["Notification"]["update"]
+      end
+    end
+
+    def new_born_baby(args = {})
+      name = Faker::Name.name.split(" ")
+      params = {
+        first_name: args[:first_name] || name.first,
+        last_name: args[:last_name] || name.last,
+        relation: args[:relation] || "Mother",
+        gender: args[:gender] || "M",
+        birth_due_date: args[:birth_due_date] || date_str(1.day.ago),
+        birthday: args[:birthday] || date_str(1.day.ago),
+        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
+      }
+      Baby.new(params)
+    end
+
+    def new_upcoming_baby(args = {})
+      name = Faker::Name.name.split(" ")
+      params = {
+        first_name: args[:first_name] || name.first,
+        last_name: args[:last_name] || name.last,
+        relation: args[:relation] || "Mother",
+        birth_due_date: args[:birth_due_date] || date_str(30.days.since),
+        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
+      }
+      Baby.new(params)
+    end
+
+    def add_born_baby(baby)
+      data = {
+        "relation": baby.relation.capitalize,
+        "baby_info": {
+          "first_name": baby.first_name,
+          "last_name": baby.last_name,
+          "gender": baby.gender,
+          "birth_due_date": baby.birth_due_date,
+          "birth_height": 0,
+          "from_nurture_baby": 0,
+          "birthday": baby.birthday,
+          "birth_timezone": baby.birth_timezone,
+          "birth_weight": 0
+        },
+        "as_current_baby": true,
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "#{BASE_URL}/ios/baby/create", options(data)
+
+      if @res["rc"] == 0
+        @current_baby = baby
+        @current_baby.baby_id = @res["data"]["baby_id"]
+        @babies << @current_baby
+        log_msg "Baby #{@current_baby.first_name} is added -- baby_id: #{@current_baby.baby_id }"
+      end
+      self
+    end
+
+    def add_upcoming_baby(baby)
+      data = {
+        "relation": baby.relation.capitalize,
+        "baby_info": {
+          "first_name": baby.first_name,
+          "last_name": baby.last_name,
+          "birth_due_date": baby.birth_due_date,
+          "birth_height": 0,
+          "from_nurture_baby": 0,
+          "birth_timezone": baby.birth_timezone,
+          "birth_weight": 0
+        },
+        "as_current_baby": true,
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "#{BASE_URL}/ios/baby/create", options(data)
+
+      if @res["rc"] == 0
+        @current_baby = baby
+        @current_baby.baby_id = @res["data"]["baby_id"]
+        @babies << @current_baby
+      end
+      self
+    end
+
+    def delete_baby(baby)
+      data = {
+        "baby_id": baby.baby_id,
+        "ut": @ut
+      }
+
+      @res = self.class.post "#{BASE_URL}/ios/baby/remove", options(data)
+
+      if @res["rc"] == 0
+        @babies.delete_if {|b| b.baby_id == baby.baby_id } 
+        if @current_baby.id == baby.id
+          @current_baby_id = nil
+          @current_baby = nil
+        end
+      end
+      self
+    end
+
 
 
     ######## Community

@@ -52,7 +52,7 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
 		Then I go back to previous page
 		And I logout
 
-	@report_reason
+	@report_reason @old_version
 	Scenario: User create a topic and hide it.
 		Given I create a new noah user with name "Miles"
 		And another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
@@ -86,5 +86,5 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
 		
 		# And I click confirm not to hide it
 		# Then I should still see the comment
-		And I go back to previous page
+		# And I go back to previous page
 		And I logout
