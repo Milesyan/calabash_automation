@@ -1,15 +1,20 @@
 require 'httparty'
 require 'json'
 require 'securerandom'
+require 'yaml'
 require_relative "MultipartImage_IOS.rb"
+require_relative 'glow_test_helper'
 
 module GlowForumIOS
+  extend GlowTestHelper 
+
 	PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
 
   GROUP_ID = 5
-  BASE_URL = "http://dragon-emma.glowing.com"
-  FORUM_BASE_URL = "http://dragon-forum.glowing.com"
+
+  BASE_URL = load_config["base_urls"]["Sandbox"]
+  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class GlowUser
@@ -214,7 +219,7 @@ module GlowForumIOS
         "model": "iPhone7,1",
         "warning": args[:tmi_flag] || 0,
         # "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
-        "image": File.new(IMAGE_PWD)
+        "image": File.new(image_pwd)
       }
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)

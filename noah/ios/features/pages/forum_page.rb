@@ -41,7 +41,7 @@ class ForumPage < Calabash::IBase
   def create_post(args={})
     wait_touch "label text:'Post'"
     wait_touch "UITextField"
-    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    title = args[:topic_title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     wait_touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||Time.now.to_s
@@ -98,10 +98,14 @@ class ForumPage < Calabash::IBase
   def create_post_in_group(args={})
     wait_touch "label text:'Post'"
     wait_touch "UITextField"
-    title = args[:title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
+    title = args[:topic_title] || "Post " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text title
     wait_touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
+    if args[:anonymous] == 1
+      puts "Anonymous Mode"
+      wait_touch "* id:'gl-community-anonymous-uncheck.png'"
+    end
     wait_touch "label text:'Post'"
     sleep 1
     # select the first group
@@ -610,6 +614,22 @@ class ForumPage < Calabash::IBase
       check_element_exists "* marked:'#{tmp}'"
       puts "check #{tmp} pass"
     end
+  end
+
+
+
+#------------------NEW added-----------------
+
+  def create_photo_tmi
+    create_photo_common
+    wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
+    sleep 1
+    wait_touch "* marked:'Next'"
+    wait_touch "UITableViewCellContentView child label index:0"
+    wait_touch "* marked:'Done!'"
+    wait_for_none_animating
+    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
+    sleep 1
   end
 
 end

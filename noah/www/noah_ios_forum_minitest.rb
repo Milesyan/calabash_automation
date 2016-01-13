@@ -11,11 +11,12 @@ class NoahTest < Minitest::Test
   end
 
   def new_noah_user
-    NoahUser.new.parent_signup.login.leave_group 72057594037927941
+    NoahUser.new.parent_signup.login.leave_all_groups.join_group
   end
 
   def test_new_noah_user
     u = new_noah_user
+    puts u.first_name
   end
 
   def assert_rc(res)
@@ -49,11 +50,6 @@ class NoahTest < Minitest::Test
     assert_equal u.user_id, u.res["data"]["result"]["user_id"]
   end
 
-  def test_create_photo_topic
-    u = new_noah_user.join_group 1
-    u.create_image
-    assert_rc u.res
-  end
 
   def test_create_link_topic
 
@@ -195,23 +191,37 @@ class NoahTest < Minitest::Test
     u = new_noah_user
     u.leave_group 72057594037927941
   end
-  # def test_get_all_groups
-  #   u = new_noah_user
-  #   u.get_all_groups
-  # end
 
-  # def test_quit_all_groups
-  #   u = new_noah_user
-  #   u.get_all_groups
-  #   u.all_groups_id.each do |group_id|
-  #     u.leave_group group_id
-  #   end
-  # end
+  def test_get_all_groups
+    u = new_noah_user
+    u.get_all_groups
+  end
+
+  def test_quit_all_groups
+    u = new_noah_user
+    u.get_all_groups
+    u.all_groups_id.each do |group_id|
+      u.leave_group group_id
+    end
+  end
 
 
-  # def test_quit_all_groups_method
-  #   u = new_noah_user.leave_all_groups
-  # end
+  def test_quit_all_groups_method
+    u = new_noah_user.leave_all_groups
+  end
+
+  def test_post_image
+    u = new_noah_user
+    u.create_photo
+    assert_rc u.res
+    puts u.res
+  end
+
+  def test_create_group 
+    u = new_noah_user
+    u.create_group
+    assert_equal u.res["data"]["group"]["creator_name"], u.first_name
+  end
 
 end
 

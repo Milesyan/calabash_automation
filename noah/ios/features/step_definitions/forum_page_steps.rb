@@ -20,6 +20,27 @@ Then(/^I should see the topic is posted successfully$/) do
     wait_for_none_animating
 end
 
+Then(/^I should see the topic cannot be voted$/) do
+    sleep 1
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_touch "* marked:'Back'"
+    wait_for_none_animating
+end
+
+Then(/^I should not see the creator name$/) do
+    wait_for_none_animating
+    sleep 1
+    check_element_does_not_exist "* {text CONTAINS 'Posted by'}"
+    wait_touch "* marked:'Back'"
+    wait_for_none_animating
+end
+
+Given(/^I post a image topic with TMI flag$/) do
+  forum_page.create_photo_tmi
+end
+
+
+
 Given(/^I open "(.*?)" tab in community$/) do |tab_name|
   sleep 2
   wait_for_none_animating
@@ -84,6 +105,11 @@ end
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
   forum_page.create_post_in_group({'title': arg1})
 end
+
+And(/^I post a text topic with title "([^"]*)" anonymously$/) do |arg1|
+  forum_page.create_post_in_group :topic_title => arg1, :anonymous => 1
+end
+
 
 Then(/^I discard the topic$/) do
   forum_page.discard_topic

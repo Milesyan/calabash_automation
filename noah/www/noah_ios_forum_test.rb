@@ -11,7 +11,8 @@ module NoahForumIOS
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  GROUP_ID = 5
+  GROUP_ID = 3
+  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class NoahUser
     include BabyTestHelper
@@ -64,7 +65,6 @@ module NoahForumIOS
         "password": args[:password] || user.password
         },
       }.merge(common_data)
-
       @res = HTTParty.post "#{BASE_URL}/ios/user/signup", options(data)
       user.user_id = @res["data"]["user"]["user_id"]
       puts "#{user.email} has been signed up"
@@ -96,7 +96,7 @@ module NoahForumIOS
       topic_data = {
         "code_name": "noah",
         "content": "#{Time.now.strftime "%D %T"}",
-        "title": args[:title] || "#{@email} #{Time.now}",
+        "title": args[:topic_title] || "#{@email} #{Time.now}",
         "anonymous": 0,
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
@@ -116,7 +116,7 @@ module NoahForumIOS
         "code_name": "noah",
         "content": "#{Time.now.strftime "%D %T"}",
         "anonymous": 0,
-        "title": args[:title] || "Poll + #{@email} #{Time.now}",
+        "title": args[:topic_title] || "Poll + #{@email} #{Time.now}",
         "options": ["Field1","Field2","Field3"].to_s,
         "ut": @ut
       }.merge(common_data)
@@ -129,30 +129,6 @@ module NoahForumIOS
       puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
     end
-
-
-    def create_image(args={})
-      topic_data = {
-        "code_name": "noah",
-        "app_version": "5.3.0",
-        "locale": "en_US",
-        "device_id": "139E7990-DB88-4D11-9D6B-290" + random_str,
-        "random": random_str,
-        "title": "Image topic" + Time.now.to_s,
-        "anonymous": 0,
-        "ut": @ut,
-        "model": "iPhone7,1",
-        "warning": 0,
-        "image": File.new('1.png')
-      }
-      data,headers = MultipartImage::Post.prepare_query(topic_data)
-      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/1/create_photo")
-      http = Net::HTTP.new(uri.host, uri.port)
-      _res = http.post(uri.path, data, headers)
-      @res = JSON.parse _res.body
-      self
-    end
-
 
     def vote_poll(args = {})
       vote_data = {
@@ -444,24 +420,6 @@ module NoahForumIOS
       self
     end
 
-
-
-
-    # def create_group(args={})
-    #   group_data = {
-    #     "code_name": "noah",
-    #     "category_id": 7,
-    #     "desc": "test create group",
-    #     "name": "GROUPNAME" + Time.now.to_s,
-    #     "image": File.new('1.jpg'),
-    #     "ut": @ut
-    #   }.merge(common_data)
-    #   @res =  Multipart_miles.post("#{FORUM_BASE_URL}/ios/forum/group/create", :body => group_data.to_json,
-    #     :headers => { 'Content-Type' => 'application/json' })
-    #   puts @res
-    #   self
-    # end
-
     def get_all_groups
       group_data = {
         "code_name": "noah",
@@ -470,7 +428,7 @@ module NoahForumIOS
       _res =  HTTParty.get("#{FORUM_BASE_URL}/ios/forum/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @all_groups_id = []
-      _res["groups"].each do |element|
+      _res["data"]["groups"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_groups_id.push v
@@ -487,5 +445,51 @@ module NoahForumIOS
       end
       self
     end
+
+    def create_photo(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
+      topic_data = {
+        "title": args[:topic_title] || "Baby App IMAGE" + Time.now.to_s,
+        "code_name": "noah",
+        "anonymous": 0,
+        "ut": @ut,
+        "warning": args[:tmi_flag] || 0,
+        # "image": File.new('/Users/Miles/automation/AutomationTests/glow/www/1.png')
+        "image": File.new(image_pwd)
+      }
+      @group_id = args[:group_id] || GROUP_ID
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_photo")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      @topic_title = @res["data"]["result"]["title"] 
+      puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
+      self
+    end
+
+    def create_group(args={})
+      image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
+      topic_data = {
+        "ut": @ut,
+        "desc": args[:group_description] || "Test group discription",
+        "code_name": "noah",
+        "category_id": args[:group_category] || 1,
+        "name": args[:group_name] || "Test create group",
+        "image": File.new(image_pwd)
+      }
+
+      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/create")
+      http = Net::HTTP.new(uri.host, uri.port)
+      _res = http.post(uri.path, data, headers)
+      @res = JSON.parse _res.body
+      @group_id = @res["data"]["group"]["id"]
+      @group_name = @res["data"]["group"]["name"]
+      puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
+      self
+    end
+
+
   end
 end
