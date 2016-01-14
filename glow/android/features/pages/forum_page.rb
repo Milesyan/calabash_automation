@@ -189,8 +189,10 @@ class ForumPage < Calabash::ABase
     sleep 0.5
     touch "* {text CONTAINS '#{args1}'} index:0"
     sleep 1
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    sleep 1
     wait_touch "* id:'topic_menu'"
-    sleep 0.5
+    sleep 1
     touch "* marked:'Edit this post'"
     sleep 1
     puts $user.topic_title
@@ -428,7 +430,7 @@ class ForumPage < Calabash::ABase
 
   def enter_community_settings
     wait_touch "* contentDescription:'More options'"
-    wait_touch "* id:'title' marked:'Groups'"
+    wait_touch "* id:'title' marked:'Community Settings'"
   end
 
   def enter_profile_page
@@ -517,7 +519,7 @@ class ForumPage < Calabash::ABase
   def check_participated
     wait_touch "* marked:'Participated'"
     wait_for_elements_exist "* marked:'#{$user.topic_title}'"
-    slepe 1
+    sleep 1
     touch "* marked:'#{$user.topic_title}'"
     wait_for_element_exists "* id:'topic_menu'"
     sleep 1

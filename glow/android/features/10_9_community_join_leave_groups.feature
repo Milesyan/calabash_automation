@@ -30,7 +30,7 @@ Feature: create/join/leave group
     And I open "community" page 
     Then I click the DISCOVER button in community tab
     And I click Explore button
-    And I click "General Support" category
+    And I click "Tech Support" category
     Then I join the group "test v3.8"
     Then I check the floating button menu
     And I go back to previous page
