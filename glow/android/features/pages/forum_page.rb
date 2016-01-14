@@ -434,8 +434,9 @@ class ForumPage < Calabash::ABase
   end
 
   def enter_profile_page
-    sleep 1
-    wait_touch "* contentDescription:'More options'"    
+    wait_for_elements_exist "* contentDescription:'More options'"  
+    sleep 1.5
+    touch "* contentDescription:'More options'"    
     wait_touch "* id:'title' marked:'Profile'"
     wait_for_elements_do_not_exist "* id:'title' marked:'Profile'"
   end
