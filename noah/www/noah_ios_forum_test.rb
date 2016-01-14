@@ -15,7 +15,7 @@ module NoahForumIOS
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
+  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/noah/www/images/"
 
 
   class Baby
@@ -261,7 +261,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
       @group_id = args[:group_id] || GROUP_ID
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_topic", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{@group_id}/create_topic", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["data"]["topic"]["id"]
       @group_id = @res["data"]["topic"]["group_id"]
@@ -281,7 +281,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
       @group_id = args[:group_id] || GROUP_ID
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_poll", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{@group_id}/create_poll", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @topic_id = @res["data"]["result"]["id"]
       title = @res["data"]["result"]["title"]
@@ -297,7 +297,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
       topic_id = args[:topic_id]
-      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+      @res = HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/vote", :body => vote_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Topic #{topic_id} is voted"
       self
@@ -313,7 +313,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @reply_id = @res["data"]["result"]["id"] 
       puts "Reply to topic >>>>>#{topic_id}<<<<<"
@@ -328,7 +328,7 @@ module NoahForumIOS
         "reply_to": reply_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
       self
@@ -341,7 +341,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{group_id}/subscribe", :body => data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{group_id}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "     -----Should Join group #{group_id}-----    "
       get_all_groups
@@ -357,7 +357,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
       unsubscribe_groupid = leave_group_id || GROUP_ID
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Leave group #{unsubscribe_groupid}"
       self
@@ -370,7 +370,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
       topic_id = args[:topic_id]
-      @res = HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/vote", :body => vote_data.to_json,
+      @res = HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/vote", :body => vote_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Topic #{topic_id} is voted"
       self
@@ -381,7 +381,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/remove", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/remove", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{topic_id} deleted"
@@ -394,7 +394,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/follow", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/follow", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{user_id} is followed by user #{self.user_id}"
@@ -405,7 +405,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unfollow", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unfollow", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{user_id} is unfollowed by user #{self.user_id}"
@@ -416,7 +416,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/block", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/block", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{user_id} is blocked by user #{self.user_id}"
@@ -427,7 +427,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/user/#{user_id}/unblock", :body => reply_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unblock", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
       puts "#{user_id} is unblocked by user #{self.user_id}"
@@ -439,7 +439,7 @@ module NoahForumIOS
         "bookmarked": 1,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is bookmarked by #{self.user_id}"
       self
@@ -451,7 +451,7 @@ module NoahForumIOS
         "bookmarked": 0,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
       self
@@ -464,7 +464,7 @@ module NoahForumIOS
         "liked": 1,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is upvoted by #{self.user_id}"
       self
@@ -476,7 +476,7 @@ module NoahForumIOS
         "liked": 0,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/like", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is no longer upvoted by #{self.user_id}"
       self
@@ -489,7 +489,7 @@ module NoahForumIOS
         "topic_id": topic_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by >>#{self.user_id}<<"
       self
@@ -502,7 +502,7 @@ module NoahForumIOS
         "topic_id": topic_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/like", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Comment #{reply_id} under topic #{topic_id}is no longer upvoted by #{self.user_id}"
       self
@@ -514,7 +514,7 @@ module NoahForumIOS
         "disliked": 1,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is downvoted by #{self.user_id}"
       self
@@ -527,7 +527,7 @@ module NoahForumIOS
         "topic_id": topic_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
       self
@@ -538,7 +538,7 @@ module NoahForumIOS
         "disliked": 0,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/dislike", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is no longer downvoted by #{self.user_id}"
       self
@@ -551,7 +551,7 @@ module NoahForumIOS
         "topic_id": topic_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/reply/#{reply_id}/dislike", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Comment #{reply_id} under topic #{topic_id}is no longer downvoted by #{self.user_id}"
       self
@@ -563,7 +563,7 @@ module NoahForumIOS
         "reason": report_reason,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
@@ -576,7 +576,7 @@ module NoahForumIOS
         "reply_id": reply_id,
         "ut": @ut
       }.merge(common_data)
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/ios/forum/topic/#{topic_id}/flag", :body => topic_data.to_json,
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
@@ -587,7 +587,7 @@ module NoahForumIOS
         "code_name": "noah",
         "ut": @ut
       }.merge(common_data)
-      _res =  HTTParty.get("#{FORUM_BASE_URL}/ios/forum/user/#{self.user_id}/social_info", :body => group_data.to_json,
+      _res =  HTTParty.get("#{FORUM_BASE_URL}/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @all_group_ids = []
       @all_group_names = []
@@ -633,7 +633,7 @@ module NoahForumIOS
       }
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
-      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/#{@group_id}/create_photo")
+      uri = URI ("#{FORUM_BASE_URL}/group/#{@group_id}/create_photo")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
@@ -654,7 +654,7 @@ module NoahForumIOS
       }
 
       data,headers = MultipartImage::Post.prepare_query(topic_data)
-      uri = URI ("#{FORUM_BASE_URL}/ios/forum/group/create")
+      uri = URI ("#{FORUM_BASE_URL}/group/create")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body

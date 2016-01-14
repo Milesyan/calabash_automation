@@ -11,7 +11,7 @@ class NoahTest < Minitest::Test
   end
 
   def new_noah_user
-    NoahUser.new.parent_signup.login.leave_all_groups.join_group
+    NoahUser.new.parent_signup.login
   end
 
   def test_new_noah_user
