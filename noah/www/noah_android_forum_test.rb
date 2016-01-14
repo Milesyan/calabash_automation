@@ -6,7 +6,7 @@ require_relative 'noah_test_helper'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
 
-module BabyForumAndroid
+module NoahForumAndroid
   extend BabyTestHelper
 
   PASSWORD = 'Glow12345'

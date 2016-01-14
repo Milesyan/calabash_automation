@@ -1,9 +1,9 @@
 def new_noah_user(args={})
-  NoahUser.new(args).parent_signup.login.leave_all_groups.join_group
+  NoahUser.new(args).signup.login.leave_all_groups.join_group
 end
 
 def forum_new_noah_user(args={})
-  NoahUser.new(args).parent_signup.login.leave_all_groups.join_group
+  NoahUser.new(args).signup.login.leave_all_groups.join_group
 end
   
 Given(/^I create a new noah user$/) do |type|

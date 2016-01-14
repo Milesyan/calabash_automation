@@ -94,7 +94,7 @@ module NoahForumIOS
       }
     end
 
-    def parent_signup(args = {})
+    def signup(args = {})
       user = args[:user] || self
       data = {
         "onboarding_info": {
