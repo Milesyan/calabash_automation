@@ -309,7 +309,7 @@ module BabyAndroid
         "key": "sleep",
         "date_label": date_str(start_time),
         "start_time_label": date_time_str(start_time),
-        "start_timestamp": begin_time.to_i,
+        "start_timestamp": start_time.to_i,
         "end_timestamp": end_time.to_i,
         "end_time_label": date_time_str(end_time)
       }
