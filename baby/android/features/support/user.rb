@@ -1,14 +1,12 @@
 require 'faker'
-require 'active_support/all'
 
-module BabyIOS
+module BabyAndroid
   PASSWORD = '111222'
 
   class B
-    attr_accessor :first_name, :last_name, :gender
-    attr_accessor :birthday, :birth_due_date
+    attr_accessor :first_name, :last_name, :gender, :birthday, :birth_due_date
     attr_accessor :relation
-    attr_accessor :birth_weight, :birth_height, :birth_headcirc, :ethnicity
+    attr_accessor :birth_weight, :birthday_height, :birth_headhirc, :ethnicity
 
     def initialize(args)
       name = Faker::Name.name.split(" ")
@@ -39,7 +37,7 @@ module BabyIOS
       @partners = []
       @password = args[:password] || PASSWORD
       @birthday = args[:birthday]
-      @babies = [] 
+      @babies = []
     end
 
     def random_str(n)
@@ -47,9 +45,8 @@ module BabyIOS
     end
 
     def get_first_name
-      "bi" + Time.now.to_i.to_s[2..-1] + random_str(2)
+      "ba" + Time.now.to_i.to_s[2..-1] + random_str(2)
     end
 
   end
-
 end

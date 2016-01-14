@@ -10,7 +10,7 @@ module BabyIOS
   extend BabyTestHelper
 
   PASSWORD = '111222'
-  BASE_URL = load_config["base_urls"]["home"]
+  BASE_URL = load_config["base_urls"]["sandbox0"]
   TIME_ZONES = ['Africa/Abidjan','Brazil/East','Brazil/West','America/New_York','America/Los_Angeles','Europe/Paris','Asia/Shanghai','Australia/Sydney','Asia/Tokyo']
 
   class Baby
@@ -347,8 +347,6 @@ module BabyIOS
       @res = self.class.post "/ios/user/push", options(data)
       self
     end
-
-
 
 
     def new_weight(args = {})

@@ -1,5 +1,6 @@
 @diaper
 Feature: Log Diaper
+  @diaper_today
   Scenario: Log diaper today
     Given I create a new mother with 1 born girl
     And I login

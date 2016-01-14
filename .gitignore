@@ -4,12 +4,13 @@ archives/
 glow/
 nurture/
 
-baby/android
-baby/ios/features/*.png
-baby/ios/*.png
-baby/ios/features/screenshots/*
-baby/ios/calabash.framework/
-baby/ios/features/support/env.rb
+baby/ios
+baby/android/features/*.png
+baby/android/*.png
+baby/android/features/screenshots
+baby/android/test_servers
+baby/android/*.apk
+baby/android/features/support/env.rb
 
 baby/www/config
 baby/www/data

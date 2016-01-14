@@ -332,13 +332,13 @@ class NoahTest < Minitest::Test
     u.add_born_baby(baby)
 
     partner = BabyUser.new
-    u.invite_family partner: partner, relation: "Mather"
+    u.invite_family partner: partner, relation: "Mother"
     assert_rc u.res
 
-    partner_relation = u.res["data"]["UserBabyRelation"]["update"].select { |v| v["relation"] == "Mather"}
+    partner_relation = u.res["data"]["UserBabyRelation"]["update"].select { |v| v["relation"] == "Mother"}
     partner_relation_update = partner_relation.first
 
-    assert_equal "Mather", partner_relation_update["relation"]
+    assert_equal "Mother", partner_relation_update["relation"]
     assert_equal partner.user_id, partner_relation_update["user_id"]
     assert_equal "#{partner.user_id}_#{u.current_baby.baby_id}", partner_relation_update["user_baby_id"].to_s
 
