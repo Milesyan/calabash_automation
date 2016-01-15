@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'mime/types'
+
 
 
 module MultipartImage

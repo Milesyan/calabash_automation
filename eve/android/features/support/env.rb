@@ -4,7 +4,7 @@ require 'minitest/autorun'
 
 require_relative 'app'
 require_relative 'pages'
-require_relative '../../../www/glow_android_test'
+require_relative '../../../www/eve_android_forum_test'
 
 class MinitestWorld
   extend Minitest::Assertions
@@ -20,7 +20,7 @@ World do
 end
 
 include Glow
-include GlowAndroid
+include EveForumAndroid
 include Minitest::Assertions
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

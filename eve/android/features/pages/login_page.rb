@@ -2,7 +2,7 @@ require 'calabash-android/abase'
 
 class LoginPage < Calabash::ABase
   def trait
-    "* id:'sign_in_button'"
+    "* id:'login'"
   end
 
   def login

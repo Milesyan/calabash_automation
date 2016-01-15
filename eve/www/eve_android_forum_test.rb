@@ -1,40 +1,45 @@
 require 'httparty'
 require 'json'
 require 'net/http'
+require 'securerandom'
+# require 'active_support/all'
 require_relative "MultipartImage_Android.rb"
 
 module EveForumAndroid
 
   PASSWORD = 'Glow12345'
   GROUP_ID = 5
-  GLOW_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
-  GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
+  EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
+  EVE_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
 
   class EveUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
-    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category 
+    attr_accessor :first_name, :last_name, :type, :tmi_flag, :group_name, :group_description, :group_category 
 
     attr_accessor :res
-    attr_accessor :gender
+    attr_accessor :birthday
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || ("ga" + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1])
+      @first_name = args[:first_name] || ("Eve_A" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1])
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Eve"
       @password = args[:password] || PASSWORD
-      @partner_email = "p#{@email}"
-      @partner_first_name = "p#{@first_name}"
-      @gender = args[:gender] || "female"
-      @type = args[:type]
-      @forum_hl = "en_US"
+      # @birthday = args[:birthday] || 25.years.ago.to_i
+      @birthday = args[:birthday] || 632406657
+      @forum_local = "en_US"
       @forum_fc = 1
       @forum_random = random_str
-      @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "3.8.0-play-beta"
-      @forum_vc = 376
+      @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
+      @forum_android_version = "Eve_1.0_miles_test"
+      @forum_app_version = "HAHAHA"
       @forum_time_zone = "America%2FNew_York"
-      @forum_code_name = "emma"
+      @forum_code_name = "lexie"
+      @forum_ts = Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,3].join
+      @additional_post_data_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+
+      @additional_post_data = "device_id=#{@forum_device_id}&app_version=#{@forum_android_version}&locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}}"
+      @additional_post_data_follow = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&app_version=#{@forum_app_version}locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
     end
 
     def random_str
@@ -51,164 +56,77 @@ module EveForumAndroid
 
     def additional_post_data
       {
-        "code_name": "emma",
-        "time_zone": "Asia Shanghai",
-        "vc": 380,
-        "android_version": "3.8.0-play-beta",
-        "device_id": "be3ca737160d9da3",
+        "device_id": "f1506217d3d7bd46",
+        "app_version": "1.0-debug_miles_test",
+        "locale": "en_US",
+        "tz": "Asia Shanghai",
         "random": random_str,
-        "fc": 1,
-        "hl": "en_US"
+        "ts": "1452848857216"
       }
     end
 
-    def ttc_signup(args = {})
-      age = args[:age] || 25
-      data = {
-        "user": {
-          "android_version": "3.8.0-play-beta",
-          "birthday": (Time.now.to_i - age*365*24*3600),
-          "first_name": @first_name,
-          "timezone": "China Standard Time",
-          "email": @email,
-          "settings": {
-            "time_zone": 8,
-            "height": 185.4199981689453,
-            "weight": 68.03880310058594,
-            "first_pb_date": (Time.now - 14*24*3600).strftime("%Y/%m/%d"),
-            "ttc_start": 1433853037,
-            "period_cycle": 28,
-            "period_length": 3,
-            "current_status": 0,
-            "children_number": 2
-          },
-          "last_name": "Eve",
-          "gender": "F",
-          "password": @password,
-          "notifications_read": false
-        }
+    def additional_post_data_forum
+      {
+        "device_id": "#{@forum_device_id}",
+        "android_version": "#{@forum_android_version}",
+        "locale": "en_US",
+        "tz": "#{@forum_time_zone}",
+        "random": "#{@forum_random}",
+        "ts": "#{@forum_ts}",
+        "is_guest": 0,
+        "code_name": "#{@forum_code_name}"
       }
+    end
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts email + " has been signed up"
-      puts "User id is #{@user_id}"
+    def signup_guest
+      @uuid = SecureRandom.uuid.upcase
+      puts @uuid
+      data = {
+        "guest_token": @uuid
+      }.merge(additional_post_data)
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      puts "guest signup success" if @res["rc"] == 0
       self
     end
 
-    def non_ttc_signup
+    def signup_with_email
       data = {
-        "user": {
-          "android_version": "3.8.0-play-beta",
-          "birthday": 427048062,
-          "first_name": @first_name,
-          "timezone": "China Standard Time",
+        "guest_info":
+        {
+          "guest_token": @uuid
+        },
+        "user_info":
+        {
           "email": @email,
-          "settings": {
-            "time_zone": 8,
-            "birth_control": 1,
-            "height": 198.1199951171875,
-            "weight": 65.31724548339844,
-            "first_pb_date": (Time.now).strftime("%Y/%m/%d"),
-            "ttc_start": 0,
-            "period_cycle": 29,
-            "period_length": 4,
-            "current_status": 3
-          },
-          "last_name": "Eve",
-          "gender": "F",
           "password": @password,
-          "notifications_read": false
-        }
+          "birthday": @birthday,
+          "first_name": @first_name,
+          "last_name": @last_name
+        },
+        "onboarding_info":{}
       }
-
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      # json_res = eval(res.to_s)
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts @email + " has been signed up"
-      self
-    end
-
-    def complete_tutorial
-      data = {
-        "data": {
-          "reminders": [],
-          "last_sync_time": 0,
-          "tutorial_completed": 1,
-          "settings": {
-            "time_zone": 8
-          },
-          "notifications_read": false
-        }
-      }
-
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @ut = @res["data"]["encrypted_token"] 
+      @user_id = @res["data"]["user_id"]
       self
     end
 
     def login(email = nil, password = nil)
       data = {
         "email": email || @email,
-        "password": password || @password
-      }.merge(additional_post_data)
+        "password": password || @password,
+        "guest_info": 
+          {
+            "guest_token": "17A7B822-2655-4CC4-A746-23490C963122"
+          }
+      }
 
-      # puts "debug #{data}"
-      # puts "#{@res} res"
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/signin", :body => data.to_json,
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
         :headers => {'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
+      @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       self
     end
 
-    def logout
-      # @ut = nil
-      # self
-      data = additional_post_data
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/logout", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
-      self
-    end
-
-    def forgot_password(email)
-      data = {
-        "email": email
-      }.merge(additional_post_data)
-
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/recover_password", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
-      self
-    end
-
-    def pull_content
-      todos = "3985177229087007215"
-      activity_rules = "4394188183635176431"
-      clinics = "771039131751357848"
-      drugs = "5594482260161071637"
-      fertile_score_coef = "7468128932913297878"
-      fertile_score = "1915309563115276298"
-      predict_rules = "3037978852677495799"
-      health_rules = "3809831023003012200"
-      ts = Time.now.to_i.to_s
-
-      params = "&ut=#{@ut.gsub("=","%3D")}"
-      additional_post_data.each do |key, value|
-        params += "&"
-        params += key.to_s
-        params += "="
-        params += value.to_s
-      end
-      params.gsub(",", "%2C")
-  
-      url = "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?ts=0&sign=todos%3A%7Cactivity_rules%3A%7Cclinics%3A%7Cfertile_score_coef%3A%7Cfertile_score%3A%7Cpredict_rules%3A%7Chealth_rules%3A&#{params}"
-      #url = "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?ts=#{ts}&sign=todos%3A-#{todos}%7Cactivity_rules%3A-#{activity_rules}%7Cclinics%3A%7Cfertile_score_coef%3A-#{fertile_score_coef}%7Cfertile_score%3A-#{fertile_score}%7Cpredict_rules%3A-#{predict_rules}%7Chealth_rules%3A#{health_rules}&#{params}"
-      @res = HTTParty.get url
-      self
-    end
   ######## Community-----community-----------
     def create_topic(args = {})
       data = {
@@ -217,7 +135,7 @@ module EveForumAndroid
         "content": args[:topic_content] || ("Example create topic" + Time.now.to_s)
       }
       group_id = args[:group_id]|| GROUP_ID 
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
@@ -233,7 +151,7 @@ module EveForumAndroid
         "poll_options": ["option1", "opiton2", "option3"].to_s
       }
       group_id = args[:group_id]|| GROUP_ID 
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
@@ -248,11 +166,11 @@ module EveForumAndroid
         "anonymous": args[:anonymous]|| 0,
         "warning": args[:tmi_flag] || 0,
         "image": File.new(image_pwd)
-      }.merge(additional_post_data)
+      }.merge(additional_post_data_forum)
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
       headers = headers.merge({ "Authorization" => @ut })
-      uri = URI("#{GLOW_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic")
+      uri = URI("#{EVE_ANDROID_BASE_FORUM_URL}/group/#{group_id}/topic")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
@@ -269,7 +187,7 @@ module EveForumAndroid
       data = {
         "vote_index": vote_index
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/vote?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/vote?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       if @res["rc"] == 0
         puts "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
@@ -285,7 +203,7 @@ module EveForumAndroid
       data = {
         "content": args[:reply_content] || ("Example reply to topic" + Time.now.to_s)
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @reply_id = @res["result"]["id"]
       puts "reply_id is #{@reply_id}"
@@ -297,7 +215,7 @@ module EveForumAndroid
         "content": args[:reply_content] || ("Example reply to comment" + Time.now.to_s),
         "reply_to": reply_id
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/reply?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @sub_reply_id = @res["result"]["id"]
       self
@@ -307,7 +225,7 @@ module EveForumAndroid
       data = {
         "group_id": group_id
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/subscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/group/subscribe?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "       ------------#{self.user_id} joined group >>>#{group_id}<<<-------------"
       self
@@ -317,7 +235,7 @@ module EveForumAndroid
       data = {
         "group_id": group_id
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/unsubscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/group/unsubscribe?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "   #{self.user_id} left group >>>#{group_id}<<<   "
       self
@@ -326,7 +244,7 @@ module EveForumAndroid
     def get_all_groups
       group_data = {
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/0/groups?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/0/groups?#{@additional_post_data_forum}"
       _res =  HTTParty.get(url, :body => group_data.to_json,
         :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
       @all_group_ids = []
@@ -365,7 +283,7 @@ module EveForumAndroid
 
     def delete_topic(topic_id)
       data = {}
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}?#{@additional_post_data_forum}"
       @res = HTTParty.delete(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
@@ -375,7 +293,8 @@ module EveForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/follow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/#{user_id}/follow?#{@additional_post_data_follow}"
+      puts url
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is followed by current user #{self.user_id}"  
       self
@@ -385,7 +304,7 @@ module EveForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unfollow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unfollow?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is unfollowed by current user #{self.user_id}"  
       self
@@ -395,7 +314,7 @@ module EveForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/block?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/#{user_id}/block?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is blocked by current user #{self.user_id}"  
       self
@@ -405,7 +324,7 @@ module EveForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unblock?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/#{user_id}/unblock?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is unblocked by current user #{self.user_id}"  
       self
@@ -416,7 +335,7 @@ module EveForumAndroid
       data = {
         "bookmarked": 1
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is is bookmarked by #{self.user_id}\n\n"
       self
@@ -426,7 +345,7 @@ module EveForumAndroid
       data = {
         "bookmarked": 0
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/bookmark?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is unbookmarked by #{self.user_id}\n\n"
       self
@@ -437,7 +356,7 @@ module EveForumAndroid
       data = {
         "liked": 1
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is liked by #{self.user_id}\n\n"
       self
@@ -447,7 +366,7 @@ module EveForumAndroid
       data = {
         "liked": 0
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/like?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer liked by #{self.user_id}\n\n"
       self
@@ -457,7 +376,7 @@ module EveForumAndroid
       data = {
         "disliked": 1
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is disliked by #{self.user_id}\n\n"
       self
@@ -467,7 +386,7 @@ module EveForumAndroid
       data = {
         "disliked": 0
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/dislike?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer disliked by #{self.user_id}\n\n"
       self
@@ -478,7 +397,7 @@ module EveForumAndroid
         "topic_id": topic_id,
         "liked": 1
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by #{self.user_id}\n"
       self
@@ -489,7 +408,7 @@ module EveForumAndroid
         "topic_id": topic_id,
         "liked": 0
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/like?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer upvoted by #{self.user_id}\n"
       self
@@ -500,7 +419,7 @@ module EveForumAndroid
         "topic_id": topic_id,
         "disliked": 1
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is downvoted by #{self.user_id}\n"
       self
@@ -511,7 +430,7 @@ module EveForumAndroid
         "topic_id": topic_id,
         "disliked": 0
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/reply/#{reply_id}/dislike?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer downvoted by #{self.user_id}\n"
       self
@@ -522,7 +441,7 @@ module EveForumAndroid
       data = {
         "reason": report_reason
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
@@ -533,7 +452,7 @@ module EveForumAndroid
         "reply_id": reply_id,
         "reason": report_reason
       }
-      url = "#{GLOW_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{EVE_ANDROID_BASE_FORUM_URL}/topic/#{topic_id}/flag?#{@additional_post_data_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
@@ -547,10 +466,10 @@ module EveForumAndroid
         "desc": args[:group_description]|| "Test Create Group Description",
         "category_id": args[:group_category] || 6,
         "image": File.new(image_pwd)
-      }.merge(additional_post_data)
+      }.merge(additional_post_data_forum)
       data,headers = MultipartImage::Post.prepare_query(topic_data)
       headers = headers.merge({ "Authorization" => @ut })
-      uri = URI("#{GLOW_ANDROID_BASE_FORUM_URL}/group")
+      uri = URI("#{EVE_ANDROID_BASE_FORUM_URL}/group")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
@@ -559,5 +478,6 @@ module EveForumAndroid
       puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end  
+
   end
 end

@@ -1,87 +1,10 @@
-def new_ttc_user
-  GlowUser.new(type: "ttc").ttc_signup.login.complete_tutorial
-end
-  
-def new_non_ttc_user
-  GlowUser.new(type: "non-ttc").non_ttc_signup.login.complete_tutorial
-end
-
-def new_ft_user(args = {})
-  GlowUser.new(type: args[:type]).ft_signup(args).login.complete_tutorial
-end
-
-
-def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
-end
-  
-def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
-end
-
-def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group
-end
-
 def forum_new_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
+  EveUser.new(args).signup_guest.signup_with_email.login.leave_all_groups.join_group
 end
 
 def forum_new_other_user(args = {})
-  GlowUser.new(args).ttc_signup.login
+  EveUser.new(args).signup_guest.signup_with_email.login
 end
-
-Given(/^I create a new "(.*?)" glow user$/) do |type|
-  case type.downcase
-  when "non-ttc"
-    $user = new_non_ttc_user.complete_tutorial
-  when "ttc"
-    $user = new_ttc_user.complete_tutorial
-  when "prep", "med", "iui", "ivf"
-    $user = new_ft_user(type: type).complete_tutorial
-  when "single male"
-    $user = GlowUser.new(gender: "male").male_signup.complete_tutorial
-  end
-end
-
-Given(/^I create a new "(.*?)" "(.*?)" glow partner user$/) do |type, gender|
-  case type.downcase
-  when "non-ttc"
-    u = new_non_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "ttc"
-    u = new_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "prep", "med", "iui", "ivf"
-    u = new_ft_user(type: type.downcase).invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  end
-end
-
-Given(/^I complete my health profile via www$/) do
-  $user.add_health_profile
-end
-
-Given(/^I complete my fertility testing via www$/) do
-  $user.add_fertility_tests
-end
-
-
 
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
@@ -97,7 +20,7 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
 end
 
 Then(/^an existing glow user "([^"]*)" has created a topic in the test group$/) do |user_name|
-  $user2 = forum_new_user(first_name: user_name).complete_tutorial
+  $user2 = forum_new_user(first_name: user_name)
   $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
 
@@ -114,9 +37,9 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "GlowUser #{user1_name} reply_id is #{$user.reply_id}"
+    puts "EveUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
+      puts "EveUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -144,7 +67,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "GlowUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "EveUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
@@ -154,9 +77,9 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
     end
-    puts "GlowUser reply_id is #{$user.reply_id}"
+    puts "EveUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser sub reply ++"
+      puts "EveUser sub reply ++"
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
   end
@@ -173,9 +96,9 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "GlowUser2 reply_id is #{$user2.reply_id}"
+    puts "EveUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser2 sub reply ++"
+      puts "EveUser2 sub reply ++"
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
   end
@@ -183,13 +106,13 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "GlowUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "EveUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "GlowUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  puts "EveUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "GlowUser #{name} subreply content is #{$random_str2}"
+  puts "EveUser #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 
@@ -251,7 +174,7 @@ end
 
 Given(/^I create a new glow forum user with name "(.*?)"$/) do |name|
   logout_if_already_logged_in
-  $user = forum_new_user(first_name: name).complete_tutorial
+  $user = forum_new_user(first_name: name)
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}"
 end
