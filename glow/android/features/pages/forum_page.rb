@@ -9,7 +9,7 @@ class ForumPage < Calabash::ABase
 #--------New create topic flow itmes----
   def touch_floating_menu
     wait_for_elements_exist "* id:'fab_expand_menu_button'"
-    sleep 0.5
+    sleep 1
     touch "* id:'fab_expand_menu_button'"
     sleep 1
   end
@@ -166,10 +166,6 @@ class ForumPage < Calabash::ABase
   def discard_topic
     wait_touch "* id:'create_cancel'"
     sleep 1
-    if element_exists "* id:'fab_expand_menu_button'"
-      touch_floating_menu 
-      sleep 1
-    end
   end  
 
   def click_back_button
@@ -178,8 +174,9 @@ class ForumPage < Calabash::ABase
   end  
   
   def edit_topic_voted (args1)
-    sleep 0.5
-    touch "* {text CONTAINS '#{args1}'} index:0"
+    sleep 2
+    wait_touch "* {text CONTAINS '#{args1}'} index:0"
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     sleep 1
     wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Edit this post'"
@@ -274,6 +271,7 @@ class ForumPage < Calabash::ABase
  
   def delete_topic(args)
     wait_touch "* id:'topic_menu'"
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     wait_touch "* marked:'Delete this post'"
     wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
     sleep 0.5
@@ -291,6 +289,8 @@ class ForumPage < Calabash::ABase
 
 
   def enter_topic(args1)
+    sleep 2
+    wait_for_elements_exist "* {text CONTAINS '#{args1}'} index:0"
     sleep 0.5
     touch "* {text CONTAINS '#{args1}'} index:0"
     sleep 1
@@ -307,7 +307,9 @@ class ForumPage < Calabash::ABase
   end 
 
   def evoke_search_bar
+    sleep 1
     wait_touch "* id:'menu_community_search'"
+    sleep 1
     wait_touch "* id:'menu_search'"
   end
 
@@ -356,6 +358,7 @@ class ForumPage < Calabash::ABase
     puts "Scroll down to see >>>* marked:'#{args}'<<<<"
     sleep 1
     until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    sleep 1
   end
 
   def scroll_up_to_see(args)
@@ -368,15 +371,19 @@ class ForumPage < Calabash::ABase
   end
 
   def show_entire_discussion
+    sleep 1
     wait_touch "* marked:'Show entire discussion'"
+    sleep 1
   end
 
   def view_all_replies
+    sleep 1
     wait_touch "* id:'view_sub_replies'"
+    sleep 1.5
   end
 
   def touch_search_result(args1, args2 = 1)
-    sleep 0.5
+    sleep 2
     touch "* marked:'#{args1}' index:#{args2}"
     sleep 2
   end 

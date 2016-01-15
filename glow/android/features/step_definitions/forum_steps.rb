@@ -310,7 +310,7 @@ Then(/^I go back to user profile page and check the changes in profile page$/) d
   wait_for_elements_exist "* {text CONTAINS 'Created'}"
   sleep 1
   wait_for_elements_exist "* marked:'Add Bio info'"
-  wait_for_elements_exist "* marked:'#{$user.first_name}Testname'"
+  wait_for_elements_exist "* {text CONTAINS 'Testname'}"
   wait_for_elements_exist "* marked:'New York'"
   puts "Checked profile page"
 end

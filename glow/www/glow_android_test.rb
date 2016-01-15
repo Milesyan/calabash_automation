@@ -893,7 +893,7 @@ module GlowAndroid
       }
       url = "#{GLOW_ANDROID_BASE_FORUM_URL}/group/unsubscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
+      puts "  #{self.user_id} left group >>>#{group_id}<<<   "
       self
     end
 

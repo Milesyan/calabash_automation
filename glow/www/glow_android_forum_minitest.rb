@@ -300,5 +300,25 @@ class GlowTest < Minitest::Test
     puts u.get_all_group_names
   end
 
+  def test_invite_friends
+    u = new_ttc_user
+    10.times do |n|
+      u2 = new_ttc_user :first_name => "Follower#{n}<<<"
+      u2.follow_user u.user_id
+    end
+
+    10.times do |n|
+      u2 = new_ttc_user :first_name => "Following#{n}<<<"
+      u.follow_user u2.user_id
+    end
+
+    10.times do |n|
+      u2 = new_ttc_user :first_name => "Both#{n}<<<"
+      u2.follow_user u.user_id
+      u.follow_user u2.user_id
+    end
+  end
+
+
 
 end
