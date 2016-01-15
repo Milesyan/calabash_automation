@@ -700,7 +700,7 @@ class ForumPage < Calabash::ABase
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
-    sleep 2
+    sleep 1.5
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"}

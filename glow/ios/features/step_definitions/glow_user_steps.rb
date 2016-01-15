@@ -96,7 +96,7 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |
   logout_if_already_logged_in
 end
 
-Then(/^I create another glow user "([^"]*)" and create a topic in the test group$/) do |user_name|
+Then(/^an existing glow user "([^"]*)" has created a topic in the test group$/) do |user_name|
   $user2 = forum_new_non_ttc_user(first_name: user_name).complete_tutorial.join_group
   $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
@@ -108,7 +108,6 @@ Then(/^I created another user to vote the poll$/) do
 end
 
 
-# Then(/^the user add (\d+) comments and user2 added (\d+) subreplies to each comment\.$/) do |comment_number, subreply_number|
 Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|ies) to each comment\.$/) do |user1_name, comment_number, user2_name, subreply_number|
   puts "Glow User #{user1_name} topic_id is #{$user.topic_id}"
   $user2 = forum_new_non_ttc_user(first_name: user2_name)
