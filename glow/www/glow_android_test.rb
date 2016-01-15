@@ -4,19 +4,16 @@ require 'json'
 module GlowAndroid
 
   PASSWORD = 'Glow12345'
-  GROUP_ID =  # sandbox1 Health & Lifestyle
-  SUBSCRIBE_GROUP_ID =  # sandbox1 Sex & Relationships
   TREATMENT_TYPES = {"med": 1, "iui": 2, "ivf": 3, "prep": 4}
-
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
-  #GLOW_ANDROID_BASE_URL = "https://www.glowing.com"
-  #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
   class GlowUser
-    attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
-    attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
-    attr_accessor :res
-    attr_accessor :gender
+    include HTTParty
+    base_uri GLOW_ANDROID_BASE_URL
+
+    attr_accessor :email, :password, :first_name, :last_name, :gender
+    attr_accessor :type, :partner_email, :partner_first_name
+    attr_accessor :res, :ut, :user_id, :topic_id, :reply_id
 
     def initialize(args = {})  
       @first_name = args[:first_name] || "ga" + Time.now.to_i.to_s
@@ -52,7 +49,15 @@ module GlowAndroid
       periods
     end
 
-    def additional_post_data
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
+    end
+
+    def auth_options(data)
+      { :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }}
+    end
+
+    def common_data
       {
         "code_name": "emma",
         "time_zone": "Asia Shanghai",
@@ -92,11 +97,13 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts email + " has been signed up"
+      @res = self.class.post "/a/v2/users/signup", options(data)
+
+      if @res["rc"] == 0
+        @ut = @res["user"]["encrypted_token"]
+        @user_id = @res["user"]["id"]
+        puts email + " has been signed up"
+      end
       self
     end
 
@@ -126,12 +133,12 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      # json_res = eval(res.to_s)
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts @email + " has been signed up"
+      @res = self.class.post "/a/v2/users/signup", options(data)
+      if @res["rc"] == 0
+        @ut = @res["user"]["encrypted_token"]
+        @user_id = @res["user"]["id"]
+        puts @email + " has been signed up"
+      end
       self
     end
 
@@ -161,18 +168,19 @@ module GlowAndroid
           "email": @email,
           "password": @password,
           "timezone": "China Standard Time",
-          "android_version": "3.8.0-play-beta",
+          "android_version": "3.9.0-play-beta",
           "fertility_test": {
             "fertility_clinic": 4
           }
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts @email + " has been signed up"
+      @res = self.class.post "/a/v2/users/signup", options(data)
+      if @res["rc"] == 0
+        @ut = @res["user"]["encrypted_token"]
+        @user_id = @res["user"]["id"]
+        puts @email + " has been signed up"
+      end
       self
     end
 
@@ -193,15 +201,16 @@ module GlowAndroid
           "email": @email,
           "password": @password,
           "timezone": "China Standard Time",
-          "android_version": "3.8.0-play-beta"
+          "android_version": "3.9.0-play-beta"
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"]
-      @user_id = @res["user"]["id"]
-      puts @email + " has been signed up"
+      @res = self.class.post "/a/v2/users/signup", options(data)
+      if @res["rc"] == 0
+        @ut = @res["user"]["encrypted_token"]
+        @user_id = @res["user"]["id"]
+        puts @email + " has been signed up"
+      end
       self
     end
 
@@ -218,8 +227,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -227,30 +235,28 @@ module GlowAndroid
       data = {
         "email": email || @email,
         "password": password || @password
-      }.merge(additional_post_data)
+      }.merge(common_data)
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/signin", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
-      @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
+      @res = self.class.post "/a/users/signin", options(data)
+      if @res["rc"] == 0
+        @ut = @res["user"]["encrypted_token"]
+      end
       self
     end
 
     def logout
-      # @ut = nil
-      # self
-      data = additional_post_data
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/logout", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      #@ut = nil
+      data = common_data
+      @res = self.class.post "/a/users/logout", auth_options(data)
       self
     end
 
     def forgot_password(email)
       data = {
         "email": email
-      }.merge(additional_post_data)
+      }.merge(common_data)
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/recover_password", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/users/recover_password", options(data)
       self
     end
 
@@ -266,7 +272,7 @@ module GlowAndroid
       ts = Time.now.to_i.to_s
 
       params = "&ut=#{@ut.gsub("=","%3D")}"
-      additional_post_data.each do |key, value|
+      common_data.each do |key, value|
         params += "&"
         params += key.to_s
         params += "="
@@ -274,9 +280,8 @@ module GlowAndroid
       end
       params.gsub(",", "%2C")
   
-      url = "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?ts=0&sign=todos%3A%7Cactivity_rules%3A%7Cclinics%3A%7Cfertile_score_coef%3A%7Cfertile_score%3A%7Cpredict_rules%3A%7Chealth_rules%3A&#{params}"
-      #url = "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?ts=#{ts}&sign=todos%3A-#{todos}%7Cactivity_rules%3A-#{activity_rules}%7Cclinics%3A%7Cfertile_score_coef%3A-#{fertile_score_coef}%7Cfertile_score%3A-#{fertile_score}%7Cpredict_rules%3A-#{predict_rules}%7Chealth_rules%3A#{health_rules}&#{params}"
-      @res = HTTParty.get url
+      url = "/a/v2/users/pull?ts=0&sign=todos%3A%7Cactivity_rules%3A%7Cclinics%3A%7Cfertile_score_coef%3A%7Cfertile_score%3A%7Cpredict_rules%3A%7Chealth_rules%3A&#{params}"
+      @res = self.class.get url
       self
     end
 
@@ -326,8 +331,7 @@ module GlowAndroid
           "notifications_read": false
         }
       }
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -376,8 +380,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -472,8 +475,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -521,8 +523,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end   
 
@@ -549,17 +550,16 @@ module GlowAndroid
 
     def get_daily_tasks
       date = date_str
-      #params = "&ut=#{@ut.gsub("=","%3D")}"
       params = "date=" + date_str.gsub('/', '%2F')
-      additional_post_data.each do |key, value|
+      common_data.each do |key, value|
         params += "&"
         params += key.to_s
         params += "="
         params += value.to_s
       end
       params = params.gsub(",", "%2C").gsub('/', '%2F').gsub(' ', '%20')
-      url = "#{GLOW_ANDROID_BASE_URL}/a/users/daily_task?#{params}"
-      @res = HTTParty.get(url, :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      url = "/a/users/daily_task?#{params}"
+      @res = self.class.get(url, :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
       self
     end
 
@@ -576,8 +576,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -588,8 +587,8 @@ module GlowAndroid
         "unit": "F",
         "email": "linus@glowing.com"
       }
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/export", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+
+      @res = self.class.post "/a/users/export", auth_options(data)
       self
     end
 
@@ -710,8 +709,8 @@ module GlowAndroid
           "test_val": "15"
         }]
       }
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/fertility_test", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+
+      @res = self.class.post "/a/users/fertility_test", auth_options(data)
       self
     end
 
@@ -722,16 +721,16 @@ module GlowAndroid
           "email": @partner_email,
           "name": @partner_first_name + " Glow"
         }
-      }.merge(additional_post_data)
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/partner/email", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      }.merge(common_data)
+
+      @res = self.class.post "/a/users/partner/email", auth_options(data)
       self
     end
 
     def remove_partner
-      data = {}.merge(additional_post_data)
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/remove_partner", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      data = {}.merge(common_data)
+      @res = self.class.post "/a/users/remove_partner", auth_options(data)
+      self
     end
 
     def turn_off_period_prediction
@@ -750,8 +749,7 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -784,9 +782,30 @@ module GlowAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
       self
+    end
+
+    def new_log(args)
+      {
+        "locale": "en_US",
+        "device_id": "6c75a409e88439e3",
+        "user_id": @user_id,
+        "version": "3.9.0",
+        "event_name": args[:event_name],
+        "event_time": args[:event_time] || Time.now.to_i
+      }
+    end
+
+    def sync_log()
+      data = {
+        "log_list": log_list
+      }
+      self.class.post "/a/users/sync_log?#{common_data}", auth_options(data)
+    end
+
+    def pull_log
+      
     end
 
   end
