@@ -7,7 +7,9 @@ class OnboardPage < Calabash::ABase
   end
 
   def tap_login
+    logger.add event_name: "button_click_email_signin"
     touch "* id:'log_in'"
+    logger.add event_name: "page_impression_signin"
   end
 
   def select_user_type(user_type = "")

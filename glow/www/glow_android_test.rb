@@ -1,5 +1,6 @@
 require 'httparty'
 require 'json'
+require 'active_support/all'
 
 module GlowAndroid
 
@@ -786,27 +787,23 @@ module GlowAndroid
       self
     end
 
-    def new_log(args)
-      {
-        "locale": "en_US",
-        "device_id": "6c75a409e88439e3",
-        "user_id": @user_id,
-        "version": "3.9.0",
-        "event_name": args[:event_name],
-        "event_time": args[:event_time] || Time.now.to_i
-      }
-    end
+  def new_log(args)
+    {
+      "locale": "en_US",
+      "device_id": "6c75a409e88439e3",
+      "user_id": @user_id,
+      "version": "3.9.0",
+      "event_name": args[:event_name],
+      "event_time": args[:event_time] || Time.now.to_i
+    }
+  end
 
-    def sync_log()
-      data = {
-        "log_list": log_list
-      }
-      self.class.post "/a/users/sync_log?#{common_data}", auth_options(data)
-    end
-
-    def pull_log
-      
-    end
+  def sync_log()
+    data = {
+      "log_list": log_list
+    }
+    self.class.post "/a/users/sync_log?#{common_data}", auth_options(data)
+  end
 
   end
 end

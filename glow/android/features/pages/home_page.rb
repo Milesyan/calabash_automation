@@ -10,7 +10,11 @@ class HomePage < Calabash::ABase
     sleep 1
     wait_for_elements_exist( "* id:'log_button_text'", :timeout => 10)
     scroll_to "* id:'log_button_text' marked:'Complete log'"
+
+    logger.add event_name: "button_click_daily_log"
     touch "* id:'log_button_text' marked:'Complete log'"
+    logger.add event_name: "page_impression_dailylog"
+
     if gender.downcase == "female"
       case $user.type.downcase
       when "non-ttc"
@@ -241,6 +245,7 @@ class HomePage < Calabash::ABase
 
   def choose_weight
     scroll_to("* marked:'How much sleep?'")
+    logger.add event_name: "button_click_dailylog_weight"
     touch "* id:'weight_text_view'"
     weight = 100 + (rand * 50).round(2)
     enter_text "* id:'weight_editor'", weight
@@ -256,12 +261,14 @@ class HomePage < Calabash::ABase
 
   def choose_sleep
     scroll_to("* marked:'Did you drink alcohol?'")
+    logger.add event_name: "button_click_dailylog_sleep"
     touch "* id:'sleep_text_view'"
     touch "* id:'button1'"
   end
 
   def choose_exercise
     scroll_to("* marked:'How much sleep?'")
+    logger.add event_name: "button_click_dailylog_exercise"
     touch "* id:'has_exercise' * id:'yes_selector'"
     scroll_to("* marked:'How much sleep?'")
     touch "* marked:'30–60 mins'"
@@ -270,33 +277,43 @@ class HomePage < Calabash::ABase
   def choose_emotional
     scroll_down
     touch "* id:'emotion_selector' * id:'yes_selector'"
+    logger.add event_name: "page_impression_emotional_symptom"
+    logger.add event_name: "button_click_emotional_symptom_intensity"
     touch "* id:'yes_selector' index:0"
+    logger.add event_name: "button_click_emotional_symptom_intensity"
     touch "* id:'yes_selector' index:3"
     touch "* marked:'Done'"
   end
 
   def choose_smoke
     scroll_to "* marked:'Emotions?'"
+    logger.add event_name: "button_click_dailylog_smoke"
     touch "* id:'has_smoked' * id:'yes_selector'"
+    logger.add event_name: "button_click_dailylog_smoke_amount"
     flick "* id:'cigarette_number'", :right
   end
 
   def choose_alcohol
     scroll_down
+    logger.add event_name: "button_click_dailylog_alcohol"
     touch "* id:'has_drank' * id:'yes_selector'"
+    logger.add event_name: "button_click_dailylog_alcohol_amount"
     flick "* id:'glass_count'", :right
   end
 
   def choose_stress
     touch "* id:'is_stressed' * id:'yes_selector'"
     scroll_down
+    logger.add event_name: "button_click_dailylog_stress_amount"
     flick "* id:'stress_level'", :right
   end
 
   def choose_medication_list
     sleep 1
     scroll_down
+    logger.add event_name: "page_impression_medication_list_for_non-fertility-treatment"
     touch "* id:'daily_log_medication_list_title'"
+    logger.add event_name: "button_click_medication_add"
     touch "* id:'NoResourceEntry-1'"
     enter_text "* id:'medicine_name'", "abc"
     touch "* id:'medicine_form'"
@@ -338,6 +355,7 @@ class HomePage < Calabash::ABase
   end
 
   def save_daily_log
+    logger.add event_name: "button_click_dailylog_save"
     touch "* id:'save_daily_log'"
   end
 

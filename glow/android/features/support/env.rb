@@ -4,6 +4,7 @@ require 'minitest/autorun'
 
 require_relative 'app'
 require_relative 'pages'
+require_relative 'event_logger'
 require_relative '../../../www/glow_android_test'
 
 class MinitestWorld
