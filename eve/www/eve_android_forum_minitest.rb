@@ -17,7 +17,7 @@ class EveTest < Minitest::Test
 
 
   def forum_new_user(args = {})
-    u = EveUser.new(args).signup_guest.signup_with_email.login
+    u = EveUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
   end
 
   def test_forum_user
@@ -298,5 +298,11 @@ class EveTest < Minitest::Test
       u2.follow_user u.user_id
       u.follow_user u2.user_id
     end
+  end
+
+  def test_debug
+    u = EveUser.new.signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
+    puts u.res
+    # .sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email.login
   end
 end

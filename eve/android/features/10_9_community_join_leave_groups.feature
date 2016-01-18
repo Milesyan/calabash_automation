@@ -1,6 +1,6 @@
 @forum_n @group
 Feature: create/join/leave group 
-
+  @create_group
   Scenario: User create a group.
     Given I create a new glow forum user with name "Julie"
     Then "Julie" reply to 3 topics created by others 
@@ -20,6 +20,7 @@ Feature: create/join/leave group
     Then I click the DISCOVER button in community tab
     And I click create a group
     Then I should see "before creating a group"
+    Then I dismiss the floating menu
     And I logout
 
   @join_group

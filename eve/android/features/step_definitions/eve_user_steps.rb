@@ -1,9 +1,9 @@
 def forum_new_user(args = {})
-  EveUser.new(args).signup_guest.signup_with_email.login.leave_all_groups.join_group
+  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
 end
 
 def forum_new_other_user(args = {})
-  EveUser.new(args).signup_guest.signup_with_email.login
+  EveUser.new(args).all_signup_flow
 end
 
 

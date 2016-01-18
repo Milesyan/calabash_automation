@@ -2,6 +2,7 @@ require 'httparty'
 require 'json'
 require 'net/http'
 require 'securerandom'
+require 'uri'
 # require 'active_support/all'
 require_relative "MultipartImage_Android.rb"
 
@@ -21,13 +22,17 @@ module EveForumAndroid
     attr_accessor :birthday
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || ("Eve_A" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1])
+      @first_name = (args[:first_name] || "Eve_A") + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Eve"
       @password = args[:password] || PASSWORD
+      @today_date = Time.new.strftime("%Y\/%m\/%d")
+      @pb = (Time.new - 10*60*60*24).strftime("%Y\/%m\/%d")
+      @pe = (Time.new - 6*60*60*24).strftime("%Y\/%m\/%d")
+      @next_pb = (Time.new + 12*60*60*24).strftime("%Y\/%m\/%d")
       # @birthday = args[:birthday] || 25.years.ago.to_i
       @birthday = args[:birthday] || 632406657
-      @forum_local = "en_US"
+      @forum_locale = "en_US"
       @forum_fc = 1
       @forum_random = random_str
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
@@ -36,10 +41,14 @@ module EveForumAndroid
       @forum_time_zone = "America%2FNew_York"
       @forum_code_name = "lexie"
       @forum_ts = Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,3].join
-      @additional_post_data_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+      @additional_post_data_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+      @additional_post_data = "device_id=#{@forum_device_id}&app_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}"
+      @additional_post_data_follow = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&app_version=#{@forum_app_version}locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+    end
 
-      @additional_post_data = "device_id=#{@forum_device_id}&app_version=#{@forum_android_version}&locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}}"
-      @additional_post_data_follow = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&app_version=#{@forum_app_version}locale=#{@forum_local}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+
+    def hash_to_query(hash)
+      return URI.encode(hash.map{|k,v| "#{k}=#{v}"}.join("&"))
     end
 
     def random_str
@@ -56,36 +65,122 @@ module EveForumAndroid
 
     def additional_post_data
       {
-        "device_id": "f1506217d3d7bd46",
-        "app_version": "1.0-debug_miles_test",
-        "locale": "en_US",
-        "tz": "Asia Shanghai",
+        "device_id": @forum_device_id,
+        "app_version": @forum_android_version,
+        "locale": @forum_locale,
+        "tz": @forum_time_zone,
         "random": random_str,
-        "ts": "1452848857216"
+        "ts": @forum_ts
       }
     end
 
     def additional_post_data_forum
       {
-        "device_id": "#{@forum_device_id}",
-        "android_version": "#{@forum_android_version}",
-        "locale": "en_US",
-        "tz": "#{@forum_time_zone}",
-        "random": "#{@forum_random}",
-        "ts": "#{@forum_ts}",
+        "device_id": @forum_device_id,
+        "android_version": @forum_android_version,
+        "locale": @forum_locale,
+        "tz": @forum_time_zone,
+        "random": @forum_random,
+        "ts": @forum_ts,
         "is_guest": 0,
-        "code_name": "#{@forum_code_name}"
+        "code_name": @forum_code_name
       }
     end
 
     def signup_guest
       @uuid = SecureRandom.uuid.upcase
-      puts @uuid
       data = {
         "guest_token": @uuid
       }.merge(additional_post_data)
       @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @ut = @res["data"]["encrypted_token"] 
+      @user_id = @res["data"]["user_id"]
+      puts "Signup guet #{@ut} <<<>>>#{@user_id}"
       puts "guest signup success" if @res["rc"] == 0
+      self
+    end
+
+    def sync_guest_info
+      puts "#{@user_id}<<<<<<<<<<"
+      data = {
+        "user_id": -1,
+        "sync_items": [{
+          "HealthProfile": {
+            "update": [{
+              "user_id": -1,
+              "period_cycle": 22
+            }]
+          }
+        }, {
+          "Period": {
+            "create": [{
+              "pb": "2016/01/14",
+              "pe": "2016/01/18",
+              "pe_prediction": "2016/01/18",
+              "uuid": @uuid
+            }]
+          }
+        }, {
+          "HealthProfile": {
+            "update": [{
+              "user_id": @user_id,
+              "period_length": 5
+            }]
+          }
+        }],
+        "need_pull": 1,
+        "additional_info": {
+          "notification_last_read_time": 0
+        }
+      }
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      puts "sync success" if @res["rc"] == 0
+      self
+    end
+
+    def sync_guest_info_2
+      data ={
+        "user_id": @user_id,
+        "sync_token": "0h7E0C-WpBIRj6jqyrc_uvP8eWxRyWi8cQgRhztkdF7F0JisXIstSgmfR9BRRUR7",
+        "sync_items": [{
+          "User": {
+            "update": [{
+              "syncToken": "0h7E0C-WpBIRj6jqyrc_uvP8eWxRyWi8cQgRhztkdF7F0JisXIstSgmfR9BRRUR7"
+            }]
+          }
+        }, {
+          "HealthProfile": {
+            "update": [{
+              "user_id": @user_id,
+              "birth_control": 0
+            }]
+          }
+        }],
+        "need_pull": 1,
+        "additional_info": {
+          "notification_last_read_time": 0
+        }
+      }.merge(additional_post_data)
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/sync", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      self
+    end
+
+    def get_daily_gems
+      data = {
+        "date": @today_date,
+        "pb": @pb,
+        "types": "2,4",
+        "next_pb": @next_pb,
+        "pe": @pe,
+        "device_id": @forum_device_id,
+        "app_version": @forum_app_version,
+        "locale": @forum_locale,
+        "tz": @forum_time_zone,
+        "random": random_str,
+        "ts": @forum_ts
+      }
+      url = hash_to_query data
+      @res = HTTParty.get("#{EVE_ANDROID_BASE_URL}/android/users/get_daily_gems?#{url}", :body => {}.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
       self
     end
 
@@ -105,25 +200,35 @@ module EveForumAndroid
         },
         "onboarding_info":{}
       }
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
-      @ut = @res["data"]["encrypted_token"] 
-      @user_id = @res["data"]["user_id"]
+      puts "Signup with email:\n Email >>>#{@email}"
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
       self
     end
 
-    def login(email = nil, password = nil)
+    def all_signup_flow
+      signup_guest
+      # sync_guest_info
+      # sync_guest_info_2
+      # get_daily_gems
+      signup_with_email
+      login_with_email
+      self
+    end
+
+    def login_with_email(email = nil, password = nil)
       data = {
         "email": email || @email,
         "password": password || @password,
         "guest_info": 
           {
-            "guest_token": "17A7B822-2655-4CC4-A746-23490C963122"
+            "guest_token": "",
           }
       }
 
       @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
+        :headers => {'Content-Type' => 'text/plain' })
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
+      puts @res
       self
     end
 

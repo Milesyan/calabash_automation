@@ -13,6 +13,6 @@ end
 
 Given(/^I login$/) do
   logout_if_already_logged_in
-  onboard_page.tap_login
+  login_page.tap_login
   login_page.login
 end

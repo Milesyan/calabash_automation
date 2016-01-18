@@ -154,7 +154,7 @@ class ForumPage < Calabash::ABase
   end
 #-----------------
   def login
-    onboard_page.tap_login
+    login_page.tap_login
     login_page.login
   end
 
@@ -423,7 +423,7 @@ class ForumPage < Calabash::ABase
   end
 
   def join_group(args)
-    wait_touch "* marked:'#{args}' parent * index:2 child * id:'community_recommended_group_join'"
+    wait_touch "* marked:'#{args}' parent * index:2 child * id:'community_recommended_group_action'"
     wait_touch "* marked:'#{args}' parent * index:2 child * index:1 child * marked:'Joined'"
   end  
   
@@ -775,6 +775,7 @@ class ForumPage < Calabash::ABase
   end
 
   def click_discover
+    sleep 1
     wait_touch "* marked:'Discover'"
     sleep 0.2
   end

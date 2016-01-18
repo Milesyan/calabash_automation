@@ -392,7 +392,7 @@ end
 
 Then(/^I should not see the topic hidden by me$/) do 
   sleep 1.5
-  wait_for_elements_exist "* marked:'Community'"
+  wait_for_elements_exist "AppCompatImageView index:0"
   check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
   puts "I cannot see topic #{$user2.topic_title}"
 end
@@ -456,6 +456,10 @@ end
 
 Then(/^I touch "(.*?)" in auto\-hidden topic$/) do |arg1|
   forum_page.touch_hidden_topic_element arg1
+end
+
+Then(/^I dismiss the floating menu$/) do
+  wait_touch "* id:'topic_create_fab_menu'"
 end
 
 

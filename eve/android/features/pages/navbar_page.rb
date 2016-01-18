@@ -2,22 +2,20 @@ require 'calabash-android/abase'
 
 class NavbarPage < Calabash::ABase
   def trait
-    "* id:'nav_bar'"
+    "AppCompatImageView"
   end
 
   def open(page)
     sleep 1
     case page.downcase
     when 'home'
-      touch "* id:'nav_home'"
+      touch "AppCompatImageView index:0"
     when 'community'
-      touch "* id:'nav_community'"
-    when 'genius'
-      touch "* id:'nav_gg'"
+      touch "AppCompatImageView index:1"
     when 'alert'
-      touch "* id:'nav_alert'"
+      touch "AppCompatImageView index:2"
     when 'me'
-      touch "* id:'nav_me'"
+      touch "AppCompatImageView index:3"
     end
   end
 
