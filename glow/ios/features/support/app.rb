@@ -14,8 +14,16 @@ module Glow
     element_exists "UITabBar"
   end
 
+  def tutorial_finished?
+    element_does_not_exist "* marked:'Swipe left or right to see different days'"
+  end
+
   def logout_if_already_logged_in
     sleep 1
+    unless tutorial_finished?
+      home_page.finish_tutorial
+    end
+    
     if already_logged_in?
       tab_bar_page.open("me")
       me_page.open_settings

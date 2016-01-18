@@ -8,7 +8,7 @@ class HomePage < Calabash::IBase
   def touch_later_link
     begin
       when_element_exists("* marked:'Later'", :timeout => 3)
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
+    rescue # Calabash::Cucumber::WaitHelpers::WaitError
     end
   end
 
@@ -237,7 +237,7 @@ class HomePage < Calabash::IBase
     wait_for_none_animating
     begin
       when_element_exists("* id:'icon-cancel-shadow'", :timeout => 5)
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
+    rescue # Calabash::Cucumber::WaitHelpers::WaitError
       puts "no popup"
     end
   end
@@ -256,7 +256,7 @@ class HomePage < Calabash::IBase
     begin
       when_element_exists "* marked:'Record your menstrual flow?' sibling PillButton index:0", :timeout => 2
       wait_touch "* marked:'Heavy'"
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
+    rescue # Calabash::Cucumber::WaitHelpers::WaitError
       wait_touch "* marked:'Any spotting?' sibling PillButton index:0"
       wait_touch "* marked:'Light'"
     end

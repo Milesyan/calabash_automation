@@ -116,7 +116,7 @@ class MePage < Calabash::IBase
   def close_invite_partner_popup
     begin
       when_element_exists("* id:'gl-foundation-popup-close'", :timeout => 2)
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
+    rescue # Calabash::Cucumber::WaitHelpers::WaitError
       #puts "no invite partner popup"
     end
   end

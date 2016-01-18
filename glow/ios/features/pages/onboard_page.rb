@@ -206,7 +206,9 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'OK'"
 
     wait_touch "* marked:'Next'"
-    wait_touch "label {text BEGINSWITH 'Yes'}"
+    sleep 1
+    wait_for_elements_exist "label {text BEGINSWITH 'Yes'}"
+    touch "label {text BEGINSWITH 'Yes'}"
     sleep 2
     wait_for_elements_do_not_exist("NetworkLoadingView", :timeout => 60)
   end
