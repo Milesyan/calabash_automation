@@ -57,9 +57,9 @@ module NoahForumAndroid
 
 
     def initialize(args = {})
-      @first_name = args[:first_name] || get_first_name
+      @first_name = (args[:first_name] || "ba") + Time.now.to_i.to_s[2..-1] + random_str_b(2)
       @email = args[:email] || "#{@first_name}@g.com"
-      @last_name = "Glow"
+      @last_name = "Miles_test"
       @password = args[:password] || PASSWORD
       @relation = args[:relation] || "Mother"
       @birthday = args[:birthday] || 25.years.ago.to_i
@@ -88,11 +88,15 @@ module NoahForumAndroid
     end
     
     def get_first_name
-      "ba" + Time.now.to_i.to_s[2..-1] + random_str(2)
+      "ba" + Time.now.to_i.to_s[2..-1] + random_str_b(2)
     end
 
-    def random_str(n)
+    def random_str_b(n)
       (10...36).map{ |i| i.to_s 36}.shuffle[0,n.to_i].join
+    end
+
+    def random_str
+      Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,4].join
     end
 
     def random_num

@@ -6,9 +6,6 @@ module Glow
     Dir[File.join(fixtures_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}
   end
 
-  def get_email
-    "a#{Time.now.to_i}@g.com"
-  end
 
   def already_logged_in?
     element_exists "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"

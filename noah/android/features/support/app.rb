@@ -17,4 +17,14 @@ module BabyHelper
       me_page.logout
     end
   end
+
+  def wait_touch(query_str)
+    sleep 1
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+  end
+  
+  def random_str(len = 8)
+    ('a'..'z').to_a.shuffle[0,len].join
+  end
 end
