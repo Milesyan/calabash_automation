@@ -238,7 +238,7 @@ class ForumPage < Calabash::IBase
 
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "UIButton marked:'Topics/Comments'"
+    wait_touch "UIButton {text CONTAINS 'Topics/Comments'}"
   end
 
   def search_topics(args)
@@ -638,6 +638,34 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_for_elements_exist "* marked:'Your topic is successfully posted!"
     sleep 3
+  end
+
+  def click_discover
+    wait_touch "UILabel marked:'Discover'"
+  end
+
+  def click_explore
+    wait_touch "UIButton marked:'Explore'"
+  end
+
+  def create_a_group
+    wait_touch "* marked:'Group name'"
+    keyboard_enter_text "MilesGroup"
+    wait_touch "* marked:'Group description'"
+    keyboard_enter_text "This is a test group."
+    scroll_down_to_see "General Support"
+    wait_touch "* marked:'General Support'"
+    scroll_down_to_see "Add a group photo"
+    touch "* markd:'Add a group photo'"
+    wait_touch "* marked:'Choose from library'"
+    sleep 0.5
+    if element_exists "* marked:'OK'"
+      touch "* marked:'OK'"
+    end  
+    wait_touch "PUAlbumListTableViewCell index:0"
+    wait_for_none_animating
+    wait_touch "PUPhotosGridCell index:1"
+    wait_touch "UIButtonLabel text:'Create'"
   end
 
 end

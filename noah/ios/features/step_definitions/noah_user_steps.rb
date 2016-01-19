@@ -201,3 +201,13 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |
   logout_if_already_logged_in
 end
 
+#community v1.1 new
+Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
+  number.to_i.times do
+    new_user = new_noah_user.create_topic
+    $user.reply_to_topic new_user.topic_id
+  end
+  puts "#{name} replied to #{number} topics. "
+end
+
+

@@ -4,14 +4,14 @@ require_relative 'noah_android_forum_test'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
-class GlowTest < Minitest::Test
+class NoahTest < Minitest::Test
   include NoahForumAndroid
 
   def setup
   end
 
   def new_noah_user
-    BabyUser.new.signup.login
+    BabyUser.new.signup.login.join_group
   end
 
   def test_new_noah_user
@@ -55,13 +55,13 @@ class GlowTest < Minitest::Test
     u = new_noah_user
     u.create_topic
     # assert that the user_id in the topic should be the user's id
-    assert_equal u.user_id, u.res["data"]["topic"]["user_id"]
+    assert_equal u.user_id, u.res["result"]["user_id"]
   end
 
   def test_create_poll_topic
     u = new_noah_user
     u.create_poll
-    assert_equal u.user_id, u.res["data"]["result"]["user_id"]
+    assert_equal u.user_id, u.res["result"]["user_id"]
   end
 
 
@@ -75,7 +75,7 @@ class GlowTest < Minitest::Test
     u1.create_topic
     u2.reply_to_topic u1.topic_id
     u2.reply_to_topic u1.topic_id
-    assert_equal u2.res["data"]["result"]["topic_id"], u1.topic_id
+    assert_equal u2.res["result"]["topic_id"], u1.topic_id
   end
 
   def test_add_image_comments_to_a_topic

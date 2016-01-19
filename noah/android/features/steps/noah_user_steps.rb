@@ -1,14 +1,14 @@
 def forum_new_user(args = {})
-  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
+	BabyUser.new(args).signup.login.leave_all_groups.join_group
 end
 
 def forum_new_other_user(args = {})
-  EveUser.new(args).all_signup_flow
-end
+	BabyUser.new(args).signup.login
+end 
 
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
-  puts "New Eve  User '#{user_name}' created: #{$user.email}, #{$user.password}"
+  puts "New GlowBaby User '#{user_name}' created: #{$user.email}, #{$user.password}"
   case topic_type.downcase
   when "text"
     $user.create_topic({:topic_title => 'create topic by www api', :group_id => GROUP_ID})
@@ -19,7 +19,7 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
   logout_if_already_logged_in
 end
 
-Then(/^an existing Eve user "([^"]*)" has created a topic in the test group$/) do |user_name|
+Then(/^an existing GlowBaby user "([^"]*)" has created a topic in the test group$/) do |user_name|
   $user2 = forum_new_user(first_name: user_name)
   $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
@@ -37,9 +37,9 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "EveUser #{user1_name} reply_id is #{$user.reply_id}"
+    puts "GlowBaby User #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "EveUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
+      puts "GlowBaby User #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -67,7 +67,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "EveUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "GlowBaby User #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
@@ -77,9 +77,9 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
     end
-    puts "EveUser reply_id is #{$user.reply_id}"
+    puts "GlowBaby User reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "EveUser sub reply ++"
+      puts "GlowBaby User sub reply ++"
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
   end
@@ -96,9 +96,9 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "EveUser2 reply_id is #{$user2.reply_id}"
+    puts "GlowBaby User2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "EveUser2 sub reply ++"
+      puts "GlowBaby User2 sub reply ++"
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
   end
@@ -106,13 +106,13 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "EveUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "GlowBaby User #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "EveUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  puts "GlowBaby User #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "EveUser #{name} subreply content is #{$random_str2}"
+  puts "GlowBaby User #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 

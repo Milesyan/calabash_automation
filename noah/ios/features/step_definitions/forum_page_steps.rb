@@ -418,7 +418,36 @@ Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
 end
 
 
+#community v1.1 new
+Then(/^I click create a group$/) do
+  forum_page.scroll_down_to_see "Create my own group"
+  wait_touch "* id:'gl-community-create-group'"
+end
 
+Then(/^I create a group$/) do
+  forum_page.create_a_group
+end
+
+Then(/^I should see the group name which I created$/) do
+  wait_for_elements_exist "* {text CONTAINS 'MilesGroup'}"
+end
+
+Then(/^I click "([^"]*)" category$/) do |arg1|
+  wait_touch "UIButton marked:'#{arg1}'"
+end
+
+Then(/^I click the DISCOVER button in community tab$/) do
+  forum_page.click_discover
+end
+
+Then(/^I click Explore button$/) do
+  forum_page.click_explore
+end
+
+Then(/^I check the button in the group$/) do
+  wait_for_elements_exist "* marked:'Poll'"
+  check_element_exists "* marked:'Post'"
+end
 
 
 

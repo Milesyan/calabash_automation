@@ -2,6 +2,7 @@ require 'httparty'
 require 'faker'
 require 'active_support/all'
 require_relative 'noah_test_helper'
+require_relative "MultipartImage_Android.rb"
 
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
@@ -50,7 +51,10 @@ module NoahForumAndroid
     attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday
     attr_accessor :relation, :partners, :status
     attr_accessor :babies, :current_baby, :user_id, :current_baby_id
-    attr_accessor :res, :ut
+
+    attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
+    attr_accessor :tmi_flag, :group_name, :group_description, :group_category
+
 
     def initialize(args = {})
       @first_name = args[:first_name] || get_first_name
@@ -61,8 +65,28 @@ module NoahForumAndroid
       @birthday = args[:birthday] || 25.years.ago.to_i
       @babies = []
       @partners = []
+      @forum_hl = "en_US"
+      @forum_random = rand.to_s[2..15]
+      @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
+      @forum_android_version = "1.0_beta_test_miles"
+      @forum_vc = 1
+      @forum_time_zone = "American%2FNew_York"
+      @forum_code_name = "noah"
+      @additional_forum = "?hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
     end
 
+    def additional_post_data
+      {
+        "hl": @forum_hl,
+        "random": @forum_random,
+        "device_id": @forum_device_id,
+        "android_version": @forum_android_version,
+        "vc": @forum_vc,
+        "time_zone": @forum_time_zone,
+        "code_name": @forum_code_name
+      }
+    end
+    
     def get_first_name
       "ba" + Time.now.to_i.to_s[2..-1] + random_str(2)
     end
@@ -252,10 +276,13 @@ module NoahForumAndroid
         "content": args[:topic_content] || ("Example create topic" + Time.now.to_s)
       }
       group_id = args[:group_id]|| GROUP_ID 
-      url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic#{@additional_forum}"
+      puts url 
+      puts data
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
+      puts @res
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
@@ -269,7 +296,7 @@ module NoahForumAndroid
         "poll_options": ["option1", "opiton2", "option3"].to_s
       }
       group_id = args[:group_id]|| GROUP_ID 
-      url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
@@ -306,7 +333,7 @@ module NoahForumAndroid
       data = {
         "vote_index": vote_index
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/vote?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/vote#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       if @res["rc"] == 0
         puts "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
@@ -320,7 +347,7 @@ module NoahForumAndroid
       data = {
         "content": args[:reply_content] || ("Example reply to topic" + Time.now.to_s)
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/reply#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @reply_id = @res["result"]["id"]
       puts "reply_id is #{@reply_id}"
@@ -332,7 +359,7 @@ module NoahForumAndroid
         "content": args[:reply_content] || ("Example reply to comment" + Time.now.to_s),
         "reply_to": reply_id
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/reply?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/reply#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @sub_reply_id = @res["result"]["id"]
       self
@@ -344,7 +371,7 @@ module NoahForumAndroid
       data = {
         "group_id": group_id
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/group/subscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/group/subscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "       ------------#{self.user_id} joined group >>>#{group_id}<<<-------------"
       self
@@ -355,7 +382,7 @@ module NoahForumAndroid
       data = {
         "group_id": group_id
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/group/unsubscribe?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/group/unsubscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
       self
@@ -365,7 +392,7 @@ module NoahForumAndroid
     def get_all_groups
       group_data = {
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/user/0/groups?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/user/0/groups#{@additional_forum}"
       _res =  HTTParty.get(url, :body => group_data.to_json,
         :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
       @all_group_ids = []
@@ -405,7 +432,7 @@ module NoahForumAndroid
 ####Delete
     def delete_topic(topic_id)
       data = {}
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}#{@additional_forum}"
       @res = HTTParty.delete(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
@@ -415,7 +442,7 @@ module NoahForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/follow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/follow#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is followed by current user #{self.user_id}"  
       self
@@ -425,7 +452,7 @@ module NoahForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/unfollow?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/unfollow#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is unfollowed by current user #{self.user_id}"  
       self
@@ -435,7 +462,7 @@ module NoahForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/block?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/block#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is blocked by current user #{self.user_id}"  
       self
@@ -445,7 +472,7 @@ module NoahForumAndroid
       data = {
         "empty_stub": ""
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/unblock?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/user/#{user_id}/unblock#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is unblocked by current user #{self.user_id}"  
       self
@@ -455,7 +482,7 @@ module NoahForumAndroid
       data = {
         "bookmarked": 1
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/bookmark#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is is bookmarked by #{self.user_id}\n\n"
       self
@@ -465,7 +492,7 @@ module NoahForumAndroid
       data = {
         "bookmarked": 0
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/bookmark?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/bookmark#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is unbookmarked by #{self.user_id}\n\n"
       self
@@ -476,7 +503,7 @@ module NoahForumAndroid
       data = {
         "liked": 1
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/like#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is liked by #{self.user_id}\n\n"
       self
@@ -486,7 +513,7 @@ module NoahForumAndroid
       data = {
         "liked": 0
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/like#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer liked by #{self.user_id}\n\n"
       self
@@ -496,7 +523,7 @@ module NoahForumAndroid
       data = {
         "disliked": 1
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/dislike#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is disliked by #{self.user_id}\n\n"
       self
@@ -506,7 +533,7 @@ module NoahForumAndroid
       data = {
         "disliked": 0
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/dislike#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer disliked by #{self.user_id}\n\n"
       self
@@ -517,7 +544,7 @@ module NoahForumAndroid
         "topic_id": topic_id,
         "liked": 1
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/like#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by #{self.user_id}\n"
       self
@@ -528,7 +555,7 @@ module NoahForumAndroid
         "topic_id": topic_id,
         "liked": 0
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/like?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/like#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer upvoted by #{self.user_id}\n"
       self
@@ -539,7 +566,7 @@ module NoahForumAndroid
         "topic_id": topic_id,
         "disliked": 1
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/dislike#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is downvoted by #{self.user_id}\n"
       self
@@ -550,7 +577,7 @@ module NoahForumAndroid
         "topic_id": topic_id,
         "disliked": 0
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/dislike?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/reply/#{reply_id}/dislike#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer downvoted by #{self.user_id}\n"
       self
@@ -561,7 +588,7 @@ module NoahForumAndroid
       data = {
         "reason": report_reason
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
@@ -572,7 +599,7 @@ module NoahForumAndroid
         "reply_id": reply_id,
         "reason": report_reason
       }
-      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag?hl=#{@forum_hl}&fc=#{@forum_fc}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self

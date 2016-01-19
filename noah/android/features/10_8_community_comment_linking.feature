@@ -2,7 +2,7 @@
 Feature: Comment linking function
   @group_commentlinking
   Scenario: User clicks a topic in normal group.
-    Given I create a new noah user with name "Miles"
+    Given I create a new glow forum user with name "Miles"
     And "Miles" create 1 topic and 10 comments and 0 subreply for each comment
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -16,7 +16,7 @@ Feature: Comment linking function
 
   @search_commentlinking
   Scenario: User create 1 topic and some comments(comments number must > 1).
-    Given I create a new noah user with name "Miles"
+    Given I create a new glow forum user with name "Miles"
     And "Miles" create 1 topics and 10 comments and 0 subreply for each comment
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -29,12 +29,13 @@ Feature: Comment linking function
 
   @notification_commentlinking
   Scenario: User clicks a notification to enter a topic.
-    Given I create a new noah user with name "Miles"
+    Given I create a new glow forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
-    And "Miles" add 4 comments and "Charlotte" added 2 subreplies to each comment.
+    And "Miles" add 4 comments and "Charlotte" added 1 subreply to each comment.
     And I login as the new user "Miles" created through www
     And I open "alert" page
-    And I touch "Check it out" 
+    And I touch "Check it out" and wait for 2 seconds
+    And I scroll down and wait for a while 
     Then I should see "Show entire discussion"
     And I expand all the comments
     Then I click the bookmark icon
