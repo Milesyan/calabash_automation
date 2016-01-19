@@ -12,7 +12,7 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
 
 
   @load_comments  
-  Scenario: User create a topic and 30+ comments.
+  Scenario: User create a topic and 30+ comments and test load comments.
     Given I create a new glow forum user with name "Miles"
     And "Miles" create 1 topics
     And "Miles" add 30 comments and "Charlotte" added 2 subreplies to each comment.
@@ -26,7 +26,7 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
     And I logout
 
   @load_subreplies  
-  Scenario: User create a topic and 30+ comments.
+  Scenario: Test load subreplies.
     Given I create a new glow forum user with name "Miles"
     And "Miles" create 1 topics
     And "Miles" add 2 comments and "Charlotte" added 30 subreplies to each comment.
