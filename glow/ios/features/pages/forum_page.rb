@@ -12,7 +12,7 @@ class ForumPage < Calabash::IBase
     answer2 = "Pepsi"
     answer3 = "Diet pepsi"
     description = "Your favorite?"
-    wait_touch "UITextFieldLabel index:0"
+    wait_touch "UITextFieldLabels index:0"
     keyboard_enter_text title
     wait_for_none_animating
     wait_touch "UITextFieldLabel index:0"
@@ -315,6 +315,7 @@ class ForumPage < Calabash::IBase
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
+    swipe :up
   end
 
   def scroll_up_to_see(args)
@@ -652,8 +653,8 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text "MilesGroup"
     wait_touch "* marked:'Group description'"
     keyboard_enter_text "This is a test group."
-    scroll_down_to_see "General Support"
-    wait_touch "* marked:'General Support'"
+    scroll_down_to_see "Tech Support"
+    wait_touch "* marked:'Tech Support'"
     scroll_down_to_see "Add a group photo"
     touch "* markd:'Add a group photo'"
     wait_touch "* marked:'Choose from library'"

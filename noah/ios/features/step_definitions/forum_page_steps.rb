@@ -421,7 +421,7 @@ end
 #community v1.1 new
 Then(/^I click create a group$/) do
   forum_page.scroll_down_to_see "Create my own group"
-  wait_touch "* id:'gl-community-create-group'"
+  wait_touch "* marked:'Create my own group'"
 end
 
 Then(/^I create a group$/) do

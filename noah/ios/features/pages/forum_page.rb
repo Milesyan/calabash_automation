@@ -238,7 +238,7 @@ class ForumPage < Calabash::IBase
 
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "UIButton {text CONTAINS 'Topics/Comments'}"
+    wait_touch "* {text CONTAINS 'Topics/Comments'}"
   end
 
   def search_topics(args)
@@ -275,7 +275,10 @@ class ForumPage < Calabash::IBase
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
+    swipe :up
   end
+
+
 
   def scroll_up_to_see(args)
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
@@ -653,8 +656,8 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text "MilesGroup"
     wait_touch "* marked:'Group description'"
     keyboard_enter_text "This is a test group."
-    scroll_down_to_see "General Support"
-    wait_touch "* marked:'General Support'"
+    scroll_down_to_see "Tech Support"
+    wait_touch "* marked:'Tech Support'"
     scroll_down_to_see "Add a group photo"
     touch "* markd:'Add a group photo'"
     wait_touch "* marked:'Choose from library'"
