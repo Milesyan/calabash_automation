@@ -28,3 +28,7 @@ end
 Given(/^I finish the tutorial for partner via www$/) do
   home_page.finish_tutorial_for_partner_via_www
 end
+
+Given(/^I confirm the period with "([^"]*)"$/) do |choice|
+  home_page.confirm_period(choice)
+end

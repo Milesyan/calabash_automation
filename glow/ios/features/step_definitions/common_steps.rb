@@ -1,6 +1,7 @@
 Then(/^I logout$/) do
   tab_bar_page.open("Me")
   me_page.open_settings
+  sleep 10
   settings_page.logout
 end
 

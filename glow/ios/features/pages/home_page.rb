@@ -44,6 +44,22 @@ class HomePage < Calabash::IBase
     GlowUser.new(email: $user.partner_email, password: $user.password).login.complete_tutorial
   end
 
+  def confirm_period(choice)
+    case choice.downcase
+    when "yes"
+      logger.add event_name: "page_impression_home_period_confirmation_card", start_versioin: "ios v5.4"
+      logger.add event_name: "button_click_home_period_confirmation_card_yes", start_versioin: "ios v5.4"
+      wait_touch "* marked:'Yes'"
+    when "no"
+      logger.add event_name: "page_impression_home_period_confirmation_card", start_versioin: "ios v5.4"
+      logger.add event_name: "button_click_home_period_confirmation_card_no", start_versioin: "ios v5.4"
+      wait_touch "* marked:'No, let me edit'"
+      sleep 1
+      when_element_exists("* marked:'Save'", :timeout => 10)
+      wait_touch "* id:'gl-foundation-back.png'"
+    end
+  end
+
   def complete_daily_log(gender="female")
     until_element_exists("* marked:'Complete log!'", :action => lambda { swipe :up })
     swipe :up

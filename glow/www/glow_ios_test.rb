@@ -1,8 +1,11 @@
 require 'httparty'
 require 'json'
 require 'securerandom'
+require 'active_support/all'
+require_relative 'glow_test_helper'
 
 module GlowIOS
+  
 
   PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
@@ -14,11 +17,13 @@ module GlowIOS
   FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 
   class GlowUser
+    include GlowTestHelper
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
+    attr_accessor :cycle_length, :first_pb
 
     def initialize(args = {})  
       @first_name = args[:first_name] || "gi" + Time.now.to_i.to_s
@@ -29,6 +34,8 @@ module GlowIOS
       @partner_first_name = "p#{@first_name}"
       @gender = args[:gender] || "female"
       @type = args[:type]
+      @first_pb = date_str(args[:first_pb] || 14.days.ago)
+      @cycle_length = args[:cycle_length] || 28
     end
 
     def random_str
@@ -75,6 +82,7 @@ module GlowIOS
 
     def ttc_signup(args = {})
       age = args[:age] || 25
+      #(Time.now - 14*24*3600).strftime("%Y/%m/%d")
       data = {
         "onboardinginfo": {
           "gender": "F",
@@ -92,11 +100,11 @@ module GlowIOS
               "af_message": "organic install",
               "af_status": "Organic"
             },
-            "first_pb_date": (Time.now - 14*24*3600).strftime("%Y/%m/%d"),
+            "first_pb_date": @first_pb,
             "ttc_start": 1431964800,
             "children_number": 3,
             "period_length": 3,
-            "period_cycle": 28
+            "period_cycle": @cycle_length
           },
           "first_name": @first_name
         }

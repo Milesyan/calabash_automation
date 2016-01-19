@@ -23,6 +23,10 @@ Given(/^I create a new "(.*?)" glow user$/) do |type|
   end
 end
 
+Given(/^I create a new "([^"]*)" user with cycle length (\d+) days and period start date "([^"]*)"$/) do |type, cycle_length, first_pb|
+  $user = GlowUser.new(type: type, cycle_length: cycle_length.to_i, first_pb: eval(first_pb)).method("#{type.downcase}_signup").call.login.complete_tutorial
+end
+
 Given(/^I create a new "(.*?)" "(.*?)" glow partner user$/) do |type, gender|
   case type.downcase
   when "non-ttc"
