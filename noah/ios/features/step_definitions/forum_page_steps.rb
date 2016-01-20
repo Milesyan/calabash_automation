@@ -124,7 +124,8 @@ Then (/^I go back to previous page$/) do
 end
 
 Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
-  touch "* marked:'#{topic_name}' index:1"
+  forum_page.click_back_button
+  sleep 1
   forum_page.click_back_button
 end  
 

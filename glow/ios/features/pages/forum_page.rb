@@ -70,6 +70,7 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text description
   end
 
+
   def create_photo
     create_photo_common
     wait_touch "* marked:'Next'"
@@ -80,7 +81,7 @@ class ForumPage < Calabash::IBase
     sleep 1
   end
 
-  def 
+  def create_photo_tmi
     create_photo_common
     wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
     sleep 1

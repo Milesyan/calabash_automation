@@ -5,7 +5,7 @@ end
 
 Given(/^I logout$/) do
   nav_page.open("me")
-  me_page.logout
+  nav_page.logout
 end
 
 Then(/^I touch the "(.*?)" button$/) do |text|
@@ -27,7 +27,7 @@ Then(/^I login as "([^"]*)"$/) do |arg1|
 end
 
 Given(/^I open "(.*?)" page$/) do |page|
-	sleep 0.5
+	sleep 3
   nav_page.open(page.downcase)
   sleep 1
 end
