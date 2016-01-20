@@ -131,12 +131,6 @@ Then (/^I go back to previous page$/) do
   forum_page.click_back_button
 end
 
-Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
-  forum_page.click_back_button
-  sleep 1
-  forum_page.click_back_button
-end  
-
 
 Then(/^I click create a group$/) do
   forum_page.scroll_down_to_see "Create my own group"

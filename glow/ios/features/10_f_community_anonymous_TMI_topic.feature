@@ -29,8 +29,3 @@ Feature: Create and edit anonymous topic, Check TMI photo.
     And I post a image topic with TMI flag
     Then I should see the topic is posted successfully
     And I logout
-  @test
-  Scenario: User create a image topic in TMI mode
-    Given I create a new "ttc" glow user with name "Miles"
-    And I login as the new user "Miles" created through www
-    And I open "community" page

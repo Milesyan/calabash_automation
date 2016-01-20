@@ -36,5 +36,6 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
     And I open the topic "Test load more topic 1"
     And I click view all replies
     Then I scroll "up" to see "subreply number 70"
-    And I go to group page in topic "Test load more topic 1"
+    And I go back to previous page
+    And I go back to previous page
     And I logout

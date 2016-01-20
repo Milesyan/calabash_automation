@@ -123,11 +123,6 @@ Then (/^I go back to previous page$/) do
   forum_page.click_back_button
 end
 
-Then (/^I go to group page in topic "([^"]*)"$/) do |topic_name|
-  forum_page.click_back_button
-  sleep 1
-  forum_page.click_back_button
-end  
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
   forum_page.edit_topic topic_name

@@ -7,7 +7,7 @@ class ToolbarPage < Calabash::ABase
   end
 
   def logout
-    menu_button = "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
+    menu_button = "android.support.v7.widget.f"
     wait_for(:timeout => 10, :regry_frequency => 2) do
       element_exists menu_button
     end

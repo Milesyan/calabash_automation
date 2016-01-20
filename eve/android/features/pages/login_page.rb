@@ -43,6 +43,8 @@ class LoginPage < Calabash::ABase
     touch "* marked:'None'"
     sleep 0.5
     touch "* marked:'DONE'"
+    sleep 0.5
+    touch "* contentDescription:'Navigate up'"
   end
 
 end

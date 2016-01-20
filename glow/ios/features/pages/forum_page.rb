@@ -12,16 +12,16 @@ class ForumPage < Calabash::IBase
     answer2 = "Pepsi"
     answer3 = "Diet pepsi"
     description = "Your favorite?"
-    wait_touch "UITextFieldLabels index:0"
+    wait_touch "UITextFieldLabel index:0"
     keyboard_enter_text title
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:0"
+    wait_touch "UITextFieldLabel index:1"
     keyboard_enter_text answer1
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:1"
+    wait_touch "UITextFieldLabel index:2"
     keyboard_enter_text answer2
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:2"
+    wait_touch "UITextFieldLabel index:3"
     keyboard_enter_text answer3
     wait_for_none_animating
     wait_touch "* marked:'Description (optional)'"
@@ -554,7 +554,7 @@ class ForumPage < Calabash::IBase
 
 
   def click_bookmark_icon
-    wait_touch "* marked:'gl community topnav close' UINavigationButton sibling * index:2"
+    wait_touch "UINavigationBar child UINavigationButton"
   end
 
   def click_hyperlink_comments

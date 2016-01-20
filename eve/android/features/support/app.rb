@@ -8,7 +8,7 @@ module Glow
 
 
   def already_logged_in?
-    element_exists "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
+    element_exists "android.support.design.widget.by"
   end
 
   def logout_if_already_logged_in
