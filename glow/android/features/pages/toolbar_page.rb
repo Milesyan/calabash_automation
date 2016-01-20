@@ -2,7 +2,6 @@ require 'calabash-android/abase'
 
 class ToolbarPage < Calabash::ABase
   def trait
-    #"* id:'profile_tool_bar'"
     "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
   end
 

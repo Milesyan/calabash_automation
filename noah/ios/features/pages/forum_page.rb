@@ -275,7 +275,6 @@ class ForumPage < Calabash::IBase
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
-    swipe :up
   end
 
 
@@ -659,7 +658,7 @@ class ForumPage < Calabash::IBase
     scroll_down_to_see "Tech Support"
     wait_touch "* marked:'Tech Support'"
     scroll_down_to_see "Add a group photo"
-    touch "* markd:'Add a group photo'"
+    touch "* marked:'Add a group photo'"
     wait_touch "* marked:'Choose from library'"
     sleep 0.5
     if element_exists "* marked:'OK'"

@@ -1,7 +1,6 @@
 require 'calabash-cucumber/ibase'
 class MePage < Calabash::IBase
 
-
   def trait
     "*"
   end

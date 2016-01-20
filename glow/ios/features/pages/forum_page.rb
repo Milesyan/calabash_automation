@@ -656,7 +656,7 @@ class ForumPage < Calabash::IBase
     scroll_down_to_see "Tech Support"
     wait_touch "* marked:'Tech Support'"
     scroll_down_to_see "Add a group photo"
-    touch "* markd:'Add a group photo'"
+    touch "* marked:'Add a group photo'"
     wait_touch "* marked:'Choose from library'"
     sleep 0.5
     if element_exists "* marked:'OK'"

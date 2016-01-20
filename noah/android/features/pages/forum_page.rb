@@ -124,7 +124,9 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'content_editor'", link
     sleep 1
     wait_for_elements_do_not_exist "* id:'progress_bar'"
+    sleep 2
     touch "* id:'create_yes'" # done button
+    sleep 0.5
   end
 
   def create_poll_common(args={}) 
