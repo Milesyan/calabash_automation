@@ -11,7 +11,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Content hidden due to low rating."
 		And I touch "View Rules"
 		Then I should see "Community rules"
-		And I go to the first group
+		And I close the rules page
 		And I touch "Show Content"
 		And I enter topic created in previous step
 		Then I should see "Show entire discussion"
@@ -29,7 +29,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Content hidden due to low rating."
 		And I touch "View Rules"
 		Then I should see "Community rules"
-		And I go to the first group
+		And I close the rules page
 		And I touch "Show Content"
 		And I enter topic created in previous step
 		Then I should see "Show entire discussion"

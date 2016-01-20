@@ -140,7 +140,8 @@ end
 
 Then(/^I click create a group$/) do
   forum_page.scroll_down_to_see "Create my own group"
-  wait_touch "* id:'gl-community-create-group'"
+  swipe :up
+  wait_touch "* marked:'Create my own group'"
 end
 
 Then(/^I create a group$/) do
@@ -176,7 +177,8 @@ end
 
 
 Then(/^I expand all the comments$/) do
-  wait_touch "UIButtonLabel marked:'Show entire discussion'"
+  sleep 2
+  wait_touch "* marked:'Show entire discussion'"
 end
 
 Then(/^I click view all replies$/) do
@@ -270,10 +272,6 @@ end
 
 Then(/^I click the plus button in community tab$/) do
   wait_touch "* marked:'＋'"
-end
-
-Then(/^I click Create a group$/) do
-  wait_touch "UIButtonLabel marked:'Create a group'"
 end
 
 Then(/^I join the group "([^"]*)"$/) do |arg1|
@@ -454,7 +452,9 @@ Then(/^I type in report reason and click flag$/) do
   wait_touch "* marked:'Flag'"
 end
 
-
+Then(/^I close the rules page$/) do
+  forum_page.close_rules_page
+end
 
 
 

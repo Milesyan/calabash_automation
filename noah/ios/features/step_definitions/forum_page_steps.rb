@@ -144,6 +144,7 @@ end
 
 
 Then(/^I expand all the comments$/) do
+  sleep 2
   wait_touch "UIButtonLabel marked:'Show entire discussion'"
 end
 
@@ -241,10 +242,6 @@ end
 
 Then(/^I click the plus button in community tab$/) do
   wait_touch "* marked:'＋'"
-end
-
-Then(/^I click Create a group$/) do
-  wait_touch "UIButtonLabel marked:'Create a group'"
 end
 
 Then(/^I join the group "([^"]*)"$/) do |arg1|

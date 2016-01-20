@@ -131,6 +131,7 @@ end
 
 
 Then(/^I expand all the comments$/) do
+  sleep 1
   wait_touch "* marked:'Show entire discussion'"
   sleep 1
 end

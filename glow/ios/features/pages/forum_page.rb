@@ -251,14 +251,14 @@ class ForumPage < Calabash::IBase
   def delete_topic(args)
     wait_touch "* id:'community-dots' index:#{args}"
     wait_touch "UILabel marked:'Delete this post'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this topic?'}"}
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'delete this topic'}"}
     wait_touch "UILabel marked:'OK'"
   end
 
   def delete_comment(args)
     wait_touch "* id:'community-dots' index:#{args}"
     wait_touch "UILabel marked:'Delete'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'delete this'}"}
     wait_touch "UILabel marked:'OK'"
   end
 
@@ -316,7 +316,6 @@ class ForumPage < Calabash::IBase
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
-    swipe :up
   end
 
   def scroll_up_to_see(args)
@@ -391,7 +390,7 @@ class ForumPage < Calabash::IBase
 
   def enter_profile_page
     swipe :down, force: :strong
-    wait_touch "UIImageView id:'gl-community-profile-empty'"
+    wait_touch "UIImageView index:0"
   end
 
   def edit_text_fields(args1,args2)
@@ -553,6 +552,7 @@ class ForumPage < Calabash::IBase
     wait_touch "* marked:'gl community topnav close' UINavigationButton"
   end
 
+
   def click_bookmark_icon
     wait_touch "* marked:'gl community topnav close' UINavigationButton sibling * index:2"
   end
@@ -566,12 +566,12 @@ class ForumPage < Calabash::IBase
     puts "I can see topic #{$user2.topic_title}"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Hide this post'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Would you like to hide this topic?'}"}
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
   def confirm_hide(args = 1)
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'to hide this'}"}
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
     if args ==1 
       wait_touch "UILabel marked:'Yes, hide it.'"
       puts "User hide it"
@@ -637,7 +637,7 @@ class ForumPage < Calabash::IBase
     puts "I can see comment #{$hidereply_content}"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Hide'"
-    wait_for(:timeout=>3){element_exists "label {text BEGINSWITH 'Are you sure to hide this comment?'}"}
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
@@ -668,6 +668,11 @@ class ForumPage < Calabash::IBase
     wait_touch "PUPhotosGridCell index:1"
     wait_touch "UIButtonLabel text:'Create'"
   end
+  
+  def close_rules_page
+    wait_touch "UINavigationButton"
+  end
+
 end
 
 

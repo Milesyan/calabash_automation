@@ -273,7 +273,7 @@ class ForumPage < Calabash::ABase
     wait_touch "* id:'topic_menu'"
     wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     wait_touch "* marked:'Delete this post'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to delete this post?'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'delete this'}"}
     sleep 0.5
     touch "* marked:'OK'"
   end
@@ -667,13 +667,13 @@ class ForumPage < Calabash::ABase
     sleep 0.5
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Hide this post'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this post?'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'hide this'}"}
     sleep 0.5
     touch "* marked:'OK'"  
   end
 
   def confirm_hide(args = 1)
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'to hide this'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'hide this'}"}
     if args ==1 
       wait_touch "* marked:'OK'"
       puts "User hide it"
@@ -681,7 +681,7 @@ class ForumPage < Calabash::ABase
       wait_touch "* marked:'Cancel'"
       puts "User not hide it"
     end
-    wait_for_elements_do_not_exist "* {text CONTAINS 'to hide this'}"
+    wait_for_elements_do_not_exist "* {text CONTAINS 'hide this'}"
   end
 
 
@@ -714,7 +714,7 @@ class ForumPage < Calabash::ABase
     sleep 0.5
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Hide this reply'"
-    wait_for(:timeout=>3){element_exists "* {text BEGINSWITH 'Are you sure you want to hide this reply?'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'hide this'}"}
     sleep 0.5
     touch "* marked:'OK'"  
   end
