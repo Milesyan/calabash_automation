@@ -9,5 +9,6 @@ After do |scenario|
   if scenario.failed?
     screenshot_embed
   end
+  sleep 2
   shutdown_test_server
 end

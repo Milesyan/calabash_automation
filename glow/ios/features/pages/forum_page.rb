@@ -15,13 +15,13 @@ class ForumPage < Calabash::IBase
     wait_touch "UITextFieldLabel index:0"
     keyboard_enter_text title
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:1"
+    wait_touch "UITextFieldLabel index:0"
     keyboard_enter_text answer1
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:2"
+    wait_touch "UITextFieldLabel index:1"
     keyboard_enter_text answer2
     wait_for_none_animating
-    wait_touch "UITextFieldLabel index:3"
+    wait_touch "UITextFieldLabel index:2"
     keyboard_enter_text answer3
     wait_for_none_animating
     wait_touch "* marked:'Description (optional)'"
@@ -549,12 +549,23 @@ class ForumPage < Calabash::IBase
   end
 
   def click_topnav_close
-    wait_touch "* marked:'gl community topnav close' UINavigationButton"
+    if element_exists "* marked:'gl community topnav close' UINavigationButton" 
+      sleep 0.5
+      touch "* marked:'gl community topnav close' UINavigationButton" 
+    elsif element_exists "UINavigationBar child UIButton"
+      touch "UINavigationBar child UIButton index:0"
+    else 
+      puts "TOP NAV BUTTON NOT EXIST"
+    end
   end
 
 
   def click_bookmark_icon
-    wait_touch "UINavigationBar child UINavigationButton"
+    if element_does_not_exist "UINavigationBar child UIButton index:1"
+      puts "BOOKMAKR ICON NOT EXISTS."
+    else
+      wait_touch "UINavigationBar child UIButton index:1"
+    end
   end
 
   def click_hyperlink_comments
@@ -654,6 +665,7 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text "MilesGroup"
     wait_touch "* marked:'Group description'"
     keyboard_enter_text "This is a test group."
+    swipe :up
     scroll_down_to_see "Tech Support"
     wait_touch "* marked:'Tech Support'"
     scroll_down_to_see "Add a group photo"

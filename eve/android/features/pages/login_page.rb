@@ -22,29 +22,29 @@ class LoginPage < Calabash::ABase
     enter_text "* id:'password'", password
     sleep 1
     touch "* id:'sign_in_button'"
-    bypass_eve
+    # bypass_eve
   end
 
-  def bypass_eve
-    wait_touch "* id:'cycleDaysQuestionButton'"
-    sleep 0.5
-    touch "* marked:'25 days'"
-    sleep 0.5
-    touch "* marked:'NEXT'"
-    sleep 0.5
-    touch "* id:'lastPeriodStartQuestionButton'"
-    sleep 0.3
-    touch "* marked:'14'"
-    sleep 0.5
-    touch "* marked:'Done'"
-    sleep 0.5
-    touch "* marked:'NEXT'"
-    touch "* id:'birthControlQuestionButton'"
-    touch "* marked:'None'"
-    sleep 0.5
-    touch "* marked:'DONE'"
-    sleep 0.5
-    touch "* contentDescription:'Navigate up'"
-  end
+  # def bypass_eve
+  #   wait_touch "* id:'cycleDaysQuestionButton'"
+  #   sleep 0.5
+  #   touch "* marked:'25 days'"
+  #   sleep 0.5
+  #   touch "* marked:'NEXT'"
+  #   sleep 0.5
+  #   touch "* id:'lastPeriodStartQuestionButton'"
+  #   sleep 0.3
+  #   touch "* marked:'14'"
+  #   sleep 0.5
+  #   touch "* marked:'Done'"
+  #   sleep 0.5
+  #   touch "* marked:'NEXT'"
+  #   touch "* id:'birthControlQuestionButton'"
+  #   touch "* marked:'None'"
+  #   sleep 0.5
+  #   touch "* marked:'DONE'"
+  #   sleep 0.5
+  #   touch "* contentDescription:'Navigate up'"
+  # end
 
 end

@@ -393,7 +393,7 @@ end
 
 Then(/^I should not see the topic hidden by me$/) do 
   sleep 1.5
-  wait_for_elements_exist "AppCompatImageView index:0"
+  wait_for_elements_exist "by"
   check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
   puts "I cannot see topic #{$user2.topic_title}"
 end

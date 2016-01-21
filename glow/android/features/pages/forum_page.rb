@@ -424,7 +424,7 @@ class ForumPage < Calabash::ABase
   end
 
   def join_group(args)
-    wait_touch "* marked:'#{args}' parent * index:2 child * id:'community_recommended_group_join'"
+    wait_touch "* marked:'#{args}' parent * index:2 child * id:'community_recommended_group_action'"
     wait_touch "* marked:'#{args}' parent * index:2 child * index:1 child * marked:'Joined'"
   end  
   
@@ -688,7 +688,7 @@ class ForumPage < Calabash::ABase
 
   def report_topic(args)
     sleep 1
-    if element_does_not_exist "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"
+    if element_does_not_exist "* {text CONTAINS 'why you are flagging this topic'}"
       enter_report_topic
     end
     sleep 1
@@ -704,7 +704,7 @@ class ForumPage < Calabash::ABase
     sleep 2
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Report this post'"
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this topic.'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'why you are flagging this topic'}"}
   end
 
 
@@ -722,7 +722,7 @@ class ForumPage < Calabash::ABase
 
   def report_comment(args)
     sleep 1
-    if element_does_not_exist "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"
+    if element_does_not_exist "* {text CONTAINS 'why you are flagging this reply'}"
       enter_report_comment
     end
     touch "* marked:'#{args}'"  
@@ -735,7 +735,7 @@ class ForumPage < Calabash::ABase
     sleep 0.5
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"
-    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'Please select the reason why you are flagging this reply.'}"}
+    wait_for(:timeout=>3){element_exists "* {text CONTAINS 'why you are flagging this reply'}"}
   end
 
   def report_topic_check_reasons(table)
