@@ -11,13 +11,12 @@ class NurtureTest < Minitest::Test
   end
 
   def new_nurture_user
-    NurtureUser.new.signup.login
+    NurtureUser.new.signup.login.pull
   end
 
   def test_new_nurture_user
     u = new_nurture_user
     puts u.first_name
-    puts u.res
   end
 
 
@@ -216,7 +215,6 @@ class NurtureTest < Minitest::Test
     u = new_nurture_user
     u.create_photo
     assert_rc u.res
-    puts u.res
   end
 
   def test_create_group 

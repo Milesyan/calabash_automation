@@ -4,6 +4,7 @@ require 'securerandom'
 require 'active_support/all'
 require 'yaml'
 require_relative 'nurture_test_helper'
+require_relative "MultipartImage_iOS.rb"
 
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"

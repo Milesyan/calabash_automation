@@ -22,10 +22,7 @@ module NurtureForumAndroid
 
     base_uri BASE_URL
 
-    attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday
-    attr_accessor :relation, :partners, :status
-    attr_accessor :babies, :current_Nurture, :user_id, :current_Nurture_id
-
+    attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday, :user_id,:due_date
     attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
     attr_accessor :tmi_flag, :group_name, :group_description, :group_category
 
@@ -35,28 +32,24 @@ module NurtureForumAndroid
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Miles_test"
       @password = args[:password] || PASSWORD
-      @relation = args[:relation] || "Mother"
       @birthday = args[:birthday] || 25.years.ago.to_i
-      @babies = []
-      @partners = []
-      @forum_hl = "en_US"
-      @forum_random = rand.to_s[2..15]
+      @due_date = args[:due_date] || 5.months.from_now.to_i
+      @forum_user_height = 187
+      @forum_hl = "en_GB"
+      @forum_random = rand.to_s[2..16]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "1.0_beta_test_miles"
-      @forum_vc = 1
-      @forum_time_zone = "American%2FNew_York"
-      @forum_code_name = "nurture"
-      @additional_forum = "?hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @forum_android_version = "10800"
+      @forum_time_zone = "American\/New_York"
+      @forum_code_name = "kaylee"
+      @additional_forum = "?hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
     end
 
     def additional_post_data
       {
         "hl": @forum_hl,
-        "random": @forum_random,
-        "device_id": @forum_device_id,
         "android_version": @forum_android_version,
-        "vc": @forum_vc,
-        "time_zone": @forum_time_zone,
+        "device_id": @forum_device_id,
+        "random": @forum_random,
         "code_name": @forum_code_name
       }
     end
@@ -100,32 +93,38 @@ module NurtureForumAndroid
 
     def common_data
       data = {
-        "hl": "en_US",
-        "random": random_num,
-        "device_id": "be3ca737160d9da3",
-        "android_version": "1.0-beta",
-        "vc": 1,
-        "time_zone": "Asia Shanghai",
-        "code_name": "nurture",
+        "hl": @forum_hl,
+        "app_version": @forum_android_version,
+        "device_id": @forum_device_id,
+        "random": @forum_random
       }.to_param
     end
 
     def signup(args = {})
-      user = args[:user] || self
       data = {
-        "user": {
-          "first_name": user.first_name,
-          "last_name": user.last_name,
-          "email": user.email,
-          "password": user.password
+        "userinfo": {
+          "password": @password,
+          "as_partner": false,
+          "tz": @forum_time_zone,
+          "email": @email,
+          "height": @forum_user_height,
+          "birthday": @birthday,
+          "first_name": @first_name
+        },
+        "onboardinginfo":{
+          "prepare_number": 1,
+          "weight": 90,
+          "how": 0,
+          "due_date": @due_date
         }
       }
-      user.res = self.class.post "/android/user/sign_up?#{common_data}", options(data)
-
-      if user.res["rc"] == 0
-        user.ut = user.res["data"]["user"]["encrypted_token"]
-        user.user_id = user.res["data"]["user"]["id"]
-        puts user.email + " has been signed up. [user_id: #{@user_id}]"
+      @res = self.class.post "/android/users/signup?#{common_data}", options(data)
+      puts data
+      puts BASE_URL+ "/android/users/signup?#{common_data}"
+      if @res["rc"] == 0
+        @ut = @res["dict"]["encrypted_token"]
+        @user_id = @res["dict"]["user_id"]
+        log_msg @email + " has been signed up. [user_id: #{@user_id}]"
       end
       self
     end
@@ -134,43 +133,21 @@ module NurtureForumAndroid
       email = args[:email] || @email
       password = args[:password] || @password
       data = {
-        email: email,
-        password: password
+        userinfo: {
+          email: email,
+          password: password
+        }
       }
-
-      @res = self.class.post "/android/user/sign_in?#{common_data}", options(data)
-
+      puts data
+      @res = self.class.post "/android/users/signin?#{common_data}", options(data)
       if @res["rc"] == 0
-        @ut = @res["data"]["user"]["encrypted_token"]
-        @user_id = @res["data"]["user"]["id"]
-        @current_Nurture_id = @res["data"]["user"]["current_Nurture_id"]
+        @ut = @res["dict"]["encrypted_token"]
+        @user_id = @res["dict"]["user_id"]
         log_msg email + " just logged in. [user_id: #{@user_id}]"
-        if @res["data"]["babies"].size > 0
-          current_Nurture = @res["data"]["babies"].detect {|b| b["Nurture"]["Nurture_id"] == @current_Nurture_id }
-          @current_Nurture = Nurture.new current_Nurture["Nurture"].symbolize_keys
-          log_msg "current Nurture is: #{@current_Nurture.first_name} [Nurture_id: #{@current_Nurture.Nurture_id}]"
-        end
       end
       self
     end
 
-    def pull
-      data = {
-        "data": {
-          "user": {
-            "last_sync_time": 0
-          }
-        }
-      }
-
-      @res = self.class.post "/android/user/pull?#{common_data}", auth_options(data)
-      self
-    end
-
-    def daily_content
-      @res = self.class.get "/android/user/daily_content?#{common_data}"
-      self
-    end
 
 
 
@@ -224,6 +201,8 @@ module NurtureForumAndroid
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
       headers = headers.merge({ "Authorization" => @ut })
+      puts data
+      puts headers
       uri = URI("#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
