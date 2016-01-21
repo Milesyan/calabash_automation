@@ -175,7 +175,7 @@ module BabyAndroid
       data = {
         "data": {
           "user": {
-            "last_sync_time": 0
+            "sync_time": 0
           }
         }
       }
