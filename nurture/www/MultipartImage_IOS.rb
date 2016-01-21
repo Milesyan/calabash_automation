@@ -1,13 +1,12 @@
 require 'rubygems'
 require 'mime/types'
-#This is for baby app.
 
 module MultipartImage
   VERSION = "1.0.0"
   class Post
     BOUNDARY = "alamofire.boundary.3a5b3b705d5b9fbb"
     HEADER_CONTENT_TYPE = "multipart/form-data; boundary=#{ BOUNDARY }"
-    HEADER = { "Content-Type" => HEADER_CONTENT_TYPE, "User-Agent" => "Noah_test_miles" }
+    HEADER = { "Content-Type" => HEADER_CONTENT_TYPE, "User-Agent" => "kaylee_test_miles" }
     def self.prepare_query(params)
       fp = []
 

@@ -1,25 +1,24 @@
-require 'yaml'
+module Nurture
+  def wait_touch(query_str)
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+    wait_for_none_animating
+  end
 
-module Baby
-  def load_yamls
-    fixtures_folder = File.expand_path("../fixtures", File.dirname(__FILE__))
-    Dir[File.join(fixtures_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}
+  def touch_if_elements_exist(query_str)
+    sleep 1
+    touch query_str if element_exists(query_str)
   end
 
   def get_email
-    "i#{Time.now.to_i}@g.com"
-  end
-
-  def already_logged_in?
-    element_exists "UITabBar"
+    "ni#{Time.now.to_i}@g.com"
   end
 
   def logout_if_already_logged_in
-    sleep 1
-    if already_logged_in?
-      tab_bar_page.open("me")
-      me_page.open_settings
-      settings_page.logout
+    sleep 2
+    if element_exists "UITabBarButton"
+      nav_page.open("Me")
+      me_page.logout
     end
   end
 
@@ -45,16 +44,5 @@ module Baby
   def log_error(msg)
     puts light_red(msg)
   end
-
-  def wait_touch(query_str)
-    wait_for_elements_exist([query_str])
-    touch(query_str)
-    wait_for_none_animating
-  end
-
-  def relaunch_app
-    launcher = Calabash::Cucumber::Launcher.new
-    launcher.relaunch(:reset => true)
-  end
-
+  
 end

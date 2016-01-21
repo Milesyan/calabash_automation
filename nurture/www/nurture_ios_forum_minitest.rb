@@ -24,12 +24,12 @@ class NurtureTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
-  def test_noah_signup
+  def test_kaylee_signup
     u = new_nurture_user
     assert_rc u.res
   end
 
-  def test_noah_login
+  def test_kaylee_login
     u = new_nurture_user
     u.login
     assert_rc u.res

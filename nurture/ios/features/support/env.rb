@@ -1,7 +1,7 @@
 # Requiring this file will import Calabash and the Calabash predefined Steps.
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
-require_relative '../../../www/noah_ios_forum_test'
+require_relative '../../../www/nuture_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'
 
@@ -14,7 +14,7 @@ require_relative 'pages'
 
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/noah/iOS/Noah_sandbox.app"
+ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/nurture/iOS/Nurture_sandbox.app"
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
 
 class MinitestWorld
@@ -30,8 +30,8 @@ World do
   MinitestWorld.new
 end
 
-include Baby
-include NoahForumIOS
+include Nurture
+include NurtureForumIOS
 include Minitest::Assertions
 
 

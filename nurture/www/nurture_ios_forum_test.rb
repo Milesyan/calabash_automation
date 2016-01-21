@@ -144,7 +144,7 @@ module NurtureForumIOS
 
      def create_topic(args = {})
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "content": "#{Time.now.strftime "%D %T"}",
         "title": args[:topic_title] || "#{@email} #{Time.now}",
         "anonymous": 0,
@@ -163,7 +163,7 @@ module NurtureForumIOS
 
     def create_poll(args = {})
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "content": "#{Time.now.strftime "%D %T"}",
         "anonymous": 0,
         "title": args[:topic_title] || "Poll + #{@email} #{Time.now}",
@@ -182,7 +182,7 @@ module NurtureForumIOS
 
     def vote_poll(args = {})
       vote_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "vote_index": 2,
         "ut": @ut
       }.merge(common_data)
@@ -196,7 +196,7 @@ module NurtureForumIOS
 
     def reply_to_topic(topic_id, args = {})
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
         "anonymous": 0,
         "reply_to": 0,
@@ -212,7 +212,7 @@ module NurtureForumIOS
 
     def reply_to_comment(topic_id,reply_id,args = {})
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "content": args[:reply_content] || "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
         "anonymous": 0,
         "reply_to": reply_id,
@@ -227,7 +227,7 @@ module NurtureForumIOS
 
     def join_group(group_id = GROUP_ID )
       data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
 
@@ -243,7 +243,7 @@ module NurtureForumIOS
 
     def leave_group(leave_group_id)
       data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       unsubscribe_groupid = leave_group_id || GROUP_ID
@@ -255,7 +255,7 @@ module NurtureForumIOS
 
     def vote_poll(args = {})
       vote_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "vote_index": 2,
         "ut": @ut
       }.merge(common_data)
@@ -268,7 +268,7 @@ module NurtureForumIOS
 
     def delete_topic(topic_id)
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/remove", :body => reply_data.to_json,
@@ -281,7 +281,7 @@ module NurtureForumIOS
 
     def follow_user(user_id)
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/follow", :body => reply_data.to_json,
@@ -292,7 +292,7 @@ module NurtureForumIOS
 
     def unfollow_user(user_id)
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unfollow", :body => reply_data.to_json,
@@ -303,7 +303,7 @@ module NurtureForumIOS
 
     def block_user(user_id)
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/block", :body => reply_data.to_json,
@@ -314,7 +314,7 @@ module NurtureForumIOS
 
     def unblock_user(user_id)
       reply_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unblock", :body => reply_data.to_json,
@@ -325,7 +325,7 @@ module NurtureForumIOS
 
     def bookmark_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "bookmarked": 1,
         "ut": @ut
       }.merge(common_data)
@@ -337,7 +337,7 @@ module NurtureForumIOS
 
     def unbookmark_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "bookmarked": 0,
         "ut": @ut
       }.merge(common_data)
@@ -350,7 +350,7 @@ module NurtureForumIOS
 #---------upvote downvote------------
     def upvote_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "liked": 1,
         "ut": @ut
       }.merge(common_data)
@@ -362,7 +362,7 @@ module NurtureForumIOS
 
     def cancel_upvote_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "liked": 0,
         "ut": @ut
       }.merge(common_data)
@@ -374,7 +374,7 @@ module NurtureForumIOS
 
     def upvote_comment(topic_id, reply_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "liked": 1,
         "topic_id": topic_id,
         "ut": @ut
@@ -387,7 +387,7 @@ module NurtureForumIOS
 
     def cancel_upvote_comment(topic_id, reply_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "liked": 0,
         "topic_id": topic_id,
         "ut": @ut
@@ -400,7 +400,7 @@ module NurtureForumIOS
 
     def downvote_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "disliked": 1,
         "ut": @ut
       }.merge(common_data)
@@ -412,7 +412,7 @@ module NurtureForumIOS
 
     def downvote_comment(topic_id, reply_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "disliked": 1,
         "topic_id": topic_id,
         "ut": @ut
@@ -424,7 +424,7 @@ module NurtureForumIOS
     end
     def cancel_downvote_topic(topic_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "disliked": 0,
         "ut": @ut
       }.merge(common_data)
@@ -436,7 +436,7 @@ module NurtureForumIOS
 
     def cancel_downvote_comment(topic_id, reply_id)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "disliked": 0,
         "topic_id": topic_id,
         "ut": @ut
@@ -449,7 +449,7 @@ module NurtureForumIOS
 #-----------Flag topic/comment--------------
     def report_topic(topic_id,report_reason)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "reason": report_reason,
         "ut": @ut
       }.merge(common_data)
@@ -461,7 +461,7 @@ module NurtureForumIOS
 
     def report_comment(topic_id, reply_id, report_reason)
       topic_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "reason": report_reason,
         "reply_id": reply_id,
         "ut": @ut
@@ -474,7 +474,7 @@ module NurtureForumIOS
 
     def get_all_groups
       group_data = {
-        "code_name": "noah",
+        "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
       _res =  HTTParty.get("#{FORUM_BASE_URL}/user/#{self.user_id}/social_info", :body => group_data.to_json,
@@ -515,7 +515,7 @@ module NurtureForumIOS
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
       topic_data = {
         "title": args[:topic_title] || "Baby App IMAGE" + Time.now.to_s,
-        "code_name": "noah",
+        "code_name": "kaylee",
         "anonymous": 0,
         "ut": @ut,
         "warning": args[:tmi_flag] || 0,
@@ -537,7 +537,7 @@ module NurtureForumIOS
       topic_data = {
         "ut": @ut,
         "desc": args[:group_description] || "Test group discription",
-        "code_name": "noah",
+        "code_name": "kaylee",
         "category_id": args[:group_category] || 1,
         "name": args[:group_name] || "Test create group",
         "image": File.new(image_pwd)
