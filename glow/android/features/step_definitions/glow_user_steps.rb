@@ -269,3 +269,23 @@ Given(/^a user created a group in "(.*?)" category$/) do |arg1|
   other_user = forum_new_other_user
   other_user.create_group
 end
+
+
+
+
+#community v1.1 logging
+
+Given(/^a user created a group in "(.*?)" category$/) do |arg1|
+  other_user = new_ttc_user
+  group_category_id =  GROUP_CATEGORY[arg1]
+  other_user.create_group :group_category => group_category_id, :group_name => "TestJoinGroup"
+end
+
+Given(/^"([^"]*)" create a group in category "([^"]*)" using www api$/) do |arg1, arg2|
+  $group_name = random_group_name
+  group_category_id =  GROUP_CATEGORY[arg2]
+  $user.create_group :group_category => group_category_id, :group_name => $group_name
+  puts "Group >>#{$group_name}<< created in category #{arg2}, category id >>>#{group_category_id}"
+end
+
+

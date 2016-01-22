@@ -16,6 +16,7 @@ module GlowForumIOS
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
+  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class GlowUser
 
@@ -37,6 +38,7 @@ module GlowForumIOS
     def random_str
       ('0'..'9').to_a.shuffle[0,9].join + "_" + Time.now.to_i.to_s
     end
+
 
     def uuid
       SecureRandom.uuid

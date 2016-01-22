@@ -10,6 +10,10 @@ module Glow
     "a#{Time.now.to_i}@g.com"
   end
 
+  def random_group_name
+    "TestGroup" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-3..-1]
+  end
+  
   def already_logged_in?
     element_exists "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
   end

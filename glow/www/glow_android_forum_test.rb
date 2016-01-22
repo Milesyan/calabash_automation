@@ -10,6 +10,7 @@ module GlowForumAndroid
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
   IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
+  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class GlowUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
@@ -19,7 +20,7 @@ module GlowForumAndroid
     attr_accessor :gender
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || ("ga" + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1])
+      @first_name = (args[:first_name] || "ga") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD

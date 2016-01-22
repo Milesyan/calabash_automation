@@ -32,34 +32,7 @@ Given(/^I create a new "(.*?)" glow user$/) do |type|
   puts $user.email, $user.password
 end
 
-Given(/^I create a new "(.*?)" "(.*?)" glow partner user$/) do |type, gender|
-  case type.downcase
-  when "non-ttc"
-    u = new_non_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).ttc_signup.login.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "ttc"
-    u = new_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.login.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "prep", "med", "iui", "ivf"
-    u = new_ft_user(type: type.downcase).invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.login.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  end
-end
+
 
 Given(/^I complete my health profile via www$/) do
   $user.female_complete_health_profile($user.type)
@@ -272,8 +245,27 @@ Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
   puts "#{name} replied to #{number} topics. "
 end
 
+
+#v1.1 explore page
 Given(/^a user created a group in "(.*?)" category$/) do |arg1|
   other_user = new_ttc_user
-  other_user.create_group
-  #wip
+  group_category_id =  GROUP_CATEGORY[arg1]
+  other_user.create_group :group_category => group_category_id, :group_name => "TestJoinGroup"
 end
+
+Given(/^"([^"]*)" create a group in category "([^"]*)" using www api$/) do |arg1, arg2|
+  $group_name = random_group_name
+  group_category_id =  GROUP_CATEGORY[arg2]
+  $user.create_group :group_category => group_category_id, :group_name => $group_name
+  puts "Group >>#{$group_name}<< created in category #{arg2}, category id >>>#{group_category_id}"
+end
+
+
+
+
+
+
+
+
+
+
