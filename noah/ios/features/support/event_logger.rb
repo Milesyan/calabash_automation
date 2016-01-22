@@ -6,8 +6,7 @@ module GlowLogger
 
   class EventLogger
     include HTTParty
-    extend Glow
-
+    
     base_uri GLOW_EVENTS_URL
 
     attr_accessor :start_time, :end_time, :res

@@ -583,7 +583,7 @@ class ForumPage < Calabash::IBase
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    wait_touch "* id:'community-dots' index:0"
+    wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
   end
@@ -614,6 +614,9 @@ class ForumPage < Calabash::IBase
     end
   end
 
+  def close_rules_page
+    wait_touch "UINavigationButton"
+  end
 
 
 #------------------NEW added-----------------

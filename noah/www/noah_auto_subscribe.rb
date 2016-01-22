@@ -27,7 +27,9 @@ class NoahSubscribeTest < Minitest::Test
   def test_new_no_baby_user
   	u = new_noah_user
   	group_ids = u.get_all_group_ids
-  	puts group_ids
+    group_names = u.get_all_group_names
+  	puts "GROUP ID #{group_ids}\n"
+    puts "GROUP NAMES #{group_names}"
   end
 
   def test_new_have_upcoming_baby_user
@@ -35,7 +37,9 @@ class NoahSubscribeTest < Minitest::Test
   	baby = u.new_upcoming_baby(relation: "Mother", gender: "M")
   	u.add_upcoming_baby(baby)
   	group_ids = u.get_all_group_ids
-  	puts group_ids
+    group_names = u.get_all_group_names
+    puts "GROUP ID #{group_ids}\n"
+    puts "GROUP NAMES #{group_names}"
   end
 
   def test_new_have_born_baby_user
@@ -43,7 +47,9 @@ class NoahSubscribeTest < Minitest::Test
   	baby = u.new_born_baby
   	u.add_born_baby(baby)
   	group_ids = u.get_all_group_ids
-  	puts group_ids
+    group_names = u.get_all_group_names
+    puts "GROUP ID #{group_ids}\n"
+    puts "GROUP NAMES #{group_names}"
   end
 
   def test_nurture_come_user

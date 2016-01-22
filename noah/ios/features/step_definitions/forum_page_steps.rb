@@ -410,6 +410,10 @@ Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
   wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
 end
 
+Then(/^I close the rules page$/) do
+  forum_page.close_rules_page
+end
+
 
 #community v1.1 new
 Then(/^I click create a group$/) do
