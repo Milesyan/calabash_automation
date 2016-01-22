@@ -1,4 +1,4 @@
-@diaper
+@diaper @regression
 Feature: Log Diaper
   @diaper_today
   Scenario: Log diaper today

@@ -135,6 +135,17 @@ module BabyAndroid
           "password": user.password
         }
       }
+
+      data = {
+        "user": {
+          "first_name": user.first_name,
+          "last_name": user.last_name,
+          "email": user.email,
+          "birthday": user.birthday,
+          "birthday_str": date_str(Time.at(user.birthday)),
+          "password": user.password
+        }
+      }
       # http://titan-noah.glowing.com/android/user/sign_up?code_name=noah&time_zone=Asia%2FShanghai&vc=1&android_version=1.0-beta&device_id=be3ca737160d9da3&random=826154824919581&hl=en_US&
       # "http://titan-noah.glowing.com/android/user/sign_up?hl=en_GB&random=248763385519373&device_id=68e851582c0f3631&android_version=1.0-beta&vc=1&time_zone=Asia%2FShanghai&code_name=noah"
       user.res = self.class.post "/android/user/sign_up?#{common_data}", options(data)
@@ -599,6 +610,21 @@ module BabyAndroid
 
       @res = self.class.post "/android/baby/disconnect_family?#{common_data}", auth_options(data)
       self
+    end
+
+
+    # Me 
+    def change_email(new_email)
+      data = {
+        email: new_email
+      }
+
+      @res = self.class.post "/android/user/change_email?#{common_data}", auth_options(data)
+      self
+    end
+
+    def turn_off_notification
+      update_account_settings receive_push_notification: 0
     end
 
   end
