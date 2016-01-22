@@ -1,10 +1,12 @@
 require 'calabash-android/cucumber'
 require 'calabash-android/abase'
 require 'minitest/autorun'
+require 'active_support/all'
 
 require_relative 'app'
 require_relative 'pages'
 require_relative '../../../www/glow_android_forum_test'
+require_relative 'event_logger.rb'
 
 class MinitestWorld
   extend Minitest::Assertions
@@ -21,6 +23,7 @@ end
 
 include Glow
 include GlowForumAndroid
+include GlowLogger
 include Minitest::Assertions
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

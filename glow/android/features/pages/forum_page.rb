@@ -772,11 +772,13 @@ class ForumPage < Calabash::ABase
 
   def click_explore
     wait_touch "* marked:'Explore'"
+    logger.add event_name: "page_impression_explore", start_vesion: "community v1.1"
     sleep 1
   end
 
   def click_discover
     wait_touch "* marked:'Discover'"
+    logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
     sleep 0.2
   end
 

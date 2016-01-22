@@ -22,6 +22,7 @@ require 'calabash-cucumber/launcher'
 
 
 Before do |scenario|
+  # logger.start
   @calabash_launcher = Calabash::Cucumber::Launcher.new
   unless @calabash_launcher.calabash_no_launch?
     @calabash_launcher.relaunch
@@ -36,6 +37,10 @@ After do |scenario|
       @calabash_launcher.stop
     end
   end
+  # logger.stop
+  # logger.pull_log(user: $user).pretty
+  # logger.diff
+  # logger.clear
 end
 
 at_exit do
