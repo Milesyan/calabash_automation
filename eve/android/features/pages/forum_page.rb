@@ -201,7 +201,12 @@ class ForumPage < Calabash::ABase
   end
 
   def add_comment
-    wait_touch "* marked:'Add a comment'"
+    sleep 1
+    if element_exists "* id:'add_reply_btn'"
+      touch "* id:'add_reply_btn'"
+    else
+      wait_touch "* marked:'Add a comment'"
+    end
     sleep 1
     wait_touch "* id:'reply_text'"
     comment = "comment " + Time.now.to_s
