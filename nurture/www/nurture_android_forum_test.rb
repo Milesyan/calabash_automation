@@ -258,7 +258,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/group/subscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "       ------------#{self.user_id} joined group >>>#{group_id}<<<-------------"
+      puts "---#{self.user_id} joined group >>>#{group_id}<<<---"
       self
     end
 
@@ -269,7 +269,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/group/unsubscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
+      puts " ---#{self.user_id} left group >>>#{group_id}<<<---"
       self
     end
 

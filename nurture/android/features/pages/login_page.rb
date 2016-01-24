@@ -2,9 +2,8 @@ require 'calabash-android/abase'
 
 class LoginPage < Calabash::ABase
   def trait
-    "* id:'log_in'"
+    "*"
   end
-
 
   def tap_login
     puts "TOUCH LOGIN HERE "
@@ -19,18 +18,26 @@ class LoginPage < Calabash::ABase
   end
 
   def login_with(email, password)
-    tap_login
     enter_text "* id:'email'", email
     enter_text "* id:'password'", password
     sleep 1
     touch "* id:'sign_in_button'"
+    wait_for_element_exists "* id:'bottom_action_bar'"
+    sleep 1
+    if element_exists "* id:'blockingView'"
+      bypass_nurture_tutorial
+    end
   end
 
+  def bypass_nurture_tutorial
+    `adb shell input keyevent KEYCODE_HOME`
+    attempts = 0
+    begin
+      attempts = attempts + 1
+      start_test_server_in_background
+    rescue RuntimeError => e 
+      retry if attempts < 3
+    end  
+  end
 
-  # def login(email, password)
-  #   touch "* marked:'Log in'"
-  #   enter_text "* id:'email'", email
-  #   enter_text "* id:'password'", password
-  #   touch "* id:'action_login'"
-  # end
 end

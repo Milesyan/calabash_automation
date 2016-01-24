@@ -49,6 +49,14 @@ class NoahTest < Minitest::Test
   end
 
   
+  def test_add_babies
+    u = new_noah_user
+    10.times do
+      baby = u.new_born_baby(relation: "Mother", gender: "M")
+      u.add_born_baby baby
+    end
+  end
+
   #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
@@ -246,6 +254,24 @@ class NoahTest < Minitest::Test
     u = new_noah_user
     puts u.get_all_group_ids
   end
+
+  def test_mimic_real_user
+    u = new_noah_user
+    u.create_topic
+    u.bookmark_topic u.topic_id
+    u.reply_to_topic u.topic_id
+    u.reply_to_comment u.topic_id, u.reply_id
+    u2 = new_noah_user
+    u.follow_user u2.user_id
+    u3 = new_noah_user
+    u.block_user u3.user_id
+    u2.create_topic
+    u.reply_to_topic u2.topic_id
+    u3.reply_to_topic u2.topic_id
+    u3.reply_to_comment u2.topic_id, u.reply_id
+  end
+
+  
 end
 
 

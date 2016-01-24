@@ -2,11 +2,10 @@ require 'httparty'
 require_relative 'app'
 
 module GlowLogger
-  GLOW_EVENTS_URL = "http://titan-appevents.glowing.com"
 
   class EventLogger
     include HTTParty
-    
+    GLOW_EVENTS_URL = "http://titan-appevents.glowing.com"
     base_uri GLOW_EVENTS_URL
 
     attr_accessor :start_time, :end_time, :res

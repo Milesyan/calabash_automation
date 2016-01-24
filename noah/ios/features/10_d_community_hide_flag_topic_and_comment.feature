@@ -57,7 +57,7 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
   @report_reason
   Scenario: Check report topic and report comment reasons, and report by other reason.
     Given another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
-    Given I create a new "ttc" glow user with name "Miles"
+    Given I create a new noah user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
