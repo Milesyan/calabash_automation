@@ -12,7 +12,7 @@ module EveForumAndroid
   GROUP_ID = 5
   EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
   EVE_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
-  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
+  IMAGE_ROOT = "../../images/"
 
   class EveUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id

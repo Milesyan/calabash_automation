@@ -16,7 +16,7 @@ module NurtureForumIOS
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
 
-  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/nurture/www/images/"
+  IMAGE_ROOT = "../../images/"
 
   def due_date_in_weeks(n = 40)
     Time.now.to_i + n.to_i*7*24*3600

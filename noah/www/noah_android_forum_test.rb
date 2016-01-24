@@ -13,7 +13,7 @@ module NoahForumAndroid
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox1"]
   ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
-  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/glow/www/images/"
+  IMAGE_ROOT = "../../images/"
 
   class Baby
     attr_accessor :first_name, :last_name, :gender

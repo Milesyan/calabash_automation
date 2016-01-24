@@ -15,3 +15,26 @@ glow/ios/features/screenshots/*
 glow/ios/calabash.framework/
 glow/ios/features/support/env.rb
 
+eve/android/*.apk
+eve/android/*.png
+eve/android/test_servers/
+eve/android/*.html
+glow/android/*.html
+glow/ios/features/support/env_miles.rb.example
+glow/ios/features/test-reports/
+
+glow/www/images/
+glow/www/private_tools_minitest.rb
+glow/www/test_miles.rb
+noah/android/*.apk
+noah/android/features/screenshots/
+noah/android/folder/
+noah/android/*.png
+noah/android/test_servers/
+noah/android/*.html
+noah/ios/features/screenshots/
+noah/www/images/
+nurture/android/features/screenshots/
+nurture/android/*.apk
+nurture/android/test_servers/
+nurture/www/images/

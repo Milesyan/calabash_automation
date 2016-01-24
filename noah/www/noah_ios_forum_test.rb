@@ -15,7 +15,7 @@ module NoahForumIOS
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/noah/www/images/"
+  IMAGE_ROOT = "../../images/"
 
 
   class Baby
