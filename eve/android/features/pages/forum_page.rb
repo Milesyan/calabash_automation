@@ -15,27 +15,27 @@ class ForumPage < Calabash::ABase
   end
 
   def touch_floating_poll
-    touch "* id:'community_home_floating_actions_menu' child c index:0"
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:0"
     sleep 1
   end
 
   def touch_floating_photo
-    touch "* id:'community_home_floating_actions_menu' child c index:1"
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:1"
     sleep 1
   end
 
   def touch_floating_text
-    touch "* id:'community_home_floating_actions_menu' child c index:2"
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:2"
     sleep 1
   end
 
   def touch_floating_link
-    touch "* id:'community_home_floating_actions_menu' child c index:3"
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:3"
     sleep 1
   end
 
   def touch_floating_create_group
-    touch "* id:'community_home_floating_actions_menu' child c index:0"
+    touch "* id:'community_home_floating_actions_menu' child FloatingActionButton index:0"
     sleep 1
   end
 

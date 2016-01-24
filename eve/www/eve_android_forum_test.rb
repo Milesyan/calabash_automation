@@ -95,8 +95,7 @@ module EveForumAndroid
       @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
-      puts "Signup guet #{@ut} <<<>>>#{@user_id}"
-      puts "guest signup success" if @res["rc"] == 0
+      puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
       self
     end
 

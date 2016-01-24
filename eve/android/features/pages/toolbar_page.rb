@@ -15,5 +15,7 @@ class ToolbarPage < Calabash::ABase
     touch menu_button
     sleep 0.5
     touch "* text:'Log out'"
+    wait_for_element_exists "* id:'login'"
+    sleep 0.5
   end
 end
