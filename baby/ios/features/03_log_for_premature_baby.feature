@@ -6,6 +6,7 @@ Feature: Premature baby
     And I add one born boy with birthday "1.weeks.ago" and due date "5.weeks.since"
     And I scroll to growth chart
     And I log weight "3.0kg" on "today"
+    And I close the insight popup
     Then I should not see the percentile until 40 weeks reached
     And I logout
 

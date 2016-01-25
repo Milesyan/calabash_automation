@@ -1,6 +1,31 @@
+Given(/^I choose the baby to continue$/) do
+  wait_touch "* id:'icon-arrow'"
+end
+
+Given(/^I add a baby with nurture pre\-filled data$/) do
+  home_page.add_upcoming_nurture_baby
+end
+
 # Milestones
+
+Given(/^I open all moments$/) do
+  home_page.open_milestones
+end
+
+Given(/^I close moments page$/) do
+  home_page.close_milestones
+end
+
 Given(/^I add a milestone$/) do
   home_page.open_milestones
+end
+
+Given(/^I check milestones$/) do
+  home_page.check_milestones
+end
+
+Given(/^I create a milestone with date "([^"]*)" and title "([^"]*)"$/) do |date, title|
+  home_page.create_milestone(date: eval(date), title: title)
 end
 
 # Daily log
@@ -33,6 +58,11 @@ end
 Given(/^I log height "([^"]*)" on "([^"]*)"$/) do |height, date_str|
   date = eval(date_str)
   home_page.add_height(date: date, height: height)
+  #close_popup_if_needed
+end
+
+Given(/^I close the insight popup$/) do
+  close_popup_if_needed
 end
 
 Then(/^I should not see the percentile until 40 weeks reached$/) do

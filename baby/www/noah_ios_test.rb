@@ -51,7 +51,7 @@ module BabyIOS
     attr_accessor :ut, :res
     attr_accessor :babies, :current_baby, :user_id, :current_baby_id
     attr_accessor :notifications
-    attr_accessor :relation # for UI automation
+    attr_accessor :relation, :birth_data_added # for UI automation
 
     def initialize(args = {})
       @first_name = args[:first_name] || get_first_name
@@ -61,6 +61,7 @@ module BabyIOS
       @password = args[:password] || PASSWORD
       @birthday = args[:birthday] || 25.years.ago.to_i
       @babies = []
+      @birth_data_added = false
     end
 
     def get_first_name

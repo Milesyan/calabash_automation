@@ -13,6 +13,7 @@ module Calabash::Launcher
 end
 
 Before do |scenario|
+  logger.start
   launcher = Calabash::Launcher.launcher
   options = {
     # Add launch options here.
@@ -34,5 +35,9 @@ After do |scenario|
   unless launcher.calabash_no_stop?
     calabash_exit
   end
+  logger.stop
+  # logger.pull_log(user: $user).pretty
+  # logger.diff
+  # logger.clear
 end
 

@@ -1,4 +1,4 @@
-@signup
+@signup @regression
 Feature: Signup and add babies
   @signup_mother_add_born_boy
   Scenario: Sign up a new mother and add a born boy

@@ -30,6 +30,7 @@ module BabyIOS
     attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday, :relation
     attr_accessor :partners
     attr_accessor :babies, :current_baby
+    attr_accessor :birth_data_added
 
     def initialize(args = {})
       @first_name = args[:first_name] || get_first_name
@@ -39,7 +40,8 @@ module BabyIOS
       @partners = []
       @password = args[:password] || PASSWORD
       @birthday = args[:birthday]
-      @babies = [] 
+      @babies = []
+      @birth_data_added = false
     end
 
     def random_str(n)

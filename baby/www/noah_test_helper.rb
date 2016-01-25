@@ -27,4 +27,8 @@ module BabyTestHelper
     config = Dir[File.join(config_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}
     Hash[config]
   end
+
+  def date_str(t)
+    t.strftime("%Y/%m/%d")
+  end
 end

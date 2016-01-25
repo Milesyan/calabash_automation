@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.2.1'
 
-gem "calabash-cucumber", ">= 0.17.0", "< 2.0"
+gem "calabash-cucumber", ">= 0.17.1", "< 2.0"
 gem 'activerecord', '4.2.5'
 gem 'faker', '1.6.1'
 gem 'httparty', '0.13.7'

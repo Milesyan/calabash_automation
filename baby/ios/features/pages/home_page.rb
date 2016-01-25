@@ -28,6 +28,17 @@ class HomePage < Calabash::IBase
     wait_for_none_animating
   end
 
+  def add_upcoming_nurture_baby
+    wait_touch "* marked:'Add my baby'"
+    wait_touch "* marked:'No, no baby yet.'"
+    wait_touch "* marked:'Choose' sibling UITableViewLabel"
+    wait_touch "* marked:'#{$user.relation}'"
+    wait_touch "* marked:'Done'"
+    wait_touch "* marked:'Start using Glow Baby!'"
+    sleep 1
+    wait_for_none_animating
+  end
+
   def add_upcoming_baby(baby)
     wait_touch "* marked:'Add my baby'"
     wait_touch "* marked:'No, no baby yet.'"
@@ -46,18 +57,41 @@ class HomePage < Calabash::IBase
 
   def open_milestones
     sleep 1
-    wait_touch "* marked:'Moments'"
-    puts get_all_milestones
+    wait_touch "* marked:'Add moments'"
+  end
+
+  def close_milestones
+    wait_touch "* id:'icon-close'"
+  end
+
+  def check_milestones
+    get_all_milestones.each do |m|
+      log_msg m
+    end
   end
 
   def get_all_milestones
     milestones = []
-    num_of_milestones = query("all NoahFoundation.CheckButton").size
+    num_of_milestones = query("NoahFoundation.CheckButton").size
     puts "size: #{num_of_milestones}"
     (0...num_of_milestones).each do |i|
-      milestones << query("all NoahFoundation.CheckButton index:#{i} sibling UILabel index:0", :text).first
+      milestones << query("NoahFoundation.CheckButton index:#{i} sibling UILabel index:0", :text).first
     end
     milestones
+  end
+
+  def create_milestone(args = {})
+    date = (args[:date] || Time.now).to_datetime
+    title = args[:title] || "Hello World!"
+    wait_touch "* marked:'Create your own'"
+
+    touch "UITextView"
+    keyboard_enter_text title
+    wait_touch "* marked:'Choose date'"
+    picker_set_date_time date
+    wait_touch "* marked:'Done'"
+
+    touch "* marked:'Save'"
   end
 
   def add_feed(args = {})
@@ -104,7 +138,7 @@ class HomePage < Calabash::IBase
 
   def add_diaper(args = {})
     until_element_exists "* marked: 'MORE'", action: lambda { scroll "scrollView index:0", :down }
-    wait_touch "* marked:'DIAPER' sibling UIImageView index:1"
+    touch "* marked:'DIAPER' sibling UIImageView index:1"
     type = args[:type]
     start_time = args[:start_time].to_datetime
     case type.downcase
@@ -128,12 +162,22 @@ class HomePage < Calabash::IBase
 
   def scroll_to_growth_chart
     sleep 1
+    wait_for_element_exists "* marked:'FEED'", time_out: 15
     until_element_exists "* marked: 'Growth Chart'", action: lambda { scroll "scrollView index:0", :down }
+  end
+
+  def add_baby_birth_data
+    sleep 1  # the first time when opening the growth chart
+    unless $user.birth_data_added
+      touch "* id:'gl-foundation-popup-close'"
+      $user.birth_data_added = true
+    end
   end
 
   def open_growth_chart
     wait_touch "* marked:'WEIGHT'"
     wait_for_none_animating
+    add_baby_birth_data
   end
 
   def add_weight(args = {})
@@ -150,7 +194,7 @@ class HomePage < Calabash::IBase
 
     touch "* marked:'Weight' sibling UITableViewLabel"
     wait_for_none_animating
-
+    touch "* marked:'#{unit.upcase}'"
     str = %Q[uia.selectPickerValues('#{weight}')]
     uia str
     wait_for_none_animating
