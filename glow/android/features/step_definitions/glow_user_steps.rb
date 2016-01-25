@@ -158,7 +158,6 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
     end
     puts "GlowUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser sub reply ++"
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
   end
@@ -177,7 +176,6 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
     puts "GlowUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser2 sub reply ++"
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
   end
