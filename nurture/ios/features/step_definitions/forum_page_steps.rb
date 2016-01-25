@@ -443,5 +443,58 @@ Then(/^I check the button in the group$/) do
   check_element_exists "* marked:'Post'"
 end
 
+Then(/^I close the rules page$/) do
+  forum_page.close_rules_page
+end
 
+
+#community v1.1 logging
+Then(/^I click the search icon in explore page$/) do
+  forum_page.click_search_under_explore
+end
+
+Then(/^I test search group function$/) do
+  forum_page.search_groups "test"
+  wait_for_element_exists "* {text CONTAINS 'Creator'}"  
+  wait_touch "* marked:'Join'"
+  wait_for_element_exists "* marked:'Joined!'"
+end
+
+Then(/^I click cancel button$/) do
+  forum_page.click_cancel
+end
+
+Then(/^I go to "([^"]*)" category$/) do |arg1|
+  if GROUP_CATEGORY.keys.include? arg1
+    wait_touch "* marked:'#{arg1}'"
+  else 
+    puts "GROUP CATEGORY NAME IS WRONG."
+  end
+end
+
+Then(/^I click new tab$/) do
+  forum_page.touch_new_tab
+  wait_for_none_animating
+end
+
+Then(/^I check the group I created is there$/) do
+  wait_for_element_exists "* {text CONTAINS'#{$group_name}'}"
+end
+
+Then(/^I join the group$/) do
+  wait_touch "* marked:'#{$group_name}' sibling * marked:'Join'"
+end
+
+
+Then(/^I click see all button after "([^"]*)"$/) do |arg1|
+  wait_touch "* {text CONTAINS '#{arg1.upcase}'} sibling * marked:'See all'"
+end
+
+Then(/^I can see many groups$/) do
+  if query("* {text contains 'Creator'}").count < 5
+    raise "Cannot see more than 5 groups here"
+  else
+    puts "Can see >= 5 groups."
+  end
+end
 

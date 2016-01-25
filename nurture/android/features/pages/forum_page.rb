@@ -781,4 +781,20 @@ class ForumPage < Calabash::ABase
     wait_touch "* marked:'Discover'"
     sleep 0.2
   end
+
+    #community v1.1 logging
+  def click_search_under_explore
+    wait_touch "* marked:'Search'"
+  end
+
+  def search_groups(args)
+    wait_touch "* id:'tab_title' marked:'GROUPS'"
+    puts "Search for group: #{args}"
+    enter_text "* id:'menu_search'", args
+    tap_keyboard_search
+  end 
+
+  def touch_new_tab
+    wait_touch "* marked:'New' index:0"
+  end
 end

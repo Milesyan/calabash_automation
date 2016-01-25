@@ -13,6 +13,7 @@ module EveForumAndroid
   EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
   EVE_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
   IMAGE_ROOT = "../../images/"
+  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class EveUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id

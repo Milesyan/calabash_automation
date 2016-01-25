@@ -44,42 +44,6 @@ Given(/^I create a new "(.*?)" glow user$/) do |type|
   end
 end
 
-Given(/^I create a new "(.*?)" "(.*?)" glow partner user$/) do |type, gender|
-  case type.downcase
-  when "non-ttc"
-    u = new_non_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "ttc"
-    u = new_ttc_user.invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  when "prep", "med", "iui", "ivf"
-    u = new_ft_user(type: type.downcase).invite_partner
-    if gender.downcase == "male"
-      $user = GlowUser.new(gender: "male", email: u.partner_email, first_name: u.partner_first_name).male_signup.complete_tutorial
-    elsif gender.downcase == "female"
-      $user = GlowUser.new(gender: "female", type: "female-partner", email: u.partner_email, first_name: u.partner_first_name).non_ttc_signup.complete_tutorial
-      # secondary user should follow the primary user's status
-    end
-  end
-end
-
-Given(/^I complete my health profile via www$/) do
-  $user.add_health_profile
-end
-
-Given(/^I complete my fertility testing via www$/) do
-  $user.add_fertility_tests
-end
 
 
 
@@ -286,6 +250,13 @@ Given(/^"([^"]*)" create a group in category "([^"]*)" using www api$/) do |arg1
   group_category_id =  GROUP_CATEGORY[arg2]
   $user.create_group :group_category => group_category_id, :group_name => $group_name
   puts "Group >>#{$group_name}<< created in category #{arg2}, category id >>>#{group_category_id}"
+end
+
+
+Given(/^"([^"]*)" create a group in category "([^"]*)" with name "([^"]*)"$/) do |arg1, arg2,arg3|
+  group_category_id =  GROUP_CATEGORY[arg2]
+  $user.create_group :group_category => group_category_id, :group_name => arg3
+  puts "Group >>#{arg3}<< created in category #{arg2}, category id >>>#{group_category_id}"
 end
 
 

@@ -15,8 +15,8 @@ module NurtureForumIOS
   PASSWORD = 'Glow12345'
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-
   IMAGE_ROOT = "../../images/"
+  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   def due_date_in_weeks(n = 40)
     Time.now.to_i + n.to_i*7*24*3600

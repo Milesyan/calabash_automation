@@ -61,3 +61,15 @@ Feature: Add topics and comments and user search for it.
     Then I check the search result for deleted "reply"
     And I return to group page from search result after search deleted comment
     And I logout
+    
+  @search_groups
+  Scenario: User create a group and search it
+    Given I create a new glow forum user with name "Miles"
+    And "Miles" create a group in category "Baby" with name "SearchGroup"
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I go to search bar
+    Then I test search group function
+    And I click cancel button
+    And I go to previous page
+    And I logout

@@ -110,6 +110,11 @@ Then (/^I go back to previous page$/) do
   sleep 1
 end
 
+Then (/^I go to previous page$/) do
+  forum_page.click_back_button
+  sleep 1
+end
+
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
   forum_page.edit_topic topic_name
 end
@@ -253,9 +258,7 @@ Then(/^I create a group$/) do
   forum_page.create_a_group
 end
 
-Then(/^I click Explore button$/) do
-  forum_page.click_explore
-end
+
 
 Then(/^I join the group "([^"]*)"$/) do |arg1|
   forum_page.join_group arg1
@@ -463,4 +466,65 @@ Then(/^I dismiss the floating menu$/) do
   wait_touch "* id:'fab_expand_menu_button'"
 end
 
+#community v1.1 logging
+
+Then(/^I click Explore button$/) do
+  forum_page.click_explore
+end
+
+Then(/^I click the search icon in explore page$/) do
+  forum_page.click_search_under_explore
+end
+
+Then(/^I test search group function$/) do
+  forum_page.search_groups "test"
+  wait_for_element_exists "* {text CONTAINS 'Creator'}"  
+  if element_exists "* marked:'Join'"
+    wait_touch "* marked:'Join'"
+    wait_for_element_exists "* marked:'Joined'"
+  end
+end
+
+Then(/^I click cancel button$/) do
+  forum_page.click_back_button
+end
+
+Then(/^I go to "([^"]*)" category$/) do |arg1|
+  if GROUP_CATEGORY.keys.include? arg1
+    wait_touch "* marked:'#{arg1}'"
+    logger.add event_name: "page_impression_#{arg1}_category"
+  else 
+    puts "GROUP CATEGORY NAME IS WRONG."
+  end
+end
+
+Then(/^I click new tab$/) do
+  forum_page.touch_new_tab
+  sleep 1
+end
+
+Then(/^I check the group I created is there$/) do
+  wait_for_element_exists "* {text CONTAINS'#{$group_name}'}"
+end
+
+Then(/^I join the group$/) do
+  wait_touch "* marked:'#{$group_name}' sibling * marked:'Join'"
+end
+
+
+Then(/^I click see all button after "([^"]*)"$/) do |arg1|
+  forum_page.scroll_down_to_see arg1
+  wait_touch "* {text CONTAINS '#{arg1}'} sibling *"
+  logger.add event_name: "page_impression_#{arg1}", start_version: "community v1.1"
+end
+
+Then(/^I can see many groups$/) do
+  # if query("* {text contains 'Creator'}").count < 5
+  #   raise "Cannot see more than 5 groups here"
+  # else
+  #   puts "Can see >= 5 groups."
+  # end
+  sleep 3
+  puts "NO GROUPS in www1"
+end
 

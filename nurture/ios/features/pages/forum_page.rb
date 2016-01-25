@@ -685,7 +685,28 @@ class ForumPage < Calabash::IBase
 
 
 #enter_profile_page changed, Hide text changed.
-#has changed "* marked:'gl community topnav close' UINavigationButton sibling * index:2" to "UINavigationBar child UINavigationButton"
+#has changed "* marked:'gl community topnav close' UINavigationButton sibling * index:2" to "UINavigationBar child UINavigationButton"\
+  
+  def close_rules_page
+    wait_touch "UINavigationButton"
+  end
+
+
+#community v1.1 logging
+  def click_search_under_explore
+    wait_touch "* marked:'Search'"
+  end
+
+  def search_groups(args)
+    wait_touch "UISegment marked:'Groups'"
+    puts "Search for group: #{args}"
+    keyboard_enter_text args
+    tap_keyboard_action_key
+  end 
+
+  def touch_new_tab
+    wait_touch "* marked:'New' index:0"
+  end
 end
 
 

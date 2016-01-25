@@ -14,6 +14,10 @@ module Nurture
     "ni#{Time.now.to_i}@g.com"
   end
 
+  def random_group_name
+    "TestGroup" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-3..-1]
+  end
+  
   def logout_if_already_logged_in
     sleep 2
     if element_exists "UITabBarButton"

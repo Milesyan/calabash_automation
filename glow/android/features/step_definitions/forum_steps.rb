@@ -475,8 +475,10 @@ end
 Then(/^I test search group function$/) do
   forum_page.search_groups "test"
   wait_for_element_exists "* {text CONTAINS 'Creator'}"  
-  wait_touch "* marked:'Join'"
-  wait_for_element_exists "* marked:'Joined'"
+  if element_exists "* marked:'Join'"
+    wait_touch "* marked:'Join'"
+    wait_for_element_exists "* marked:'Joined'"
+  end
 end
 
 Then(/^I click cancel button$/) do
