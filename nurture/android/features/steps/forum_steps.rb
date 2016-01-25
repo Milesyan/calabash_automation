@@ -526,3 +526,12 @@ Then(/^I can see many groups$/) do
   puts "NO GROUPS in www1"
 end
 
+
+##android_bug
+Then(/^I check the fab menu under discover tab$/) do
+  forum_page.touch_floating_menu
+  sleep 1
+  check_element_exists "* marked:'Create a group'"
+end
+
+
