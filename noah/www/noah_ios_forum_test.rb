@@ -13,8 +13,10 @@ TARGET_GROUP_NAME = "1st Child"
 module NoahForumIOS
   extend BabyTestHelper 
   PASSWORD = 'Glow12345'
-  BASE_URL = load_config["base_urls"]["Sandbox"]
-  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
+  # BASE_URL = load_config["base_urls"]["Sandbox"]
+  # FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
+  BASE_URL = load_config["base_urls"]["Local"]
+  FORUM_BASE_URL = load_config["base_urls"]["LocalForum"]
   IMAGE_ROOT = "../../images/"
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 

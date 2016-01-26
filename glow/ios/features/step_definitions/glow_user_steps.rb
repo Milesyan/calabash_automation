@@ -10,6 +10,10 @@ def new_ft_user(args = {})
   GlowUser.new(type: args[:type]).ft_signup(args).login.complete_tutorial
 end
 
+def ntf_user(args = {})
+  GlowUser.new(args).ttc_signup.login.complete_tutorial
+end
+
 def forum_new_ttc_user(args = {})
   GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
@@ -235,6 +239,13 @@ Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
 end
 
 
+Given(/^I create a new glow forum user with name "([^"]*)"$/) do |name|
+  logout_if_already_logged_in
+  $user = forum_new_ttc_user(first_name: name).complete_tutorial
+  puts $user.email, $user.password
+  puts "Default group id is #{GROUP_ID}"
+end
+
 Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
   number.to_i.times do
     new_user = new_ttc_user.create_topic
@@ -261,6 +272,67 @@ end
 
 
 
+#community notification test
+Given(/^the notification test data for type (\d+) has been prepared through www$/) do |arg1|
+  $ntf_type = arg1.to_s
+  puts $ntf_type
+  case $ntf_type
+  when "1050","1085","1086","1087"
+    n = {"1050"=>1, "1085"=>6, "1086"=>16,"1087"=>50}
+    puts "The reply for a topic."
+    $user.create_topic :topic_title => "notification_#{$ntf_type}"
+    other_user = ntf_user
+    n[$ntf_type].times do
+      other_user.reply_to_topic $user.topic_id
+    end
+  when "1051"
+    puts "Participant commenter"
+    other_user = ntf_user
+    other_user.create_topic :topic_title => "notification_1051"
+    $user.reply_to_topic other_user.topic_id
+    new_ttc_user.reply_to_topic other_user.topic_id
+  when "1053"
+    puts "Subreply notification"
+    $user.create_topic :topic_title => "notification_1053"
+    $user.reply_to_topic $user.topic_id
+    other_user = ntf_user :first_name => "Replier"
+    other_user.reply_to_comment $user.topic_id, $user.reply_id, :reply_content => "Reply_1053"
+  when "1055"
+    puts "5+ like for topic"
+    $user.create_topic :topic_title => "notification_1055"
+    5.times do 
+      ntf_user.upvote_topic $user.topic_id
+    end
+  when "1059"
+    puts "3 like for comment"
+    $user.create_topic :topic_title => "notification_1059"
+    $user.reply_to_topic $user.topic_id, :reply_content => "Reply_1059"
+    4.times do
+      ntf_user.upvote_comment $user.topic_id,$user.reply_id
+    end
+  when "1060"
+    puts "3 more votes for a poll"
+    $user.create_poll :topic_title => "notification_1060"
+    3.times do
+      ntf_user.vote_poll :topic_id => $user.topic_id, :vote_index => [1,2,3].sample
+    end
+  when "1088", "1089"
+    n = {"1088"=>1, "1089"=>6}
+    puts "The reply for a photo."
+    $user.create_photo :topic_title => "notification_#{$ntf_type}"
+    other_user = ntf_user
+    n[$ntf_type].times do
+      other_user.reply_to_topic $user.topic_id
+    end
+  when "1091","1092"
+    n = {"1091"=>1, "1092"=>6}
+    puts "Test follower"
+    n[$ntf_type].times do
+      ntf_user.follow_user $user.user_id
+    end
+  end
+
+end
 
 
 

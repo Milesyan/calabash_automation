@@ -257,6 +257,7 @@ module GlowForumAndroid
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
+      @topic_id = @res["result"]["id"]
       @topic_title = @res["result"]["title"] 
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self

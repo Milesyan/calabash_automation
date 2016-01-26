@@ -1,4 +1,4 @@
-@forum @discover @wip
+@forum @discover
 Feature: User enter discover tab and check elements
   @explore
   Scenario: User enter explore tab and check elements

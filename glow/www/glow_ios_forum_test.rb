@@ -15,13 +15,13 @@ module GlowForumIOS
 
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  IMAGE_ROOT = "../../images/"
+  IMAGE_ROOT = "/Users/Miles/automation/AutomationTests/images/"
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class GlowUser
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
-    attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category 
+    attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category, :vote_index
 
 
     def initialize(args = {})  
@@ -229,6 +229,7 @@ module GlowForumIOS
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
+      @topic_id = @res["result"]["id"]
       @topic_title = @res["result"]["title"] 
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
@@ -294,7 +295,7 @@ module GlowForumIOS
     def vote_poll(args = {})
       vote_data = {
         "code_name": "emma",
-        "vote_index": 2,
+        "vote_index": args[:vote_index],
         "ut": @ut
       }.merge(common_data)
       topic_id = args[:topic_id]
