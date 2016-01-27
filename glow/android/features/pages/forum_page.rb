@@ -201,7 +201,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_comment
-    sleep 1
+    sleep 2
     if element_exists "* id:'add_reply_btn'"
       touch "* id:'add_reply_btn'"
     else
@@ -479,7 +479,12 @@ class ForumPage < Calabash::ABase
 
   def go_to_group_page_under_settings
     enter_community_settings
-    wait_touch "* marked:'My Groups'"
+    sleep 1
+    if element_exists "* marked:'Subscribed Groups'"
+      touch "* marked:'Subscribed Groups'"
+    else 
+      touch "* marked:'My Groups'"
+    end
   end
 
   def check_groups

@@ -475,7 +475,11 @@ class ForumPage < Calabash::ABase
 
   def go_to_group_page_under_settings
     enter_community_settings
-    wait_touch "* marked:'My Groups'"
+    if element_exists "* marked:'Subscribed Groups'"
+      touch "* marked:'Subscribed Groups'"
+    else 
+      touch "* marked:'My Groups'"
+    end
   end
 
   def check_groups
