@@ -282,7 +282,7 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
     other_user = ntf_user
     other_user.create_topic :topic_title => "notification_1051"
     $user.reply_to_topic other_user.topic_id
-    new_ttc_user.reply_to_topic other_user.topic_id
+    ntf_user.reply_to_topic other_user.topic_id
   when "1053"
     puts "Subreply notification"
     $user.create_topic :topic_title => "notification_1053"

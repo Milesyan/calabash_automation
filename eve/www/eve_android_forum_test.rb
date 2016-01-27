@@ -12,7 +12,7 @@ module EveForumAndroid
   GROUP_ID = 5
   EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
   EVE_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
-  IMAGE_ROOT = "../../images/"
+  IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class EveUser
@@ -279,6 +279,7 @@ module EveForumAndroid
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
       @topic_title = @res["result"]["title"] 
+      @topic_id = @res["result"]["id"]
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end
