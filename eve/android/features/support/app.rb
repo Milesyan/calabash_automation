@@ -1,11 +1,6 @@
 require 'yaml'
 
 module Glow
-  def load_yamls
-    fixtures_folder = File.expand_path("../fixtures", File.dirname(__FILE__))
-    Dir[File.join(fixtures_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}
-  end
-
 
   def already_logged_in?
     element_exists "android.support.design.widget.by"

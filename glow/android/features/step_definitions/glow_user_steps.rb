@@ -6,25 +6,9 @@ def new_non_ttc_user
   GlowUser.new(type: "non-ttc").non_ttc_signup.login.complete_tutorial
 end
 
-def new_ft_user(args = {})
-  GlowUser.new(type: args[:type]).ft_signup(args).login.complete_tutorial
-end
-
 def ntf_user(args = {})
   GlowUser.new(type: "ttc").ttc_signup.login.complete_tutorial
   end
-
-def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
-end
-  
-def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
-end
-
-def forum_new_ft_user(args = {})
-  GlowUser.new(args).ft_signup(args).login.complete_tutorial.leave_all_groups.join_group
-end
 
 def forum_new_user(args = {})
   GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
@@ -33,22 +17,6 @@ end
 def forum_new_other_user(args = {})
   GlowUser.new(args).ttc_signup.login
 end
-
-Given(/^I create a new "(.*?)" glow user$/) do |type|
-  case type.downcase
-  when "non-ttc"
-    $user = new_non_ttc_user.complete_tutorial
-  when "ttc"
-    $user = new_ttc_user.complete_tutorial
-  when "prep", "med", "iui", "ivf"
-    $user = new_ft_user(type: type).complete_tutorial
-  when "single male"
-    $user = GlowUser.new(gender: "male").male_signup.complete_tutorial
-  end
-end
-
-
-
 
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
