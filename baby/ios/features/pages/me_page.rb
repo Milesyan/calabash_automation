@@ -14,7 +14,11 @@ class MePage < Calabash::IBase
 
   def logout
     until_element_exists "* marked:'Account settings'", action: lambda { scroll "scrollView", :down }
+    logger.add event_name: "button_click_me_cell_settings"
     wait_touch "* marked:'Account settings'"
+    logger.add event_name: "page_impression_settings"
+    logger.add event_name: "button_click_settings_logout"
+    sleep 15
     wait_touch "* marked:'Logout'"
   end
 end

@@ -14,3 +14,5 @@ baby/ios/features/support/env.rb
 baby/www/config
 baby/www/data
 baby/www/temp
+baby/test_servers/
+baby/www/test.rb

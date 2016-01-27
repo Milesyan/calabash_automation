@@ -95,66 +95,85 @@ class HomePage < Calabash::IBase
   end
 
   def add_feed(args = {})
+    logger.add event_name: "button_click_home_log_card_feed"
     wait_touch "* marked:'FEED' sibling UIImageView index:1"
     feed_type = args[:feed_type].downcase
     milk_type = args[:milk_type].downcase
     start_time = args[:start_time].to_datetime
 
     if feed_type == "breastfeeding"
+      logger.add event_name: "button_click_feed_tab_breast"
       wait_touch "UISegmentLabel marked:'Breastfeeding'"
+      logger.add event_name: "page_impression_feed_breast"
 
     elsif feed_type == "bottle"
+      logger.add event_name: "button_click_feed_tab_bottle"
       wait_touch "UISegmentLabel marked:'Bottle'"
+      logger.add event_name: "page_impression_feed_bottle"
 
       if milk_type == "breast"
+        logger.add event_name: "button_click_feed_bottle_tab_breast_milk"
         wait_touch "UISegmentLabel marked:'Breast milk'"
       elsif milk_type == "formula"
+        logger.add event_name: "button_click_feed_bottle_tab_formla"
         wait_touch "UISegmentLabel marked:'Formula'"
       end
     end
-
     wait_touch "UIButtonLabel marked:'Save'"
     picker_set_date_time start_time
     wait_touch "* marked:'Done'"
   end
 
   def add_sleep(args = {})
+    logger.add event_name: "button_click_home_log_card_sleep"
     wait_touch "* marked:'SLEEP' sibling UIImageView index:1"
+    logger.add event_name: "page_impression_sleep_log"
     log_type = args[:log_type] || "manual"
     start_time = args[:start_time].to_datetime
     end_time = args[:end_time].to_datetime
     if log_type.downcase == "manual"
-      wait_touch "* marked:'Or enter manually'" if view_with_mark_exists "Or enter manually"
+       if view_with_mark_exists "Or enter manually"
+          logger.add event_name: "button_click_sleep_mannual_to_sleep"
+          wait_touch "* marked:'Or enter manually'"
+        end
+      logger.add event_name: "button_click_sleep_manual_begin"
       wait_touch "* marked:'Begin Time' sibling UIButton marked:'Enter'"
       picker_set_date_time start_time
       wait_touch "* marked:'Done'"
+      logger.add event_name: "button_click_sleep_manual_end"
       wait_touch "* marked:'End Time' sibling UIButton marked:'Enter'"
       picker_set_date_time end_time
       wait_touch "* marked:'Done'"
     end
-
+    logger.add event_name: "button_click_sleep_save"
     wait_touch "* marked:'Save'"
   end
 
   def add_diaper(args = {})
     until_element_exists "* marked: 'MORE'", action: lambda { scroll "scrollView index:0", :down }
+    logger.add event_name: "button_click_home_log_card_diaper"
     touch "* marked:'DIAPER' sibling UIImageView index:1"
+    logger.add event_name: "page_impression_diaper"
     type = args[:type]
     start_time = args[:start_time].to_datetime
     case type.downcase
     when "poo"
+      logger.add event_name: "button_click_diaper_poo"
       wait_touch "Noah.Checkbox index:0"
       wait_for_none_animating
       colors = query "Noah.ScrollSelectionView index:0 Noah.ShapeView"
       textures = query "Noah.ScrollSelectionView index:1 Noah.ShapeView"
+      logger.add event_name: "button_click_diaper_poo_color"
       touch colors.sample
       wait_for_none_animating
+      logger.add event_name: "button_click_diaper_poo_texture"
       touch textures.sample
       wait_for_none_animating
     when "pee"
+      logger.add event_name: "button_click_diaper_pee"
       wait_touch "Noah.Checkbox index:1"
     end
-
+    logger.add event_name: "button_click_diaper_save"
     wait_touch "* marked:'Save'"
     picker_set_date_time start_time
     wait_touch "* marked:'Done'"
@@ -170,12 +189,15 @@ class HomePage < Calabash::IBase
     sleep 1  # the first time when opening the growth chart
     unless $user.birth_data_added
       touch "* id:'gl-foundation-popup-close'"
+      logger.add event_name: "page_impression_dialog_growth_birth_data"
       $user.birth_data_added = true
     end
   end
 
   def open_growth_chart
+    logger.add event_name: "button_ckick_home_growth_chart_weight"
     wait_touch "* marked:'WEIGHT'"
+    logger.add event_name: "page_impression_growth_chart"
     wait_for_none_animating
     add_baby_birth_data
   end
@@ -192,6 +214,7 @@ class HomePage < Calabash::IBase
     picker_set_date_time date
     wait_touch "* marked:'Done'"
 
+    logger.add event_name: "button_click_growth_data_add"
     touch "* marked:'Weight' sibling UITableViewLabel"
     wait_for_none_animating
     touch "* marked:'#{unit.upcase}'"
@@ -199,7 +222,9 @@ class HomePage < Calabash::IBase
     uia str
     wait_for_none_animating
     wait_touch "* marked:'Done'"
+    logger.add event_name: "button_click_growth_data_save"
     wait_touch "* marked:'Save'"
+    logger.add event_name: "page_impression_dialog_growth_data"
     touch "* id:'icon-close'"
     sleep 1
   end
@@ -216,6 +241,7 @@ class HomePage < Calabash::IBase
     picker_set_date_time date
     wait_touch "* marked:'Done'"
 
+    logger.add event_name: "button_click_growth_data_add"
     touch "* marked:'Height' sibling UITableViewLabel"
     sleep 1
     touch "* marked:'#{unit.upcase}'"
@@ -224,7 +250,9 @@ class HomePage < Calabash::IBase
     uia str
     wait_for_none_animating
     wait_touch "* marked:'Done'"
+    logger.add event_name: "button_click_growth_data_save"
     wait_touch "* marked:'Save'"
+    logger.add event_name: "page_impression_dialog_growth_data"
     touch "* id:'icon-close'"
     sleep 1
   end

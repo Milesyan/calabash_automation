@@ -61,6 +61,12 @@ Given(/^I log height "([^"]*)" on "([^"]*)"$/) do |height, date_str|
   #close_popup_if_needed
 end
 
+# Given(/^I log head circ "([^"]*)" on "([^"]*)"$/) do |head_circ, date_str|
+#   date = eval(date_str)
+#   home_page.add_head_circ(date: date, head_circ: head_circ)
+#   #close_popup_if_needed
+# end
+
 Given(/^I close the insight popup$/) do
   close_popup_if_needed
 end

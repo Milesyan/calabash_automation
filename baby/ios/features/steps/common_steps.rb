@@ -13,6 +13,5 @@ end
 
 And(/^I logout$/) do
   nav_page.open("more")
-  #sleep 10
   me_page.logout
 end

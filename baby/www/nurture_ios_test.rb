@@ -28,6 +28,7 @@ module NurtureIOS
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || NURTURE_PASSWORD
       @due_in_weeks = args[:due_in_weeks]
+      @due_date = args[:due_date]
       @pregnancy_week = args[:pregnancy_week]
     end
 
@@ -65,7 +66,7 @@ module NurtureIOS
           },
           "weight": 67.08639,
           "how": 0,
-          "due_date": args[:due_date] || due_date_by_pregnancy_week(@pregnancy_week) || Time.now.to_i + 265*24*3600
+          "due_date": @due_date || due_date_by_pregnancy_week(@pregnancy_week) || Time.now.to_i + 265*24*3600
         },
         "userinfo": {
           "height": 170,

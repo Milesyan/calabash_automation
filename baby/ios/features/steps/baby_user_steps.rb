@@ -44,10 +44,18 @@ end
 Given(/^I create a Nurture user with due date "([^"]*)"$/) do |due_date_str|
   due_date = eval(due_date_str).to_i
   #$user = NurtureUser.new(due_date: due_date).signup
-  nu = NurtureUser.new(due_date: due_date).signup
+  $nu = NurtureUser.new(due_date: due_date).signup
   name = Faker::Name.name
   log_msg "Baby name: #{name}"
-  nu.name_baby name
-  $user = BabyUser.new email: nu.email, first_name: nu.first_name, last_name: nu.last_name
+  $nu.name_baby name
+  $user = BabyUser.new email: $nu.email, first_name: $nu.first_name, last_name: $nu.last_name
+  $user.signup
+end
+
+Given(/^I invite my partner$/) do
+  partner = NurtureUser.new
+  $nu.invite_partner email: partner.email, first_name: partner.first_name
+  partner.signup
+  $user = BabyUser.new email: partner.email, first_name: partner.first_name
   $user.signup
 end
