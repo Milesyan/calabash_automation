@@ -13,10 +13,10 @@ TARGET_GROUP_NAME = "1st Child"
 module NoahForumIOS
   extend BabyTestHelper 
   PASSWORD = 'Glow12345'
-  # BASE_URL = load_config["base_urls"]["Sandbox"]
-  # FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  BASE_URL = load_config["base_urls"]["Local"]
-  FORUM_BASE_URL = load_config["base_urls"]["LocalForum"]
+  BASE_URL = load_config["base_urls"]["Sandbox"]
+  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
+  # BASE_URL = load_config["base_urls"]["Local"]
+  # FORUM_BASE_URL = load_config["base_urls"]["LocalForum"]
   IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
@@ -93,7 +93,7 @@ module NoahForumIOS
         "locale" => "en_US",
         "time_zone"=> "Asia\/Shanghai",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
-        "model" => "iPhone7,1",
+        "model" => "iPhone7,1"
       }
     end
 
@@ -103,7 +103,10 @@ module NoahForumIOS
         "onboarding_info": {
         "birthday": user.birthday,
         "first_name": user.first_name,
-        "last_name": user.last_name,
+        "appsflyer_install_data":{
+            "af_message": "organic install",
+            "af_status": "Organic"
+        },
         "email": args[:email] || user.email,
         "password": args[:password] || user.password
         },
@@ -262,7 +265,7 @@ module NoahForumIOS
         "title": args[:topic_title] || "#{@email} #{Time.now}",
         "anonymous": 0,
         "ut": @ut
-      }.merge(common_data)  # random_str isn't needed
+      }  # random_str isn't needed
       @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{@group_id}/create_topic", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
@@ -640,7 +643,7 @@ module NoahForumIOS
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
-      @topic_id = @res["result"]["id"]
+      @topic_id = @res["data"]["result"]["id"]
       @topic_title = @res["data"]["result"]["title"] 
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self

@@ -9,7 +9,8 @@ require_relative "MultipartImage_Android.rb"
 module EveForumAndroid
 
   PASSWORD = 'Glow12345'
-  GROUP_ID = 5
+  GROUP_ID = 3
+  TARGET_GROUP_NAME = "1st Child"
   EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
   EVE_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"  
   IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
@@ -201,7 +202,7 @@ module EveForumAndroid
         "onboarding_info":{}
       }
       puts "Signup with email:\n Email >>>#{@email}"
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
       self
     end
 

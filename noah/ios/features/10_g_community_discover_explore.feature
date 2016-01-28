@@ -1,4 +1,4 @@
-@forum @discover @wip
+@forum @discover
 Feature: User enter discover tab and check elements
   @explore
   Scenario: User enter explore tab and check elements
@@ -28,6 +28,7 @@ Feature: User enter discover tab and check elements
     Then I click see all button after "Popular Groups"
     # And I can see many groups
     And I go to previous page
+    Then I scroll down
     Then I click see all button after "Super Active Groups"
     # And I can see many groups
     And I go to previous page

@@ -16,7 +16,7 @@ class NoahTest < Minitest::Test
 
   def test_new_noah_user
     u = new_noah_user
-    puts u.first_name
+    puts u.res
   end
 
   def test_user_becomes_mother
@@ -271,8 +271,16 @@ class NoahTest < Minitest::Test
     u3.reply_to_comment u2.topic_id, u.reply_id
   end
 
-  
-end
+  def test_prepare_10_votes
+
+    15.times do
+      u = new_noah_user
+      u.vote_poll :topic_id =>2908
+      # u.upvote_comment 72057594037930895,72057594037941406
+    end
+  end
+
+end    
 
 
 

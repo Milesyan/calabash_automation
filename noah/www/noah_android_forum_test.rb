@@ -309,9 +309,6 @@ module NoahForumAndroid
       self
     end
 
-
-
-
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       topic_data = {
@@ -632,4 +629,3 @@ module NoahForumAndroid
     end  
   end
 end
-
