@@ -275,7 +275,7 @@ class NoahTest < Minitest::Test
 
     15.times do
       u = new_noah_user
-      u.follow_user 4779
+      u.vote_poll :topic_id => 72057594037930908
       # u.upvote_comment 72057594037930895,72057594037941406
     end
   end

@@ -518,9 +518,12 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     puts "Touch Checkout out the results"
     wait_touch "* {text CONTAINS'Check out the results'}"
   when "1091"
-    wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
+    wait_touch "UIButtonLabel {text CONTAINS 'Follow back'}"
   when "1092"
-    sleep 10
+    sleep 3
+    puts "1092"
+  else 
+    puts "WRONG NTF TYPE"
   end
 end
 
@@ -548,7 +551,9 @@ Then(/^I go back to community page$/) do
 end
 
 
-
+Then(/^I touch button containing text "Check it out!"$/) do
+  wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
+end 
 
 
 

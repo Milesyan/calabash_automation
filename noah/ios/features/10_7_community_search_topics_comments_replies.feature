@@ -71,5 +71,4 @@ Feature: Add topics and comments and user search for it.
     And I go to search bar
     Then I test search group function
     And I click cancel button
-    And I go to previous page
     And I logout

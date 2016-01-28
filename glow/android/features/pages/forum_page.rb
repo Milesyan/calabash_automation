@@ -122,8 +122,9 @@ class ForumPage < Calabash::ABase
     link = "www.baidu.com "
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", link
-    sleep 1
+    sleep 2
     wait_for_elements_do_not_exist "* id:'progress_bar'"
+    sleep 1
     touch "* id:'create_yes'" # done button
   end
 

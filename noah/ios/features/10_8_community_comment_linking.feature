@@ -34,7 +34,7 @@ Feature: Comment linking function
     And "Miles" add 4 comments and "Charlotte" added 2 subreplies to each comment.
     And I login as the new user "Miles" created through www
     And I open "alert" page
-    And I touch "Check it out" 
+    And I touch button containing text "Check it out!" 
     Then I should see "Show entire discussion"
     And I expand all the comments
     Then I click the bookmark icon
