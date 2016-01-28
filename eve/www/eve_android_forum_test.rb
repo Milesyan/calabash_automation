@@ -400,7 +400,6 @@ module EveForumAndroid
         "empty_stub": ""
       }
       url = "#{EVE_ANDROID_BASE_FORUM_URL}/user/#{user_id}/follow?#{@additional_post_data_follow}"
-      puts url
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       puts "User #{user_id} is followed by current user #{self.user_id}"  
       self
