@@ -45,6 +45,7 @@ Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
 end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
+  sleep 2
   wait_touch "* {text CONTAINS '#{arg1}'} index:0"
 end
 

@@ -41,6 +41,7 @@ Given(/^I scroll down and wait for a while$/) do
 end
 
 Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
+  sleep 2
   wait_touch "* marked:'#{$user_a.topic_title}'"
 end
 
