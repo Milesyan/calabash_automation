@@ -300,9 +300,10 @@ class EveTest < Minitest::Test
     end
   end
 
-  def test_debug
-    u = EveUser.new.signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
-    puts u.res
-    # .sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email.login
+  def test_prepare
+    15.times do
+      u = forum_new_user
+      u.reply_to_topic 3240
+    end
   end
 end

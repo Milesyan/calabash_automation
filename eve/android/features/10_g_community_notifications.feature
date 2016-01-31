@@ -1,4 +1,4 @@
-
+@forum
 Feature: Test all community notifications
 ''' TYPE_FORUM_REPLY_CREATOR = 1050
     TYPE_FORUM_REPLY_CREATOR_2 = 1085  # 6 comments
@@ -17,7 +17,7 @@ Feature: Test all community notifications
 
     TYPE_FORUM_NEW_FOLLOWER = 1091
     TYPE_FORUM_FOLLOWERS_SUMMARY = 1092'''
-  @wip
+  @notif
   Scenario Outline: Test different notification types
     Given I create a new glow forum user with name "Miles"
     Given the notification test data for type <ntf_type> has been prepared through www 
@@ -30,15 +30,15 @@ Feature: Test all community notifications
 
     Examples: 
         |ntf_type|
-        |1050   |
-        |1085   |
-        |1086   |
-        |1087   |
-        |1051   |
-        |1053   |
-        |1055   |
-        |1059   |
-        |1060   |
-        |1088   |
+        # |1050   |
+        # |1085   |
+        # |1086   |
+        # |1087   |
+        # |1051   |
+        # |1053   |
+        # |1055   |
+        # |1059   |
+        # |1060   |
+        # |1088   |
         |1089   |
         |1091   |  

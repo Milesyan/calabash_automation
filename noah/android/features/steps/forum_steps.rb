@@ -535,6 +535,8 @@ Then(/^I check the fab menu under discover tab$/) do
   forum_page.touch_floating_menu
   sleep 1
   check_element_exists "* marked:'Create a group'"
+  sleep 1
+  forum_page.touch_floating_menu
 end
 
 
@@ -552,7 +554,7 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"
   when "1091"
-    wait_touch "* marked:'You have a new follower!'"
+    wait_touch "* marked:'Follow back'"
   when "1092"
     sleep 10
   end
