@@ -79,7 +79,7 @@ module NurtureForumIOS
           "height": 170,
           "password": "Glow12345",
           "tz": "Asia\/Shanghai",
-          "last_name": "G",
+          "last_name": "Kaylee",
           "birthday": 566452800,
           "email": @email,
           "as_partner": false,

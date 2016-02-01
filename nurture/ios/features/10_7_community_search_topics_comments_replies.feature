@@ -62,7 +62,7 @@ Feature: Add topics and comments and user search for it.
     And I return to group page from search result
     And I logout
 
-  @search_groups
+  @search_groups 
   Scenario: User create a group and search it
     Given I create a new nurture user with name "Devil"
     And "Miles" create a group in category "Baby" with name "SearchGroup"
@@ -71,5 +71,4 @@ Feature: Add topics and comments and user search for it.
     And I go to search bar
     Then I test search group function
     And I click cancel button
-    And I go to previous page
     And I logout

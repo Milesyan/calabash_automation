@@ -17,7 +17,7 @@ Feature: Test all community notifications
 
     TYPE_FORUM_NEW_FOLLOWER = 1091
     TYPE_FORUM_FOLLOWERS_SUMMARY = 1092'''
-  @wip
+  @notif @wip
   Scenario Outline: Test different notification types
     Given I create a new nurture user with name "Miles"
     Given the notification test data for type <ntf_type> has been prepared through www 

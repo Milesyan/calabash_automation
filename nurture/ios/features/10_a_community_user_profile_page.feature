@@ -1,6 +1,6 @@
 @forum @profile
 Feature: check user profile (4m8.459s 3 scenarios 30 steps)
-	@edit_profile
+	@edit_profile 
 	Scenario: User edit profile info.
 		Given I create a new nurture user with name "Miles"
 		And I login as the new user "Miles" created through www

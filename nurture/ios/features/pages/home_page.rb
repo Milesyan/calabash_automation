@@ -11,6 +11,7 @@ class HomePage < Calabash::IBase
     #until_element_does_not_exist("all * marked:'Swipe left or right to navigate through days'", action: lambda {flick "UIScrollView", {x:50, y:0}; sleep 1})
     flick "UIScrollView", {x:50, y:0}
     sleep 1
+    until_element_does_not_exist("* {text CONTAINS 'Pull down to see the'}", action: lambda {swipe :down}, :timeout => 10)
     swipe :down
     wait_for_elements_exist "* marked:'TODAY'", :timeout => 10
     touch "* marked:'TODAY'"

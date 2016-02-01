@@ -1,6 +1,6 @@
 @forum @hide_topic/comment_by_downvote
 Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 60 steps)
-	@hidden_by_downvote_topic
+	@hidden_by_downvote_topic 
 	Scenario: User create a topic and other users downvote it to make it hidden.
 		Given I create a new nurture user with name "Miles"
 		And "Miles" create 1 topic and 10 comments and 3 subreplies for each comment
@@ -11,6 +11,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Content hidden due to low rating."
 		And I touch "View Rules"
 		Then I should see "Community rules"
+    And I close the rules page
 		And I go to the first group
 		And I touch "Show Content"
 		And I enter topic created in previous step
@@ -18,7 +19,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		And I go back to group
     And I logout
 
-	@hidden_by_report_topic
+	@hidden_by_report_topic 
 	Scenario: User create a topic and other users report it to make it hidden.
 		Given I create a new nurture user with name "Miles"
 		And "Miles" create 1 topic and 10 comments and 3 subreplies for each comment
@@ -29,6 +30,7 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
 		Then I should see "Content hidden due to low rating."
 		And I touch "View Rules"
 		Then I should see "Community rules"
+    And I close the rules page
 		And I go to the first group
 		And I touch "Show Content"
 		And I enter topic created in previous step

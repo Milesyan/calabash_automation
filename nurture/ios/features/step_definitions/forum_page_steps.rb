@@ -506,18 +506,18 @@ end
 
 Then(/^I check the text and click the buttons for this type of notification$/) do
   case $ntf_type
-  when "1050","1085","1086","1087","1051","1053", "1059", "1060", "1088", "1089"
+  when "1050","1085","1086","1087","1051","1053", "1059", "1088", "1089", "1055"
     puts "Touch Check it out"
     sleep 1
-    wait_touch "* marked:'Check it out'"
-  when "1055"
-    puts "Touch Take a look"
-    wait_touch "* marked:'Take a look'"
+    wait_touch "* {text CONTAINS 'Check it out'}"
   when ""
+    puts "Touch Take a look"
+    wait_touch "* {text CONTAINS 'Take a look'}"
+  when "1060"
     puts "Touch Checkout out the results"
-    wait_touch "* marked:'Check out the results'"
+    wait_touch "* {text CONTAINS 'Check out the results'}"
   when "1091"
-    wait_touch "* marked:'Follow back'"
+    wait_touch "* {text CONTAINS 'Follow back'}"
   when "1092"
     sleep 10
   end
@@ -545,4 +545,9 @@ Then(/^I go back to community page$/) do
     forum_page.exit_profile_page forum_page.get_UIButton_number-1
   end
 end
+
+
+Then(/^I touch button containing text "Check it out!"$/) do
+  wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
+end 
 
