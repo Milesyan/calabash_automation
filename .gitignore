@@ -38,7 +38,10 @@ noah/android/*.html
 noah/ios/*.html
 noah/ios/rerun*.txt
 noah/ios/features/screenshots/
+nurture/ios/features/screenshots/
 noah/www/images/
+nurture/ios/*.png
+nurture/ios/*.html
 nurture/android/features/screenshots/
 nurture/android/*.apk
 nurture/android/test_servers/
