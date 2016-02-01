@@ -405,7 +405,7 @@ end
 
 Then(/^I type in report reason and click flag$/) do
   wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
-  keyboard_enter_text "Test Flag reason by Miles"
+  keyboard_enter_text "TestFlagreasonbyMiles"
   wait_touch "* marked:'Flag'"
 end
 
@@ -530,7 +530,7 @@ Then(/^I should see the page is navigating to the right page$/) do
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
   when "1053","1059"
     wait_for_element_exists "* marked:'Posted by'"
-    wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
     wait_for_element_exists "* marked:'Follow'"
