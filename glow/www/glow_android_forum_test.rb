@@ -34,7 +34,7 @@ module GlowForumAndroid
       @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
       @forum_android_version = "3.8.0-play-beta"
       @forum_vc = 376
-      @forum_time_zone = "America%2FNew_York"
+      @forum_time_zone = "Asia\/Shanghai"
       @forum_code_name = "emma"
     end
 
@@ -53,7 +53,7 @@ module GlowForumAndroid
     def additional_post_data
       {
         "code_name": "emma",
-        "time_zone": "Asia Shanghai",
+        "time_zone": "Asia\/Shanghai",
         "vc": 380,
         "android_version": "3.8.0-play-beta",
         "device_id": "be3ca737160d9da3",

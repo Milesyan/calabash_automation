@@ -30,7 +30,7 @@ module NurtureForumIOS
 
 
     def initialize(args = {})
-      @first_name = args[:first_name] || create_first_name
+      @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || PASSWORD
       @due_in_weeks = args[:due_in_weeks]
@@ -528,7 +528,7 @@ module NurtureForumIOS
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
       @topic_title = @res["data"]["result"]["title"] 
-      @topic_id = @res["result"]["id"]
+      @topic_id = @res["data"]["result"]["id"]
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end

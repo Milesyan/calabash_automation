@@ -11,13 +11,15 @@ end
 Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
 	logout_if_already_logged_in
 	puts "Log in using #{user1_name}'s email and password: #{$user.email}, #{$user.password}" 
-	onboard_page.login($user.email,$user.password)	
+	onboard_page.login($user.email,$user.password)
+  home_page.finish_tutorial	
 end
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
 	logout_if_already_logged_in
 	puts "Log in as #{arg1}" + $user2.email, $user2.password 
 	onboard_page.login($user2.email,$user2.password)	
+  home_page.finish_tutorial
 end
 
 
@@ -31,17 +33,6 @@ Then(/^I touch "(.*?)" link$/) do |text|
   wait_touch "* marked:'#{text}'"
 end
 
-Given(/^I login$/) do
-  sleep 2
-  if element_exists "all * marked:'Swipe left or right to navigate through days'"
-    home_page.finish_tutorial
-  end
-  logout_if_already_logged_in
-  onboard_page.tap_login_link
-  onboard_page.login $user.email, $user.password
-  #home_page.close_insights_popup
-  home_page.finish_tutorial
-end
 
 Given(/^I get started$/) do
   onboard_page.get_started

@@ -11,7 +11,7 @@ class NurtureTest < Minitest::Test
   end
 
   def new_nurture_user
-    NurtureUser.new.signup.login.pull
+    NurtureUser.new.signup.login
   end
 
   def test_new_nurture_user

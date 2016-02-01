@@ -64,7 +64,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_groups
   Scenario: User create a group and search it
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new nurture user with name "Devil"
     And "Miles" create a group in category "Baby" with name "SearchGroup"
     And I login as the new user "Miles" created through www
     And I open "community" page

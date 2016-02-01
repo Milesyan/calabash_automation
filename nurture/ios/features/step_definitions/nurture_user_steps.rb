@@ -226,6 +226,12 @@ Given(/^"([^"]*)" create a group in category "([^"]*)" using www api$/) do |arg1
   puts "Group >>#{$group_name}<< created in category #{arg2}, category id >>>#{group_category_id}"
 end
 
+Given(/^"([^"]*)" create a group in category "([^"]*)" with name "([^"]*)"$/) do |arg1, arg2,arg3|
+  group_category_id =  GROUP_CATEGORY[arg2]
+  $user.create_group :group_category => group_category_id, :group_name => arg3
+  puts "Group >>#{arg3}<< created in category #{arg2}, category id >>>#{group_category_id}"
+end
+
 #community notification test
 Given(/^the notification test data for type (\d+) has been prepared through www$/) do |arg1|
   $ntf_type = arg1.to_s

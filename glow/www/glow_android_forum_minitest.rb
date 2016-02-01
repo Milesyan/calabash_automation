@@ -11,7 +11,7 @@ class GlowTest < Minitest::Test
   end
 
   def new_ttc_user(args = {})
-    GlowUser.new(args).ttc_signup.login.complete_tutorial.join_group
+    GlowUser.new(args).ttc_signup
   end
     
   def new_non_ttc_user(args = {})
@@ -45,7 +45,8 @@ class GlowTest < Minitest::Test
   end
   
   def test_community_create_topic
-    u = new_ttc_user.complete_tutorial
+    u = new_ttc_user
+    puts u.res
     u.create_topic
     assert_rc u.res
   end

@@ -16,7 +16,7 @@ require_relative 'event_logger.rb'
 
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/nurture/iOS/Nurture_sandbox.app"
+ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/kaylee/ios/kayleedev.app"
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
 
 class MinitestWorld
@@ -34,6 +34,7 @@ end
 
 include NurtureForumIOS
 include GlowLogger
+include Nurture
 include Minitest::Assertions
 
 

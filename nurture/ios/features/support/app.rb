@@ -18,7 +18,12 @@ module Nurture
     "TestGroup" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-3..-1]
   end
   
+
   def logout_if_already_logged_in
+    if element_exists "all * marked:'Swipe left or right to navigate through days'"
+      puts "TUTORIAL IN LOGOUT PROCESS"
+      home_page.finish_tutorial
+    end
     sleep 2
     if element_exists "UITabBarButton"
       nav_page.open("Me")

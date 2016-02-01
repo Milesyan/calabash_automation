@@ -303,7 +303,15 @@ class EveTest < Minitest::Test
   def test_prepare
     15.times do
       u = forum_new_user
-      u.reply_to_topic 3240
+      u.reply_to_topic 3297
     end
   end
+
+
+  def test_follow_user_2
+    u = forum_new_user
+    u.follow_user 6866
+    assert_rc u.res
+  end
+
 end

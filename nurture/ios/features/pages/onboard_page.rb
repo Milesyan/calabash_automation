@@ -17,6 +17,7 @@ class OnboardPage < Calabash::IBase
   end
 
   def login(email, password)
+    tap_login_link
     wait_for_none_animating
     wait_touch "* marked:'Email'"
     keyboard_enter_text email
