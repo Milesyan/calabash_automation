@@ -1,0 +1,41 @@
+@forum @load_more
+Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
+  @load_topics  
+  Scenario: User create 20+ topics.
+    Given I create a new eve user with name "Miles"
+    And "Miles" create 30 topics
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I go to the first group
+    Then I scroll "down" to see "Test load more topic 10"
+    And I logout
+
+
+  @load_comments  
+  Scenario: User create a topic and 30+ comments.
+    Given I create a new eve user with name "Miles"
+    And "Miles" create 1 topics
+    And "Miles" add 50 comments and "Charlotte" added 2 subreplies to each comment.
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I go to the first group
+    And I open the topic "Test load more topic 1"
+    And I expand all the comments
+    Then I scroll "down" to see "content number 30"
+    And I go back to group
+    And I logout
+
+  @load_subreplies  
+  Scenario: User create a topic and 30+ comments.
+    Given I create a new eve user with name "Miles"
+    And "Miles" create 1 topics
+    And "Miles" add 2 comments and "Charlotte" added 100 subreplies to each comment.
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I go to the first group
+    And I open the topic "Test load more topic 1"
+    And I click view all replies
+    Then I scroll "up" to see "subreply number 70"
+    And I go back to previous page
+    And I go back to previous page
+    And I logout
