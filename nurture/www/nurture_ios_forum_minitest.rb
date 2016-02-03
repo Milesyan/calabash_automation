@@ -232,6 +232,13 @@ class NurtureTest < Minitest::Test
     u = new_nurture_user
     puts u.get_all_group_ids
   end
+
+  def test_notification
+    u = new_nurture_user
+    u.create_topic
+    u2 = new_nurture_user
+    u2.reply_to_topic u.topic_id
+  end
 end
 
 

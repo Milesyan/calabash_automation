@@ -1,13 +1,13 @@
 def new_eve_user(args={})
-  EveUser.new(args).signup_guest.signup_with_email.leave_all_groups.join_group
+  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
 end
 
 def forum_new_eve_user(args={})
-  EveUser.new(args).signup_guest.signup_with_email.leave_all_groups.join_group
+  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
 end
 
 def ntf_user(args = {})
-  EveUser.new(args).signup_guest.signup_with_email
+  EveUser.new(args).all_signup_flow
 end
   
 Given(/^I create a new eve user$/) do |type|

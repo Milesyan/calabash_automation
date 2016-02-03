@@ -11,7 +11,7 @@ class EveTest < Minitest::Test
   end
 
   def new_eve_user
-    EveUser.new.signup_guest.signup_with_email
+    EveUser.new.all_signup_flow
   end
 
   def test_new_eve_user
