@@ -131,7 +131,7 @@ end
 
 
 Then(/^I follow another user "([^"]*)" and the user also follows me$/) do |arg1|
-  $user2 = forum_new_noah_user(first_name: arg1)
+  $user2 = forum_new_noah_user(first_name: arg1).leave_group 3
   $user.follow_user $user2.user_id
   $user2.follow_user $user.user_id
 end
