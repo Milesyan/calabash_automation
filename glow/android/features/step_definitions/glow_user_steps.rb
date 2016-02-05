@@ -7,8 +7,8 @@ def new_non_ttc_user
 end
 
 def ntf_user(args = {})
-  GlowUser.new(type: "ttc").ttc_signup.login.complete_tutorial
-  end
+  GlowUser.new(args).ttc_signup.login.complete_tutorial
+end
 
 def forum_new_user(args = {})
   GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
@@ -130,7 +130,7 @@ end
 
 
 Then(/^I follow another user "([^"]*)" and the user also follows me$/) do |arg1|
-  $user2 = forum_new_user(first_name: arg1)
+  $user2 = ntf_user(first_name: arg1).leave_group 5
   $user.follow_user $user2.user_id
   $user2.follow_user $user.user_id
 end
@@ -292,4 +292,13 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
       ntf_user.follow_user $user.user_id
     end
   end
+end
+
+#-----New Invite--------
+
+Given(/^I create a new glow forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+  logout_if_already_logged_in
+  $user = forum_new_user(first_name: name).complete_tutorial.join_group group
+  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
+  puts "Default group id is #{GROUP_ID}, join group #{group}"
 end

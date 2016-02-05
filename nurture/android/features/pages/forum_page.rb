@@ -801,4 +801,32 @@ class ForumPage < Calabash::ABase
   def touch_new_tab
     wait_touch "* marked:'New' index:0"
   end
+#--------NEW INVITE AND hist post flag --------
+  def invite_user(args = "")
+    wait_touch "* id:'community_recommended_group_action_btn'"
+    sleep 1
+    if args != ""
+      touch "* marked:'#{args}' parent * index:1 child * id:'invite_friends_checkbox'"
+    else 
+      touch "* id:'invite_friends_checkbox'"
+    end
+    sleep 0.5
+    touch "* marked:'Invite'"
+    wait_for_elements_exist "* {text CONTAINS 'Successfully'}"
+  end
+
+  def go_to_second_group
+    sleep 0.5
+    touch "* marked:'#{TARGET_GROUP_NAME}'"
+    sleep 2
+    touch "* marked:'#{TARGET_GROUP_NAME}' sibling * index:0"
+  end
+
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Join the group!'}"
+    wait_touch "* {text CONTAINS 'Check it out'}"
+    wait_touch "* marked:'Join group'"
+    sleep 2
+  end
+
 end

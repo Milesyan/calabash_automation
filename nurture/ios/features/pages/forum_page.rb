@@ -707,6 +707,30 @@ class ForumPage < Calabash::IBase
   def touch_new_tab
     wait_touch "* marked:'New' index:0"
   end
+
+  
+#--------NEW INVITE AND hist post flag --------
+  def invite_user(args = "")
+    wait_touch "* marked:'Invite'"
+    sleep 1
+    if args != ""
+      touch "* marked:'#{args}'"
+    else 
+      touch "UITableViewCellContentView"
+    end
+    sleep 0.5
+    touch "* marked:'Done'"
+    sleep 2
+  end
+
+
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* marked:'Join'"
+    sleep 2
+  end
+
 end
 
 

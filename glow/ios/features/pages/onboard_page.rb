@@ -21,8 +21,11 @@ class OnboardPage < Calabash::IBase
     end
   end 
 
-  def open_login_link
+  def open_login_link 
     wait_touch "* marked:'Log in'"
+    if element_does_not_exist "* marked:'Email'"
+      wait_touch "* marked:'Log in'"
+    end
   end
 
   def open_forgot_password
@@ -33,9 +36,9 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'First & Last name'"
     keyboard_enter_text full_name
     #unless is_partner
-      wait_touch "UITextField index:1"
-      #set_text "UITextField index:1", email
-      keyboard_enter_text email
+    wait_touch "UITextField index:1"
+    #set_text "UITextField index:1", email
+    keyboard_enter_text email
     #end
 
     wait_touch "UITextField index:2"

@@ -122,7 +122,7 @@ end
 
 
 Then(/^I follow another user "([^"]*)" and the user also follows me$/) do |arg1|
-  $user2 = forum_new_user(first_name: arg1)
+  $user2 = forum_new_user(first_name: arg1).leave_group 3
   $user.follow_user $user2.user_id
   $user2.follow_user $user.user_id
 end
@@ -280,4 +280,13 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
       ntf_user.follow_user $user.user_id
     end
   end
+end
+
+#-----New Invite--------
+
+Given(/^I create a new glow forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+  logout_if_already_logged_in
+  $user = forum_new_user(first_name: name).join_group group
+  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
+  puts "Default group id is #{GROUP_ID}, join group #{group}"
 end

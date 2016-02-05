@@ -295,4 +295,14 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
   end
 end
 
+#-----New Invite--------
+
+Given(/^I create a new noah user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+  logout_if_already_logged_in
+  $user = forum_new_noah_user(first_name: name).join_group group
+  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
+  puts "Default group id is #{GROUP_ID}, join group #{group}"
+end
+
+
 

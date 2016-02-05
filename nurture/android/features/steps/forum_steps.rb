@@ -576,3 +576,21 @@ Then(/^I go back to community page$/) do
     forum_page.click_back_button
   end
 end
+
+# -------NEW Invite and hide post flag----------------
+Then(/^I invite the user to this group$/) do
+  forum_page.invite_user
+end
+
+Then(/^I should see the user is already in this group$/) do
+  puts "not useful in Android"
+end
+
+Then(/^I go to the second group$/) do
+  forum_page.go_to_second_group
+end
+
+Then(/^I click the button to join the group$/) do
+  forum_page.ntf_join_group
+end
+
