@@ -366,6 +366,7 @@ module NoahForumIOS
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Leave group #{unsubscribe_groupid}"
+      puts "User current group : >>>#{@all_group_ids} <<<"
       self
     end
 
