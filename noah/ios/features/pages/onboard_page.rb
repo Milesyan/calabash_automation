@@ -17,6 +17,9 @@ class OnboardPage < Calabash::IBase
   end
 
   def open_login_link
+    if element_exists "* {text CONTAINS 'Continue'}"
+      touch "* {text CONTAINS 'Click here to switch user'}"
+    end
     wait_touch "* marked:'Log in'"
   end
 

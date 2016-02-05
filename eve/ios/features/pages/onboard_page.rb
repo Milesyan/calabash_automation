@@ -6,8 +6,11 @@ class OnboardPage < Calabash::IBase
   end
 
   def tap_login_link
-    when_element_exists "* marked:'LOG\u2028IN'"
+    wait_for_element_exists "* marked:'LOG\u2028IN'"
     touch "* marked:'LOG\u2028IN'"
+    if element_does_not_exist "* marked:'Email'"
+      wait_touch "* marked:'LOG\u2028IN'"
+    end
     sleep 1
   end
 

@@ -6,7 +6,7 @@ class OnboardPage < Calabash::IBase
   end
 
   def tap_login_link
-    when_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
+    wait_for_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
     touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     sleep 1
   end
