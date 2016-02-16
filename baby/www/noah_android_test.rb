@@ -237,7 +237,8 @@ module BabyAndroid
         "gender": baby.gender,
         "birthday": baby.birthday,
         "due_date": baby.birth_due_date,
-        "relation": baby.relation.capitalize
+        "relation": baby.relation.capitalize,
+        "from_nurture": 0
       }
 
       @res = self.class.post "/android/baby?#{common_data}", auth_options(data)
@@ -257,7 +258,8 @@ module BabyAndroid
         "gender": "",
         "birthday": "",
         "due_date": baby.birth_due_date,
-        "relation": baby.relation.capitalize
+        "relation": baby.relation.capitalize,
+        "from_nurture": 0
       }
 
       @res = self.class.post "/android/baby?#{common_data}", auth_options(data)

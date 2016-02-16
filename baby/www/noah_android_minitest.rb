@@ -44,21 +44,21 @@ class NoahTest < Minitest::Test
     u = create_user
     u2 = BabyUser.new(email: u.email, password: "wrong_pwd").signup
     assert_equal 4000101, u2.res["rc"]
-    assert_equal "Sorry, the email is already registered by another user.", u2.res["msg"]
+    assert_equal "Your email has already been used to create a Glow account.", u2.res["msg"]
   end
 
   def test_login_with_wrong_email_and_correct_password
     u = create_user
     u.login(email: "wrong" + u.email, password: u.password)
     assert_equal 4000102, u.res["rc"]
-    assert_equal "Sorry, wrong email or password.", u.res["msg"]
+    assert_equal "This email and password do not match. Please try again.", u.res["msg"]
   end
 
   def test_login_with_correct_email_but_wrong_password
     u = create_user
     u.login email: u.email, password: "wrong" + u.password
     assert_equal 4000102, u.res["rc"]
-    assert_equal "Sorry, wrong email or password.", u.res["msg"] 
+    assert_equal "This email and password do not match. Please try again.", u.res["msg"] 
   end
 
   def test_forgot_password
