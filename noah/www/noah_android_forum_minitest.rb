@@ -246,6 +246,13 @@ class NoahTest < Minitest::Test
     u = new_noah_user
     puts u.get_all_group_ids
   end
+
+  def test_push
+    10.times do
+      u = new_noah_user
+      u.reply_to_topic 72057594037931184
+    end
+  end
 end
 
 

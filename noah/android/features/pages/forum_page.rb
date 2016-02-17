@@ -244,6 +244,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_reply
+    sleep 2
     scroll_down
     wait_touch "* marked:'Reply'"
     enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s

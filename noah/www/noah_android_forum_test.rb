@@ -282,12 +282,9 @@ module NoahForumAndroid
       }
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic#{@additional_forum}"
-      puts url 
-      puts data
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts @res
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
@@ -376,7 +373,7 @@ module NoahForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/group/subscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "       ------------#{self.user_id} joined group >>>#{group_id}<<<-------------"
+      puts "---#{self.user_id} joined group >>>#{group_id}<<<---"
       self
     end
 
@@ -387,7 +384,7 @@ module NoahForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/group/unsubscribe#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "       ------------#{self.user_id} left group >>>#{group_id}<<<-------------"
+      puts "---#{self.user_id} left group >>>#{group_id}<<<---"
       self
     end
 
