@@ -6,6 +6,7 @@ class MePage < Calabash::ABase
   end
 
   def logout
+    sleep 1
     nav_page.open "more options"
     touch "* marked:'Log out'"
   end

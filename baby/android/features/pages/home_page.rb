@@ -5,6 +5,50 @@ class HomePage < Calabash::ABase
     "*"
   end
 
+  def open_milestones
+    wait_for_element_exists "* id:'fab_expand_menu_button'", time_out: 15
+    sleep 1
+    touch "* id:'fab_expand_menu_button'"
+    touch "* marked:'Moment'"
+  end
+
+  def close_milestones
+    touch "android.widget.ImageButton contentDescription:'Navigate up'"
+  end
+
+  def close_insight_popup
+    # sleep 1
+    # touch "* id:'close_button'"
+    wait_for_element_exists "* id:'title'"
+    sleep 1
+    press_back_button
+  end
+
+  def check_milestones
+    get_all_milestones.each do |m|
+      puts m
+    end
+  end
+
+  def create_milestone(args)
+    date = (args[:date] || Time.now).to_datetime
+    title = args[:title] || "Hello World!"
+    touch "* id:'action_add_milestone'"
+
+    enter_text "* id:'title_editor'", title
+    touch "* marked:'Today'"
+    set_date "datePicker", date_str(date)
+    touch "* marked:'Done'"
+
+    touch "* id:'save'"
+  end
+
+  def get_all_milestones
+    milestones = []
+    milestones = query("* id:'milestone_content'", :text)
+    milestones
+  end
+
   def scroll_to_summary
     wait_for_element_exists "* id:'feed'", time_out: 15
     sleep 1
@@ -18,7 +62,7 @@ class HomePage < Calabash::ABase
   end
 
   def add_born_baby(baby)
-    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 10
+    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 20
     sleep 1
     touch "* marked:'Let\\'s get started'"
     touch "* marked:'Yes!'"
@@ -38,11 +82,11 @@ class HomePage < Calabash::ABase
   end
 
   def add_upcoming_baby(baby)
-    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 10
+    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 20
     sleep 1
     touch "* marked:'Let\\'s get started'"
     sleep 1
-    touch "* marked:'No, baby\\'s coming.'"
+    touch "* marked:'No, not yet.'"
     enter_text "* id:'name'", baby.first_name + " " + baby.last_name
     touch "* id:'due_day'"
     set_date "datePicker", date_str(baby.birth_due_date)
@@ -190,6 +234,15 @@ class HomePage < Calabash::ABase
     touch "* marked:'#{unit.strip.downcase}'"
     touch "* marked:'Save'"
     touch "* contentDescription:'Navigate up'" # back button
+  end
+
+  def add_birth_data
+    touch "* id:'weight_chart'"
+    enter_text "* id:'weight_input'", "8.88"
+    enter_text "* id:'height_input'", "15"
+    enter_text "* id:'head_input'", "30"
+    touch "* marked:'SAVE'"
+    touch "* contentDescription:'Navigate up'"
   end
 
 end

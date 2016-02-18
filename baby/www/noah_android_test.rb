@@ -120,7 +120,7 @@ module BabyAndroid
         "device_id": "be3ca737160d9da3",
         "android_version": "1.0-beta",
         "vc": 1,
-        "time_zone": "Asia Shanghai",
+        "tz": "Asia\/Shanghai",
         "code_name": "noah",
       }.to_param
     end

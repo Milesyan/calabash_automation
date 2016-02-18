@@ -4,6 +4,5 @@ Given(/^I login$/) do
 end
 
 Given(/^I logout$/) do
-  nav_page.open("me")
   me_page.logout
 end

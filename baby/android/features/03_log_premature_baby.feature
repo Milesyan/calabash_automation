@@ -6,7 +6,9 @@ Feature: Premature baby
     And I login
     And I add one born boy with birthday "22.days.ago" and due date "today"
     And I scroll to growth chart
+    And I add birth data
     And I log weight "3.0kg" on "today"
+    And I close the inisght popup
     # Then I should not see the percentile until 40 weeks reached
     And I logout
 
@@ -16,6 +18,7 @@ Feature: Premature baby
     And I login
     And I add one born boy with birthday "32.days.ago" and due date "10.days.ago"
     And I scroll to growth chart
+    And I add birth data
     And I log weight "3.0 kg" on "11.days.ago"
     And I log weight "4.0 kg" on "9.days.ago"
     And I log height "45 cm" on "10.days.ago"

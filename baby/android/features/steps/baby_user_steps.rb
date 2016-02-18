@@ -29,3 +29,16 @@ Given(/^I create a new (mother|father) with (\d+) (born|upcoming) (boys?|girls?|
   baby = $user.method("new_#{if_born}_baby").call relation: relation.capitalize, gender: gender, birthday: birthday
   $user.method("add_#{if_born}_baby").call baby
 end
+
+Given(/^I create and invite a partner as (father|mother)$/) do |role|
+  relation = role.capitalize
+  $partner = BabyUser.new
+  $user.invite_family partner: $partner, relation: relation
+end
+
+Given(/^I signup as partner$/) do
+  $user = $partner
+  $user.birthday = Time.at($user.birthday)
+  onboard_page.signup
+end
+

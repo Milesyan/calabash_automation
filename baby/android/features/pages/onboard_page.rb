@@ -16,7 +16,7 @@ class OnboardPage < Calabash::ABase
     touch "* id:'action_sign_up'"
     sleep 1
     #wait_for_text_to_disappear "Loading...", timeout: 30
-    wait_for_text "Tell us a little bit about your baby"
+    #wait_for_text "Tell us a little bit about your baby"
   end
 
   def login(email, password)
