@@ -33,7 +33,7 @@ module EveForumAndroid
       @pe = (Time.new - 6*60*60*24).strftime("%Y\/%m\/%d")
       @next_pb = (Time.new + 12*60*60*24).strftime("%Y\/%m\/%d")
       # @birthday = args[:birthday] || 25.years.ago.to_i
-      @birthday = args[:birthday] || 632406657
+      @birthday =  632406657
       @forum_locale = "en_US"
       @forum_fc = 1
       @forum_random = random_str
@@ -222,7 +222,7 @@ module EveForumAndroid
         "password": password || @password,
         "guest_info": 
           {
-            "guest_token": "",
+            "guest_token": "E8E8E7D6-89EB-4157-A20C-35E23D05D884",
           }
       }
 

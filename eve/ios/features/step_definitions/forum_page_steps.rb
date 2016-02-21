@@ -102,6 +102,12 @@ Then(/^I go to the first group$/) do
   forum_page.select_target_group
 end
 
+Then(/^I go to the first group I joined$/) do
+  wait_touch "* marked:'MilesGroup'"
+  wait_for_none_animating
+end
+
+
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
   forum_page.create_post_in_group :topic_title => arg1
 end
@@ -269,7 +275,7 @@ Then(/^I click edit profile button$/) do
 end
 
 Then(/^I edit some field in profile page$/) do
-  forum_page.edit_text_fields "Kaylee", "Last name"
+  forum_page.edit_text_fields "Last name", "Last name"
   forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
   forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
   wait_touch "UILabel marked:'Bio'"

@@ -31,7 +31,14 @@ class NoahTest < Minitest::Test
     assert_equal u.user_id, actual_baby["owner_user_id"]
     assert_equal "Mother", u.res["data"]["UserBabyRelation"]["update"].first["relation"]
   end
-
+  
+  def test_add_20_babies
+    u = new_noah_user
+    20.times do
+      baby = u.new_born_baby(relation: "Mother", gender: "M")
+      u.add_born_baby(baby)
+    end
+  end
 
   def assert_rc(res)
     assert_equal 0, res["rc"]
@@ -248,11 +255,17 @@ class NoahTest < Minitest::Test
   end
 
   def test_push
-    10.times do
+    15.times do
       u = new_noah_user
-      u.reply_to_topic 72057594037931184
+      u.reply_to_topic 3509
     end
   end
+
+  def test_follow
+    u = new_noah_user
+    u.follow_user 72057594037935155
+  end
+
 end
 
 

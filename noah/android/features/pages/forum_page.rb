@@ -482,6 +482,8 @@ class ForumPage < Calabash::ABase
 
   def go_to_group_page_under_settings
     enter_community_settings
+    wait_for_element_exists "* marked:'Blocking'"
+    sleep 1
     if element_exists "* marked:'Subscribed Groups'"
       touch "* marked:'Subscribed Groups'"
     else 

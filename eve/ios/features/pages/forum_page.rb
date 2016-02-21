@@ -709,7 +709,7 @@ class ForumPage < Calabash::IBase
   end
 
 
-#--------NEW INVITE AND hist post flag --------
+#--------NEW INVITE AND hide post flag --------
   def invite_user(args = "")
     wait_touch "* marked:'Invite'"
     sleep 1
@@ -725,8 +725,8 @@ class ForumPage < Calabash::IBase
 
 
   def ntf_join_group
-    wait_for_element_exists "* {text CONTAINS 'Check out the group'}"
-    wait_touch "* {text CONTAINS 'Check out the group'}"
+    wait_for_element_exists "* {text CONTAINS 'Check it out!'}"
+    wait_touch "* {text CONTAINS 'Check it out!'}"
     wait_touch "* marked:'Join'"
     sleep 2
   end
