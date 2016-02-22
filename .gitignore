@@ -22,6 +22,11 @@ eve/android/*.apk
 eve/android/*.png
 eve/android/test_servers/
 eve/android/*.html
+eve/ios/features/screenshots/
+eve/ios/*.html
+eve/ios/*.png
+
+
 glow/android/*.html
 glow/ios/features/support/env_miles.rb.example
 glow/ios/features/test-reports/
