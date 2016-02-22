@@ -15,7 +15,7 @@ end
 
 Then(/^I should see the topic is posted successfully$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Posted by'}", :timeout => 60
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end

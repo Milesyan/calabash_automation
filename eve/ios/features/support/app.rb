@@ -2,7 +2,7 @@ module Eve
   def wait_touch(query_str)
     wait_for_elements_exist([query_str])
     touch(query_str)
-    wait_for_none_animating
+    wait_for_none_animating :timeout => 30
   end
 
   def touch_if_elements_exist(query_str)
