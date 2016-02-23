@@ -229,7 +229,9 @@ end
 
 #-------------comment linking-------------
 Then(/^I enter topic created in previous step$/) do 
+  sleep 2
   forum_page.enter_topic "#{$user.topic_title}"
+  sleep 1
 end
 
 Then(/^I should see the last comment$/) do 
