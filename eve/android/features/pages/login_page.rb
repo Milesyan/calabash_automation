@@ -23,6 +23,12 @@ class LoginPage < Calabash::ABase
     sleep 1
     touch "* id:'sign_in_button'"
     # bypass_eve
+    wait_for_element_does_not_exist "* id:'sign_in_button'"
+    sleep 1
+    if element_exists "* {text CONTAINS 'Did you start your new'}"
+      touch "* marked:'YES'"
+      touch "* marked:'Done'"
+    end
   end
 
   # def bypass_eve

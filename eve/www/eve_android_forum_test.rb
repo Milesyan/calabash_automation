@@ -210,7 +210,7 @@ module EveForumAndroid
       signup_guest
       sync_guest_info
       sync_guest_info_2
-      get_daily_gems
+      # get_daily_gems
       signup_with_email
       login_with_email
       self

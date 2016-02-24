@@ -15,7 +15,7 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
   Scenario: User create a topic and 30+ comments.
     Given I create a new glow forum user with name "Miles"
     And "Miles" create 1 topics
-    And "Miles" add 30 comments and "Charlotte" added 2 subreplies to each comment.
+    And "Miles" add 30 comments and "Charlotte" added 1 subreplies to each comment.
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
