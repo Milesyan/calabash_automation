@@ -13,6 +13,7 @@ require_relative 'event_logger.rb'
 # require 'calabash-cucumber/operations'
 # World(Calabash::Cucumber::Operations)
 
+URL = "https://www.google.com"
 
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

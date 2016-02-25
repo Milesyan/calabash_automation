@@ -7,7 +7,7 @@ class NavPage < Calabash::ABase
 
   def open(tab_name)
     sleep 1.5
-    wait_for_element_exists "android.support.design.widget.TabLayout$TabView"
+    wait_for_element_exists "android.support.design.widget.TabLayout$TabView", :time_out => 10
   	sleep 1.5
     i = ["home", "community", "alert", "me", "more options"].find_index tab_name.downcase
     if i ==4

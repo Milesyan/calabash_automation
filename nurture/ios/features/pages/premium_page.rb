@@ -6,7 +6,6 @@ class OnboardPage < Calabash::IBase
   end
 
   def input_url_in_profile_page
-    URL = "https://www.google.com"
     wait_touch "UITextFieldLabel marked:'Link'"
     keyboard_enter_text URL
   end

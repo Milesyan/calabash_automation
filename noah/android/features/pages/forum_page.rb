@@ -215,7 +215,7 @@ class ForumPage < Calabash::ABase
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
     touch "* id:'add_reply_yes'"
-    sleep 3
+    sleep 5
   end
 
   def add_image_comment
@@ -244,7 +244,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_reply
-    sleep 2
+    sleep 1
     scroll_down
     wait_touch "* marked:'Reply'"
     enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s

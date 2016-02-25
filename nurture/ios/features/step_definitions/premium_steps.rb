@@ -1,19 +1,23 @@
   ##########>>>WWW layer steps<<<##########
-  Given(/^I create a new premium user with name "([^"]*)"$/) do |arg1|
-    pending # Write code here that turns the phrase above into concrete actions
+  Given(/^I create a new premium user with name "([^"]*)"$/) do |name|
+    $user = forum_page.forum_new_nurture_user(first_name: name)
+    puts $user.email, $user.password
   end
 
 
-  Then(/^I create another premium user "([^"]*)" and create a topic in the test group$/) do |arg1|
-    pending # Write code here that turns the phrase above into concrete actions
+  Then(/^I create another premium user "([^"]*)" and create a topic in the test group$/) do |name|
+    $user = forum_page.forum_new_nurture_user(first_name: name)
+    puts $user.email, $user.password
   end
 
-  Then(/^I create another premium user "([^"]*)" and create a topic in the test group and update url in profile page$/) do |arg1|
-    pending # Write code here that turns the phrase above into concrete actions
+  Then(/^I create another premium user "([^"]*)" and create a topic in the test group and update url in profile page$/) do |name|
+    $user = forum_page.forum_new_nurture_user(first_name: name)
+    puts $user.email, $user.password
   end
 
-  Then(/^I create another premium user "([^"]*)" and create a topic in the test group and turn off chat in profile page$/) do |arg1|
-    pending # Write code here that turns the phrase above into concrete actions
+  Then(/^I create another premium user "([^"]*)" and create a topic in the test group and turn off chat in profile page$/) do |name|
+    $user = forum_page.forum_new_nurture_user(first_name: name)
+    puts $user.email, $user.password
   end
 
   ##########>>>APP steps<<<##########
