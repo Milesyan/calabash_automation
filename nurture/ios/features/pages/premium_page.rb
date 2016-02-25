@@ -1,6 +1,6 @@
 require 'calabash-cucumber/ibase'
 
-class OnboardPage < Calabash::IBase
+class PremiumPage < Calabash::IBase
   def trait
     "*"
   end

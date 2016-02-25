@@ -54,7 +54,7 @@ module NurtureForumIOS
 
     def common_data
       {
-        "app_version" => "2.7.0",
+        "app_version" => "2.8.0",
         "locale" => "en_US",
         # "time_zone"=> "Asia\/Shanghai",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
@@ -93,6 +93,15 @@ module NurtureForumIOS
       @preg_id = @res["data"]["pregnancies"].first["id"]
       puts "#{email} has signed up"
       self
+    end
+
+    def get_premium(args = {})
+      data = {
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.get("http://dragon-bryo.glowing.com/ios/plan/fetch", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self 
     end
 
     def login

@@ -19,6 +19,12 @@ class NurtureTest < Minitest::Test
     puts u.first_name
   end
 
+  def test_premium
+    u = new_nurture_user
+    u.get_premium
+    puts u.res
+  end
+
 
   def assert_rc(res)
     assert_equal 0, res["rc"]

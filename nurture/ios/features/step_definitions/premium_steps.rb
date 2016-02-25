@@ -1,6 +1,10 @@
+
+def premium_user(args={})
+  NurtureUser.new(args).signup.login.leave_all_groups.join_group.get_premium
+end
   ##########>>>WWW layer steps<<<##########
   Given(/^I create a new premium user with name "([^"]*)"$/) do |name|
-    $user = forum_page.forum_new_nurture_user(first_name: name)
+    $user = premium_user(first_name: name)
     puts $user.email, $user.password
   end
 

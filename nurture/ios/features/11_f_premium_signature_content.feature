@@ -9,7 +9,8 @@ Feature: Check signature content for users.
     And I go to community profile page
     And I click edit profile button
     Then I update bio and location info
-    And I go back to previous page
+    And I go back to user profile page
+    And I go back to forum page from forum profile page
     And I go to the first group
     And I enter topic created in previous step
     Then I checked the elements in a signature
