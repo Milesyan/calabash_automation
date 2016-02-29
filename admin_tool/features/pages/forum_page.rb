@@ -1,0 +1,2 @@
+class ForumPage
+end
