@@ -1,20 +1,17 @@
 require 'httparty'
+require 'faker'
 require 'json'
 require 'securerandom'
+require 'active_support/all'
+require_relative 'nurture_test_helper'
 
 module NurtureIOS
-  PASSWORD = 'Glow12345'
+  PASSWORD = '111222'
   BASE_URL = "http://dragon-kaylee.glowing.com"
 
-  def due_date_in_weeks(n = 40)
-    Time.now.to_i + n.to_i*7*24*3600
-  end
-
-  def due_date_by_pregnancy_week(n)
-    Time.now.to_i + (40 - n.to_i)*7*24*3600
-  end
-
   class NurtureUser
+    include NurtureTestHelper
+
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id
     attr_accessor :due_date, :due_in_weeks, :pregnancy_week
 
@@ -34,8 +31,20 @@ module NurtureIOS
       ('0'..'9').to_a.shuffle[0,9].join + "_" + Time.now.to_i.to_s
     end
 
-    def date_str(n=0)
-      (Time.now + n*24*3600).strftime("%Y/%m/%d")
+    # def date_str(n=0)
+    #   (Time.now + n*24*3600).strftime("%Y/%m/%d")
+    # end
+
+    def today
+      date_str Time.now
+    end
+
+    def due_date_in_weeks(n = 40)
+      Time.now.to_i + n.to_i*7*24*3600
+    end
+
+    def due_date_by_pregnancy_week(n)
+      Time.now.to_i + (40 - n.to_i)*7*24*3600
     end
 
     def create_first_name
@@ -326,6 +335,35 @@ module NurtureIOS
        "device_id":"525474F0-57E4-4EDD-BF2A-9A79C823A671",
        "model":"iPhone7,2"
       }
+      @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+    end
+
+    def add_vitamin(args)
+      date = date_str(args[:date]) || today
+      data = {  
+        "app_version":"2.9.0",
+        "data":{  
+          "last_sync_time": 0,
+          "daily_data":[  
+            {  
+              "val_int":2,
+              "date": date,
+              "data_key":"vitamin",
+              "user_id": @user_id,
+              "val_float":0,
+              "data_source":"GLHKObjectSourceKaylee",
+              "val_str":""
+            }
+          ]
+        },
+        "locale":"en_GB",
+        "ut": @ut,
+        "device_id":"024169A4-8F93-4D8F-8847-9207FADB21BF",
+        "model":"iPhone7,2"
+      }
+
       @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
