@@ -77,7 +77,7 @@ module NurtureForumIOS
         },
         "userinfo": {
           "height": 170,
-          "password": "Glow12345",
+          "password": @password,
           "tz": "Asia\/Shanghai",
           "last_name": "Kaylee",
           "birthday": 566452800,

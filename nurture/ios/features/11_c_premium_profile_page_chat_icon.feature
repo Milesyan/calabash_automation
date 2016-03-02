@@ -3,7 +3,7 @@ Feature: Check chat icon for users.
   @self_chat_icon
   Scenario: Check chat icon in user's own profile page
     Given I create a new premium user with name "MilesPremium"
-    And I login as the new user "MilesPremium" created through www
+    And I login as premium user
     And I open "community" page
     And I go to community profile page
     Then I check that chat icon does not exist

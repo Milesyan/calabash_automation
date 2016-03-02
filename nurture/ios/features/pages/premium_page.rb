@@ -35,6 +35,11 @@ class PremiumPage < Calabash::IBase
     keyboard_enter_text "testbio"
   end
 
+  def enter_premium_profile
+    wait_touch "* marked:'miles2'"
+  end
+
+
 
 
 

@@ -12,6 +12,7 @@ Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
 	logout_if_already_logged_in
 	puts "Log in using #{user1_name}'s email and password: #{$user.email}, #{$user.password}" 
 	onboard_page.login($user.email,$user.password)
+  sleep 2
   home_page.finish_tutorial	
 end
 

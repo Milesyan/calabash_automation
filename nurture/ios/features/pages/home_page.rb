@@ -6,9 +6,16 @@ class HomePage < Calabash::IBase
   end
 
   def finish_tutorial
-    wait_for_elements_exist("all * marked:'Swipe left or right to navigate through days'", :timeout => 20)
-    sleep 1
-    #until_element_does_not_exist("all * marked:'Swipe left or right to navigate through days'", action: lambda {flick "UIScrollView", {x:50, y:0}; sleep 1})
+    wait_for_element_does_not_exist "* marked:'Log in with Glow account'"
+    sleep 2
+    if element_exists "all * marked:'Swipe left or right to navigate through days'"
+      tutorial_steps
+    else 
+      puts "Do not need tutorial steps >_<###"
+    end
+  end
+
+  def tutorial_steps
     flick "UIScrollView", {x:50, y:0}
     sleep 1
     until_element_does_not_exist("* {text CONTAINS 'Pull down to see the'}", action: lambda {swipe :down}, :timeout => 10)
@@ -22,6 +29,7 @@ class HomePage < Calabash::IBase
     touch "* id:'back'"
     sleep 1
   end
+
 
   def close_insights_popup
     sleep 1

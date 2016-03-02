@@ -5,7 +5,7 @@ Feature: User create text/poll/image/url topics
     Given I create a new nurture user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
-    And I post a "text" topic
+    When I post a "text" topic
     Then I should see the topic is posted successfully
     And I logout
 
@@ -14,7 +14,7 @@ Feature: User create text/poll/image/url topics
     Given I create a new nurture user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
-    And I post a "poll" topic
+    When I post a "poll" topic
     Then I should see the topic is posted successfully
     And I logout
 

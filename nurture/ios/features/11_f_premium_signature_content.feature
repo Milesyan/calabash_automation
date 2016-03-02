@@ -4,7 +4,7 @@ Feature: Check signature content for users.
   Scenario: Check signature contents for users
     Given I create a new premium user with name "MilesPremium"
     And "MilesPremium" create 1 topic and 1 comments and 0 subreplies for each comment
-    And I login as the new user "MilesPremium" created through www
+    And I login as premium user
     And I open "community" page
     And I go to community profile page
     And I click edit profile button

@@ -14,9 +14,14 @@ class NurtureTest < Minitest::Test
     NurtureUser.new.signup.login
   end
 
+  def test_create_example_user
+    u = new_nurture_user
+    puts u.res
+  end
+
   def test_new_nurture_user
     u = new_nurture_user
-    puts u.first_name
+    puts u
   end
 
   def test_premium
@@ -24,7 +29,6 @@ class NurtureTest < Minitest::Test
     u.get_premium
     puts u.res
   end
-
 
   def assert_rc(res)
     assert_equal 0, res["rc"]
@@ -245,6 +249,17 @@ class NurtureTest < Minitest::Test
     u2 = new_nurture_user
     u2.reply_to_topic u.topic_id
   end
+
+  def test_add_followings
+    u1= new_nurture_user
+    puts u1.res
+    100.times do
+      u = new_nurture_user
+      u1.follow_user u.user_id
+    end
+  end
+
+
 end
 
 

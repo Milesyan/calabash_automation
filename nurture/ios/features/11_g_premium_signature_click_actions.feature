@@ -4,7 +4,7 @@ Feature: Check actions when user clicks elements in signature.
   Scenario: Check actions when click chat and signature area.
     Given I create a new premium user with name "MilesPremium"
     And "MilesPremium" create 1 topic and 1 comments and 0 subreplies for each comment
-    And I login as the new user "MilesPremium" created through www
+    And I login as premium user
     And I open "community" page
     And I enter topic created in previous step
     Then I click the chat icon and see the chat window

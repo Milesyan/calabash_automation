@@ -29,31 +29,4 @@ class OnboardPage < Calabash::IBase
     keyboard_enter_text password
     touch "UINavigationButton marked:'Next'"
   end
-
-  def step1
-    wait_touch "* marked:'Choose'"
-    wait_for_none_animating
-    wait_touch "* marked:'Done'"
-    choose_due_date
-    touch "* marked:'Next'"
-  end
-
-  def step2
-    choose_how_to_get_pregnant
-    choose_bmi
-    touch "* marked:'Next'"
-  end
-
-  def step3
-    wait_touch "* marked:'First & Last name'"
-    keyboard_enter_text $user.first_name
-    wait_touch "* marked:'name@example.com'"
-    keyboard_enter_text $user.email
-    wait_touch "* marked:'6 characters minimum'"
-    keyboard_enter_text $user.password
-    wait_touch "* marked:'Required'"
-    wait_touch "* marked:'Done'"
-    touch "* marked:'Next'"
-    sleep 1
-  end
 end
