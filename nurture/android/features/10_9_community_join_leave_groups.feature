@@ -12,14 +12,14 @@ Feature: create/join/leave group
     And I logout
 
   @create_group_unable
-  Scenario: User create a group.
+  Scenario: User create a group but failed.
     Given I create a new glow forum user with name "Julie"
     Then "Julie" reply to 1 topics created by others 
     And I login as the new user "Julie" created through www
     And I open "community" page 
     Then I click the DISCOVER button in community tab
     And I click create a group
-    Then I should see "before creating a group"
+    Then I should see I have to create several comments before creating a group
     Then I dismiss the floating menu
     And I logout
 

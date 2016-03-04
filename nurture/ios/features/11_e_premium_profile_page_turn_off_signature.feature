@@ -3,7 +3,7 @@ Feature: Turn off signature and check it in posts
 
   @self_turn_off_signature
   Scenario: User turn off signature and cannot see signature in posts
-    Given I create a new premium user with name "MilesPremium"
+    Given A premium user miles2 and a non-premium user milesn have been created for test
     And "MilesPremium" create 1 topic and 10 comments and 3 subreplies for each comment
     Then I turn off signature in profile settings
     And I open "community" page

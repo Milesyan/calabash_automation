@@ -13,7 +13,7 @@ module NurtureHelper
 
   def logout_if_already_logged_in
     sleep 1
-    if element_exists "* id:'tab'"
+    if element_exists "* id:'bottom_action_bar'"
       nav_page.logout
     end
   end

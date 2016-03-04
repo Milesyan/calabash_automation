@@ -18,8 +18,8 @@ Feature: create/join/leave group
     And I login as the new user "Julie" created through www
     And I open "community" page 
     Then I click the DISCOVER button in community tab
-    And I click create a group
-    Then I should see "before creating a group"
+    When I click create a group
+    Then I should see I have to create several comments before creating a group
     Then I dismiss the floating menu
     And I logout
 

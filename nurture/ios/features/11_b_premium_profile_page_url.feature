@@ -2,7 +2,7 @@
 Feature: Check badge for Premium/Non-premium users
   @self_url
   Scenario: Check url in user's own profile page
-    Given I create a new premium user with name "MilesPremium"
+    Given A premium user miles2 and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page
     Then I go to community profile page
@@ -16,7 +16,7 @@ Feature: Check badge for Premium/Non-premium users
 
   # @others_url
   # Scenario: Check url in other users profile page
-  #   Given I create a new premium user with name "MilesPremium"
+  #   Given A premium user miles2 and a non-premium user milesn have been created for test
   #   Then I create another premium user "Charlotte" and create a topic in the test group and update url in profile page
   #   And I login as the new user "Miles" created through www
   #   And I open "community" page

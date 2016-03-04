@@ -2,7 +2,7 @@
 Feature: Check chat icon for users.
   @self_chat_icon
   Scenario: Check chat icon in user's own profile page
-    Given I create a new premium user with name "MilesPremium"
+    Given A premium user miles2 and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page
     And I go to community profile page
@@ -10,17 +10,36 @@ Feature: Check chat icon for users.
     And I go back to forum page from forum profile page
     And I logout
 
-  @others_chat_icon
-  Scenario: Check chat icon in other users profile page
-    Given I create a new premium user with name "MilesPremium"
-    Then I create another premium user "Charlotte" and create a topic in the test group
-    And I login as the new user "Miles" created through www
+  @p_others_chat_icon
+  Scenario: Premium user check chat icon in other users profile page
+    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Then the non-premium user create a topic in the test group
+    And I login as the premium user
     And I open "community" page
     And I go to the first group
     And I open the topic "Test premium"
-    And I click the name of the creator "Charlotte" and enter the user's profile page
+    When I enter non-premium user's profile
     Then I check that the chat icon exists
-    Then I click the chat icon and see the chat window
+    When I click the chat icon and see the chat window
+    Then I should see the send request dialog
+    And I click cancel button
+    And I go back to forum page from forum profile page
+    And I go back to previous page
+    And I logout
+
+  @np_others_chat_icon
+  Scenario: Non-premium User check chat icon in other users profile page
+    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Then the premium user create a topic in the test group
+    And I login as the non-premium user
+    And I open "community" page
+    And I go to the first group
+    And I open the topic "Test premium"
+    When I enter premium user's profile
+    Then I check that the chat icon exists
+    When I click the chat icon and see the chat window
+    Then I should see the prompt premium dialog
+    And I click cancel button
     And I go back to forum page from forum profile page
     And I go back to previous page
     And I logout

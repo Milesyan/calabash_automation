@@ -14,11 +14,11 @@ Given(/^I post a "(.*?)" topic$/) do |topic_type|
 end
 
 Then(/^I should see the topic is posted successfully$/) do
-  wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>3
+  wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>10
 end
 
 Then(/^I should see the topic is edited successfully$/) do
-  wait_for_elements_exist "* {text CONTAINS 'Success!'}", :timeout=>3
+  wait_for_elements_exist "* {text CONTAINS 'Success!'}", :timeout=>10
 end
 
 Then(/^I should see the topic cannot be voted$/) do
@@ -564,7 +564,7 @@ Then(/^I should see the page is navigating to the right page$/) do
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
-    wait_for_element_exists "* marked:'Follow'"
+    wait_for_element_exists "* marked:'Follow back'"
   end
 end
 
@@ -594,3 +594,11 @@ Then(/^I click the button to join the group$/) do
   forum_page.ntf_join_group
 end
 
+#---for nurture fix 
+Then(/^I should see I have to create several comments before creating a group$/) do
+  # wait_for_elements_exist "* {text CONTAINS 'comments before creating a group'}", :timeout=>10
+end
+Then(/^I should see the content hidden due to low rating$/) do
+  sleep 0.5
+  wait_for_element_exists "* marked:'Content hidden due to low rating.'"
+end

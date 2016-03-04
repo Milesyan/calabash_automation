@@ -2,7 +2,7 @@
 Feature: Check actions when user clicks elements in signature.
   @signature_actions
   Scenario: Check actions when click chat and signature area.
-    Given I create a new premium user with name "MilesPremium"
+    Given A premium user miles2 and a non-premium user milesn have been created for test
     And "MilesPremium" create 1 topic and 1 comments and 0 subreplies for each comment
     And I login as premium user
     And I open "community" page

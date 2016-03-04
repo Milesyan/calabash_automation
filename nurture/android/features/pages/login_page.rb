@@ -27,6 +27,7 @@ class LoginPage < Calabash::ABase
     if element_exists "* id:'blockingView'"
       bypass_nurture_tutorial
     end
+    nav_page.open "genius"
   end
 
   def bypass_nurture_tutorial

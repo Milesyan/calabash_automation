@@ -13,7 +13,7 @@ Feature: Check badge for Premium/Non-premium users
   @others_badge
   Scenario: Check badge in other users profile page
     Given A premium user miles2 and a non-premium user milesn have been created for test
-    And I premium user create a topic in the test group
+    And the premium user create a topic in the test group
     And I login as the non-premium user
     And I open "community" page
     And I go to the first group

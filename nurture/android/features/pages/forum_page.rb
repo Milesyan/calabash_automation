@@ -203,8 +203,14 @@ class ForumPage < Calabash::ABase
   end
 
   def add_comment
-    wait_touch "* marked:'Add a comment'"
-    sleep 1
+    sleep 2
+    if element_exists "* id:'add_reply_btn'"
+      sleep 1
+      touch "* id:'add_reply_btn'"
+    else
+      wait_touch "* marked:'Add a comment'"
+    end
+    sleep 3
     wait_touch "* id:'reply_text'"
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
@@ -475,6 +481,7 @@ class ForumPage < Calabash::ABase
 
   def go_to_group_page_under_settings
     enter_community_settings
+    sleep 2
     if element_exists "* marked:'Subscribed Groups'"
       touch "* marked:'Subscribed Groups'"
     else 
@@ -812,7 +819,6 @@ class ForumPage < Calabash::ABase
     end
     sleep 0.5
     touch "* marked:'Invite'"
-    wait_for_elements_exist "* {text CONTAINS 'Successfully'}"
   end
 
   def go_to_second_group
@@ -823,8 +829,8 @@ class ForumPage < Calabash::ABase
   end
 
   def ntf_join_group
-    wait_for_element_exists "* {text CONTAINS 'Join the group!'}"
-    wait_touch "* {text CONTAINS 'Check it out'}"
+    wait_for_element_exists "* {text CONTAINS 'Check the group!'}"
+    wait_touch "* {text CONTAINS 'Check out the group!'}"
     wait_touch "* marked:'Join group'"
     sleep 2
   end

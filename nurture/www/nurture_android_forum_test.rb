@@ -120,8 +120,6 @@ module NurtureForumAndroid
         }
       }
       @res = self.class.post "/android/users/signup?#{common_data}", options(data)
-      puts data
-      puts BASE_URL+ "/android/users/signup?#{common_data}"
       if @res["rc"] == 0
         @ut = @res["dict"]["encrypted_token"]
         @user_id = @res["dict"]["user_id"]
@@ -139,7 +137,6 @@ module NurtureForumAndroid
           password: password
         }
       }
-      puts data
       @res = self.class.post "/android/users/signin?#{common_data}", options(data)
       if @res["rc"] == 0
         @ut = @res["dict"]["encrypted_token"]
@@ -161,12 +158,9 @@ module NurtureForumAndroid
       }
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic#{@additional_forum}"
-      puts url 
-      puts data
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts @res
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end

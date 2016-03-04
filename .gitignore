@@ -49,5 +49,7 @@ nurture/ios/*.png
 nurture/ios/*.html
 nurture/android/features/screenshots/
 nurture/android/*.apk
+nurture/android/*.png
+nurture/android/*.html
 nurture/android/test_servers/
 nurture/www/images/
