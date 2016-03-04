@@ -25,6 +25,7 @@ Then(/^I logout$/) do
 end
 
 Then(/^I check the alerts queue$/) do
-  sleep 30
+  click_on "Spam Queue"
+  sleep 10
   expect(page.all('tbody').size).to be > 1
 end
