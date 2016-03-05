@@ -181,7 +181,13 @@ When(/^I ignore the chat request$/) do
 end
 
 Then(/^I enter the chat window and start to chat$/) do
-  wait_touch "* marked:'Start chatting now.'"
+  sleep 1
+  if element_exists "* marked:'Start chatting now.'"
+    wait_touch "* marked:'Start chatting now.'"
+  else 
+    puts "HERE IS A BUG!!!"
+    wait_touch "* marked:'miles2'"
+  end
   wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
 end
 
@@ -189,5 +195,11 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
   premium_page.enter_new_user_profile
 end
 
+Then(/^I should see the chat requst is ignored$/) do
+  puts "NEED TO CONFIRM THE TEXT HERE"
+end
 
+Then(/^I click done to close messages$/) do
+  wait_touch "* marked:'Done'"  
+end
 

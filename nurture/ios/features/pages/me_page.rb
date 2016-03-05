@@ -11,9 +11,11 @@ class MePage < Calabash::IBase
     wait_touch "* marked:'Settings'"
     scroll_to_row_with_mark "Logout"
     wait_for_none_animating
+    sleep 0.5
     wait_touch "* marked:'Logout'"
-    sleep 2
+    sleep 1
     touch "* marked:'Yes, log out'"
-    sleep 2
+    wait_for_element_does_not_exist "* marked:'Yes, log out'"
+    sleep 0.5
   end
 end
