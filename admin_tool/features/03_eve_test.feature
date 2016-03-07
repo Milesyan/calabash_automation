@@ -7,7 +7,7 @@ Feature: Eve test
     Then I should see "Basic Info"
 
     And I open "eve_period_editor"
-    Then I should see "Riri's Periods"
+    Then I should see "Eve Period"
 
     And I open "eve_notifications"
     Then I should see "Eve Notification History"
