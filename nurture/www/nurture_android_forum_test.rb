@@ -196,8 +196,6 @@ module NurtureForumAndroid
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(topic_data)
       headers = headers.merge({ "Authorization" => @ut })
-      puts data
-      puts headers
       uri = URI("#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)

@@ -162,7 +162,7 @@ class ForumPage < Calabash::ABase
 
   def select_target_group
     sleep 1
-    touch "* marked:'#{TARGET_GROUP_NAME}'"
+    wait_touch "* marked:'#{TARGET_GROUP_NAME}'"
   end
     
   def discard_topic
@@ -203,7 +203,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_comment
-    sleep 2
+    sleep 3
     if element_exists "* id:'add_reply_btn'"
       sleep 1
       touch "* id:'add_reply_btn'"
@@ -308,7 +308,9 @@ class ForumPage < Calabash::ABase
     if gesture == "up"
       until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_up },:time_out => 20)
     elsif  gesture == "down"
-      until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_down },:time_out => 30)  
+      until element_exists "* marked:'#{content}'" do
+        scroll("ListView", :down)
+      end
     else 
       puts "Gesture  Error"
     end
@@ -829,8 +831,8 @@ class ForumPage < Calabash::ABase
   end
 
   def ntf_join_group
-    wait_for_element_exists "* {text CONTAINS 'Check the group!'}"
-    wait_touch "* {text CONTAINS 'Check out the group!'}"
+    wait_for_element_exists "* marked:'Join the group!'}"
+    wait_touch "* marked:'Check out the group!'"
     wait_touch "* marked:'Join group'"
     sleep 2
   end

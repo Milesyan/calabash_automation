@@ -550,21 +550,22 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"
   when "1091"
-    wait_touch "* marked:'You have a new follower!'"
+    wait_touch "* marked:'Follow back'"
   when "1092"
     sleep 10
   end
 end
 
 Then(/^I should see the page is navigating to the right page$/) do
+  sleep 1
   case $ntf_type
-  when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
+  when "1050", "11085", "1086", "1087","1051","1055", "1060", "1088", "1089"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
   when "1053","1059"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
-    wait_for_element_exists "* marked:'Follow back'"
+    wait_for_element_exists "* marked:'Follow'"
   end
 end
 
