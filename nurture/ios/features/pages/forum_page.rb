@@ -235,10 +235,14 @@ class ForumPage < Calabash::IBase
       puts "Gesture  Error"
     end
   end 
-
+#---premium---
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "* {text CONTAINS 'Topics/Comments'}"
+    if element_exists "* marked:'gl community navtab search'"
+      wait_touch "* marked:'gl community navtab search'"
+    else 
+      wait_touch "* {text CONTAINS 'Topics/Comments'}" 
+    end
   end
 
   def search_topics(args)
@@ -531,7 +535,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_hyperlink_comments
-    wait_touch "* marked:'Posted by' sibling UILabel index:0"  
+    wait_touch "UILabel {text CONTAINS 'comment'}"  
   end
 
   def hide_topic

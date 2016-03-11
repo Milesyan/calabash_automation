@@ -16,6 +16,9 @@ class HomePage < Calabash::IBase
   end
 
   def tutorial_steps
+    sleep 1
+    flick "UIScrollView", {x:50, y:0}
+    sleep 1
     flick "UIScrollView", {x:50, y:0}
     sleep 1
     until_element_does_not_exist("* {text CONTAINS 'Pull down to see the'}", action: lambda {swipe :down}, :timeout => 10)

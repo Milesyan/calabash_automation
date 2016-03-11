@@ -15,14 +15,14 @@ end
 
 Then(/^I should see the topic is posted successfully$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
 
 Then(/^I should see the topic cannot be voted$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -526,10 +526,10 @@ end
 Then(/^I should see the page is navigating to the right page$/) do
   case $ntf_type
   when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
-    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'Upvote'"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
   when "1053","1059"
-    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'Upvote'"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
@@ -548,7 +548,7 @@ end
 
 
 Then(/^I touch button containing text "Check it out!"$/) do
-  wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
+  wait_touch "* {text CONTAINS 'Check it out!'}"
 end 
 
 # -------NEW Invite and hide post flag----------------

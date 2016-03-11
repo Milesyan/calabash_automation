@@ -19,7 +19,7 @@ URL = "https://www.google.com"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 # ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/kaylee/ios/kayleedev.app"
 
-ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/kaylee/ios/kayleedev_v4.app"
+ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/kaylee/ios/kayleedev_v6.app"
 
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
 

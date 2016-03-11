@@ -6,6 +6,10 @@ class MePage < Calabash::IBase
   end
 
   def logout
+    wait_for_none_animating
+    if element_exists "* marked:'Invite your partner!'"
+      wait_touch "* id:'gl-foundation-popup-close'"
+    end
     scroll_to_row_with_mark "Settings"
     wait_for_none_animating
     wait_touch "* marked:'Settings'"

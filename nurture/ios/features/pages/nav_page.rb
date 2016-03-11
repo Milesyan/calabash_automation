@@ -14,7 +14,7 @@ class NavPage < Calabash::IBase
       wait_touch "UITabBarButtonLabel marked:'Community'"
       sleep 1
       if element_exists  "* id:'gl-foundation-popup-close'"
-        touch  "* id:'gl-foundation-popup-close'"
+        touch "* id:'gl-foundation-popup-close'"
       end
     when "genius"
       wait_touch "UITabBarButtonLabel marked:'Genius'"
