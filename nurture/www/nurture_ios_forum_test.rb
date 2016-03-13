@@ -54,7 +54,7 @@ module NurtureForumIOS
 
     def common_data
       {
-        "app_version" => "2.8.0",
+        "app_version" => "2.9.0",
         "locale" => "en_US",
         # "time_zone"=> "Asia\/Shanghai",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
@@ -563,6 +563,63 @@ module NurtureForumIOS
       puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end
+
+# ---- PREMIUM ----
+    def turn_off_chat(args={})
+      user_data = {
+        "code_name": "kaylee",
+        "update_data":{"chat_off":1,"discoverable":0,"signature_on":1,"hide_posts":false},
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "TURN OFF CHAT FOR #{self.user_id}"
+      self
+    end
+
+    def turn_on_chat(args={})
+      user_data = {
+        "code_name": "kaylee",
+        "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false},
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "TURN OFF CHAT FOR #{self.user_id}"
+      self
+    end
+
+    def turn_off_signature(args={})
+      user_data = {
+        "code_name": "kaylee",
+        "update_data":{"chat_off":0,"discoverable":0,"signature_on":0,"hide_posts":false},
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "TURN OFF CHAT FOR #{self.user_id}"
+      self
+    end
+
+
+    def turn_on_signature(args={})
+      user_data = {
+        "code_name": "kaylee",
+        "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false},
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "TURN OFF CHAT FOR #{self.user_id}"
+      self
+    end
+
+
+
+
+
+
+
 
   end
 end

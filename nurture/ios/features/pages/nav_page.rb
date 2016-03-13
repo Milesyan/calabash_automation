@@ -23,5 +23,6 @@ class NavPage < Calabash::IBase
     when "me"
       wait_touch "UITabBarButtonLabel marked:'Me'"
     end
+    home_page.close_chat_popup
   end
 end

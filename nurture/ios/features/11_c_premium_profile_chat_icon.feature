@@ -22,7 +22,7 @@ Feature: Check chat icon for users.
     Then I check that the chat icon exists
     When I click the chat icon and see the chat window
     Then I should see the send request dialog
-    And I click cancel button
+    And I close the request dialog
     And I go back to forum page from forum profile page
     And I go back to previous page
     And I logout
@@ -30,16 +30,16 @@ Feature: Check chat icon for users.
   @np_others_chat_icon
   Scenario: Non-premium User check chat icon in other users profile page
     Given A premium user miles2 and a non-premium user milesn have been created for test
-    Then the premium user create a topic in the test group
+    Then I create another non-premium user "Snoopy" and create a topic in the test group with topic name "Test upgrade dialog"
     And I login as the non-premium user
     And I open "community" page
     And I go to the first group
-    And I open the topic "Test premium"
-    When I enter premium user's profile
+    And I open the topic "Test upgrade dialog"
+    When I enter new user's profile
     Then I check that the chat icon exists
-    When I click the chat icon and see the chat window
+    When I click the chat icon
     Then I should see the prompt premium dialog
-    And I click cancel button
+    And I close the request dialog
     And I go back to forum page from forum profile page
     And I go back to previous page
     And I logout

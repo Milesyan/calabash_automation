@@ -6,13 +6,15 @@ class PremiumPage < Calabash::IBase
   end
 
   def input_url_in_profile_page
-    wait_touch "UITextFieldLabel marked:'Link'"
-    keyboard_enter_text URL
+    if element_does_not_exist "* marked:'#{URL}'"
+      wait_touch "* marked:'Link' sibling * index:0"
+      keyboard_enter_text URL
+    end
   end
 
   def check_url
-    wait_for_element_exists "* {text CONTAINS '#{URL}'", :time_out =>3
-    touch "* {text CONTAINS '#{URL}'"
+    wait_for_element_exists "* {text CONTAINS '#{URL}'}", :time_out =>3
+    touch "* {text CONTAINS '#{URL}'}"
   end
 
   def back_from_web_page
@@ -64,5 +66,17 @@ class PremiumPage < Calabash::IBase
   def enter_new_user_profile
     wait_touch "* marked:'#{$new_user.first_name}' index:0"
   end
+
+  def close_request_dialog
+    wait_touch "* id:'gl-foundation-popup-close'"
+  end
+
+  def chat_request_fail
+    wait_touch "* marked:'Chat'"
+    wait_touch "UIButton marked:'Send request'"
+    wait_for_element_exists "* marked:'Failed to send chat request.'"
+  end
+
+
 
 end

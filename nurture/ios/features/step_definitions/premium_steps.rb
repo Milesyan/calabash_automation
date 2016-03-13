@@ -4,12 +4,22 @@ end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "miles2@g.com", :password => "111111"
+  $user.turn_on_chat
   puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
   puts "$user2 user id = 6502"
 end
 
 Given(/^I login as(?: the)? premium user$/) do
+  logout_if_already_logged_in
+  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  onboard_page.login($user.email,$user.password)
+  sleep 2
+  home_page.finish_tutorial 
+end
+
+Given(/^I login as(?: the)? premium user and turn off chat$/) do
+  $user.turn_off_chat
   logout_if_already_logged_in
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
   onboard_page.login($user.email,$user.password)
@@ -51,9 +61,23 @@ Given(/^I create another non\-premium user "([^"]*)" and create a topic in the t
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
+
+Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
+  $new_user = forum_new_nurture_user(first_name: user_name).join_group
+  puts GROUP_ID
+  $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
+  $new_user.turn_off_chat
+end
+
+
+When(/^I enter new user's profile$/) do
+  wait_touch "* {text CONTAINS '#{$new_user.first_name}'}"
+end
+
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
-  wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
+  # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
+  puts "NON GLOW gl-community-plus-badge"
 end
 
 
@@ -102,6 +126,10 @@ end
 Then(/^I click the chat icon and see the chat window$/) do
   wait_touch "* marked:'Chat'"
   wait_for_element_exists "* {text CONTAINS 'Send request to'}"
+end
+
+Then(/^I click the chat icon$/) do
+  wait_touch "* marked:'Chat'"
 end
 
 Then(/^I turn off chat in profile settings$/) do
@@ -201,5 +229,17 @@ end
 
 Then(/^I click done to close messages$/) do
   wait_touch "* marked:'Done'"  
+end
+
+Then(/^I cannot see a url field in edit profile page$/) do
+  wait_for_element_does_not_exist "* marked:'Link'"
+end
+
+Then(/^I close the request dialog$/) do
+  premium_page.close_request_dialog
+end
+
+Then(/^I check that the chat requst failed to be sent$/) do
+  premium_page.chat_request_fail
 end
 

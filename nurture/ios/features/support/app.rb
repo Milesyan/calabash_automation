@@ -24,6 +24,7 @@ module Nurture
       puts "TUTORIAL IN LOGOUT PROCESS"
       home_page.finish_tutorial
     end
+    home_page.close_chat_popup
     sleep 2
     if element_exists "UITabBarButton"
       nav_page.open("Me")

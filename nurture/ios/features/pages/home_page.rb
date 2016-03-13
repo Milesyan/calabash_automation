@@ -13,6 +13,14 @@ class HomePage < Calabash::IBase
     else 
       puts "Do not need tutorial steps >_<###"
     end
+    sleep 1
+    home_page.close_chat_popup
+  end
+
+  def close_chat_popup
+    if element_exists "* marked:'Messages'"
+      wait_touch "* marked:'Done'"
+    end
   end
 
   def tutorial_steps

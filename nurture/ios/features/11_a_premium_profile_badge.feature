@@ -1,4 +1,4 @@
-@premium @badge
+@premium 
 Feature: Check badge for Premium/Non-premium users
   @self_badge
   Scenario: Check badge in user's own profile page

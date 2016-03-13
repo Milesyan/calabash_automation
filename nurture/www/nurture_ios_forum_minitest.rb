@@ -259,7 +259,31 @@ class NurtureTest < Minitest::Test
     end
   end
 
+  def test_turn_off_chat
+    u = new_nurture_user
+    u.turn_off_chat
+    assert_rc u.res["data"]
+  end
 
+  def test_turn_on_chat
+    u = new_nurture_user
+    u.turn_off_chat
+    u.turn_on_chat
+    assert_rc u.res["data"]
+  end
+  
+  def test_turn_off_signature
+    u = new_nurture_user
+    u.turn_off_signature
+    assert_rc u.res["data"]
+  end
+  
+  def test_turn_on_signature
+    u = new_nurture_user
+    u.turn_off_signature
+    u.turn_on_signature
+    assert_rc u.res["data"]
+  end
 end
 
 
