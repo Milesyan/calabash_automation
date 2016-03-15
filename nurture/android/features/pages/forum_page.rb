@@ -125,7 +125,7 @@ class ForumPage < Calabash::ABase
     sleep 1
     wait_for_elements_do_not_exist "* id:'progress_bar'"
     sleep 2
-    touch "* id:'create_yes'" # done button
+    touch "* marked:'Done'" # done button
     sleep 0.5
   end
 
@@ -141,7 +141,7 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'text' index:2", answer3
     enter_text "* id:'content_editor'", content
     sleep 0.5
-    touch "* id:'create_yes'"
+    touch "* marked:'Done'"
     sleep 1
   end
 
@@ -151,7 +151,7 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", description
     sleep 0.5
-    touch "* id:'create_yes'" # done button
+    touch "* marked:'Done'" # done button
     sleep 2
   end
 #-----------------
@@ -199,7 +199,7 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'title_editor'", "Modified title"
     enter_text "* id:'content_editor'", "Modified content"
     sleep 0.5
-    touch "* id:'create_yes'"
+    touch "* marked:'Done'"
   end
 
   def add_comment

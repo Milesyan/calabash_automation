@@ -232,6 +232,36 @@ class NurtureTest < Minitest::Test
     u = new_nurture_user
     puts u.get_all_group_ids
   end
+
+
+#---premium---
+  def test_turn_off_chat
+    u = new_nurture_user
+    u.turn_off_chat
+    puts u.res
+    assert_rc u.res
+  end
+
+  def test_turn_on_chat
+    u = new_nurture_user
+    u.turn_off_chat
+    u.turn_on_chat
+    assert_rc u.res
+  end
+  
+  def test_turn_off_signature
+    u = new_nurture_user
+    u.turn_off_signature
+    assert_rc u.res
+  end
+  
+  def test_turn_on_signature
+    u = new_nurture_user
+    u.turn_off_signature
+    u.turn_on_signature
+    assert_rc u.res
+  end
+
 end
 
 

@@ -39,7 +39,7 @@ module NurtureForumAndroid
       @forum_hl = "en_GB"
       @forum_random = rand.to_s[2..16]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "10800"
+      @forum_android_version = "20000"
       @forum_time_zone = "American\/New_York"
       @forum_code_name = "kaylee"
       @additional_forum = "?hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
@@ -503,6 +503,64 @@ module NurtureForumAndroid
       puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end  
+
+
+    # ---- PREMIUM ----
+    def turn_off_chat(args={})
+      data = {
+        "first_name": @first_name,
+        "website": nil,
+        "chat_off":1,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "TURN OFF CHAT FOR #{self.user_id}"
+      self
+    end
+
+    def turn_on_chat(args={})
+      data = {
+        "first_name": @first_name,
+        "website": nil,
+        "chat_off":0,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "TURN ON CHAT FOR #{self.user_id}"
+      self
+    end
+
+    def turn_off_signature(args={})
+      data = {
+        "first_name": @first_name,
+        "website": nil,
+        "chat_off":0,
+        "signature_on":0
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "TURN OFF SIGNATURE FOR #{self.user_id}"
+      self
+    end
+
+
+    def turn_on_signature(args={})
+      data = {
+        "first_name": @first_name,
+        "website": nil,
+        "chat_off":0,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts "TURN ON SIGNATURE FOR #{self.user_id}"
+      self
+    end
+
+
+
   end
 end
 
