@@ -63,7 +63,7 @@ class ForumPage < Calabash::ABase
 
   def create_a_group
     wait_for_element_exists "* id:'group_category'"
-    wait_touch "* id:'create_cancel'"
+    wait_touch "* id:'top_tool_bar'"
     touch_floating_menu
   end
 
@@ -166,7 +166,7 @@ class ForumPage < Calabash::ABase
   end
     
   def discard_topic
-    wait_touch "* id:'create_cancel'"
+    wait_touch "* id:'top_tool_bar'"
     sleep 1
   end  
 
@@ -178,7 +178,6 @@ class ForumPage < Calabash::ABase
   def edit_topic_voted (args1)
     sleep 2
     wait_touch "* {text CONTAINS '#{args1}'} index:0"
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
     sleep 1
     wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Edit this post'"
@@ -187,9 +186,7 @@ class ForumPage < Calabash::ABase
   def edit_topic(args1)
     sleep 0.5
     touch "* {text CONTAINS '#{args1}'} index:0"
-    sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
-    sleep 1
+    sleep 2
     wait_touch "* id:'topic_menu'"
     sleep 1
     touch "* marked:'Edit this post'"
@@ -214,7 +211,7 @@ class ForumPage < Calabash::ABase
     wait_touch "* id:'reply_text'"
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
-    touch "* id:'add_reply_yes'"
+    touch "* id:'tool_bar_done'"
     sleep 1
   end
 
@@ -228,7 +225,7 @@ class ForumPage < Calabash::ABase
     touch "* marked:'Gallery'"
     puts "Cannot add image in android\n"
     sleep 3
-    touch "* id:'add_reply_yes'"
+    touch "* id:'tool_bar_done'"
     sleep 2
   end
 
@@ -238,7 +235,7 @@ class ForumPage < Calabash::ABase
       comment = "comment " + Time.now.to_s
       keyboard_enter_text comment
       sleep 0.5
-      touch "* id:'add_reply_yes'"
+      touch "* id:'tool_bar_done'"
       sleep 4
     end
   end
@@ -278,7 +275,7 @@ class ForumPage < Calabash::ABase
   end
  
   def delete_topic(args)
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* id:'topic_menu'"
     wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Delete this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'delete this'}"}
@@ -318,9 +315,9 @@ class ForumPage < Calabash::ABase
 
   def evoke_search_bar
     sleep 1
-    wait_touch "* id:'menu_community_search'"
+    wait_touch "* marked:'More options'"
     sleep 1
-    wait_touch "* id:'menu_search'"
+    wait_touch "* marked:'Search'"
   end
 
   def tap_keyboard_search
@@ -387,6 +384,9 @@ class ForumPage < Calabash::ABase
   end
 
   def view_all_replies
+    if element_does_not_exist "* id:'view_sub_replies'"
+      scroll_down
+    end
     sleep 1
     wait_touch "* id:'view_sub_replies'"
     sleep 1.5
@@ -592,18 +592,19 @@ class ForumPage < Calabash::ABase
   end
 
   def touch_creator_name(args)
-    sleep 1
-    x,y,width = get_element_x_y "topic_author_date"
-    if element_exists "* {text CONTAINS 'Posted by'}"
-      perform_action('touch_coordinate',(x+width*0.5), y)
-      sleep 1
-      if element_exists "* {text CONTAINS 'Posted by'}"
-        perform_action('touch_coordinate',(x+width*0.3), y)
-        sleep 1
-      end
-    else
-      puts "Posted by text does not exist on screen."
-    end
+    # sleep 1
+    # x,y,width = get_element_x_y "topic_author_date"
+    # if element_exists "* marked:'Upvote'"
+    #   perform_action('touch_coordinate',(x+width*0.5), y)
+    #   sleep 1
+    #   if element_exists "* marked:'Upvote'"
+    #     perform_action('touch_coordinate',(x+width*0.3), y)
+    #     sleep 1
+    #   end
+    # else
+    #   puts "Posted by text does not exist on screen."
+    # end
+    wait_touch "* {text CONTAINS '#{args}'}"
   end
 
   def action_to_other_user(action)
@@ -675,7 +676,7 @@ class ForumPage < Calabash::ABase
   end
 
   def hide_topic
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    sleep 1
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
@@ -711,7 +712,7 @@ class ForumPage < Calabash::ABase
 
 
   def enter_report_topic
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    sleep 1
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
@@ -747,7 +748,7 @@ class ForumPage < Calabash::ABase
     puts "I can see comment #{$hidereply_content}"
     until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
     sleep 0.5
-    touch "* id:'reply_menu'"
+    wait_touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'why you are flagging this reply'}"}
   end
@@ -785,7 +786,7 @@ class ForumPage < Calabash::ABase
   end
 
   def click_explore
-    wait_touch "* marked:'Explore'"
+    wait_touch "* id:'default_bottom_right_indicator'"
     sleep 1
   end
 

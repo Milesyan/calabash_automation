@@ -262,6 +262,10 @@ class NurtureTest < Minitest::Test
     assert_rc u.res
   end
 
+  def test_exising_email_login
+    NurtureUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+  
 end
 
 

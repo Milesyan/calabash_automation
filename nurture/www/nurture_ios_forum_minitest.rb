@@ -284,6 +284,11 @@ class NurtureTest < Minitest::Test
     u.turn_on_signature
     assert_rc u.res["data"]
   end
+
+  def test_exising_email_login
+    NurtureUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
 end
 
 

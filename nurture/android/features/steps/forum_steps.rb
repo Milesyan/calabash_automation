@@ -228,10 +228,15 @@ end
 
 #-------------comment linking-------------
 Then(/^I enter topic created in previous step$/) do 
+  sleep 1
   forum_page.enter_topic "#{$user.topic_title}"
 end
 
 Then(/^I should see the last comment$/) do 
+  scroll_down
+  if element_does_not_exist "* {text CONTAINS 'comment #{$comment_number}'}"
+    scroll_down 
+  end
   wait_for_elements_exist "* {text CONTAINS 'comment #{$comment_number}'}"
   puts "check element: * with text 'comment #{$comment_number}'"
 end
@@ -561,8 +566,13 @@ Then(/^I should see the page is navigating to the right page$/) do
   case $ntf_type
   when "1050", "11085", "1086", "1087","1051","1055", "1060", "1088", "1089"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
-  when "1053","1059"
+  when "1059"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
+    wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
+  when "1053"
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
+    sleep 1
+    scroll_down
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
     wait_for_element_exists "* marked:'Follow'"

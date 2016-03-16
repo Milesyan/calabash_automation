@@ -3,11 +3,11 @@ def premium_user(args={})
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
-  $user = premium_user :email => "miles2@g.com", :password => "111111"
+  $user = premium_user :email => "milesp@g.com", :password => "111111"
   $user.turn_on_chat
-  puts "$user user id = 6500"
+  puts "$user user id = 72057594037936244"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
-  puts "$user2 user id = 6502"
+  puts "$user2 user id = 8492"
 end
 
 Given(/^I login as(?: the)? premium user$/) do
