@@ -63,7 +63,7 @@ class ForumPage < Calabash::ABase
 
   def create_a_group
     wait_for_element_exists "* id:'group_category'"
-    wait_touch "* id:'top_tool_bar'"
+    wait_touch "* marked:'Navigate up'"
     touch_floating_menu
   end
 
@@ -166,7 +166,7 @@ class ForumPage < Calabash::ABase
   end
     
   def discard_topic
-    wait_touch "* id:'top_tool_bar'"
+    wait_touch "* marked:'Navigate up'"
     sleep 1
   end  
 
