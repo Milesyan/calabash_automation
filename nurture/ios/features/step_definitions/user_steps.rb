@@ -19,7 +19,7 @@ end
 
 Given(/^I login$/) do
   sleep 2
-  if element_exists "all * marked:'Swipe left or right to navigate through days'"
+  if tutorial_popup?
     home_page.finish_tutorial
   end
   logout_if_already_logged_in

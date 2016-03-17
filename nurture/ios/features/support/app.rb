@@ -21,4 +21,8 @@ module Nurture
       me_page.logout
     end
   end
+
+  def tutorial_popup?
+    element_exists "all * marked:'Swipe left or right to navigate through days'"
+  end
 end

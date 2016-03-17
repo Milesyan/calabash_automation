@@ -104,7 +104,7 @@ Given(/^I am a new "(.*?)" user$/) do |type|
 end
 
 Given(/^I login$/) do
-  if element_exists " * marked:'Swipe left or right to see different days'"
+  if tutorial_popup? #element_exists "all * marked:'Swipe left or right\nto navigate through days'"
     home_page.finish_tutorial
   end
   logout_if_already_logged_in

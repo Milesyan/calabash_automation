@@ -1,7 +1,7 @@
 require 'httparty'
 require 'json'
 
-PASSWORD = 'Glow12345'
+PASSWORD = '111222'
 GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
 SUBSCRIBE_GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
 
