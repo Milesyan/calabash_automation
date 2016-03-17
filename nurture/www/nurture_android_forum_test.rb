@@ -508,7 +508,6 @@ module NurtureForumAndroid
     # ---- PREMIUM ----
     def turn_off_chat(args={})
       data = {
-        "first_name": @first_name,
         "website": nil,
         "chat_off":1,
         "signature_on":1
@@ -521,7 +520,6 @@ module NurtureForumAndroid
 
     def turn_on_chat(args={})
       data = {
-        "first_name": @first_name,
         "website": nil,
         "chat_off":0,
         "signature_on":1
@@ -534,7 +532,6 @@ module NurtureForumAndroid
 
     def turn_off_signature(args={})
       data = {
-        "first_name": @first_name,
         "website": nil,
         "chat_off":0,
         "signature_on":0
@@ -548,7 +545,6 @@ module NurtureForumAndroid
 
     def turn_on_signature(args={})
       data = {
-        "first_name": @first_name,
         "website": nil,
         "chat_off":0,
         "signature_on":1

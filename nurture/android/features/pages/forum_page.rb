@@ -242,6 +242,9 @@ class ForumPage < Calabash::ABase
 
   def add_reply
     scroll_down
+    if element_does_not_exist "* marked:'Reply'"
+      scroll_down
+    end
     wait_touch "* marked:'Reply'"
     enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s
     sleep 0.5
@@ -384,6 +387,8 @@ class ForumPage < Calabash::ABase
   end
 
   def view_all_replies
+    sleep 1
+    scroll_down
     if element_does_not_exist "* id:'view_sub_replies'"
       scroll_down
     end

@@ -3,7 +3,7 @@ Feature: Turn off chat and check chat icons and chat section.
 
   @self_turn_off_chat
   Scenario: User turn off chat and cannot see chat icon in other users' profile page.
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I create another non-premium user "Rabbit" and create a topic in the test group with topic name "Test self chat off"
     And I login as premium user and turn off chat
     And I open "community" page
@@ -17,7 +17,7 @@ Feature: Turn off chat and check chat icons and chat section.
 
   @others_turn_off_chat
   Scenario: Other users turn off chat and I cannot see the Chat icon.
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     Then I create another non-premium user "Bigbang" and create a topic in the test group with topic name "Test chat off" and the user turns chat off
     And I login as premium user
     And I open "community" page
@@ -31,7 +31,7 @@ Feature: Turn off chat and check chat icons and chat section.
 
   # @chat_section
   # Scenario: Check chat icon in other users profile page
-  #   Given A premium user miles2 and a non-premium user milesn have been created for test
+  #   Given A premium user milesp and a non-premium user milesn have been created for test
   #   Then I turn off chat in profile settings
   #   And I login as the new user "Miles" created through www
   #   And I open "community" page

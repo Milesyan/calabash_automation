@@ -1,6 +1,6 @@
-require 'calabash-cucumber/ibase'
+require 'calabash-android/abase'
 
-class PremiumPage < Calabash::IBase
+class PremiumPage < Calabash::ABase
   def trait
     "*"
   end
@@ -17,7 +17,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def back_from_web_page
-
+    puts ""
   end
 
   def switch_chat_option
@@ -39,7 +39,9 @@ class PremiumPage < Calabash::IBase
   end
 
   def enter_premium_profile
-    wait_touch "* marked:'miles2'"
+    wait_for_element_exists "* marked:'milesp'"
+    sleep 1
+    wait_touch "* marked:'milesp'"
   end
 
   def enter_non_premium_profile

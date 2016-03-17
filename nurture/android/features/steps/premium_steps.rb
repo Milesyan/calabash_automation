@@ -2,7 +2,7 @@ def premium_user(args={})
   NurtureUser.new(args).login.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
-Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
+Given(/^A premium user milesp and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "milesp@g.com", :password => "111111"
   $user.turn_on_chat
   puts "$user user id = 72057594037936244"
@@ -12,35 +12,35 @@ end
 
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
+  login_page.tap_login
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  onboard_page.login($user.email,$user.password)
+  login_page.login_with($user.email,$user.password)
   sleep 2
-  home_page.finish_tutorial 
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
+  login_page.tap_login
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  onboard_page.login($user.email,$user.password)
+  login_page.login_with($user.email,$user.password)
   sleep 2
-  home_page.finish_tutorial 
 end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
+  login_page.tap_login
   puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
-  onboard_page.login($new_user.email,$new_user.password)
+  login_page.login_with($new_user.email,$new_user.password)
   sleep 2
-  home_page.finish_tutorial 
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
+  login_page.tap_login
   puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
-  onboard_page.login($user2.email,$user2.password)
-  sleep 2
-  home_page.finish_tutorial 
+  login_page.login_with($user2.email,$user2.password)
+  sleep 2 
 end
 
 Given(/^the premium user create a topic in the test group$/) do
@@ -77,7 +77,8 @@ end
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
   # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
-  puts "NON GLOW gl-community-plus-badge"
+  sleep 2
+  wait_for_element_exists "android.widget.ImageView index:3"
 end
 
 
@@ -86,19 +87,16 @@ Then(/^I input URL in edit profile page$/) do
 end
 
 
-When(/^I enter premium user's profile(?: page)?$/) do
+When(/^I enter premium user's profile$/) do
   premium_page.enter_premium_profile
-  wait_for_none_animating
 end
 
 When(/^I enter non\-premium user's profile$/) do
   premium_page.enter_non_premium_profile
-  wait_for_none_animating
 end
 
 Then(/^I go back to user profile page$/) do
   forum_page.exit_edit_profile
-  wait_for_none_animating
 end
 
 Then(/^I click the url and check the link works$/) do
@@ -214,7 +212,7 @@ Then(/^I enter the chat window and start to chat$/) do
     wait_touch "* marked:'Start chatting now.'"
   else 
     puts "HERE IS A BUG!!!"
-    wait_touch "* marked:'miles2'"
+    wait_touch "* marked:'milesp'"
   end
   wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
 end

@@ -2,7 +2,7 @@
 Feature: Check url field for Premium/Non-premium users
   @self_url
   Scenario: Check url in user's own profile page
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page
     Then I go to community profile page
@@ -16,7 +16,7 @@ Feature: Check url field for Premium/Non-premium users
 
   @others_url
   Scenario: Check url not exist in non-premium users profile
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I login as non-premium user
     And I open "community" page
     Then I go to community profile page
