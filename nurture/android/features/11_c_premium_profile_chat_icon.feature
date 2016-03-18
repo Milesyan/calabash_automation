@@ -39,7 +39,7 @@ Feature: Check chat icon for users.
     Then I check that the chat icon exists
     When I click the chat icon
     Then I should see the prompt premium dialog
-    And I close the request dialog
+    # And I close the request dialog
     And I go back to forum page from forum profile page
     And I go back to previous page
     And I logout

@@ -12,3 +12,4 @@ include NurtureHelper
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 GLOW_EVENTS_URL = "http://titan-appevents.glowing.com"
+URL = "http://www.google.com"

@@ -71,13 +71,12 @@ class PremiumPage < Calabash::ABase
   end
 
   def close_request_dialog
-    wait_touch "* id:'gl-foundation-popup-close'"
+    wait_touch "* marked:'Cancel'"
   end
 
   def chat_request_fail
     wait_touch "* marked:'Chat'"
-    wait_touch "* marked:'Send request'"
-    wait_for_element_exists "* marked:'Failed to send chat request.'"
+    wait_for_element_exists "* {text CONTAINS 'Can not chat due to'}"
   end
 
 

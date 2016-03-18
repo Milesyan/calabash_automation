@@ -118,6 +118,7 @@ module NurtureForumIOS
       @user_id = @res["data"]["id"]
       @gender = @res["data"]["gender"]
       @preg_id = @res["data"]["pregnancies"].first["id"]
+      @first_name = @res["data"]["first_name"]
       self
     end
 

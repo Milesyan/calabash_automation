@@ -8,7 +8,7 @@ Feature: Check url field for Premium/Non-premium users
     Then I go to community profile page
     And I click edit profile button
     Then I input URL in edit profile page
-    And I go back to user profile page 
+    And I click save button
     Then I click the url and check the link works
     Then I go back to previous page from the pop-up web page
     And I go back to forum page from forum profile page
@@ -23,6 +23,7 @@ Feature: Check url field for Premium/Non-premium users
     When I click edit profile button
     Then I cannot see a url field in edit profile page
     And I go back to forum page from forum profile page
+    And I go back to previous page
     And I logout
 
     

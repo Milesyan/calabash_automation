@@ -57,13 +57,13 @@ end
 
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name).join_group
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name).join_group
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
   $new_user.turn_off_chat
@@ -96,7 +96,7 @@ When(/^I enter non\-premium user's profile$/) do
 end
 
 Then(/^I go back to user profile page$/) do
-  forum_page.exit_edit_profile
+  forum_page.click_back_button
 end
 
 Then(/^I click the url and check the link works$/) do
@@ -180,7 +180,8 @@ Then(/^I should see the send request dialog$/) do
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
+  wait_touch "* marked:'OK'" 
+  # wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
 end
 
 Then(/^I click send request button$/) do

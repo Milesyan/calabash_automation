@@ -142,6 +142,7 @@ module NurtureForumAndroid
         @ut = @res["dict"]["encrypted_token"]
         @user_id = @res["dict"]["user_id"]
         log_msg email + " just logged in. [user_id: #{@user_id}]"
+        @first_name = @res["dict"]["first_name"]
       end
       self
     end
@@ -514,7 +515,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "TURN OFF CHAT FOR #{self.user_id}"
+      puts "TURN OFF CHAT FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
 
@@ -526,7 +527,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "TURN ON CHAT FOR #{self.user_id}"
+      puts "TURN ON CHAT FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
 
@@ -538,7 +539,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "TURN OFF SIGNATURE FOR #{self.user_id}"
+      puts "TURN OFF SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
 
@@ -551,7 +552,7 @@ module NurtureForumAndroid
       }
       url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts "TURN ON SIGNATURE FOR #{self.user_id}"
+      puts "TURN ON SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
 

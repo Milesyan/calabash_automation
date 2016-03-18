@@ -613,3 +613,12 @@ Then(/^I should see the content hidden due to low rating$/) do
   sleep 0.5
   wait_for_element_exists "* marked:'Content hidden due to low rating.'"
 end
+
+
+
+#Save
+Then(/^I click save button$/) do
+  wait_touch "* marked:'Save'"
+end
+
+
