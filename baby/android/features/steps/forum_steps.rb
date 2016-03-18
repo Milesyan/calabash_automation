@@ -583,6 +583,10 @@ Then(/^I go back to community page$/) do
   end
 end
 
+Then(/^I should see I have to create several comments before creating a group$/) do
+  wait_for_element_exists "* {text CONTAINS 'comments before creating'}"
+end
+
 # -------NEW Invite and hide post flag----------------
 Then(/^I invite the user to this group$/) do
   forum_page.invite_user
