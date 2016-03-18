@@ -57,7 +57,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def enter_messages
-    wait_touch "* id:'gl-community-navbar-chat.png'"
+    wait_touch "* id:'menu_community_chat'"
   end
 
   def click_name_of_chat_requester

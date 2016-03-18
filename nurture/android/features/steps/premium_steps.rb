@@ -145,7 +145,7 @@ Then(/^I turn off signature in profile settings$/) do
 end
 
 Then(/^I should not see the signature in topic\/comment\/subreply$/) do
-  check_element_does_not_exist "* id:'gl-community-plus-badge.png'"
+  check_element_does_not_exist "* id:'premium_author_profile_bg'"
 end
 
 Then(/^I update bio and location info$/) do
@@ -154,7 +154,7 @@ end
 
 Then(/^I checked the elements in a signature$/) do
   check_element_exists "* marked:'Chat'"
-  check_element_exists "* id:'gl-community-plus-badge.png'"
+  check_element_exists "* id:'premium_author_profile_bg'"
 end
 
 Then(/^I click the areas in signature$/) do
@@ -172,7 +172,7 @@ end
 
 Then(/^I check the signature does not display$/) do
   check_element_does_not_exist "* marked:'Chat'"
-  check_element_does_not_exist "* id:'gl-community-plus-badge.png'"
+  check_element_does_not_exist "* id:'premium_author_profile_bg'"
 end
 
 Then(/^I should see the send request dialog$/) do

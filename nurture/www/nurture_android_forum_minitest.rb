@@ -1,4 +1,4 @@
-require 'minitest/autorun'
+minitestn minitestnrequire 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'nurture_android_forum_test'
 
