@@ -92,6 +92,7 @@ class CommonPage < Calabash::IBase
     when "me"
       wait_touch "UITabBarButtonLabel marked:'Me'"
     end
+    sleep 1
     close_chat_popup
   end
 

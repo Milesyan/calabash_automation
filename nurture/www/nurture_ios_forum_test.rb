@@ -26,7 +26,8 @@ module NurtureForumIOS
   class NurtureUser
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
-    attr_accessor :reply_content,:group_id,:all_group_ids, :tgt_user_id, :request_id
+    attr_accessor :reply_content,:group_id,:all_group_ids
+    attr_accessor :tgt_user_id, :request_id, :all_participants
 
 
     def initialize(args = {})
@@ -653,6 +654,11 @@ module NurtureForumIOS
       self
     end
 
+    def establish_chat(tgt_user)
+      send_chat_request tgt_user.user_id
+      tgt_user.accept_chat
+    end
+
     def ignore_chat
       get_request_id
       chat_data = {
@@ -676,6 +682,32 @@ module NurtureForumIOS
       @res = HTTParty.post("#{FORUM_BASE_URL}/chat/remove_by_user", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
+      self
+    end
+
+    def get_all_participants
+      chat_data = {
+        "code_name": "kaylee",
+        "ut": @ut
+      }.merge(common_data)
+      _res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @all_participants = []
+      _res["data"]["participants"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_participants.push v
+          end
+        end
+      end
+      @all_participants
+    end
+    
+    def remove_all_participants
+      _participants = self.get_all_participants
+      _participants.each do |id|
+        remove_chat id
+      end
       self
     end
 

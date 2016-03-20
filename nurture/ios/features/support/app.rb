@@ -20,6 +20,7 @@ module Nurture
   
 
   def logout_if_already_logged_in
+    common_page.close_chat_popup
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       puts "TUTORIAL IN LOGOUT PROCESS"
       common_page.finish_tutorial

@@ -54,10 +54,31 @@ Given(/^the non\-premium user create a topic in the test group$/) do
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
+Given(/^A premium user miles2 established chat relationship with a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
+  $user.turn_on_chat
+  $user.remove_all_participants
+  $new_user = forum_new_nurture_user(first_name: name)
+  $user.establish_chat $new_user
+  if $user.res["data"]["rc"] == 0 
+    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+  end
+end
+
+Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
+  $user.turn_on_chat
+  $user.remove_all_participants
+  $new_user = forum_new_nurture_user(first_name: name)
+  $user.send_chat_request $new_user.user_id
+  if $user.res["data"]["rc"] == 0 
+    puts "CHAT REQUEST SENT SUCCESSFULLY"
+  end
+end
 
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name).join_group
+  $new_user = forum_new_nurture_user(first_name: user_name)
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
@@ -245,5 +266,112 @@ end
 
 Then(/^I can see the status is following$/) do
   wait_for_element_exists "* marked:'Following'"
+end
+
+#----CHAT WINDOW---
+Then(/^I go to the chat window for the new user$/) do
+  wait_for_element_exists "* marked:'Messages'"
+  wait_touch "* marked:'#{$new_user.first_name}'"
+  wait_for_element_exists "* marked:'Enter Message'"
+end
+
+Then(/^I click chat settings$/) do
+  premium_page.click_chat_settings
+end
+
+Given(/^I click "([^"]*)" in chat options$/) do |arg1|
+  wait_touch "* marked:'#{arg1}'"
+end
+
+Then(/^I confirm to block the user$/) do
+  wait_touch "* marked:'Yes, I am sure'"
+end
+
+Then(/^I confirm to delete the user$/) do
+  wait_touch "* marked:'Yes, delete'"
+end
+
+Given(/^I send a message with text "([^"]*)"$/) do |arg1|
+  premium_page.send_text_in_chat arg1
+end
+
+Then(/^I should see the chat history has been deleted$/) do
+  sleep 2
+  check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
+end
+
+Then(/^I send a message with last image$/) do
+  premium_page.send_image_in_chat
+end
+
+Then(/^I should see the image I sent$/) do
+  wait_for_element_exists "MWTapDetectingView"
+  touch "* marked:'Back'"
+  if element_exists "* marked:'Back'"
+    touch "* marked:'Back'"
+  end
+end
+
+Then(/^I choose one of the reasons as report reason$/) do
+  wait_for_element_exists "* marked:'Report'"
+  enum_reason = ["Spam or scam", "Rude", "Pornographic, Hate, or Threat"].sample
+  wait_touch "* marked:'#{enum_reason}'"
+end
+
+Then(/^I check the chat request is received$/) do
+  wait_for_element_exists "* marked:'New Chat Request'"
+  wait_for_element_exists "* {text contains '#{$user.first_name}'}"
+end
+
+Then(/^I click accept request button$/) do
+  wait_touch "* marked:'Accept Request'"
+  wait_touch "* marked:'Confirm'"
+end
+
+Then(/^I go back to previous page from chat request page$/) do
+  wait_touch "* marked:'gl community back'"
+end
+
+Then(/^I goes to chat window and click close button$/) do
+  wait_for_element_exists "* marked:'Close'"
+  touch "* marked:'Close'"
+end
+
+Then(/^I go to contact list$/) do
+  premium_page.open_contact_list
+end
+
+Then(/^I should see the user "([^"]*)" is in the contact list$/) do |arg1|
+  wait_for_element_exists "* {text contains '#{arg1}'}"
+end
+
+Then(/^I should see the lock icon after the user's name$/) do
+  wait_for_element_exists "* id:'conversation-lock'"
+end
+
+When(/^I click the name of user "([^"]*)"$/) do |arg1|
+  wait_touch "* {text contains '#{arg1}'}"
+end
+
+And(/^I click settings in chat request page and see edit profile page$/) do
+  wait_touch "* marked:'Accept Request'"
+  wait_touch "* {text CONTAINS 'settings'}"
+  wait_for_element_exists "* marked:'Edit Profile'"
+end
+
+When(/^I swipe the conversation log and click delete$/) do
+  swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
+  wait_for_none_animating
+  wait_touch "* marked:'Delete'"
+end
+
+When(/^I swipe the contact person and click delete$/) do
+  swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
+  wait_for_none_animating
+  wait_touch "* marked:'Delete'"
+end
+
+Then(/^I should see the contact person is deleted$/) do
+  wait_for_element_exists "* marked:'Discover interesting people'"
 end
 

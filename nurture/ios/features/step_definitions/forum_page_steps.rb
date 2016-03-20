@@ -327,7 +327,13 @@ Then(/^I click save of the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  wait_for_none_animating
+  sleep 1
+  if element_exists "* {text CONTAINS '#{$new_user.first_name}'"
+    puts "CHECK NEW CHAT BLOCK"
+  else
+    check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  end
   check_element_exists "* marked:'Blocked'"
 end
 

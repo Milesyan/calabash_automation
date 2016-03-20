@@ -54,7 +54,8 @@ class PremiumPage < Calabash::IBase
   end
 
   def enter_messages
-    wait_touch "* id:'gl-community-navbar-chat.png'"
+    common_page.close_chat_popup
+    wait_touch "* marked:'gl community navtab search' sibling UIView index:3"
   end
 
   def click_name_of_chat_requester
@@ -76,6 +77,38 @@ class PremiumPage < Calabash::IBase
     wait_touch "UIButton marked:'Send request'"
     wait_for_element_exists "* marked:'Failed to send chat request.'"
   end
+
+  def click_chat_settings
+    sleep 1
+    touch "UINavigationButton index:0"
+    # wait_for_element_exists "* marked:'Chat options'"
+  end
+
+  def send_text_in_chat(args)
+    wait_touch "* marked:'Enter Message'"
+    keyboard_enter_text args
+    sleep 1
+    touch "* marked:'Send'"
+  end
+
+  def send_image_in_chat
+    wait_touch "* marked:'Message Input Toolbar Camera Button'"
+    wait_touch "* marked:'Last Photo'" 
+    sleep 1
+    touch "* marked:'Send'"
+    sleep 3
+  end
+
+  def open_contact_list
+    wait_touch "* marked:'Contacts'"
+  end
+
+
+
+
+
+
+
 
 
 

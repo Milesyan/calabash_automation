@@ -343,6 +343,26 @@ class NurtureTest < Minitest::Test
     puts up.res
   end
 
+  def test_get_participants
+    up = premium_login
+    up.get_all_participants
+    puts up.all_participants
+  end
+
+  def test_remove_all_participants
+    up = premium_login
+    up.remove_all_participants
+    up.get_all_participants
+  end
+
+  def test_establish_chat
+    up = premium_login
+    u = new_nurture_user
+    up.establish_chat u
+    puts up.res
+    puts u.res
+  end
+
 end
 
 
