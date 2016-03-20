@@ -14,6 +14,11 @@ class NurtureTest < Minitest::Test
     NurtureUser.new.signup.login
   end
 
+  def premium_login
+    premium = NurtureUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium
+  end
+
   def test_create_example_user
     u = new_nurture_user
     puts u.res
@@ -287,6 +292,55 @@ class NurtureTest < Minitest::Test
 
   def test_exising_email_login
     NurtureUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
+  def test_send_chat_request
+    u1 = new_nurture_user
+    u2 = new_nurture_user
+    u1.send_chat_request u2.user_id
+    puts u1.res
+    assert_equal u1.res["data"]["rc"], 8003
+  end
+
+  def test_premium_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    assert_rc up.res["data"]
+    u.get_request_id
+    puts u.res["data"]["requests"][0]["id"]
+  end
+
+  def test_accept_chat_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    assert_equal u.res["data"]["msg"], "Chat request is accepted."
+  end
+
+  def test_ignore_chat_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.ignore_chat
+    assert_equal u.res["data"]["msg"], "Chat request is rejected."
+  end
+
+  def test_remove_chat_false
+    up = premium_login
+    u = new_nurture_user
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_remove_chat_true
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    up.remove_chat u.user_id
+    puts up.res
   end
 
 end

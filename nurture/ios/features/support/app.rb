@@ -22,13 +22,13 @@ module Nurture
   def logout_if_already_logged_in
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       puts "TUTORIAL IN LOGOUT PROCESS"
-      home_page.finish_tutorial
+      common_page.finish_tutorial
     end
-    home_page.close_chat_popup
+    common_page.close_chat_popup
     sleep 2
     if element_exists "UITabBarButton"
-      nav_page.open("Me")
-      me_page.logout
+      common_page.open("Me")
+      common_page.logout
     end
   end
 

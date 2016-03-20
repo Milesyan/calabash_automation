@@ -3,7 +3,7 @@ def premium_user(args={})
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
-  $user = premium_user :email => "milesp@g.com", :password => "111111"
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
   puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
@@ -13,34 +13,34 @@ end
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  onboard_page.login($user.email,$user.password)
+  common_page.login($user.email,$user.password)
   sleep 2
-  home_page.finish_tutorial 
+  common_page.finish_tutorial 
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  onboard_page.login($user.email,$user.password)
+  common_page.login($user.email,$user.password)
   sleep 2
-  home_page.finish_tutorial 
+  common_page.finish_tutorial 
 end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
   puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
-  onboard_page.login($new_user.email,$new_user.password)
+  common_page.login($new_user.email,$new_user.password)
   sleep 2
-  home_page.finish_tutorial 
+  common_page.finish_tutorial 
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
   puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
-  onboard_page.login($user2.email,$user2.password)
+  common_page.login($user2.email,$user2.password)
   sleep 2
-  home_page.finish_tutorial 
+  common_page.finish_tutorial 
 end
 
 Given(/^the premium user create a topic in the test group$/) do
@@ -241,5 +241,9 @@ end
 
 Then(/^I check that the chat requst failed to be sent$/) do
   premium_page.chat_request_fail
+end
+
+Then(/^I can see the status is following$/) do
+  wait_for_element_exists "* marked:'Following'"
 end
 

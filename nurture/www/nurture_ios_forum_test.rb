@@ -26,7 +26,7 @@ module NurtureForumIOS
   class NurtureUser
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
-    attr_accessor :reply_content,:group_id,:all_group_ids
+    attr_accessor :reply_content,:group_id,:all_group_ids, :tgt_user_id, :request_id
 
 
     def initialize(args = {})
@@ -586,7 +586,7 @@ module NurtureForumIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "TURN OFF CHAT FOR #{self.user_id}"
+      puts "TURN ON CHAT FOR #{self.user_id}"
       self
     end
 
@@ -598,7 +598,7 @@ module NurtureForumIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "TURN OFF CHAT FOR #{self.user_id}"
+      puts "TURN OFF Signature FOR #{self.user_id}"
       self
     end
 
@@ -611,16 +611,73 @@ module NurtureForumIOS
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts "TURN OFF CHAT FOR #{self.user_id}"
+      puts "TURN ON Signature FOR #{self.user_id}"
       self
     end
 
+    def send_chat_request(tgt_user_id)
+      chat_data = {
+        "code_name": "kaylee",
+        "src": 2,
+        "tgt_user_id": tgt_user_id,
+        "ut": @ut
+      }.merge(common_data)
+      @tgt_user_id = tgt_user_id
+      @res = HTTParty.post("#{FORUM_BASE_URL}/chat/new", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} send chat request to #{tgt_user_id}"
+      self
+    end
 
+    def get_request_id
+      chat_data = {
+        "code_name": "kaylee",
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @request_id = @res["data"]["requests"][0]["id"]
+      self
+    end
 
+    def accept_chat
+      get_request_id
+      chat_data = {
+        "code_name": "kaylee",
+        "request_id": @request_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.post("#{FORUM_BASE_URL}/chat/accept", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} accepts chat request id >>>#{request_id}<<<"
+      self
+    end
 
+    def ignore_chat
+      get_request_id
+      chat_data = {
+        "code_name": "kaylee",
+        "request_id": @request_id,
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.post("#{FORUM_BASE_URL}/chat/reject", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} rejects chat request id >>>#{request_id}<<<"
+      self
+    end
 
-
-
+    def remove_chat(tgt_user_id)
+      chat_data = {
+        "code_name": "kaylee",
+        "tgt_user_id": tgt_user_id,
+        "ut": @ut
+      }.merge(common_data)
+      @tgt_user_id = tgt_user_id
+      @res = HTTParty.post("#{FORUM_BASE_URL}/chat/remove_by_user", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
+      self
+    end
 
   end
 end
