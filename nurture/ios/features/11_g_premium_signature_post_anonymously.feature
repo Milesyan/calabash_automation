@@ -3,7 +3,7 @@ Feature: Check UI display when a premium user post a topic
   @anonymouse_signature
   Scenario: Check UI display when a premium user post a topic
     Given A premium user miles2 and a non-premium user milesn have been created for test
-    And "MilesPremium" create 1 topic and 1 comments and 0 subreplies for each comment
+    And "Mile2" create 1 topic and 1 comments and 0 subreplies for each comment
     And I login as premium user
     And I open "community" page
     And I go to the first group

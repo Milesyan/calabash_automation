@@ -4,9 +4,10 @@ end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "miles2@g.com", :password => "111111"
-  $user.turn_on_chat
+  $user.turn_on_chat.remove_all_participants
   puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
+  $user2.turn_on_chat.remove_all_participants
   puts "$user2 user id = 6502"
 end
 
@@ -25,6 +26,11 @@ Given(/^I login as(?: the)? premium user and turn off chat$/) do
   common_page.login($user.email,$user.password)
   sleep 2
   common_page.finish_tutorial 
+end
+
+
+Given(/^A new user "([^"]*)" is created$/) do |name|
+  $new_user = forum_new_nurture_user(first_name: name)
 end
 
 Then(/^I login as the new user$/) do
@@ -65,6 +71,13 @@ Given(/^A premium user miles2 established chat relationship with a new user "([^
   end
 end
 
+Given(/^premium user miles2 established chat relationship with the new user$/) do
+  $user.establish_chat $new_user
+  if $user.res["data"]["rc"] == 0 
+    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+  end
+end
+
 Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |name|
   $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
@@ -93,6 +106,27 @@ end
 
 When(/^I enter new user's profile$/) do
   wait_touch "* {text CONTAINS '#{$new_user.first_name}'}"
+end
+
+Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |user_name,topic_name|
+  $new_user = forum_new_nurture_user(first_name: user_name)
+  $new_user.create_topic :topic_title => topic_name
+  $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"
+  $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
+end
+
+Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment with chat off$/) do |user_name,topic_name|
+  $new_user = forum_new_nurture_user(first_name: user_name)
+  $new_user.turn_off_chat
+  $new_user.create_topic :topic_title => topic_name
+  $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"
+  $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
+end
+
+Given(/^the premium user miles2 creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
+  $user.create_topic :topic_title => topic_name
+  $user.reply_to_topic $user.topic_id, reply_content: "premium user test comment"
+  $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "premium user test subreply"
 end
 
 ##########>>>APP steps<<<##########
@@ -375,3 +409,17 @@ Then(/^I should see the contact person is deleted$/) do
   wait_for_element_exists "* marked:'Discover interesting people'"
 end
 
+
+#------TOUCH POINTS------
+Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
+  strategy= 
+    ["premium->non-premium", "non-premium->premium", "non-premium->non-premium",
+     "premium->premium", "existing relationship", "chat off premium", 
+     "chat off non-premium"]
+  strategy_index = strategy.index arg1
+  if strategy.include? arg1
+    premium_page.check_touch_points_in_topic strategy_index
+  else
+    screenshot_and_raise(msg='The input for strategy is incorrect.')
+  end
+end

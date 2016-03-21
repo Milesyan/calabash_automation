@@ -1,4 +1,4 @@
-@contact_page
+@premium @contact_page
 Feature: Check contact page features.
 
   @follow_contact

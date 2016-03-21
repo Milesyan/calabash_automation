@@ -38,6 +38,7 @@ class CommonPage < Calabash::IBase
     touch "* marked:'TODAY'"
     sleep 1
     wait_for_elements_exist "GLHomeDailyLogEntryCell", :timeout => 10
+    sleep 1.5
     touch "GLHomeDailyLogEntryCell"
     wait_for_none_animating
     touch "* id:'back'"

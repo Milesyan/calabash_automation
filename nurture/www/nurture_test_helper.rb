@@ -13,6 +13,7 @@ module NurtureTestHelper
   def magenta_background(text); colorize(text, 45); end
   def exchange_foreground_and_background(text); colorize(text, 7); end
   def light_red(text); colorize(text, 91); end
+  def sky_blue(text); colorize(text, 95); end
 
   def log_msg(msg)
     puts magenta(msg)
@@ -20,6 +21,14 @@ module NurtureTestHelper
 
   def log_error(msg)
     puts light_red(msg)
+  end
+
+  def puts_m(msg)
+    puts sky_blue(msg)
+  end
+
+  def puts_n(msg)
+    puts yellow_background(msg)
   end
 
   def load_config

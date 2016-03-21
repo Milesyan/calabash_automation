@@ -103,13 +103,32 @@ class PremiumPage < Calabash::IBase
     wait_touch "* marked:'Contacts'"
   end
 
+  def check_touch_points_in_topic(args)
+    forum_page.view_all_replies
+    wait_touch "* marked:'Chat'" if [0,1,2,4].include? args
+    _touch_points_reaction args
+    forum_page.click_back_button
+    wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,4].include? args
+    _touch_points_reaction args
+    wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,4].include? args
+    _touch_points_reaction args
+  end
 
-
-
-
-
-
-
-
+  def _touch_points_reaction(args)
+    #"premium->non-premium", "non-premium->premium", "non-premium->non-premium
+    case args
+    when 0, 1, 3
+      wait_for_element_exists "* marked:'Send request'"
+      close_request_dialog
+    when 2
+      wait_for_element_exists "UIButton marked:'Upgrade to Glow Premium'"
+      close_request_dialog
+    when 4
+      wait_for_element_exists "* marked:'Enter Message'"
+      forum_page.click_back_button
+    when 5,6
+      check_element_does_not_exist "* marked:'Chat'"
+    end
+  end
 
 end
