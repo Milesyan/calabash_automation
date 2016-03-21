@@ -120,11 +120,19 @@ Then (/^I go back to group$/) do
 end
 
 Then (/^I go back to previous page$/) do
-  forum_page.click_back_button
+  if element_exists "* marked:'Back'"
+    forum_page.click_back_button
+  else
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
 end
 
 Then (/^I go to previous page$/) do
-  forum_page.click_back_button
+  if element_exists "* marked:'Back'"
+    forum_page.click_back_button
+  else
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
 end
 
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|

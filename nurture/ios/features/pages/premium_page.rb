@@ -50,7 +50,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def click_upgrade_premium
-    wait_touch "UIButton marked:'Upgrade to Glow Premium'"
+    wait_touch "UIButton marked:'Get Glow Premium'"
   end
 
   def enter_messages
@@ -74,7 +74,7 @@ class PremiumPage < Calabash::IBase
 
   def chat_request_fail
     wait_touch "* marked:'Chat'"
-    wait_touch "UIButton marked:'Send request'"
+    wait_touch "* marked:'Send request'"
     wait_for_element_exists "* marked:'Failed to send chat request.'"
   end
 
@@ -105,12 +105,12 @@ class PremiumPage < Calabash::IBase
 
   def check_touch_points_in_topic(args)
     forum_page.view_all_replies
-    wait_touch "* marked:'Chat'" if [0,1,2,4].include? args
+    wait_touch "* marked:'Chat'" if [0,1,2,3,4].include? args
     _touch_points_reaction args
     forum_page.click_back_button
-    wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,4].include? args
+    wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,3,4].include? args
     _touch_points_reaction args
-    wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,4].include? args
+    wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,3,4].include? args
     _touch_points_reaction args
   end
 
@@ -121,7 +121,7 @@ class PremiumPage < Calabash::IBase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for_element_exists "UIButton marked:'Upgrade to Glow Premium'"
+      wait_for_element_exists "UIButton marked:'Get Glow Premium'"
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Enter Message'"

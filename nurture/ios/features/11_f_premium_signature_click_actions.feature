@@ -11,9 +11,8 @@ Feature: Check actions when user clicks elements in signature.
     When I click the chat icon and see the chat window
     Then I should see the send request dialog
     And I click send request button
-    And I go back to previous page
     Then I click the areas in signature
     Then I should go to profile page 
-    And I go back to previous page
+    And I go back to forum page from forum profile page
     And I go back to group
     And I logout

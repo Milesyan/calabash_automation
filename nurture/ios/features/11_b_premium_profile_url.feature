@@ -22,6 +22,7 @@ Feature: Check url field for Premium/Non-premium users
     Then I go to community profile page
     When I click edit profile button
     Then I cannot see a url field in edit profile page
+    And I go back to user profile page
     And I go back to forum page from forum profile page
     And I logout
 

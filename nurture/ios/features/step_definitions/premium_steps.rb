@@ -4,7 +4,7 @@ end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "miles2@g.com", :password => "111111"
-  $user.turn_on_chat.remove_all_participants
+  $user.turn_on_chat.turn_on_signature.remove_all_participants
   puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
   $user2.turn_on_chat.remove_all_participants
@@ -22,7 +22,7 @@ end
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in using email and passw22ord: #{$user.email}, #{$user.password}" 
   common_page.login($user.email,$user.password)
   sleep 2
   common_page.finish_tutorial 
@@ -127,6 +127,11 @@ Given(/^the premium user miles2 creates 1 topic with name "([^"]*)" and 1 commen
   $user.create_topic :topic_title => topic_name
   $user.reply_to_topic $user.topic_id, reply_content: "premium user test comment"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "premium user test subreply"
+end
+
+
+Given(/^(?:the )?premium user miles2 turns off signature$/) do
+  $user.turn_off_signature
 end
 
 ##########>>>APP steps<<<##########
@@ -237,7 +242,7 @@ Then(/^I should see the send request dialog$/) do
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
+  wait_for_element_exists "* {text CONTAINS 'Get Glow Premium'}", :time_out => 3
 end
 
 Then(/^I click send request button$/) do
@@ -403,6 +408,10 @@ When(/^I swipe the contact person and click delete$/) do
   swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
   wait_for_none_animating
   wait_touch "* marked:'Delete'"
+  if element_exists "* {text CONTAINS 'Zed'}"
+    swipe "left", {:query => "* {text CONTAINS 'Zed'}"}
+    wait_touch "* marked:'Delete'"
+  end
 end
 
 Then(/^I should see the contact person is deleted$/) do

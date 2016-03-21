@@ -28,11 +28,12 @@ class CommonPage < Calabash::IBase
 
   def tutorial_steps
     sleep 1
-    flick "UIScrollView", {x:50, y:0}
+    flick "UIScrollView index:0", {x:200, y:0}
     sleep 1
-    flick "UIScrollView", {x:50, y:0}
-    sleep 1
-    until_element_does_not_exist("* {text CONTAINS 'Pull down to see the'}", action: lambda {swipe :down}, :timeout => 10)
+    flick "UIScrollView index:0", {x:200, y:0}
+    sleep 0.5
+    swipe :down
+    sleep 0.5
     swipe :down
     wait_for_elements_exist "* marked:'TODAY'", :timeout => 10
     touch "* marked:'TODAY'"
