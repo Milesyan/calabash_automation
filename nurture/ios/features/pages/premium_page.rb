@@ -74,8 +74,7 @@ class PremiumPage < Calabash::IBase
 
   def chat_request_fail
     wait_touch "* marked:'Chat'"
-    wait_touch "* marked:'Send request'"
-    wait_for_element_exists "* marked:'Failed to send chat request.'"
+    wait_for_element_exists "* marked:'Can not chat because you turned off chat.'"
   end
 
   def click_chat_settings
@@ -125,6 +124,7 @@ class PremiumPage < Calabash::IBase
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Enter Message'"
+      premium_page.close_chat_popup
       forum_page.click_back_button
     when 5,6
       check_element_does_not_exist "* marked:'Chat'"

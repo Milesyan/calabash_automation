@@ -14,6 +14,7 @@ Feature: Check chat relationship and forum relationship.
     When I enter new user's profile
     Then I can see the status is following
     And I go back to previous page
+    And I go back to previous page
     And I logout
 
   @block_black_list

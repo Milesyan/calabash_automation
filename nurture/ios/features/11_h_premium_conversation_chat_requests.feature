@@ -20,6 +20,7 @@ Feature: Chat request -> accept/ignore.
     When I accept the chat request
     Then I enter the chat window and start to chat
     And I go back to previous page
+    And I go back to previous page from chat request page
     And I click done to close messages
     And I logout
 

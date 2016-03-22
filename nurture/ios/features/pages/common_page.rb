@@ -7,7 +7,7 @@ class CommonPage < Calabash::IBase
 
   def finish_tutorial
     wait_for_element_does_not_exist "* marked:'Log in with Glow account'"
-    sleep 2
+    sleep 3
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
     else 

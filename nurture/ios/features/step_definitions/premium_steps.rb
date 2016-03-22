@@ -368,6 +368,8 @@ Then(/^I click accept request button$/) do
 end
 
 Then(/^I go back to previous page from chat request page$/) do
+  sleep 1
+  common_page.close_chat_popup
   wait_touch "* marked:'gl community back'"
 end
 
@@ -385,7 +387,7 @@ Then(/^I should see the user "([^"]*)" is in the contact list$/) do |arg1|
 end
 
 Then(/^I should see the lock icon after the user's name$/) do
-  wait_for_element_exists "* id:'conversation-lock'"
+  wait_for_element_exists "* id:'contacts-lock'"
 end
 
 When(/^I click the name of user "([^"]*)"$/) do |arg1|
