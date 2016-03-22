@@ -9,8 +9,7 @@ Feature: Check notifications about chat
     Then I check the chat request is received 
     When I click accept request button
     And I go back to previous page
-    And I go back to previous page from chat request page
-    When I click accept request button
-    Then I goes to chat window and click close button
+    And I wait for 2 seconds
+    And I click done to close messages
     And I go back to community page
     And I logout
