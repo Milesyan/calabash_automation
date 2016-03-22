@@ -30,7 +30,7 @@ end
 
 
 Given(/^A new user "([^"]*)" is created$/) do |name|
-  $new_user = forum_new_nurture_user(first_name: name)
+  $new_user = forum_new_user(first_name: name)
 end
 
 Then(/^I login as the new user$/) do
@@ -64,7 +64,7 @@ Given(/^A premium user miles2 established chat relationship with a new user "([^
   $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
   $user.remove_all_participants
-  $new_user = forum_new_nurture_user(first_name: name)
+  $new_user = forum_new_user(first_name: name)
   $user.establish_chat $new_user
   if $user.res["data"]["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
@@ -82,7 +82,7 @@ Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |n
   $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
   $user.remove_all_participants
-  $new_user = forum_new_nurture_user(first_name: name)
+  $new_user = forum_new_user(first_name: name)
   $user.send_chat_request $new_user.user_id
   if $user.res["data"]["rc"] == 0 
     puts "CHAT REQUEST SENT SUCCESSFULLY"
@@ -91,13 +91,13 @@ end
 
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name)
+  $new_user = forum_new_user(first_name: user_name)
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name).join_group
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
   $new_user.turn_off_chat
@@ -109,14 +109,14 @@ When(/^I enter new user's profile$/) do
 end
 
 Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |user_name,topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name)
+  $new_user = forum_new_user(first_name: user_name)
   $new_user.create_topic :topic_title => topic_name
   $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"
   $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
 end
 
 Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment with chat off$/) do |user_name,topic_name|
-  $new_user = forum_new_nurture_user(first_name: user_name)
+  $new_user = forum_new_user(first_name: user_name)
   $new_user.turn_off_chat
   $new_user.create_topic :topic_title => topic_name
   $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"

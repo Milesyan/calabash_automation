@@ -98,6 +98,10 @@ Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|
   forum_page.create_post_in_group({'topic_title': arg1})
 end
 
+And(/^I post a text topic with title "([^"]*)" anonymously$/) do |arg1|
+  forum_page.create_post_in_group :topic_title => arg1, :anonymous => 1
+end
+
 Then(/^I discard the topic$/) do
   forum_page.discard_topic
 end

@@ -1,11 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'nurture_ios_forum_test'
-
+require_relative 'nurture_test_helper'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NurtureTest < Minitest::Test
   include NurtureForumIOS
+  extend NurtureTestHelper 
 
   def setup
   end
@@ -21,18 +22,15 @@ class NurtureTest < Minitest::Test
 
   def test_create_example_user
     u = new_nurture_user
-    puts u.res
   end
 
   def test_new_nurture_user
     u = new_nurture_user
-    puts u
   end
 
   def test_premium
     u = new_nurture_user
     u.get_premium
-    puts u.res
   end
 
   def assert_rc(res)
@@ -258,7 +256,7 @@ class NurtureTest < Minitest::Test
   def test_add_followings
     u1= new_nurture_user
     puts u1.res
-    100.times do
+    2.times do
       u = new_nurture_user
       u1.follow_user u.user_id
     end

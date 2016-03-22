@@ -79,6 +79,59 @@ class PremiumPage < Calabash::ABase
     wait_for_element_exists "* {text CONTAINS 'Can not chat due to'}"
   end
 
+#---IOS 
 
+  def click_chat_settings
+    sleep 1
+    touch "UINavigationButton index:0"
+    # wait_for_element_exists "* marked:'Chat options'"
+  end
 
+  def send_text_in_chat(args)
+    wait_touch "* marked:'Enter Message'"
+    keyboard_enter_text args
+    sleep 1
+    touch "* marked:'Send'"
+  end
+
+  def send_image_in_chat
+    wait_touch "* marked:'Message Input Toolbar Camera Button'"
+    wait_touch "* marked:'Last Photo'" 
+    sleep 1
+    touch "* marked:'Send'"
+    sleep 3
+  end
+
+  def open_contact_list
+    wait_touch "* marked:'Contacts'"
+  end
+
+  def check_touch_points_in_topic(args)
+    forum_page.view_all_replies
+    wait_touch "* marked:'Chat'" if [0,1,2,3,4].include? args
+    _touch_points_reaction args
+    forum_page.click_back_button
+    wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,3,4].include? args
+    _touch_points_reaction args
+    wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,3,4].include? args
+    _touch_points_reaction args
+  end
+
+  def _touch_points_reaction(args)
+    #"premium->non-premium", "non-premium->premium", "non-premium->non-premium
+    case args
+    when 0, 1, 3
+      wait_for_element_exists "* marked:'Send request'"
+      close_request_dialog
+    when 2
+      wait_for_element_exists "UIButton marked:'Get Glow Premium'"
+      close_request_dialog
+    when 4
+      wait_for_element_exists "* marked:'Enter Message'"
+      premium_page.close_chat_popup
+      forum_page.click_back_button
+    when 5,6
+      check_element_does_not_exist "* marked:'Chat'"
+    end
+  end
 end

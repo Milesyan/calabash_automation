@@ -2,7 +2,7 @@
 Feature: Check touch points in discover tab.
   @discover_banner
   Scenario: Check the premium banner under dicover page.
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab
@@ -13,7 +13,7 @@ Feature: Check touch points in discover tab.
 
   @discover_chat_elements
   Scenario: Check touch points elements under discover tab.
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab
@@ -24,7 +24,7 @@ Feature: Check touch points in discover tab.
 
   @discover_chat_see_all
   Scenario: Check recommended people see all list.
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab

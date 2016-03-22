@@ -1,4 +1,4 @@
-minitestn minitestnrequire 'minitest/autorun'
+require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'nurture_android_forum_test'
 
@@ -12,6 +12,11 @@ class NurtureTest < Minitest::Test
 
   def new_nurture_user
     NurtureUser.new.signup.login
+  end
+
+  def test_premium_login
+    up = premium_login
+    puts up.res
   end
 
   def test_new_nurture_user
@@ -51,9 +56,6 @@ class NurtureTest < Minitest::Test
   end
 
 
-  def test_create_link_topic
-
-  end
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
     u1 = new_nurture_user
@@ -248,6 +250,11 @@ class NurtureTest < Minitest::Test
     u.turn_on_chat
     assert_rc u.res
   end
+
+  def test_premium_chat_on
+    up = premium_login
+    up.turn_on_chat
+  end
   
   def test_turn_off_signature
     u = new_nurture_user
@@ -265,7 +272,94 @@ class NurtureTest < Minitest::Test
   def test_exising_email_login
     NurtureUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
   end
+
+  def test_send_chat_request
+    u1 = new_nurture_user
+    u2 = new_nurture_user
+    u1.send_chat_request u2.user_id
+    puts u1.res
+    assert_equal u1.res["rc"], 8003
+  end
+
+  def test_premium_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    assert_rc up.res
+    u.get_request_id
+    puts "REQUEST ID"
+    puts u.res["requests"][0]["id"]
+  end
+
+  def test_accept_chat_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    assert_equal "Chat request accepted!",u.res["msg"]
+  end
+
+  def test_ignore_chat_request
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.ignore_chat
+    assert_equal "Chat request rejected!",u.res["msg"]
+  end
+
+  def test_remove_chat_false
+    up = premium_login
+    u = new_nurture_user
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_remove_chat_true
+    up = premium_login
+    u = new_nurture_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_get_participants
+    up = premium_login
+    up.get_all_participants
+    puts up.all_participants
+  end
+
+  def test_remove_all_participants
+    up = premium_login
+    up.remove_all_participants
+    puts up.res
+    up.get_all_participants
+  end
+
+  def test_establish_chat
+    up = premium_login
+    u = new_nurture_user
+    up.establish_chat u
+    puts up.res
+    puts u.res
+  end
   
+  def premium_login
+    premium = NurtureUser.new(:email=>"milesp@g.com", :password => "111111").login
+    premium
+  end
+
+  def test_mimic_chat
+    up = premium_login
+    100.times do
+      u = new_nurture_user
+      up.establish_chat u
+    end
+    50.times do
+      u = new_nurture_user
+      up.send_chat_request u.user_id
+    end
+  end
 end
 
 

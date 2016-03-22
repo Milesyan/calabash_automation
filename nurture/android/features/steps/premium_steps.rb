@@ -27,6 +27,10 @@ Given(/^I login as(?: the)? premium user and turn off chat$/) do
   sleep 2
 end
 
+Given(/^A new user "([^"]*)" is created$/) do |name|
+  $new_user = forum_new_user(first_name: name)
+end
+
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
   login_page.tap_login
@@ -54,6 +58,36 @@ Given(/^the non\-premium user create a topic in the test group$/) do
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
+Given(/^A premium user milesp established chat relationship with a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "milesp@g.com", :password => "111111"
+  $user.turn_on_chat
+  $user.remove_all_participants
+  $new_user = forum_new_user(first_name: name)
+  $user.establish_chat $new_user
+  if $user.res["rc"] == 0 
+    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+  end
+end
+
+Given(/^premium user milesp established chat relationship with the new user$/) do
+  $user.establish_chat $new_user
+  if $user.res["rc"] == 0 
+    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+  end
+end
+
+
+Given(/^A premium user milesp sent chat request to a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "milesp@g.com", :password => "111111"
+  $user.turn_on_chat
+  $user.remove_all_participants
+  $new_user = forum_new_user(first_name: name)
+  $user.send_chat_request $new_user.user_id
+  if $user.res["rc"] == 0 
+    puts "CHAT REQUEST SENT SUCCESSFULLY"
+  end
+end
+
 
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
@@ -74,6 +108,31 @@ When(/^I enter new user's profile$/) do
   wait_touch "* {text CONTAINS '#{$new_user.first_name}'}"
 end
 
+Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |user_name,topic_name|
+  $new_user = forum_new_user(first_name: user_name)
+  $new_user.create_topic :topic_title => topic_name
+  $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"
+  $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
+end
+
+Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment with chat off$/) do |user_name,topic_name|
+  $new_user = forum_new_user(first_name: user_name)
+  $new_user.turn_off_chat
+  $new_user.create_topic :topic_title => topic_name
+  $new_user.reply_to_topic $new_user.topic_id, reply_content: "new_user premium test comment"
+  $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
+end
+
+Given(/^the premium user milesp creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
+  $user.create_topic :topic_title => topic_name
+  $user.reply_to_topic $user.topic_id, reply_content: "premium user test comment"
+  $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "premium user test subreply"
+end
+
+
+Given(/^(?:the )?premium user milesp turns off signature$/) do
+  $user.turn_off_signature
+end
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
   # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
@@ -241,4 +300,140 @@ end
 Then(/^I check that the chat requst failed to be sent$/) do
   premium_page.chat_request_fail
 end
+
+
+Then(/^I can see the status is following$/) do
+  wait_for_element_exists "* marked:'Following'"
+end
+
+#----CHAT WINDOW---
+Then(/^I go to the chat window for the new user$/) do
+  wait_for_element_exists "* marked:'Messages'"
+  wait_touch "* marked:'#{$new_user.first_name}'"
+  wait_for_element_exists "* marked:'Enter Message'"
+end
+
+Then(/^I click chat settings$/) do
+  premium_page.click_chat_settings
+end
+
+Given(/^I click "([^"]*)" in chat options$/) do |arg1|
+  wait_touch "* marked:'#{arg1}'"
+end
+
+Then(/^I confirm to block the user$/) do
+  wait_touch "* marked:'Yes, I am sure'"
+end
+
+Then(/^I confirm to delete the user$/) do
+  wait_touch "* marked:'Yes, delete'"
+end
+
+Given(/^I send a message with text "([^"]*)"$/) do |arg1|
+  premium_page.send_text_in_chat arg1
+end
+
+Then(/^I should see the chat history has been deleted$/) do
+  sleep 2
+  check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
+end
+
+Then(/^I send a message with last image$/) do
+  premium_page.send_image_in_chat
+end
+
+Then(/^I should see the image I sent$/) do
+  wait_for_element_exists "MWTapDetectingView"
+  touch "* marked:'Back'"
+  if element_exists "* marked:'Back'"
+    touch "* marked:'Back'"
+  end
+end
+
+Then(/^I choose one of the reasons as report reason$/) do
+  wait_for_element_exists "* marked:'Report'"
+  enum_reason = ["Spam or scam", "Rude", "Pornographic, Hate, or Threat"].sample
+  wait_touch "* marked:'#{enum_reason}'"
+end
+
+Then(/^I check the chat request is received$/) do
+  wait_for_element_exists "* marked:'New Chat Request'"
+  wait_for_element_exists "* {text contains '#{$user.first_name}'}"
+end
+
+Then(/^I click accept request button$/) do
+  wait_touch "* marked:'Accept Request'"
+  wait_touch "* marked:'Confirm'"
+end
+
+Then(/^I go back to previous page from chat request page$/) do
+  sleep 1
+  common_page.close_chat_popup
+  wait_touch "* marked:'gl community back'"
+end
+
+Then(/^I goes to chat window and click close button$/) do
+  wait_for_element_exists "* marked:'Close'"
+  touch "* marked:'Close'"
+end
+
+Then(/^I go to contact list$/) do
+  premium_page.open_contact_list
+end
+
+Then(/^I should see the user "([^"]*)" is in the contact list$/) do |arg1|
+  wait_for_element_exists "* {text contains '#{arg1}'}"
+end
+
+Then(/^I should see the lock icon after the user's name$/) do
+  wait_for_element_exists "* id:'contacts-lock'"
+end
+
+When(/^I click the name of user "([^"]*)"$/) do |arg1|
+  wait_touch "* {text contains '#{arg1}'}"
+end
+
+And(/^I click settings in chat request page and see edit profile page$/) do
+  wait_touch "* marked:'Accept Request'"
+  wait_touch "* {text CONTAINS 'settings'}"
+  wait_for_element_exists "* marked:'Edit Profile'"
+end
+
+When(/^I swipe the conversation log and click delete$/) do
+  swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
+  wait_for_none_animating
+  wait_touch "* marked:'Delete'"
+end
+
+When(/^I swipe the contact person and click delete$/) do
+  swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
+  wait_for_none_animating
+  wait_touch "* marked:'Delete'"
+  if element_exists "* {text CONTAINS 'Zed'}"
+    swipe "left", {:query => "* {text CONTAINS 'Zed'}"}
+    wait_touch "* marked:'Delete'"
+  end
+end
+
+Then(/^I should see the contact person is deleted$/) do
+  wait_for_element_exists "* marked:'Discover interesting people'"
+end
+
+
+#------TOUCH POINTS------
+Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
+  strategy= 
+    ["premium->non-premium", "non-premium->premium", "non-premium->non-premium",
+     "premium->premium", "existing relationship", "chat off premium", 
+     "chat off non-premium"]
+  strategy_index = strategy.index arg1
+  if strategy.include? arg1
+    premium_page.check_touch_points_in_topic strategy_index
+  else
+    screenshot_and_raise(msg='The input for strategy is incorrect.')
+  end
+end
+
+
+
 

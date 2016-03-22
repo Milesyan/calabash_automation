@@ -19,16 +19,12 @@ module NurtureTestHelper
     puts magenta(msg)
   end
 
-  def log_error(msg)
-    puts light_red(msg)
-  end
-
-  def puts_m(msg)
+  def log_important(msg)
     puts sky_blue(msg)
   end
-
-  def puts_n(msg)
-    puts yellow_background(msg)
+  
+  def log_error(msg)
+    puts light_red(msg)
   end
 
   def load_config
