@@ -93,4 +93,12 @@ class CommonPage < Calabash::IBase
   def finish_tutorial
     puts "NO TUTORIAL"
   end
+
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Check it out'}"
+    wait_touch "* {text CONTAINS 'Check it out'}"
+    wait_touch "* marked:'Join'"
+    sleep 2
+  end
+
 end

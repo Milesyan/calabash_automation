@@ -1,6 +1,6 @@
 require 'calabash-cucumber/ibase'
 
-class OnboardPage < Calabash::IBase
+class CommonPage < Calabash::IBase
   def trait
     "*"
   end
@@ -37,7 +37,7 @@ class OnboardPage < Calabash::IBase
 
   def logout_if_already_logged_in
     if element_does_not_exist "* marked:'LOG\u2028IN'"
-      nav_page.open("me")
+      common_page.open("me")
       me_page.logout
     end
   end
@@ -60,4 +60,42 @@ class OnboardPage < Calabash::IBase
   end
 
 
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Check it out!'}"
+    wait_touch "* {text CONTAINS 'Check it out!'}"
+    wait_touch "* marked:'Join'"
+    sleep 2
+  end
+
+
+  def logout
+    wait_touch "* marked:'Settings'"
+    scroll_to_row_with_mark "Logout"
+    wait_for_none_animating
+    wait_touch "* marked:'Logout'"
+    wait_for_element_exists "* marked:'Get it, Girl'"
+  end
+
+  def open(tab_name)
+    case tab_name.downcase
+    when "home"
+      wait_touch "UITabBarButton marked:'Home'"
+    when "community"
+      wait_touch "UITabBarButtonLabel marked:'Community'"
+      if element_does_not_exist "* marked:'New'"
+        wait_touch "UITabBarButtonLabel marked:'Community'"
+      end
+      sleep 1
+      if element_exists  "* id:'gl-foundation-popup-close'"
+        touch "* id:'gl-foundation-popup-close'"
+      end
+    when "alert"
+      wait_touch "UITabBarButtonLabel marked:'Alert'"
+      if element_does_not_exist "* marked:'Notifications'"
+        wait_touch "UITabBarButtonLabel marked:'Alert'"
+      end
+    when "me"
+      wait_touch "UITabBarButton marked:'Me'"
+    end
+  end
 end

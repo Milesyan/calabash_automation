@@ -57,8 +57,6 @@ class ForumPage < Calabash::IBase
     puts $user.topic_title
   end
 
-
-
   def create_link
     wait_touch "UIButtonLabel text:' Link '"
     wait_for_none_animating
@@ -109,7 +107,12 @@ class ForumPage < Calabash::IBase
   def click_back_button
     wait_touch "* marked:'Back'"
   end  
-  
+
+  def edit_topic_voted (args1)
+    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* id:'community-dots'"
+    wait_touch "UILabel marked:'Edit this post'"
+  end
 
   def edit_topic(args1)
     wait_touch "label {text CONTAINS '#{args1}'} index:0"
@@ -235,10 +238,14 @@ class ForumPage < Calabash::IBase
       puts "Gesture  Error"
     end
   end 
-
+#---premium---
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "* {text CONTAINS 'Topics/Comments'}"
+    if element_exists "* marked:'gl community navtab search'"
+      wait_touch "* marked:'gl community navtab search'"
+    else 
+      wait_touch "* {text CONTAINS 'Topics/Comments'}" 
+    end
   end
 
   def search_topics(args)
@@ -266,18 +273,15 @@ class ForumPage < Calabash::IBase
 
   def search_deleted_comments(args)
     touch "UISegment marked:'Comments'"
-    puts "Search for comment: #{args}"
+    puts "Search for deleted comment: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
   end
 
-  
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
-
-
 
   def scroll_up_to_see(args)
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
@@ -306,7 +310,7 @@ class ForumPage < Calabash::IBase
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
-    wait_for_elements_exist("* marked:'#{search_result}'")
+    wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
     puts "See element '#{search_result}'"
   end
@@ -375,7 +379,7 @@ class ForumPage < Calabash::IBase
   def check_groups
     wait_touch "UIButton index:0"
     check_element_exists "* marked:'#{TARGET_GROUP_NAME}'"
-    puts "I can see target group"
+    puts "I can see target group #{TARGET_GROUP_NAME }"
   end
 
   def check_followers
@@ -531,7 +535,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_hyperlink_comments
-    wait_touch "* marked:'Posted by' sibling UILabel index:0"  
+    wait_touch "UILabel {text CONTAINS 'comment'}"  
   end
 
   def hide_topic
@@ -551,7 +555,6 @@ class ForumPage < Calabash::IBase
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
-
 
   def confirm_hide(args = 1)
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
@@ -579,10 +582,10 @@ class ForumPage < Calabash::IBase
     end
     wait_touch "UILabel marked:'#{args}'" 
   end
-
+  
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
+    puts "I can see topic >>>#{$user2.topic_title}<<<"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
@@ -590,7 +593,7 @@ class ForumPage < Calabash::IBase
 
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
+    puts "I can see comment >>>#{$hidereply_content}<<<"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
@@ -601,7 +604,7 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check #{tmp} pass"
+      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -610,11 +613,13 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check #{tmp} pass"
+      puts "check >>'#{tmp}'<< pass"
     end
   end
 
-
+  def close_rules_page
+    wait_touch "UINavigationButton"
+  end
 
 #------------------NEW added-----------------
 
@@ -630,8 +635,7 @@ class ForumPage < Calabash::IBase
     description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text description
   end
-
-
+  
   def create_photo_tmi
     create_photo_common
     wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
@@ -653,7 +657,7 @@ class ForumPage < Calabash::IBase
     wait_for_elements_exist "* marked:'Your topic is successfully posted!"
     sleep 3
   end
-
+  
   def click_discover
     wait_touch "UILabel marked:'Discover'"
   end
@@ -682,16 +686,7 @@ class ForumPage < Calabash::IBase
     wait_touch "PUPhotosGridCell index:1"
     wait_touch "UIButtonLabel text:'Create'"
   end
-
-
-#enter_profile_page changed, Hide text changed.
-#has changed "* marked:'gl community topnav close' UINavigationButton sibling * index:2" to "UINavigationBar child UINavigationButton"\
   
-  def close_rules_page
-    wait_touch "UINavigationButton"
-  end
-
-
 #community v1.1 logging
   def click_search_under_explore
     wait_touch "* marked:'Search'"
@@ -707,8 +702,7 @@ class ForumPage < Calabash::IBase
   def touch_new_tab
     wait_touch "* marked:'New' index:0"
   end
-
-
+  
 #--------NEW INVITE AND hide post flag --------
   def invite_user(args = "")
     wait_touch "* marked:'Invite'"
@@ -722,21 +716,4 @@ class ForumPage < Calabash::IBase
     touch "* marked:'Done'"
     sleep 2
   end
-
-
-  def ntf_join_group
-    wait_for_element_exists "* {text CONTAINS 'Check it out!'}"
-    wait_touch "* {text CONTAINS 'Check it out!'}"
-    wait_touch "* marked:'Join'"
-    sleep 2
-  end
-  
 end
-
-
-
-
-
-
-
-

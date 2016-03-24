@@ -57,42 +57,6 @@ class ForumPage < Calabash::IBase
     puts $user.topic_title
   end
 
-  def create_photo_common
-    wait_touch "label text:'Photo'"
-    wait_for_none_animating
-    wait_touch "PUAlbumListTableViewCell index:0"
-    wait_for_none_animating
-    wait_touch "PUPhotosGridCell index:1"
-    wait_touch "label text:'Choose'"
-    wait_for_none_animating
-    wait_touch "label marked:'Write a caption...'"
-    description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
-    keyboard_enter_text description
-  end
-
-
-  def create_photo
-    create_photo_common
-    wait_touch "* marked:'Next'"
-    wait_touch "UITableViewCellContentView child label index:0"
-    wait_touch "* marked:'Done!'"
-    wait_for_none_animating
-    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
-    sleep 1
-  end
-
-  def create_photo_tmi
-    create_photo_common
-    wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
-    sleep 1
-    wait_touch "* marked:'Next'"
-    wait_touch "UITableViewCellContentView child label index:0"
-    wait_touch "* marked:'Done!'"
-    wait_for_none_animating
-    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
-    sleep 1
-  end
-
   def create_link
     wait_touch "UIButtonLabel text:' Link '"
     wait_for_none_animating
@@ -111,7 +75,6 @@ class ForumPage < Calabash::IBase
     wait_touch "* marked:'#{TARGET_GROUP_NAME}'"
     wait_for_none_animating
   end
-    
     
   def create_post_in_group(args={})
     wait_touch "label text:'Post'"
@@ -150,7 +113,6 @@ class ForumPage < Calabash::IBase
     wait_touch "* id:'community-dots'"
     wait_touch "UILabel marked:'Edit this post'"
   end
-  
 
   def edit_topic(args1)
     wait_touch "label {text CONTAINS '#{args1}'} index:0"
@@ -276,10 +238,14 @@ class ForumPage < Calabash::IBase
       puts "Gesture  Error"
     end
   end 
-
+#---premium---
   def evoke_search_bar
     swipe :down, force: :strong
-    wait_touch "UIButtonLabel {text CONTAINS 'Topics/Comments'}"
+    if element_exists "* marked:'gl community navtab search'"
+      wait_touch "* marked:'gl community navtab search'"
+    else 
+      wait_touch "* {text CONTAINS 'Topics/Comments'}" 
+    end
   end
 
   def search_topics(args)
@@ -287,7 +253,15 @@ class ForumPage < Calabash::IBase
     puts "Search for topic: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
-  end 
+  end
+
+  def search_subreplies
+    wait_touch "UISegment marked:'Comments'"
+    $search_content  = "#{$random_prefix} sub-reply"
+    puts "Search for subreply: #{$search_content}"
+    keyboard_enter_text $search_content
+    tap_keyboard_action_key
+  end
 
   def search_comments
     wait_touch "UISegment marked:'Comments'"
@@ -304,22 +278,13 @@ class ForumPage < Calabash::IBase
     tap_keyboard_action_key
   end
 
-  def search_subreplies
-    wait_touch "UISegment marked:'Comments'"
-    $search_content  = "#{$random_prefix} sub-reply"
-    puts "Search for subreply: #{$search_content}"
-    keyboard_enter_text $search_content
-    tap_keyboard_action_key
-  end
-
-
   def scroll_down_to_see(args)
     puts "* marked:'#{args}'"
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
+    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def scroll_up_to_see(args)
-    until_element_exists("* marked:'#{args}'", :timeout => 10 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
+    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def click_cancel
@@ -327,6 +292,7 @@ class ForumPage < Calabash::IBase
   end
 
   def show_entire_discussion
+    sleep 2
     wait_touch "UIButtonLabel marked:'Show entire discussion'"
   end
 
@@ -390,7 +356,7 @@ class ForumPage < Calabash::IBase
 
   def enter_profile_page
     swipe :down, force: :strong
-    wait_touch "UIImageView index:0"
+    wait_touch "UIButton marked:'gl community filter' sibling * index:0"
   end
 
   def edit_text_fields(args1,args2)
@@ -412,7 +378,7 @@ class ForumPage < Calabash::IBase
 
   def check_groups
     wait_touch "UIButton index:0"
-    check_element_exists  "* marked:'#{TARGET_GROUP_NAME }'"
+    check_element_exists "* marked:'#{TARGET_GROUP_NAME}'"
     puts "I can see target group #{TARGET_GROUP_NAME }"
   end
 
@@ -547,7 +513,7 @@ class ForumPage < Calabash::IBase
   def click_blocked_users
     wait_touch "* {text CONTAINS 'user(s)'}"
   end
-
+  
   def click_topnav_close
     if element_exists "* marked:'gl community topnav close' UINavigationButton" 
       sleep 0.5
@@ -569,7 +535,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_hyperlink_comments
-    wait_touch "* marked:'Posted by' sibling UILabel index:0"  
+    wait_touch "UILabel {text CONTAINS 'comment'}"  
   end
 
   def hide_topic
@@ -577,6 +543,15 @@ class ForumPage < Calabash::IBase
     puts "I can see topic #{$user2.topic_title}"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Hide this post'"
+    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
+    wait_touch "UILabel marked:'Yes, hide it.'"  
+  end
+
+  def hide_comment
+    wait_for_elements_exist "* marked:'#{$hidereply_content}'"
+    puts "I can see comment #{$hidereply_content}"
+    wait_touch "* id:'community-dots' index:0"
+    wait_touch "UILabel marked:'Hide'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
@@ -592,7 +567,6 @@ class ForumPage < Calabash::IBase
     end
   end
 
-
   def report_topic(args)
     sleep 1
     if element_does_not_exist "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"
@@ -601,20 +575,20 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'#{args}'"  
   end
 
+  def report_comment(args)
+    sleep 1
+    if element_does_not_exist "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"
+      enter_report_comment
+    end
+    wait_touch "UILabel marked:'#{args}'" 
+  end
+  
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
-  end
-
-  def report_comment(args)
-    sleep 1
-    if element_does_not_exist "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"
-      enter_report_comment
-    end
-    wait_touch "UILabel marked:'#{args}'"  
   end
 
   def enter_report_comment
@@ -643,15 +617,47 @@ class ForumPage < Calabash::IBase
     end
   end
 
-  def hide_comment
-    wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
-    wait_touch "* id:'community-dots' index:0"
-    wait_touch "UILabel marked:'Hide'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
-    wait_touch "UILabel marked:'Yes, hide it.'"  
+  def close_rules_page
+    wait_touch "UINavigationButton"
   end
 
+#------------------NEW added-----------------
+
+  def create_photo_common
+    wait_touch "label text:'Photo'"
+    wait_for_none_animating
+    wait_touch "PUAlbumListTableViewCell index:0"
+    wait_for_none_animating
+    wait_touch "PUPhotosGridCell index:1"
+    wait_touch "label text:'Choose'"
+    wait_for_none_animating
+    wait_touch "label marked:'Write a caption...'"
+    description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
+    keyboard_enter_text description
+  end
+  
+  def create_photo_tmi
+    create_photo_common
+    wait_touch "* {text CONTAINS 'TMI'} sibling UISwitch"
+    sleep 1
+    wait_touch "* marked:'Next'"
+    wait_touch "UITableViewCellContentView child label index:0"
+    wait_touch "* marked:'Done!'"
+    wait_for_none_animating
+    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
+    sleep 1
+  end
+
+  def create_photo
+    create_photo_common
+    wait_touch "* marked:'Next'"
+    wait_touch "UITableViewCellContentView child label index:0"
+    wait_touch "* marked:'Done!'"
+    wait_for_none_animating
+    wait_for_elements_exist "* marked:'Your topic is successfully posted!"
+    sleep 3
+  end
+  
   def click_discover
     wait_touch "UILabel marked:'Discover'"
   end
@@ -681,11 +687,6 @@ class ForumPage < Calabash::IBase
     wait_touch "UIButtonLabel text:'Create'"
   end
   
-  def close_rules_page
-    wait_touch "UINavigationButton"
-  end
-
-
 #community v1.1 logging
   def click_search_under_explore
     wait_touch "* marked:'Search'"
@@ -701,9 +702,8 @@ class ForumPage < Calabash::IBase
   def touch_new_tab
     wait_touch "* marked:'New' index:0"
   end
-
-
-#--------NEW INVITE AND hist post flag --------
+  
+#--------NEW INVITE AND hide post flag --------
   def invite_user(args = "")
     wait_touch "* marked:'Invite'"
     sleep 1
@@ -716,58 +716,4 @@ class ForumPage < Calabash::IBase
     touch "* marked:'Done'"
     sleep 2
   end
-
-
-  def ntf_join_group
-    wait_for_element_exists "* {text CONTAINS 'Check out the group'}"
-    wait_touch "* {text CONTAINS 'Check out the group'}"
-    wait_touch "* marked:'Join'"
-    sleep 2
-  end
-
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

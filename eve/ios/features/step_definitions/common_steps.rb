@@ -11,13 +11,13 @@ end
 Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
 	logout_if_already_logged_in
 	puts "Log in using #{user1_name}'s email and password: #{$user.email}, #{$user.password}" 
-	onboard_page.login($user.email,$user.password)
+	common_page.login($user.email,$user.password)
 end
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
 	logout_if_already_logged_in
 	puts "Log in as #{arg1}" + $user2.email, $user2.password 
-	onboard_page.login($user2.email,$user2.password)	
+	common_page.login($user2.email,$user2.password)	
 end
 
 
@@ -33,21 +33,21 @@ end
 
 
 Given(/^I get started$/) do
-  onboard_page.get_started
+  common_page.get_started
 end
 
 Given(/^I open the login screen$/) do
-  onboard_page.tap_login_link
+  common_page.tap_login_link
 end
 
 Given(/^I open "(.*?)" page$/) do |name|
-  nav_page.open name
+  common_page.open name
 end
 
 
 Then(/^I logout$/) do
-  nav_page.open("Me")
-  me_page.logout
+  common_page.open("Me")
+  common_page.logout
 end
 
 When(/^I wait for 2 seconds for the next page$/) do                                                                                          │

@@ -520,7 +520,7 @@ Then(/^I go to the second group$/) do
 end
 
 Then(/^I click the button to join the group$/) do
-  forum_page.ntf_join_group
+  common_page.ntf_join_group
 end
 
 Then(/^I close the group page$/) do

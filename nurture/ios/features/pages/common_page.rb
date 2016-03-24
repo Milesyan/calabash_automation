@@ -122,6 +122,12 @@ class CommonPage < Calabash::IBase
     keyboard_enter_text password
     touch "UINavigationButton marked:'Next'"
   end
-      
+  
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* marked:'Join'"
+    sleep 2
+  end
 
 end

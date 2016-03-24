@@ -1,6 +1,6 @@
 require 'calabash-android/abase'
 
-class LoginPage < Calabash::ABase
+class CommonPage < Calabash::ABase
   def trait
     "*"
   end
@@ -31,6 +31,25 @@ class LoginPage < Calabash::ABase
     end
   end
 
+  def open(tab_name)
+    sleep 1
+    i = ["home", "community", "alert", "me", "more options"].find_index tab_name.downcase
+    touch "android.support.design.widget.by index:#{i}"
+  end
+
+  def logout
+    menu_button = "android.support.v7.widget.f"
+    wait_for(:timeout => 10, :regry_frequency => 2) do
+      element_exists menu_button
+    end
+    sleep 1
+    touch menu_button
+    sleep 0.5
+    touch "* text:'Log out'"
+    wait_for_element_exists "* id:'login'"
+    sleep 0.5
+  end
+  
   # def bypass_eve
   #   wait_touch "* id:'cycleDaysQuestionButton'"
   #   sleep 0.5

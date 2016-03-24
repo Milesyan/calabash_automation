@@ -1,5 +1,65 @@
 require 'calabash-cucumber/ibase'
-class MePage < Calabash::IBase
+
+class CommonPage < Calabash::IBase
+  def trait
+    "*"
+  end
+
+  def login(email, password)
+    open_login_link
+    wait_touch "* marked:'Email'"
+    keyboard_enter_text email
+    wait_touch "* marked:'Password'"
+    keyboard_enter_text password
+    touch "* marked:'Next'"
+    sleep 2
+  end
+
+  def dismiss_install_message
+    if element_exists "* {text CONTAINS 'Congrats'}"
+      puts "Add dismiss install"
+    end
+  end 
+
+  def open_login_link 
+    wait_touch "* marked:'Log in'"
+    if element_does_not_exist "* marked:'Email'"
+      wait_touch "* marked:'Log in'"
+    end
+  end
+
+  def open_forgot_password
+    wait_touch "* marked:'Forgot password'"
+  end
+
+  def input_email_password(email, password, full_name = "Glow iOS", is_partner = false)
+    wait_touch "* marked:'First & Last name'"
+    keyboard_enter_text full_name
+    #unless is_partner
+    wait_touch "UITextField index:1"
+    #set_text "UITextField index:1", email
+    keyboard_enter_text email
+    #end
+
+    wait_touch "UITextField index:2"
+    keyboard_enter_text password
+    wait_touch "UITextField index:3"
+    wait_touch "* marked:'OK'"
+
+    wait_touch "* marked:'Next'"
+    wait_touch "label {text BEGINSWITH 'Yes'}"
+    sleep 2
+    wait_for_elements_do_not_exist("NetworkLoadingView", :timeout => 60)
+  end
+
+  def input_wrong_email_password
+    wait_touch "label text:'Email'"
+    keyboard_enter_text "doesnotexist@glowtest.com"
+    wait_touch "label text:'Password'"
+    keyboard_enter_text "123456"
+    wait_touch "* marked:'Next'"
+    wait_for_elements_do_not_exist("NetworkLoadingView", :timeout => 60)
+  end
 
   def check_user_status(expected_status)
     if $user.instance_of? ForumUser
@@ -19,9 +79,6 @@ class MePage < Calabash::IBase
     end
   end
 
-  def trait
-    "* marked:'Health profile'"
-  end
 
   def change_status_to(status)
     wait_touch "* marked:'Choose another status'"
@@ -29,8 +86,8 @@ class MePage < Calabash::IBase
     when "ttc"
       wait_touch "* marked:'Trying to conceive' sibling PillButton index:0"
       wait_for_none_animating
-      onboard_page.choose_ttc_time
-      onboard_page.choose_children_number
+      common_page.choose_ttc_time
+      common_page.choose_children_number
       wait_touch "* marked:'Next'"
       check_user_status "ttc"
     when "pregnant"
@@ -55,25 +112,25 @@ class MePage < Calabash::IBase
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "prep"
-      onboard_page.complete_ft_step1
+      common_page.complete_ft_step1
       check_user_status "prep"
     when "med"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "med"
-      onboard_page.complete_ft_step1
+      common_page.complete_ft_step1
       check_user_status "med"
     when "iui"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "iui"
-      onboard_page.complete_ft_step1
+      common_page.complete_ft_step1
       check_user_status "iui"
     when "ivf"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "ivf"
-      onboard_page.complete_ft_step1
+      common_page.complete_ft_step1
       check_user_status "ivf"
     end
   end
@@ -121,13 +178,43 @@ class MePage < Calabash::IBase
     end
   end
 
-  def await
-    wait_for(:timeout => 10, :retry_frequency => 2) do
-      close_invite_partner_popup
-      tab_bar_page.open "me"
-      element_exists "* marked:'Choose another status'"
-      element_exists "* marked:'Health profile'"
+
+  def logout
+    scroll_to_row_with_mark "Logout"
+    wait_touch "* marked:'Logout'"
+    touch "* marked:'Logout'" # for some reason, have to touch Logout button twice since 5.2
+    wait_touch "* marked:'Yes, log out'"
+    wait_for_none_animating
+    sleep 1
+  end
+  
+  def open(tab_name)
+    case tab_name.downcase
+    when "home"
+      wait_touch "UITabBarButtonLabel marked:'Home'"
+    when "community"
+      wait_touch "UITabBarButtonLabel marked:'Community'"
+      sleep 1
+      if element_exists  "* id:'gl-foundation-popup-close'"
+        touch "* id:'gl-foundation-popup-close'"
+      end
+    when "genius"
+      wait_touch "UITabBarButtonLabel marked:'Genius'"
+    when "alert"
+      wait_touch "UITabBarButtonLabel marked:'Alert'"
+    when "me"
+      wait_touch "UITabBarButtonLabel marked:'Me'"
+      sleep 1
+      if element_exists "* marked:'gl foundation popup close'"
+        touch "* marked:'gl foundation popup close'"
+      end
     end
-    self
+  end
+
+  def ntf_join_group
+    wait_for_element_exists "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* {text CONTAINS 'Check out the group'}"
+    wait_touch "* marked:'Join'"
+    sleep 2
   end
 end

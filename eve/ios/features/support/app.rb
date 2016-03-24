@@ -22,8 +22,8 @@ module Eve
   def logout_if_already_logged_in
     sleep 1
     if element_exists "UITabBarButton"
-      nav_page.open("Me")
-      me_page.logout
+      common_page.open("Me")
+      common_page.logout
     end
   end
 

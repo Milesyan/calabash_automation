@@ -1,4 +1,2 @@
-def login_page; page(LoginPage).await end
+def common_page; page(CommonPage).await end
 def forum_page; page(ForumPage).await end
-def navbar_page; page(NavbarPage).await end
-def toolbar_page; page(ToolbarPage).await end

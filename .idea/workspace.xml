@@ -1,40 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6e4c9792-c229-449f-bad2-5456260b02ac" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/baby/ios/features/pages/me_page.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/baby/ios/features/pages/onboard_page.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/baby/ios/features/pages/settings_page.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/baby/ios/features/pages/tab_bar_page.rb" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/nurture/android/features/steps/Find Results" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_5_community_delete_topics_comments_replies.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_5_community_delete_topics_comments_replies.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_8_community_comment_linking.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_8_community_comment_linking.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_9_community_join_leave_groups.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_9_community_join_leave_groups.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_c_community_sort_comment_by_time_upvote.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_c_community_sort_comment_by_time_upvote.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_e_community_hide_topic_comment_for_downvotes.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_e_community_hide_topic_comment_for_downvotes.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/10_g_community_discover_explore.feature" afterPath="$PROJECT_DIR$/baby/ios/features/10_g_community_discover_explore.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/pages/forum_page.rb" afterPath="$PROJECT_DIR$/baby/ios/features/pages/forum_page.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/step_definitions/common_steps.rb" afterPath="$PROJECT_DIR$/baby/ios/features/step_definitions/common_steps.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/step_definitions/forum_page_steps.rb" afterPath="$PROJECT_DIR$/baby/ios/features/step_definitions/forum_page_steps.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/step_definitions/noah_user_steps.rb" afterPath="$PROJECT_DIR$/baby/ios/features/step_definitions/noah_user_steps.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/support/app.rb" afterPath="$PROJECT_DIR$/baby/ios/features/support/app.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/support/env.rb" afterPath="$PROJECT_DIR$/baby/ios/features/support/env.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/ios/features/support/pages.rb" afterPath="$PROJECT_DIR$/baby/ios/features/support/pages.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/www/noah_android_forum_minitest.rb" afterPath="$PROJECT_DIR$/baby/www/noah_android_forum_minitest.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/www/noah_android_forum_test.rb" afterPath="$PROJECT_DIR$/baby/www/noah_android_forum_test.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/www/noah_ios_forum_minitest.rb" afterPath="$PROJECT_DIR$/baby/www/noah_ios_forum_minitest.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/www/noah_ios_forum_test.rb" afterPath="$PROJECT_DIR$/baby/www/noah_ios_forum_test.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/baby/www/noah_test_helper.rb" afterPath="$PROJECT_DIR$/baby/www/noah_test_helper.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/eve/android/features/10_3_community_edit_topics.feature" afterPath="$PROJECT_DIR$/eve/android/features/10_3_community_edit_topics.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/glow/ios/features/10_h_community_notifications.feature" afterPath="$PROJECT_DIR$/glow/ios/features/10_h_community_notifications.feature" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/glow/www/glow_android_forum_minitest.rb" afterPath="$PROJECT_DIR$/glow/www/glow_android_forum_minitest.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/glow/www/glow_android_forum_test.rb" afterPath="$PROJECT_DIR$/glow/www/glow_android_forum_test.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nurture/android/features/pages/forum_page.rb" afterPath="$PROJECT_DIR$/nurture/android/features/pages/forum_page.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nurture/android/features/steps/nurture_user_steps.rb" afterPath="$PROJECT_DIR$/nurture/android/features/steps/nurture_user_steps.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nurture/android/features/steps/premium_steps.rb" afterPath="$PROJECT_DIR$/nurture/android/features/steps/premium_steps.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nurture/ios/features/pages/premium_page.rb" afterPath="$PROJECT_DIR$/nurture/ios/features/pages/premium_page.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/nurture/www/nurture_android_forum_test.rb" afterPath="$PROJECT_DIR$/nurture/www/nurture_android_forum_test.rb" />
-    </list>
+    <list default="true" id="6e4c9792-c229-449f-bad2-5456260b02ac" name="Default" comment="" />
     <ignored path="AutomationTests.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -212,6 +179,14 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
+  </component>
+  <component name="Vcs.Log.UiProperties">
+    <option name="RECENTLY_FILTERED_USER_GROUPS">
+      <collection />
+    </option>
+    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+      <collection />
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
