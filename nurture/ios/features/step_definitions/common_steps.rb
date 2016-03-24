@@ -66,3 +66,7 @@ Then(/^I logout$/) do
   common_page.open("Me")
   common_page.logout
 end
+
+When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
+  sleep 2
+end

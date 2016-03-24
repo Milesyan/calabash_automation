@@ -19,7 +19,7 @@ module EveForumIOS
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 
-  class EveUser
+  class ForumUser
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
     attr_accessor :reply_content,:group_id,:all_group_ids

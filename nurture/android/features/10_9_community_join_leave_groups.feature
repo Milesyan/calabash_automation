@@ -2,7 +2,7 @@
 Feature: create/join/leave group 
   @create_group
   Scenario: User create a group.
-    Given I create a new glow forum user with name "Julie"
+    Given I create a new forum user with name "Julie"
     Then "Julie" reply to 3 topics created by others 
     And I login as the new user "Julie" created through www
     And I open "community" page 
@@ -13,7 +13,7 @@ Feature: create/join/leave group
 
   @create_group_unable
   Scenario: User create a group but failed.
-    Given I create a new glow forum user with name "Julie"
+    Given I create a new forum user with name "Julie"
     Then "Julie" reply to 1 topics created by others 
     And I login as the new user "Julie" created through www
     And I open "community" page 
@@ -26,7 +26,7 @@ Feature: create/join/leave group
   @join_group
   Scenario: User join a group.
     # Given a user created a group in "Eve" category
-    Given I create a new glow forum user with name "Rachel"
+    Given I create a new forum user with name "Rachel"
     And I login as the new user "Rachel" created through www
     And I open "community" page 
     Then I click the DISCOVER button in community tab
@@ -40,7 +40,7 @@ Feature: create/join/leave group
 
   @leave_group
   Scenario: User leave a group.
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page 
     And I go to group page through community settings

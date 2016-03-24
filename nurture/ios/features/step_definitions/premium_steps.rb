@@ -1,5 +1,5 @@
 def premium_user(args={})
-  NurtureUser.new(args).login.leave_all_groups.join_group
+  ForumUser.new(args).login.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
@@ -433,4 +433,30 @@ Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
   else
     screenshot_and_raise(msg='The input for strategy is incorrect.')
   end
+end
+
+
+#UNDONE
+Then(/^I check the recommended people section and elements$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click chat button in recommended people section$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I can see a chat request is sent or premium prompt dialog$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click see all button in recommended people section$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I can see the list and check the elements$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click chat button in recommended people list$/) do
+  pending # Write code here that turns the phrase above into concrete actions
 end

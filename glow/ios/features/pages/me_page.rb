@@ -2,7 +2,7 @@ require 'calabash-cucumber/ibase'
 class MePage < Calabash::IBase
 
   def check_user_status(expected_status)
-    if $user.instance_of? GlowUser
+    if $user.instance_of? ForumUser
       wait_for timeout: 30, retry_frequency: 3 do
         $user.pull_content
         case expected_status.downcase

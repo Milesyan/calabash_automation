@@ -37,3 +37,7 @@ end
 Given(/^I open "(.*?)" page$/) do |tab_name|
   tab_bar_page.open(tab_name)
 end
+
+When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
+  sleep 2
+end

@@ -19,7 +19,7 @@ Feature: Test all community notifications
     TYPE_FORUM_FOLLOWERS_SUMMARY = 1092'''
   @notif
   Scenario Outline: Test different notification types
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     Given the notification test data for type <ntf_type> has been prepared through www 
     And I login as the new user "Miles" created through www
     And I open "alert" page

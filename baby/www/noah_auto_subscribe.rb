@@ -21,7 +21,7 @@ class NoahSubscribeTest < Minitest::Test
   end
 
   def new_noah_user
-    NoahUser.new.signup.login
+    ForumUser.new.signup.login
   end
 
   def test_new_no_baby_user

@@ -89,5 +89,8 @@ class CommonPage < Calabash::IBase
     end
     wait_touch "* marked:'Account settings'"
   end
-
+  
+  def finish_tutorial
+    puts "NO TUTORIAL"
+  end
 end

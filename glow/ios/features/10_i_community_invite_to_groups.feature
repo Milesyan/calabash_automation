@@ -2,7 +2,7 @@
 Feature: legacy and new invite users to group flow
   @new_invite
   Scenario: Invite other users to a group in new group banner
-    Given I create a new glow forum user with name "Miles" and join group 417
+    Given I create a new forum user with name "Miles" and join group 417
     Then I follow another user "Elsa" and the user also follows me
     And I login as the new user "Miles" created through www
     And I open "community" page

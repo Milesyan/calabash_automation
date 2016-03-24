@@ -1,5 +1,5 @@
 def premium_user(args={})
-  NurtureUser.new(args).login.leave_all_groups.join_group
+  ForumUser.new(args).login.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user milesp and a non-premium user milesn have been created for test$/) do

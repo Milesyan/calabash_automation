@@ -2,7 +2,7 @@
 Feature: User add comments and subreplies
   @add_comment  
   Scenario: User create a text topic and add comment
-    Given I create a new "ttc" glow user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -14,7 +14,7 @@ Feature: User add comments and subreplies
 
   @add_reply  
   Scenario: User create a text topic and add comment 
-    Given I create a new "ttc" glow user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a "text" topic in the test group
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -28,7 +28,7 @@ Feature: User add comments and subreplies
 
   @add_image_comment
   Scenario: User create a text topic and add an image comment
-    Given I create a new "ttc" glow user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a "text" topic in the test group
     And I login as the new user "Miles" created through www
     And I open "community" page

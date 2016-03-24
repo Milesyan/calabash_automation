@@ -2,7 +2,7 @@
 Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
   @load_topics  
   Scenario: User create 20+ topics.
-    Given I create a new nurture user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create 30 topics
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -13,7 +13,7 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
 
   @load_comments  
   Scenario: User create a topic and 30+ comments.
-    Given I create a new nurture user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create 1 topics
     And "Miles" add 50 comments and "Charlotte" added 2 subreplies to each comment.
     And I login as the new user "Miles" created through www
@@ -27,7 +27,7 @@ Feature: Load more topics and comments (4m41.797s 3 scenarios 29 steps)
 
   @load_subreplies  
   Scenario: User create a topic and 30+ comments.
-    Given I create a new nurture user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create 1 topics
     And "Miles" add 2 comments and "Charlotte" added 100 subreplies to each comment.
     And I login as the new user "Miles" created through www

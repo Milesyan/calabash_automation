@@ -2,7 +2,7 @@
 Feature: Add topics and comments and user search for it.
   @search_topics  
   Scenario: User create some topics and search between them.
-    Given I create a new glow forum user with name "Paddington"
+    Given I create a new forum user with name "Paddington"
     And "Paddington" create 10 topics for searching topic
     And I login as the new user "Paddington" created through www
     And I open "community" page
@@ -15,7 +15,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_comments
   Scenario: User create 1 topic and some comments.
-    Given I create a new glow forum user with name "Winnie"
+    Given I create a new forum user with name "Winnie"
     And "Winnie" create 1 topic and 10 comments and 0 subreplies for each comment
     And I login as the new user "Winnie" created through www
     And I open "community" page
@@ -27,7 +27,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_subreply 
   Scenario: User create 1 topic 1 comment and some sub replies. 
-    Given I create a new glow forum user with name "June"
+    Given I create a new forum user with name "June"
     And "June" create 1 topic and 2 comments and 10 subreplies for each comment
     And I login as the new user "June" created through www
     And I open "community" page
@@ -40,7 +40,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_deleted_comment 
   Scenario: User create 1 topic 1 comment and delete the topic and search the comment.
-	Given I create a new glow forum user with name "Devil"
+	Given I create a new forum user with name "Devil"
     And "Devil" create topics and comments and replies for delete use
     And I login as the new user "Devil" created through www
     And I open "community" page
@@ -52,7 +52,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_deleted_subreply
   Scenario: User create 1 topic 1 comment 1 subreply and delete the topic, and search the subreply.
-    Given I create a new glow forum user with name "Devil"
+    Given I create a new forum user with name "Devil"
     And "Devil" create topics and comments and replies for delete use
     And I login as the new user "Devil" created through www
     And I open "community" page
@@ -64,7 +64,7 @@ Feature: Add topics and comments and user search for it.
 
   @search_groups
   Scenario: User create a group and search it
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a group in category "Baby" with name "SearchGroup"
     And I login as the new user "Miles" created through www
     And I open "community" page

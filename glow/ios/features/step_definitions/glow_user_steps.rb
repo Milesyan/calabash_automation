@@ -1,23 +1,18 @@
 def new_ttc_user
-  GlowUser.new(type: "ttc").ttc_signup.login.complete_tutorial
+  ForumUser.new(type: "ttc").ttc_signup.login.complete_tutorial
 end
   
 def new_non_ttc_user
-  GlowUser.new(type: "non-ttc").non_ttc_signup.login.complete_tutorial
+  ForumUser.new(type: "non-ttc").non_ttc_signup.login.complete_tutorial
 end
 
 def ntf_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial
+  ForumUser.new(args).ttc_signup.login.complete_tutorial
 end
 
-def forum_new_ttc_user(args = {})
-  GlowUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
+def forum_new_user(args = {})
+  ForumUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
-  
-def forum_new_non_ttc_user(args = {})
-  GlowUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
-end
-
 
 
 #----------------Community--------------------
@@ -50,12 +45,12 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |
 end
 
 Then(/^an existing glow user "([^"]*)" has created a topic in the test group$/) do |user_name|
-  $user2 = forum_new_non_ttc_user(first_name: user_name).complete_tutorial.join_group
+  $user2 = forum_new_user(first_name: user_name).complete_tutorial.join_group
   $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
 
 Then(/^I created another user to vote the poll$/) do
-  $user2 = forum_new_ttc_user
+  $user2 = forum_new_user
   $user2.vote_poll({ topic_id: $user.topic_id})
   puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
 end
@@ -63,13 +58,13 @@ end
 
 Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|ies) to each comment\.$/) do |user1_name, comment_number, user2_name, subreply_number|
   puts "Glow User #{user1_name} topic_id is #{$user.topic_id}"
-  $user2 = forum_new_non_ttc_user(first_name: user2_name)
+  $user2 = forum_new_user(first_name: user2_name)
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "GlowUser #{user1_name} reply_id is #{$user.reply_id}"
+    puts "ForumUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "GlowUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
+      puts "ForumUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -97,7 +92,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "GlowUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "ForumUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
@@ -107,7 +102,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
     end
-    puts "GlowUser reply_id is #{$user.reply_id}"
+    puts "ForumUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
@@ -117,7 +112,7 @@ end
 
 
 Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |name, arg1, comment_number, subreply_number|
-  $user2 = forum_new_ttc_user(first_name: name)
+  $user2 = forum_new_user(first_name: name)
   $user2.create_topic :topic_title => "Test hide/flag #{$user2.random_str}"
   puts "Glow User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
   $comment_number2 = comment_number
@@ -125,7 +120,7 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "GlowUser2 reply_id is #{$user2.reply_id}"
+    puts "ForumUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
@@ -134,19 +129,19 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "GlowUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "ForumUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "GlowUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  puts "ForumUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "GlowUser #{name} subreply content is #{$random_str2}"
+  puts "ForumUser #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 
 
 Then(/^I follow another user "([^"]*)" and the user also follows me$/) do |arg1|
-  $user2 = forum_new_non_ttc_user(first_name: arg1).leave_group GROUP_ID
+  $user2 = forum_new_user(first_name: arg1).leave_group GROUP_ID
   $user.follow_user $user2.user_id
   $user2.follow_user $user.user_id
 end
@@ -200,24 +195,9 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
   end
 end
 
-Given(/^I create a new "(.*?)" glow user with name "(.*?)"$/) do |type,name|
+Given(/^I create a new forum user with name "([^"]*)"$/) do |name|
   logout_if_already_logged_in
-  case type.downcase
-  when "non-ttc"
-    $user = forum_new_non_ttc_user(first_name: name).complete_tutorial
-  when "ttc"
-    $user = forum_new_ttc_user(first_name: name).complete_tutorial
-  else 
-    puts "Only ttc and non-ttc users can be created"
-  end
-  puts $user.email, $user.password
-  puts "Default group id is #{GROUP_ID}"
-end
-
-
-Given(/^I create a new glow forum user with name "([^"]*)"$/) do |name|
-  logout_if_already_logged_in
-  $user = forum_new_ttc_user(first_name: name).complete_tutorial
+  $user = forum_new_user(first_name: name).complete_tutorial
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
 end
@@ -320,9 +300,9 @@ end
 
 #-----New Invite--------
 
-Given(/^I create a new glow forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
-  $user = forum_new_ttc_user(first_name: name).complete_tutorial.join_group group
+  $user = forum_new_user(first_name: name).complete_tutorial.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
 end
@@ -330,4 +310,47 @@ end
 
 
 
+#community notification test
+
+Then(/^I check the text and click the buttons for this type of notification$/) do
+  case $ntf_type
+  when "1050","1085","1086","1087","1051","1053", "1059", "1060", "1088", "1089"
+    puts "Touch Check it out"
+    sleep 1
+    wait_touch "* marked:'Check it out'"
+  when "1055"
+    puts "Touch Take a look"
+    wait_touch "* marked:'Take a look'"
+  when ""
+    puts "Touch Checkout out the results"
+    wait_touch "* marked:'Check out the results'"
+  when "1091"
+    wait_touch "* marked:'Follow back'"
+  when "1092"
+    sleep 10
+  end
+end
+
+Then(/^I should see the page is navigating to the right page$/) do
+  case $ntf_type
+  when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
+    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
+  when "1053","1059"
+    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
+    wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
+  when "1091"
+    wait_for_element_exists "* marked:'Follow'"
+  end
+end
+
+Then(/^I go back to community page$/) do
+  case $ntf_type
+  when "1050", "1085", "1086", "1087","1051","1053","1055", "1059", "1060", "1088", "1089"
+    forum_page.click_topnav_close
+  when "1091", "1092"
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
+end
 

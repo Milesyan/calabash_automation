@@ -8,15 +8,15 @@ class GlowTest < Minitest::Test
   include GlowForumIOS
 
   def new_ttc_user(args={})
-    GlowUser.new(args).ttc_signup.login.complete_tutorial
+    ForumUser.new(args).ttc_signup.login.complete_tutorial
   end
     
   def new_non_ttc_user(args={})
-    GlowUser.new(args).non_ttc_signup.login.complete_tutorial
+    ForumUser.new(args).non_ttc_signup.login.complete_tutorial
   end
 
   def new_ft_user(args = {})
-    GlowUser.new.ft_signup(args).login.complete_tutorial
+    ForumUser.new.ft_signup(args).login.complete_tutorial
   end
 
   def assert_rc(res)

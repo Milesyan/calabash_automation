@@ -1,13 +1,13 @@
 def new_eve_user(args={})
-  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
+  ForumUser.new(args).all_signup_flow.leave_all_groups.join_group
 end
 
 def forum_new_eve_user(args={})
-  EveUser.new(args).all_signup_flow.leave_all_groups.join_group
+  ForumUser.new(args).all_signup_flow.leave_all_groups.join_group
 end
 
 def ntf_user(args = {})
-  EveUser.new(args).all_signup_flow
+  ForumUser.new(args).all_signup_flow
 end
   
 Given(/^I create a new eve user$/) do |type|
@@ -52,9 +52,9 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "EveUser #{user1_name} reply_id is #{$user.reply_id}"
+    puts "ForumUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "EveUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
+      puts "ForumUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -82,7 +82,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "EveUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "ForumUser #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
@@ -92,7 +92,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
       $first_comment_id = $user.reply_id
       puts "first reply id is #{$first_comment_id}"
     end
-    puts "EveUser reply_id is #{$user.reply_id}"
+    puts "ForumUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
@@ -110,7 +110,7 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "EveUser2 reply_id is #{$user2.reply_id}"
+    puts "ForumUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
@@ -119,13 +119,13 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "EveUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  puts "ForumUser #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "EveUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
+  puts "ForumUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "EveUser #{name} subreply content is #{$random_str2}"
+  puts "ForumUser #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 
@@ -185,7 +185,7 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
   end
 end
 
-Given(/^I create a new eve user with name "(.*?)"$/) do |name|
+Given(/^I create a new forum user with name "(.*?)"$/) do |name|
   $user = forum_new_eve_user(first_name: name)
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
@@ -296,12 +296,54 @@ end
 
 #-----New Invite--------
 
-Given(/^I create a new eve user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
   $user = ntf_user(first_name: name).leave_all_groups.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
 end
 
+#community notification test
 
+Then(/^I check the text and click the buttons for this type of notification$/) do
+  case $ntf_type
+  when "1050","1085","1086","1087","1051","1053", "1059", "1088", "1089", "1055"
+    puts "Touch Check it out"
+    sleep 1
+    wait_touch "* {text CONTAINS 'Check it out'}"
+  when ""
+    puts "Touch Take a look"
+    wait_touch "* {text CONTAINS 'Take a look'}"
+  when "1060"
+    puts "Touch Checkout out the results"
+    wait_touch "* {text CONTAINS 'Check out the results'}"
+  when "1091"
+    wait_touch "* {text CONTAINS 'Follow back'}"
+  when "1092"
+    sleep 10
+  end
+end
+
+Then(/^I should see the page is navigating to the right page$/) do
+  case $ntf_type
+  when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
+    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
+  when "1053","1059"
+    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
+    wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
+  when "1091"
+    wait_for_element_exists "* marked:'Follow'"
+  end
+end
+
+Then(/^I go back to community page$/) do
+  case $ntf_type
+  when "1050", "1085", "1086", "1087","1051","1053","1055", "1059", "1060", "1088", "1089"
+    forum_page.click_topnav_close
+  when "1091", "1092"
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
+end
 

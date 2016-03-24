@@ -11,7 +11,7 @@ class EveTest < Minitest::Test
   end
 
   def new_eve_user
-    EveUser.new.all_signup_flow
+    ForumUser.new.all_signup_flow
   end
 
   def test_new_eve_user
@@ -20,7 +20,7 @@ class EveTest < Minitest::Test
   end
 
   def test_debug
-    u = EveUser.new.signup_guest.signup_with_email
+    u = ForumUser.new.signup_guest.signup_with_email
   end
 
   def assert_rc(res)

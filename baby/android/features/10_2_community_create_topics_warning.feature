@@ -3,7 +3,7 @@ Feature: User create topics with warning messages (1m53.264s 1 scenario 9 steps)
 
     @create_topics_warning
     Scenario: User create a text topic with short title. 
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group

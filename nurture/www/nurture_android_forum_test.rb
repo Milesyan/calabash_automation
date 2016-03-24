@@ -17,7 +17,7 @@ module NurtureForumAndroid
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 
-  class NurtureUser
+  class ForumUser
     include NurtureTestHelper
     include HTTParty
 

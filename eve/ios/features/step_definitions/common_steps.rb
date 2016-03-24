@@ -49,3 +49,12 @@ Then(/^I logout$/) do
   nav_page.open("Me")
   me_page.logout
 end
+
+When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
+  sleep 2
+end
+
+Then(/^I go to the first group I joined$/) do
+  wait_touch "* marked:'MilesGroup'"
+  wait_for_none_animating
+end

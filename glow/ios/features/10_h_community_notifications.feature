@@ -19,15 +19,15 @@ Feature: Test all community notifications
     TYPE_FORUM_FOLLOWERS_SUMMARY = 1092'''
   @wip
   Scenario Outline: Test different notification types
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     Given the notification test data for type <ntf_type> has been prepared through www 
     And I login as the new user "Miles" created through www
     And I open "alert" page
     Then I check the text and click the buttons for this type of notification
     And I should see the page is navigating to the right page
     And I go back to community page
-    And I login
-
+    And I logout
+    
     Examples: 
         | ntf_type |  
         | 1050     |  

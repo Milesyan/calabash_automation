@@ -1,13 +1,13 @@
 def forum_new_user(args = {})
-	NurtureUser.new(args).signup.login.leave_all_groups.join_group
+	ForumUser.new(args).signup.login.leave_all_groups.join_group
 end
 
 def forum_new_other_user(args = {})
-	NurtureUser.new(args).signup.login
+	ForumUser.new(args).signup.login
 end 
 
 def ntf_user(args ={})
-  NurtureUser.new(args).signup.login
+  ForumUser.new(args).signup.login
 end
 
 
@@ -176,7 +176,7 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
   end
 end
 
-Given(/^I create a new glow forum user with name "(.*?)"$/) do |name|
+Given(/^I create a new forum user with name "(.*?)"$/) do |name|
   logout_if_already_logged_in
   $user = forum_new_user(first_name: name)
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
@@ -284,7 +284,7 @@ end
 
 #-----New Invite--------
 
-Given(/^I create a new glow forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
+Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
   $user = forum_new_user(first_name: name).join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"

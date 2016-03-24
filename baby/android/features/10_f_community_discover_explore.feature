@@ -2,7 +2,7 @@
 Feature: User enter discover tab and check elements
   @explore
   Scenario: User enter explore tab and check elements
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a group in category "Health & Lifestyle" using www api
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -20,7 +20,7 @@ Feature: User enter discover tab and check elements
 
   @see_all
   Scenario: User enter explore tab and check elements
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a group in category "Health & Lifestyle" using www api
     And I login as the new user "Miles" created through www
     And I open "community" page

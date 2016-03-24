@@ -12,11 +12,11 @@ class NurtureTest < Minitest::Test
   end
 
   def new_nurture_user
-    NurtureUser.new.signup.login
+    ForumUser.new.signup.login
   end
 
   def premium_login
-    premium = NurtureUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
     premium
   end
 
@@ -289,7 +289,7 @@ class NurtureTest < Minitest::Test
   end
 
   def test_exising_email_login
-    NurtureUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
   end
 
   def test_send_chat_request

@@ -2,7 +2,7 @@
 Feature: User edit topics.
   @edit_post  
   Scenario: User create a text topic and edit it.
-    Given I create a new glow forum user with name "Charlotte"
+    Given I create a new forum user with name "Charlotte"
     And I login as the new user "Charlotte" created through www
     And I open "community" page
     And I go to the first group
@@ -14,7 +14,7 @@ Feature: User edit topics.
 
   @edit_existing_topic
   Scenario: Create a user and text topic through www and test edit it.
-    Given I create a new glow forum user with name "Alex"
+    Given I create a new forum user with name "Alex"
     And "Alex" create a "text" topic in the test group
     And I login as the new user "Alex" created through www
     And I open "community" page
@@ -26,7 +26,7 @@ Feature: User edit topics.
 
   @edit_poll_before_voted
   Scenario: Create a user and a poll topic through www and test edit it.
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
     And I login as the new user "Miles" created through www
     And I open "community" page
@@ -39,7 +39,7 @@ Feature: User edit topics.
 
   @edit_poll_after_voted
   Scenario: Create a user and a poll topic through www and create another user to vote it.
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
     Then I created another user to vote the poll
     And I login as the new user "Miles" created through www

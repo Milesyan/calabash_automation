@@ -15,14 +15,14 @@ end
 
 Then(/^I should see the topic is posted successfully$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
 
 Then(/^I should see the topic cannot be voted$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -30,7 +30,7 @@ end
 Then(/^I should not see the creator name$/) do
     wait_for_none_animating
     sleep 1
-    check_element_does_not_exist "* {text CONTAINS 'Posted by'}"
+    check_element_does_not_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -38,7 +38,6 @@ end
 Given(/^I post a image topic with TMI flag$/) do
   forum_page.create_photo_tmi
 end
-
 
 Given(/^I open "(.*?)" tab in community$/) do |tab_name|
   sleep 2
@@ -97,7 +96,6 @@ Given(/^I downvote the reply$/) do
   forum_page.downvote_reply
 end
 
-
 #----------GROUP-------------
 Then(/^I go to the first group$/) do
   forum_page.select_target_group
@@ -127,34 +125,13 @@ Then (/^I go back to group$/) do
   forum_page.click_back_button
 end
 
-Then (/^I go back to previous page$/) do
-  forum_page.click_back_button
+Then (/^I go(?: back)? to previous page$/) do
+  if element_exists "* marked:'Back'"
+    forum_page.click_back_button
+  else
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
 end
-
-Then (/^I go to previous page$/) do
-  forum_page.click_back_button
-end
-
-
-
-Then(/^I click create a group$/) do
-  forum_page.scroll_down_to_see "Create my own group"
-  swipe :up
-  wait_touch "* marked:'Create my own group'"
-end
-
-Then(/^I create a group$/) do
-  forum_page.create_a_group
-end
-
-Then(/^I should see the group name which I created$/) do
-  wait_for_elements_exist "* {text CONTAINS 'MilesGroup'}"
-end
-
-Then(/^I click "([^"]*)" category$/) do |arg1|
-  wait_touch "UIButton marked:'#{arg1}'"
-end
-
 
 #---------EDIT TOPIC--------
 Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_name|
@@ -169,7 +146,6 @@ Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
   forum_page.delete_topic args1
 end
 
-
 Then(/^I delete the comment index (\d+)$/) do |args1|
   forum_page.delete_comment args1
 end
@@ -177,7 +153,7 @@ end
 
 Then(/^I expand all the comments$/) do
   sleep 2
-  wait_touch "* marked:'Show entire discussion'"
+  wait_touch "UIButtonLabel marked:'Show entire discussion'"
 end
 
 Then(/^I click view all replies$/) do
@@ -200,7 +176,6 @@ Then(/^I search the topic in the first step$/) do
   $search_content = "Test+search+#{$rand_topic}+#{$time_created}"
   forum_page.search_topics $search_content
 end  
-
 
 Then(/^I should see the search result for topic$/) do
   puts "search for #{$search_content}"
@@ -305,7 +280,6 @@ Then(/^I click edit profile button$/) do
 end
 
 Then(/^I edit some field in profile page$/) do
-  forum_page.edit_text_fields "Glow", "Last name"
   forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
   forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
   wait_touch "UILabel marked:'Bio'"
@@ -363,7 +337,13 @@ Then(/^I click save of the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  check_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
+  wait_for_none_animating
+  sleep 1
+  if element_exists "* {text CONTAINS '#{$new_user.first_name}'"
+    puts "CHECK NEW CHAT BLOCK"
+  else
+    check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  end
   check_element_exists "* marked:'Blocked'"
 end
 
@@ -410,11 +390,14 @@ Then(/^I report the topic by reason "([^"]*)"$/) do |report_reason|
   forum_page.report_topic report_reason
 end
 
-
 Then(/^I hide the comment$/) do 
   forum_page.hide_comment
 end
 
+Then(/^I should still see the comment$/) do
+  check_element_exists "* marked:'#{$hidereply_content}'"
+  puts "I can still see comment #{$hidereply_content}"
+end
 
 Then(/^I wait to see comment contains "([^"]*)"$/) do |arg1|
   wait_for_elements_exist "* {text CONTAINS '#{arg1}'}"
@@ -423,11 +406,6 @@ end
 Then(/^I should not see the comment hidden by me$/) do 
   check_element_does_not_exist  "* marked:'#{$hidereply_content}'"
   puts "I cannot see comment #{$hidereply_content}"
-end
-
-Then(/^I should still see the comment$/) do
-  check_element_exists "* marked:'#{$hidereply_content}'"
-  puts "I can still see comment #{$hidereply_content}"
 end
 
 Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
@@ -447,7 +425,7 @@ end
 
 Then(/^I type in report reason and click flag$/) do
   wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
-  keyboard_enter_text "Test Flag reason by Miles"
+  keyboard_enter_text "TestFlagreasonbyMiles"
   wait_touch "* marked:'Flag'"
 end
 
@@ -455,6 +433,24 @@ Then(/^I close the rules page$/) do
   forum_page.close_rules_page
 end
 
+#community v1.1 new
+Then(/^I click create a group$/) do
+  forum_page.scroll_down_to_see "Create my own group"
+  swipe :up
+  wait_touch "* marked:'Create my own group'"
+end
+
+Then(/^I create a group$/) do
+  forum_page.create_a_group
+end
+
+Then(/^I should see the group name which I created$/) do
+  wait_for_elements_exist "* {text CONTAINS 'MilesGroup'}"
+end
+
+Then(/^I click "([^"]*)" category$/) do |arg1|
+  wait_touch "UIButton marked:'#{arg1}'"
+end
 
 #community v1.1 logging
 Then(/^I click the search icon in explore page$/) do
@@ -506,50 +502,9 @@ Then(/^I can see many groups$/) do
   end
 end
 
-
-#community notification test
-
-Then(/^I check the text and click the buttons for this type of notification$/) do
-  case $ntf_type
-  when "1050","1085","1086","1087","1051","1053", "1059", "1060", "1088", "1089"
-    puts "Touch Check it out"
-    sleep 1
-    wait_touch "* marked:'Check it out'"
-  when "1055"
-    puts "Touch Take a look"
-    wait_touch "* marked:'Take a look'"
-  when ""
-    puts "Touch Checkout out the results"
-    wait_touch "* marked:'Check out the results'"
-  when "1091"
-    wait_touch "* marked:'Follow back'"
-  when "1092"
-    sleep 10
-  end
-end
-
-Then(/^I should see the page is navigating to the right page$/) do
-  case $ntf_type
-  when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
-    wait_for_element_exists "* marked:'Posted by'"
-    wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
-  when "1053","1059"
-    wait_for_element_exists "* marked:'Posted by'"
-    wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
-    wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
-  when "1091"
-    wait_for_element_exists "* marked:'Follow'"
-  end
-end
-
-Then(/^I go back to community page$/) do
-  case $ntf_type
-  when "1050", "1085", "1086", "1087","1051","1053","1055", "1059", "1060", "1088", "1089"
-    forum_page.click_topnav_close
-  when "1091", "1092"
-    forum_page.exit_profile_page forum_page.get_UIButton_number-1
-  end
-end
+Then(/^I touch button containing text "Check it out!"$/) do
+  wait_touch "* {text CONTAINS 'Check it out!'}"
+end 
 
 # -------NEW Invite and hide post flag----------------
 Then(/^I invite the user to this group$/) do
@@ -571,21 +526,5 @@ end
 Then(/^I close the group page$/) do
   forum_page.close_rules_page
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

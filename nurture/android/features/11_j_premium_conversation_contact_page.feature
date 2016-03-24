@@ -3,7 +3,7 @@ Feature: Check contact page features.
 
   @follow_contact
   Scenario: The followed people should appear in the contact list
-    Given I create a new glow forum user with name "Legend"
+    Given I create a new forum user with name "Legend"
     Then I follow another user "Friend" and the user also follows me
     And I login as the new user "Legend" created through www
     And I open "community" page

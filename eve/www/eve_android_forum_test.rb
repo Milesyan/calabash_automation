@@ -16,7 +16,7 @@ module EveForumAndroid
   IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
   GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
-  class EveUser
+  class ForumUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :tmi_flag, :group_name, :group_description, :group_category 

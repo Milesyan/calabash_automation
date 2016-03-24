@@ -2,7 +2,7 @@
 Feature: Some vital bugs and need to regress it each version.
 
   Scenario: Reproduce the Floating menu bug
-    Given I create a new glow forum user with name "Miles"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a group in category "Baby" with name "SearchGroup"
     And I login as the new user "Miles" created through www
     And I open "community" page

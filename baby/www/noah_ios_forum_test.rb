@@ -48,7 +48,7 @@ module NoahForumIOS
     end
   end
 
-  class NoahUser
+  class ForumUser
     include BabyTestHelper
     include HTTParty
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
