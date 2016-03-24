@@ -1,8 +1,42 @@
 require 'calabash-cucumber/ibase'
-
-class OnboardPage < Calabash::IBase
+class CommonPage < Calabash::IBase
   def trait
     "*"
+  end
+
+  def close_chat_popup
+    if element_exists  "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'"
+    end
+    if element_exists "* marked:'Messages'"
+      wait_touch "* marked:'Done'"
+    end
+  end
+
+
+  def open(tab_name)
+    wait_for_element_exists "UITabBar"
+    case tab_name.downcase
+    when "home"
+      wait_touch "UITabBarButtonLabel marked:'Home'"
+    when "community"
+      wait_touch "UITabBarButtonLabel marked:'Community'"
+      sleep 1
+      get_started_popup = "* id:'gl-foundation-popup-close'"
+      wait_touch get_started_popup if element_exists get_started_popup
+    when "alert"
+      wait_touch "UITabBarButtonLabel marked:'Alert'"
+    when "me"
+      wait_touch "UITabBarButtonLabel marked:'More'"
+    end
+  end
+
+  def logout
+    wait_for_element_exists "* id:'Settings'"
+    scroll_to_row_with_mark "Logout"
+    wait_touch "* marked:'Logout'"
+    wait_for_none_animating
+    sleep 1
   end
 
   def login(email, password)
@@ -48,5 +82,12 @@ class OnboardPage < Calabash::IBase
   end
 
 
+  def open_settings
+    wait_for(:timeout => 10, :retry_frequency => 2) do
+      common_page.open "me"
+      element_exists "* marked:'Tell friends about Glow Baby'"
+    end
+    wait_touch "* marked:'Account settings'"
+  end
 
 end

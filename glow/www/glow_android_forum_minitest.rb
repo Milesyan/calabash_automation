@@ -79,10 +79,11 @@ class GlowTest < Minitest::Test
     u = new_ttc_user.complete_tutorial.create_poll :topic_title => "Test vote poll"
     u.vote_poll :topic_id => u.topic_id, :vote_index => 3
     assert_rc u.res
-    u2 = new_non_ttc_user.complete_tutorial.vote_poll u.topic_id,2
+    u2 = new_non_ttc_user.complete_tutorial
+    u2.vote_poll :topic_id=>u.topic_id,:vote_index => 2
     assert_rc u2.res
     u2.vote_poll :topic_id => u.topic_id, :vote_index => 3
-    assert_equal u2.res["msg"], "Already voted the poll"
+    assert_equal u2.res["msg"], 'Already voted the poll'
   end
 
   def test_reply_to_topic
@@ -192,13 +193,7 @@ class GlowTest < Minitest::Test
     assert_rc u.res
   end
 
-  def test_cancel_upvote_comment
-    u = new_ttc_user.create_topic
-    u.reply_to_topic u.topic_id
-    u.upvote_comment u.topic_id, u.reply_id
-    u.cancel_upvote_comment u.topic_id, u.reply_id
-    assert_rc u.res
-  end
+
 
   def test_downvote_comment
     u = new_ttc_user.create_topic

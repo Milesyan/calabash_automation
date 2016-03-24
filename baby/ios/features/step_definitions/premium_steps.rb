@@ -1,31 +1,31 @@
 def premium_user(args={})
-  NurtureUser.new(args).login.leave_all_groups.join_group
+  NoahUser.new(args).login.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
-Given(/^A premium user milesp and a non-premium user milesn have been created for test$/) do
-  $user = premium_user :email => "milesp@g.com", :password => "111111"
-  $user.turn_on_chat
-  puts "$user user id = 72057594037936244"
+Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
+  $user.turn_on_chat.turn_on_signature.remove_all_participants
+  puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
-  puts "$user2 user id = 8492"
+  $user2.turn_on_chat.remove_all_participants
+  puts "$user2 user id = 6502"
 end
 
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
-  login_page.tap_login
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  login_page.login_with($user.email,$user.password)
+  common_page.login($user.email,$user.password)
   sleep 2
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
-  login_page.tap_login
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  login_page.login_with($user.email,$user.password)
+  puts "Log in using email and passw22ord: #{$user.email}, #{$user.password}" 
+  common_page.login($user.email,$user.password)
   sleep 2
 end
+
 
 Given(/^A new user "([^"]*)" is created$/) do |name|
   $new_user = forum_new_user(first_name: name)
@@ -33,18 +33,16 @@ end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
-  login_page.tap_login
   puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
-  login_page.login_with($new_user.email,$new_user.password)
+  common_page.login($new_user.email,$new_user.password)
   sleep 2
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
-  login_page.tap_login
   puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
-  login_page.login_with($user2.email,$user2.password)
-  sleep 2 
+  common_page.login($user2.email,$user2.password)
+  sleep 2
 end
 
 Given(/^the premium user create a topic in the test group$/) do
@@ -58,40 +56,38 @@ Given(/^the non\-premium user create a topic in the test group$/) do
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
-Given(/^A premium user milesp established chat relationship with a new user "([^"]*)"$/) do |name|
-  $user = premium_user :email => "milesp@g.com", :password => "111111"
+Given(/^A premium user miles2 established chat relationship with a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
   $user.remove_all_participants
   $new_user = forum_new_user(first_name: name)
   $user.establish_chat $new_user
-  if $user.res["rc"] == 0 
+  if $user.res["data"]["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
-Given(/^premium user milesp established chat relationship with the new user$/) do
+Given(/^premium user miles2 established chat relationship with the new user$/) do
   $user.establish_chat $new_user
-  if $user.res["rc"] == 0 
+  if $user.res["data"]["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
-
-Given(/^A premium user milesp sent chat request to a new user "([^"]*)"$/) do |name|
-  $user = premium_user :email => "milesp@g.com", :password => "111111"
+Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
   $user.remove_all_participants
   $new_user = forum_new_user(first_name: name)
   $user.send_chat_request $new_user.user_id
-  if $user.res["rc"] == 0 
+  if $user.res["data"]["rc"] == 0 
     puts "CHAT REQUEST SENT SUCCESSFULLY"
   end
 end
 
 
-
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
-  $new_user = forum_new_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name)
   puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
@@ -123,21 +119,21 @@ Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment a
   $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
 end
 
-Given(/^the premium user milesp creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
+Given(/^the premium user miles2 creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
   $user.create_topic :topic_title => topic_name
   $user.reply_to_topic $user.topic_id, reply_content: "premium user test comment"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "premium user test subreply"
 end
 
 
-Given(/^(?:the )?premium user milesp turns off signature$/) do
+Given(/^(?:the )?premium user miles2 turns off signature$/) do
   $user.turn_off_signature
 end
+
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
   # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
-  sleep 2
-  wait_for_element_exists "android.widget.ImageView index:3"
+  puts "NON GLOW gl-community-plus-badge"
 end
 
 
@@ -146,16 +142,19 @@ Then(/^I input URL in edit profile page$/) do
 end
 
 
-When(/^I enter premium user's profile$/) do
+When(/^I enter premium user's profile(?: page)?$/) do
   premium_page.enter_premium_profile
+  wait_for_none_animating
 end
 
 When(/^I enter non\-premium user's profile$/) do
   premium_page.enter_non_premium_profile
+  wait_for_none_animating
 end
 
 Then(/^I go back to user profile page$/) do
-  forum_page.click_back_button
+  forum_page.exit_edit_profile
+  wait_for_none_animating
 end
 
 Then(/^I click the url and check the link works$/) do
@@ -204,7 +203,7 @@ Then(/^I turn off signature in profile settings$/) do
 end
 
 Then(/^I should not see the signature in topic\/comment\/subreply$/) do
-  check_element_does_not_exist "* id:'premium_author_profile_bg'"
+  check_element_does_not_exist "* id:'gl-community-plus-badge.png'"
 end
 
 Then(/^I update bio and location info$/) do
@@ -213,7 +212,7 @@ end
 
 Then(/^I checked the elements in a signature$/) do
   check_element_exists "* marked:'Chat'"
-  check_element_exists "* id:'premium_author_profile_bg'"
+  check_element_exists "* id:'gl-community-plus-badge.png'"
 end
 
 Then(/^I click the areas in signature$/) do
@@ -231,7 +230,7 @@ end
 
 Then(/^I check the signature does not display$/) do
   check_element_does_not_exist "* marked:'Chat'"
-  check_element_does_not_exist "* id:'premium_author_profile_bg'"
+  check_element_does_not_exist "* id:'gl-community-plus-badge.png'"
 end
 
 Then(/^I should see the send request dialog$/) do
@@ -239,10 +238,7 @@ Then(/^I should see the send request dialog$/) do
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_touch "* marked:'Learn more'" 
-  sleep 1
-  wait_touch "* marked:'OK'" 
-  # wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
+  wait_for_element_exists "* {text CONTAINS 'Get Glow Premium'}", :time_out => 3
 end
 
 Then(/^I click send request button$/) do
@@ -274,7 +270,7 @@ Then(/^I enter the chat window and start to chat$/) do
     wait_touch "* marked:'Start chatting now.'"
   else 
     puts "HERE IS A BUG!!!"
-    wait_touch "* marked:'milesp'"
+    wait_touch "* marked:'miles2'"
   end
   wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
 end
@@ -302,7 +298,6 @@ end
 Then(/^I check that the chat requst failed to be sent$/) do
   premium_page.chat_request_fail
 end
-
 
 Then(/^I can see the status is following$/) do
   wait_for_element_exists "* marked:'Following'"
@@ -435,7 +430,3 @@ Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
     screenshot_and_raise(msg='The input for strategy is incorrect.')
   end
 end
-
-
-
-

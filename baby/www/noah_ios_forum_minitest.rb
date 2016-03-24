@@ -14,6 +14,10 @@ class NoahTest < Minitest::Test
     NoahUser.new.signup.login
   end
 
+  def premium_login
+    premium = NoahUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium
+  end
   def test_new_noah_user
     u = new_noah_user
     puts u.res
@@ -51,7 +55,7 @@ class NoahTest < Minitest::Test
   
   def test_add_babies
     u = new_noah_user
-    10.times do
+    2.times do
       baby = u.new_born_baby(relation: "Mother", gender: "M")
       u.add_born_baby baby
     end
@@ -279,7 +283,106 @@ class NoahTest < Minitest::Test
       # u.upvote_comment 72057594037930895,72057594037941406
     end
   end
+#PREMIUM
 
+  def test_turn_off_chat
+    u = new_noah_user
+    u.turn_off_chat
+    assert_rc u.res["data"]
+  end
+
+  def test_turn_on_chat
+    u = new_noah_user
+    u.turn_off_chat
+    u.turn_on_chat
+    assert_rc u.res["data"]
+  end
+  
+  def test_turn_off_signature
+    u = new_noah_user
+    u.turn_off_signature
+    assert_rc u.res["data"]
+  end
+  
+  def test_turn_on_signature
+    u = new_noah_user
+    u.turn_off_signature
+    u.turn_on_signature
+    assert_rc u.res["data"]
+  end
+
+  def test_exising_email_login
+    NoahUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
+  def test_send_chat_request
+    u1 = new_noah_user
+    u2 = new_noah_user
+    u1.send_chat_request u2.user_id
+    puts u1.res
+    assert_equal u1.res["data"]["rc"], 8003
+  end
+
+  def test_premium_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    assert_rc up.res["data"]
+    u.get_request_id
+    puts u.res["data"]["requests"][0]["id"]
+  end
+
+  def test_accept_chat_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    assert_equal u.res["data"]["msg"], "Chat request is accepted."
+  end
+
+  def test_ignore_chat_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.ignore_chat
+    assert_equal u.res["data"]["msg"], "Chat request is rejected."
+  end
+
+  def test_remove_chat_false
+    up = premium_login
+    u = new_noah_user
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_remove_chat_true
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_get_participants
+    up = premium_login
+    up.get_all_participants
+    puts up.all_participants
+  end
+
+  def test_remove_all_participants
+    up = premium_login
+    up.remove_all_participants
+    up.get_all_participants
+  end
+
+  def test_establish_chat
+    up = premium_login
+    u = new_noah_user
+    up.establish_chat u
+    puts up.res
+    puts u.res
+  end
 end    
 
 

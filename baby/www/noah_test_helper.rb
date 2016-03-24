@@ -13,6 +13,8 @@ module BabyTestHelper
   def magenta_background(text); colorize(text, 45); end
   def exchange_foreground_and_background(text); colorize(text, 7); end
   def light_red(text); colorize(text, 91); end
+  def sky_blue(text); colorize(text, 95); end
+
 
   def log_msg(msg)
     puts magenta(msg)
@@ -22,6 +24,10 @@ module BabyTestHelper
     puts light_red(msg)
   end
 
+  def log_important(msg)
+    puts sky_blue(msg)
+  end
+  
   def load_config
     config_folder = File.expand_path("./config", File.dirname(__FILE__))
     config = Dir[File.join(config_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}

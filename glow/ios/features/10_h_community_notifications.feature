@@ -26,19 +26,19 @@ Feature: Test all community notifications
     Then I check the text and click the buttons for this type of notification
     And I should see the page is navigating to the right page
     And I go back to community page
-    And I logout
+    And I login
 
     Examples: 
-        |ntf_type|
-        |1050   |
-        |1085   |
-        |1086   |
-        |1087   |
-        |1051   |
-        |1053   |
-        |1055   |
-        |1059   |
-        |1060   |
-        |1088   |
-        |1089   |
-        |1091   |  
+        | ntf_type |  
+        | 1050     |  
+        | 1085     |  
+        | 1086     |  
+        | 1087     |  
+        | 1051     |  
+        | 1053     |  
+        | 1055     |  
+        | 1059     |  
+        | 1060     |  
+        | 1088     |  
+        | 1089     |  
+        | 1091     |  

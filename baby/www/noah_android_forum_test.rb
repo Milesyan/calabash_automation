@@ -55,6 +55,7 @@ module NoahForumAndroid
 
     attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
     attr_accessor :tmi_flag, :group_name, :group_description, :group_category
+    attr_accessor :tgt_user_id, :request_id, :all_participants
 
 
     def initialize(args = {})
@@ -624,5 +625,139 @@ module NoahForumAndroid
       puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end  
+
+     # ---- PREMIUM ----
+    def turn_off_chat(args={})
+      data = {
+        "website": nil,
+        "chat_off":1,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "TURN OFF CHAT FOR #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+    def turn_on_chat(args={})
+      data = {
+        "website": nil,
+        "chat_off":0,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "TURN ON CHAT FOR #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+    def turn_off_signature(args={})
+      data = {
+        "website": nil,
+        "chat_off":0,
+        "signature_on":0
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "TURN OFF SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+
+    def turn_on_signature(args={})
+      data = {
+        "website": nil,
+        "chat_off":0,
+        "signature_on":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "TURN ON SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+    def send_chat_request(tgt_user_id)
+      chat_data = {
+        "src": 2,
+        "tgt_user_id": tgt_user_id,
+      }
+      @tgt_user_id = tgt_user_id
+      @res = HTTParty.post("#{ANDROID_FORUM_BASE_URL}/chat/new#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      log_important "#{self.user_id} send chat request to #{tgt_user_id}"
+      self
+    end
+
+    def get_request_id
+      chat_data = {}
+      @res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/chats_and_participants#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @request_id = @res["requests"][0]["id"]
+      self
+    end
+
+    def accept_chat
+      get_request_id
+      chat_data = {
+        "request_id": @request_id,
+      }
+      @res = HTTParty.post("#{ANDROID_FORUM_BASE_URL}/chat/accept#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} accepts chat request id >>>#{@request_id}<<<"
+      self
+    end
+
+    def establish_chat(tgt_user)
+      send_chat_request tgt_user.user_id
+      tgt_user.accept_chat
+    end
+
+    def ignore_chat
+      get_request_id
+      chat_data = {
+        "request_id": @request_id,
+      }
+      @res = HTTParty.post("#{ANDROID_FORUM_BASE_URL}/chat/reject#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      puts "#{self.user_id} rejects chat request id >>>#{@request_id}<<<"
+      self
+    end
+
+    def remove_chat(tgt_user_id)
+      chat_data = {
+        "contact_uid": tgt_user_id,
+      }
+      @tgt_user_id = tgt_user_id
+      @res = HTTParty.post("#{ANDROID_FORUM_BASE_URL}/chat/contact/remove#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      puts @res
+      puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
+      self
+    end
+
+    def get_all_participants
+      chat_data = {
+      }
+      _res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/chats_and_participants#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @all_participants = []
+      _res["participants"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_participants.push v
+          end
+        end
+      end
+      @all_participants
+    end
+    
+    def remove_all_participants
+      _participants = self.get_all_participants
+      _participants.each do |id|
+        remove_chat id
+      end
+      self
+    end
+
   end
 end

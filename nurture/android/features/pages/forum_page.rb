@@ -317,8 +317,8 @@ class ForumPage < Calabash::ABase
   end 
 
   def evoke_search_bar
-    sleep 1
-    wait_touch "* marked:'More options'"
+    # sleep 1
+    # wait_touch "* marked:'More options'"
     sleep 1
     wait_touch "* marked:'Search'"
   end
@@ -781,7 +781,7 @@ class ForumPage < Calabash::ABase
     x,y,width = get_element_x_y "low_ratting_mask_content"
     case args.downcase
     when "view rules"
-      perform_action('touch_coordinate',(x+width*0.4), y)
+      perform_action('touch_coordinate',(x+width*0.2), y)
     when "show content"
       perform_action('touch_coordinate',(x+width*0.1), y)
     else 

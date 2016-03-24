@@ -8,14 +8,14 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    Then I should see "Content hidden due to low rating." in my view
+    And I touch "View Rules" button
+    Then I should see "Community rules" in my view
     And I close the rules page
     And I go to the first group
-    And I touch "Show Content"
+    And I touch "Show Content" button
     And I enter topic created in previous step
-    Then I should see "Show entire discussion"
+    Then I should see "Show entire discussion" in my view
     And I go back to group
     And I logout
 
@@ -27,14 +27,14 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    Then I should see "Content hidden due to low rating." in my view
+    And I touch "View Rules" button
+    Then I should see "Community rules" in my view
     And I close the rules page
     And I go to the first group
-    And I touch "Show Content"
+    And I touch "Show Content" button
     And I enter topic created in previous step
-    Then I should see "Show entire discussion"
+    Then I should see "Show entire discussion" in my view
     And I go back to group
     And I logout
 
@@ -47,11 +47,11 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I open "community" page
     And I go to the first group
     And I enter topic created in previous step
-    Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    Then I should see "Content hidden due to low rating." in my view
+    And I touch "View Rules" button
+    Then I should see "Community rules" in my view
     And I go back to previous page
-    And I touch "Show Content"
+    And I touch "Show Content" button
     Then I wait to see comment contains "comment 1"
     And I go back to group
     And I logout
@@ -65,11 +65,11 @@ Feature: User downvote or flag topics to make it hidden (4m50.748s 4 scenarios 6
     And I open "community" page
     And I go to the first group
     And I enter topic created in previous step
-    Then I should see "Content hidden due to low rating."
-    And I touch "View Rules"
-    Then I should see "Community rules"
+    Then I should see "Content hidden due to low rating." in my view
+    And I touch "View Rules" button
+    Then I should see "Community rules" in my view
     And I go back to previous page
-    And I touch "Show Content"
+    And I touch "Show Content" button
     Then I wait to see comment contains "comment 1"
     And I go back to group
     And I logout

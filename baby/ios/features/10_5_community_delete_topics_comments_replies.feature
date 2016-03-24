@@ -21,7 +21,7 @@ Feature: User create a topic and delete it (5m8.716s 4 scenarios 43 steps)
     And I open "community" page
     And I go to the first group
     And I open the topic "create poll by www api"
-    And I scroll down
+    And I scroll down the screen
     Then I delete the topic with 1 visible comment
     And I logout
 

@@ -15,11 +15,11 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
   puts "New Nurture User '#{user_name}' created: #{$user.email}, #{$user.password}"
   case topic_type.downcase
   when "text"
-    $user.create_topic({:topic_title => 'create topic by www api', :group_id => GROUP_ID})
+    $user.create_topic :topic_title => 'create topic by www api', :group_id => GROUP_ID
   when "poll"
-    $user.create_poll({:topic_title => 'create poll by www api', :group_id => GROUP_ID})
+    $user.create_poll :topic_title => 'create poll by www api', :group_id => GROUP_ID
   when "image", "photo"
-    $user.create_photo({:topic_title => 'create photo by www api', :group_id => GROUP_ID})
+    $user.create_photo :topic_title => 'create photo by www api', :group_id => GROUP_ID
   end
   puts "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
   logout_if_already_logged_in

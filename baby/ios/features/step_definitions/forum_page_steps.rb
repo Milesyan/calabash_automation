@@ -15,14 +15,14 @@ end
 
 Then(/^I should see the topic is posted successfully$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
 
 Then(/^I should see the topic cannot be voted$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -30,7 +30,7 @@ end
 Then(/^I should not see the creator name$/) do
     wait_for_none_animating
     sleep 1
-    check_element_does_not_exist "* {text CONTAINS 'Posted by'}"
+    check_element_does_not_exist "* {text CONTAINS 'Upvote'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -115,12 +115,20 @@ Then(/^I discard the topic$/) do
   forum_page.discard_topic
 end
 
-Then (/^I go back to group$/) do
-  forum_page.click_back_button
+Then (/^I go back to previous page$/) do
+  if element_exists "* marked:'Back'"
+    forum_page.click_back_button
+  else
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
 end
 
-Then (/^I go back to previous page$/) do
-  forum_page.click_back_button
+Then (/^I go to previous page$/) do
+  if element_exists "* marked:'Back'"
+    forum_page.click_back_button
+  else
+    forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  end
 end
 
 
@@ -530,10 +538,10 @@ end
 Then(/^I should see the page is navigating to the right page$/) do
   case $ntf_type
   when "1050", "1085", "1086", "1087","1051","1055", "1060", "1088", "1089"
-    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'Upvote'"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'"
   when "1053","1059"
-    wait_for_element_exists "* marked:'Posted by'"
+    wait_for_element_exists "* marked:'Upvote'"
     wait_for_element_exists "* marked:'notification_#{$ntf_type}'" 
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
@@ -552,7 +560,7 @@ end
 
 
 Then(/^I touch button containing text "Check it out!"$/) do
-  wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
+  wait_touch "* {text CONTAINS 'Check it out!'}"
 end 
 
 # -------NEW Invite and hide post flag----------------

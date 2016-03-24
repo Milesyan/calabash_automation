@@ -556,8 +556,6 @@ module NurtureForumAndroid
       self
     end
 
-
-#---iOS
     def send_chat_request(tgt_user_id)
       chat_data = {
         "src": 2,

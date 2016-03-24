@@ -14,31 +14,16 @@ class NoahTest < Minitest::Test
     BabyUser.new.signup.login.join_group
   end
 
+  def premium_login
+    premium = BabyUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium
+  end
+
   def test_new_noah_user
     u = new_noah_user
     puts u.first_name
   end
 
-  def test_user_becomes_mother
-    u = new_noah_user
-    baby = u.new_born_baby(relation: "Mother", gender: "M")
-    u.add_born_baby(baby)
-    assert_rc u.res
-    actual_baby = u.res["data"]["Baby"]["update"].first
-    assert_equal u.current_baby.first_name, actual_baby["first_name"]
-    assert_equal u.current_baby.last_name, actual_baby["last_name"]
-    assert_equal u.current_baby.gender, actual_baby["gender"]
-    assert_equal u.user_id, actual_baby["owner_user_id"]
-    assert_equal "Mother", u.res["data"]["UserBabyRelation"]["update"].first["relation"]
-  end
-  
-  def test_add_20_babies
-    u = new_noah_user
-    20.times do
-      baby = u.new_born_baby(relation: "Mother", gender: "M")
-      u.add_born_baby(baby)
-    end
-  end
 
   def assert_rc(res)
     assert_equal 0, res["rc"]
@@ -241,7 +226,8 @@ class NoahTest < Minitest::Test
   def test_create_group 
     u = new_noah_user
     u.create_group
-    assert_equal u.res["data"]["group"]["creator_name"], u.first_name
+    puts u.res
+    assert_equal u.res["group"]["creator_name"], u.first_name
   end
 
   def test_get_all_group_names
@@ -264,6 +250,115 @@ class NoahTest < Minitest::Test
   def test_follow
     u = new_noah_user
     u.follow_user 72057594037935155
+  end
+
+
+#---premium---
+  def test_turn_off_chat
+    u = new_noah_user
+    u.turn_off_chat
+    puts u.res
+    assert_rc u.res
+  end
+
+  def test_turn_on_chat
+    u = new_noah_user
+    u.turn_off_chat
+    u.turn_on_chat
+    assert_rc u.res
+  end
+
+  def test_premium_chat_on
+    up = premium_login
+    up.turn_on_chat
+  end
+  
+  def test_turn_off_signature
+    u = new_noah_user
+    u.turn_off_signature
+    assert_rc u.res
+  end
+  
+  def test_turn_on_signature
+    u = new_noah_user
+    u.turn_off_signature
+    u.turn_on_signature
+    assert_rc u.res
+  end
+
+  def test_exising_email_login
+    BabyUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
+  def test_send_chat_request
+    u1 = new_noah_user
+    u2 = new_noah_user
+    u1.send_chat_request u2.user_id
+    puts u1.res
+    assert_equal u1.res["rc"], 8003
+  end
+
+  def test_premium_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    assert_rc up.res
+    u.get_request_id
+    puts "REQUEST ID"
+    puts u.res["requests"][0]["id"]
+  end
+
+  def test_accept_chat_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    assert_equal "Chat request accepted!",u.res["msg"]
+  end
+
+  def test_ignore_chat_request
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.ignore_chat
+    assert_equal "Chat request rejected!",u.res["msg"]
+  end
+
+  def test_remove_chat_false
+    up = premium_login
+    u = new_noah_user
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_remove_chat_true
+    up = premium_login
+    u = new_noah_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+    up.remove_chat u.user_id
+    puts up.res
+  end
+
+  def test_get_participants
+    up = premium_login
+    up.get_all_participants
+    puts up.all_participants
+  end
+
+  def test_remove_all_participants
+    up = premium_login
+    up.remove_all_participants
+    puts up.res
+    up.get_all_participants
+  end
+
+  def test_establish_chat
+    up = premium_login
+    u = new_noah_user
+    up.establish_chat u
+    puts up.res
+    puts u.res
   end
 
 end

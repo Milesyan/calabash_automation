@@ -2,7 +2,7 @@ def new_noah_user(args={})
   NoahUser.new(args).signup.login.leave_all_groups.join_group
 end
 
-def forum_new_noah_user(args={})
+def forum_new_user(args={})
   NoahUser.new(args).signup.login.leave_all_groups.join_group
 end
 
@@ -33,13 +33,13 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
 end
 
 Then(/^I create another noah user "([^"]*)" and create a topic in the test group$/) do |user_name|
-  $user2 = forum_new_noah_user(first_name: user_name).join_group
+  $user2 = forum_new_user(first_name: user_name).join_group
   puts GROUP_ID
   $user2.create_topic({:topic_title => "Test follow/block user", :group_id => GROUP_ID})
 end
 
 Then(/^I created another user to vote the poll$/) do
-  $user2 = forum_new_noah_user
+  $user2 = forum_new_user
   $user2.vote_poll({ topic_id: $user.topic_id})
   puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
 end
@@ -48,7 +48,7 @@ end
 # Then(/^the user add (\d+) comments and user2 added (\d+) subreplies to each comment\.$/) do |comment_number, subreply_number|
 Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|ies) to each comment\.$/) do |user1_name, comment_number, user2_name, subreply_number|
   puts "Noah User #{user1_name} topic_id is #{$user.topic_id}"
-  $user2 = forum_new_noah_user(first_name: user2_name)
+  $user2 = forum_new_user(first_name: user2_name)
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
@@ -102,7 +102,7 @@ end
 
 
 Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |name, arg1, comment_number, subreply_number|
-  $user2 = forum_new_noah_user(first_name: name)
+  $user2 = forum_new_user(first_name: name)
   $user2.create_topic :topic_title => "Test hide/flag #{$user2.random_str}"
   puts "Noah User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
   $comment_number2 = comment_number
@@ -186,7 +186,7 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
 end
 
 Given(/^I create a new noah user with name "(.*?)"$/) do |name|
-  $user = forum_new_noah_user(first_name: name)
+  $user = forum_new_user(first_name: name)
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
 end
@@ -299,7 +299,7 @@ end
 
 Given(/^I create a new noah user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
-  $user = forum_new_noah_user(first_name: name).join_group group
+  $user = forum_new_user(first_name: name).join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
 end
