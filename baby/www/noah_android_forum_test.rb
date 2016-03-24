@@ -43,7 +43,7 @@ module NoahForumAndroid
     end
   end
 
-  class BabyUser
+  class ForumUser
     include BabyTestHelper
     include HTTParty
 

@@ -1,6 +1,6 @@
 require 'calabash-android/abase'
 
-class LoginPage < Calabash::ABase
+class CommonPage < Calabash::ABase
   def trait
     "*"
   end
@@ -27,7 +27,7 @@ class LoginPage < Calabash::ABase
     if element_exists "* id:'blockingView'"
       bypass_nurture_tutorial
     end
-    nav_page.open "genius"
+    common_page.open "genius"
   end
 
   def bypass_nurture_tutorial
@@ -39,6 +39,33 @@ class LoginPage < Calabash::ABase
     rescue RuntimeError => e 
       retry if attempts < 3
     end  
+  end
+
+  def open(tab_name)
+    wait_for_element_exists "* id:'bottom_action_bar'"
+    sleep 1
+    case tab_name.downcase
+    when "home"
+      touch "* id:'nav_home'"
+    when "community"
+      touch "* id:'nav_community'"
+    when "genius"
+      touch "* id:'nav_gg'"
+    when "alert"
+      touch "* id:'nav_alert'"
+    when "me"
+      touch "* id:'nav_me'"
+    end
+  end
+
+  def logout
+    sleep 1
+    touch "* id:'nav_me'"
+    wait_touch "ActionMenuView"
+    wait_for(:timeout => 10, :regry_frequency => 2) do
+      element_exists "* marked:'Log out'"
+    end
+    touch "* marked:'Log out'"
   end
 
 end

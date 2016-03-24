@@ -11,11 +11,11 @@ class NoahTest < Minitest::Test
   end
 
   def new_noah_user
-    BabyUser.new.signup.login.join_group
+    ForumUser.new.signup.login.join_group
   end
 
   def premium_login
-    premium = BabyUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
     premium
   end
 
@@ -287,7 +287,7 @@ class NoahTest < Minitest::Test
   end
 
   def test_exising_email_login
-    BabyUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
   end
 
   def test_send_chat_request

@@ -1,13 +1,13 @@
 def forum_new_user(args = {})
-	BabyUser.new(args).signup.login.leave_all_groups.join_group
+	ForumUser.new(args).signup.login.leave_all_groups.join_group
 end
 
 def forum_new_other_user(args = {})
-	BabyUser.new(args).signup.login
+	ForumUser.new(args).signup.login
 end 
 
 def ntf_user(args = {})
-  BabyUser.new(args).signup
+  ForumUser.new(args).signup
 end
 
 
