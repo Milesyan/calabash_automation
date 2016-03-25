@@ -83,7 +83,7 @@ class PremiumPage < Calabash::ABase
 
   def click_chat_settings
     sleep 1
-    touch "UINavigationButton index:0"
+    wait_touch "* marked:'More options'"
     # wait_for_element_exists "* marked:'Chat options'"
   end
 

@@ -107,8 +107,9 @@ class ForumPage < Calabash::ABase
       touch "* id:'create_photo_btn'"
       touch "* marked:'Take a photo'"    
     end
-    create_photo_common args
+    # create_photo_common args
   end
+
 
   def create_link
     if element_exists "* id:'community_home_floating_actions_menu'"
@@ -121,8 +122,8 @@ class ForumPage < Calabash::ABase
   end
 
   def create_link_common
-    @title = 'Test create topic UI ' + random_str
-    link = 'www.baidu.com'
+    @title = "Test create topic UI #{random_str}"
+    link = 'www.google.com'
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", link
     sleep 1

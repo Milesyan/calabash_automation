@@ -2,12 +2,12 @@ require 'calabash-android/abase'
 
 class PremiumPage < Calabash::ABase
   def trait
-    "*"
+    '*'
   end
 
   def input_url_in_profile_page
     if element_does_not_exist "* marked:'website Url'"
-      enter_text "* id:'website'","www.google.com"
+      enter_text "* id:'website'", 'www.google.com'
     end
   end
 
@@ -17,16 +17,16 @@ class PremiumPage < Calabash::ABase
   end
 
   def back_from_web_page
-    puts ""
+    puts 'Cannot open web page and go back in android'
   end
 
   def switch_chat_option
-    forum_page.scroll_down_to_see "Turn off Chat"
+    forum_page.scroll_down_to_see 'Turn off Chat'
     touch "* id:'turn_off_chat'"
   end
 
   def switch_signature_option
-    forum_page.scroll_down_to_see "Turn off Signature"
+    forum_page.scroll_down_to_see 'Turn off Signature'
     touch "* id:'turn_off_signature'"
   end
 
@@ -53,7 +53,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def click_upgrade_premium
-    wait_touch "* marked:'Upgrade to Glow Premium'"
+    wait_touch "* marked:'Learn more'"
   end
 
   def enter_messages
@@ -83,22 +83,22 @@ class PremiumPage < Calabash::ABase
 
   def click_chat_settings
     sleep 1
-    touch "UINavigationButton index:0"
-    # wait_for_element_exists "* marked:'Chat options'"
+    wait_touch "* marked:'More options'"
   end
 
   def send_text_in_chat(args)
-    wait_touch "* marked:'Enter Message'"
-    keyboard_enter_text args
+    set_text "* marked:'Type something'", args
     sleep 1
-    touch "* marked:'Send'"
+    touch "* id:'send'"
   end
 
   def send_image_in_chat
-    wait_touch "* marked:'Message Input Toolbar Camera Button'"
-    wait_touch "* marked:'Last Photo'" 
+    wait_touch "* id:'attachment'"
+    # wait_touch "* marked:'Select from Gallery'"
+    press_back_button
+    set_text "* marked:'Type something'", "Cannot send image in Android"
     sleep 1
-    touch "* marked:'Send'"
+    touch "* id:'send'"
     sleep 3
   end
 
@@ -111,9 +111,9 @@ class PremiumPage < Calabash::ABase
     wait_touch "* marked:'Chat'" if [0,1,2,3,4].include? args
     _touch_points_reaction args
     forum_page.click_back_button
-    wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,3,4].include? args
+    wait_touch "* marked:'Chat' index:0" if [0,1,2,3,4].include? args
     _touch_points_reaction args
-    wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,3,4].include? args
+    wait_touch "* marked:'Chat' index:1" if [0,1,2,3,4].include? args
     _touch_points_reaction args
   end
 
@@ -124,14 +124,15 @@ class PremiumPage < Calabash::ABase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for_element_exists "UIButton marked:'Get Glow Premium'"
+      wait_for_element_exists "* marked:'Glow Premium Only'"
       close_request_dialog
     when 4
-      wait_for_element_exists "* marked:'Enter Message'"
-      premium_page.close_chat_popup
+      wait_for_element_exists "* marked:'Type something'"
       forum_page.click_back_button
     when 5,6
       check_element_does_not_exist "* marked:'Chat'"
+      else
+        puts 'Wrong index number.'
     end
   end
 end
