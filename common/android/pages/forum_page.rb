@@ -414,7 +414,8 @@ class ForumPage < Calabash::ABase
       scroll_down
     end
     sleep 1
-    wait_touch "* id:'view_sub_replies'"
+    x,y,width = get_element_x_y 'view_sub_replies'
+    perform_action('touch_coordinate',(x+width*0.1), y)
     sleep 1.5
   end
 

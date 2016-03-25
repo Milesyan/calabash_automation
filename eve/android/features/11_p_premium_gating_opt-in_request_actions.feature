@@ -1,5 +1,5 @@
 @premium @opt-in
-Feature: Start chat requst with others. 
+Feature: Start chat request with others. 
 
   @opt-in_setting
   Scenario: Enter setting page in chat request.

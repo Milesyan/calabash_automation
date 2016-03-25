@@ -17,4 +17,3 @@ Feature: Turn off signature and check it in posts
     Then I should not see the signature in topic/comment/subreply
     And I go back to group
     And I logout
-

@@ -42,6 +42,6 @@ Feature: Chat request -> accept/ignore.
     And I go to messages 
     And I click the name of the chat requester
     When I ignore the chat request
-    Then I should see the chat requst is ignored
+    Then I should see the chat request is ignored
     And I click done to close messages
     And I logout

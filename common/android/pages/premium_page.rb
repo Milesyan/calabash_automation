@@ -76,7 +76,7 @@ class PremiumPage < Calabash::ABase
 
   def chat_request_fail
     wait_touch "* marked:'Chat'"
-    wait_for_element_exists "* {text CONTAINS 'Can not chat due to'}"
+    wait_for_element_exists "* {text CONTAINS 'Can not chat'}"
   end
 
 #---IOS 

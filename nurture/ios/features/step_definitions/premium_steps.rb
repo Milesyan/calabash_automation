@@ -22,7 +22,7 @@ end
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
-  puts "Log in using email and passw22ord: #{$user.email}, #{$user.password}" 
+  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2
   app_page.finish_tutorial 

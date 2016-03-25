@@ -225,8 +225,9 @@ Then(/^I should go to profile page$/) do
 end
 
 Given(/^I enter the topic "([^"]*)"$/) do |arg1|
-  wait_touch "label {text CONTAINS '#{arg1}'} index:0"
-  wait_for_none_animating
+  wait_for_element_exists "* id:'community_recommended_group_action_btn'"
+  sleep 0.5
+  touch "* marked:'#{arg1}'"
 end
 
 Then(/^I check the signature does not display$/) do
@@ -283,7 +284,7 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
   premium_page.enter_new_user_profile
 end
 
-Then(/^I should see the chat requst is ignored$/) do
+Then(/^I should see the chat request is ignored$/) do
   puts "NEED TO CONFIRM THE TEXT HERE"
 end
 
@@ -299,7 +300,7 @@ Then(/^I close the request dialog$/) do
   premium_page.close_request_dialog
 end
 
-Then(/^I check that the chat requst failed to be sent$/) do
+Then(/^I check that the chat request failed to be sent$/) do
   premium_page.chat_request_fail
 end
 
@@ -371,7 +372,7 @@ end
 Then(/^I go back to previous page from chat request page$/) do
   sleep 1
   app_page.close_chat_popup
-  wait_touch "* marked:'gl community back'"
+  wait_touch "* marked: 'gl community back'"
 end
 
 Then(/^I goes to chat window and click close button$/) do
@@ -388,7 +389,7 @@ Then(/^I should see the user "([^"]*)" is in the contact list$/) do |arg1|
 end
 
 Then(/^I should see the lock icon after the user's name$/) do
-  wait_for_element_exists "* id:'contacts-lock'"
+  wait_for_element_exists "* id: 'contacts-lock'"
 end
 
 When(/^I click the name of user "([^"]*)"$/) do |arg1|
