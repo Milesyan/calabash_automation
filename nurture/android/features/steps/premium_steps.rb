@@ -12,18 +12,18 @@ end
 
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
-  common_page.tap_login
+  app_page.tap_login
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  common_page.login_with($user.email,$user.password)
+  app_page.login_with($user.email,$user.password)
   sleep 2
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
-  common_page.tap_login
+  app_page.tap_login
   puts "Log in using email and password: #{$user.email}, #{$user.password}" 
-  common_page.login_with($user.email,$user.password)
+  app_page.login_with($user.email,$user.password)
   sleep 2
 end
 
@@ -33,17 +33,17 @@ end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
-  common_page.tap_login
+  app_page.tap_login
   puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
-  common_page.login_with($new_user.email,$new_user.password)
+  app_page.login_with($new_user.email,$new_user.password)
   sleep 2
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
-  common_page.tap_login
+  app_page.tap_login
   puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
-  common_page.login_with($user2.email,$user2.password)
+  app_page.login_with($user2.email,$user2.password)
   sleep 2 
 end
 
@@ -370,7 +370,7 @@ end
 
 Then(/^I go back to previous page from chat request page$/) do
   sleep 1
-  common_page.close_chat_popup
+  app_page.close_chat_popup
   wait_touch "* marked:'gl community back'"
 end
 

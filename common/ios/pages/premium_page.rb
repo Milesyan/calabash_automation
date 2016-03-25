@@ -54,7 +54,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def enter_messages
-    common_page.close_chat_popup
+    app_page.close_chat_popup
     wait_touch "* marked:'gl community navtab search' sibling UIView index:3"
   end
 
@@ -124,7 +124,7 @@ class PremiumPage < Calabash::IBase
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Enter Message'"
-      common_page.close_chat_popup
+      app_page.close_chat_popup
       forum_page.click_back_button
     when 5,6
       check_element_does_not_exist "* marked:'Chat'"

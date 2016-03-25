@@ -12,7 +12,7 @@ Feature: User edit topics.
     Then I should see the topic is posted successfully
     And I logout
 
-  @edit_existing_topic 
+  @edit_existing_topic
   Scenario: Create a user and text topic through www and test edit it.
     Given I create a new forum user with name "Alex"
     And "Alex" create a "text" topic in the test group

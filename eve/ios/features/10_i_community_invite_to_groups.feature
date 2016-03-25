@@ -2,11 +2,11 @@
 Feature: legacy and new invite users to group flow
   @new_invite
   Scenario: Invite other users to a group in new group banner
-    Given I create a new forum user with name "Miles" and join group 2186
+    Given I create a new forum user with name "Miles" and join group 417
     Then I follow another user "Elsa" and the user also follows me
     And I login as the new user "Miles" created through www
     And I open "community" page
-    And I go to the first group I joined
+    And I go to the first group
     Then I invite the user to this group
     And I logout
     And I login as "Elsa"

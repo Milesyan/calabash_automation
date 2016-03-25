@@ -1,20 +1,20 @@
 @forum @create_topics
 Feature: User create text/poll/image/url topics 
     @create_post
-    Scenario: User create a text topic
+  Scenario: User create a text topic
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
-    When I post a "text" topic
+    And I post a "text" topic
     Then I should see the topic is posted successfully
     And I logout
 
-    @create_poll
-    Scenario: User create a poll topic @create_poll
+  @create_poll
+  Scenario: User create a poll topic @create_poll
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page
-    When I post a "poll" topic
+    And I post a "poll" topic
     Then I should see the topic is posted successfully
     And I logout
 
@@ -27,14 +27,14 @@ Feature: User create text/poll/image/url topics
     Then I should see the topic is posted successfully
     And I logout 
 
-  # @create_link
-  #   Scenario: User create a link topic @create_link
-  #   Given I create a new forum user with name "Miles"
-  #   And I login as the new user "Miles" created through www
-  #   And I open "community" page
-  #   And I post a "link" topic
-  #   Then I should see the topic is posted successfully
-  #   And I logout
+  @create_link
+  Scenario: User create a link topic @create_link
+    Given I create a new forum user with name "Miles"
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I post a "link" topic
+    Then I should see the topic is posted successfully
+    And I logout
 
   @create_post_in_group
   Scenario: User create a text topic in group @create_post_in_group

@@ -1,5 +1,5 @@
 require 'calabash-cucumber/ibase'
-class CommonPage < Calabash::IBase
+class AppPage < Calabash::IBase
   def trait
     "*"
   end
@@ -84,7 +84,7 @@ class CommonPage < Calabash::IBase
 
   def open_settings
     wait_for(:timeout => 10, :retry_frequency => 2) do
-      common_page.open "me"
+      app_page.open "me"
       element_exists "* marked:'Tell friends about Glow Baby'"
     end
     wait_touch "* marked:'Account settings'"

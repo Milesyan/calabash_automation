@@ -1,6 +1,5 @@
 @forum @create_topics_warning
 Feature: User create topics with warning messages
-
   @create_topics_warning
   Scenario: User create a text topic with short title
     Given I create a new forum user with name "Miles"

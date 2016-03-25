@@ -21,7 +21,7 @@ Feature: create/join/leave group
     And I open "community" page 
     Then I click the DISCOVER button in community tab
     And I click create a group
-    Then I should see "Create my own group"
+    Then I should see "Create my own group" in my view
     And I logout
 
   @join_group
@@ -45,7 +45,7 @@ Feature: create/join/leave group
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
     And I open "community" page 
-    Then I long press group "High Risk Pregnancies"
+    Then I long press group "1st Child"
     Then I quit the group
     And I logout
 

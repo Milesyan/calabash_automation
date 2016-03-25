@@ -16,9 +16,9 @@ module Baby
   def logout_if_already_logged_in
     sleep 1
     if already_logged_in?
-      common_page.open("me")
-      common_page.open_settings
-      common_page.logout
+      app_page.open("me")
+      app_page.open_settings
+      app_page.logout
     end
   end
 

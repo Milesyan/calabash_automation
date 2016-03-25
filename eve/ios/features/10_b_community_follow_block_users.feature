@@ -1,9 +1,8 @@
 @forum @follow_block_user
-Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 62 steps)
-	@follow_user
+Feature: user checks follow, unfollow, block and unblock.
 	Scenario: User follow another user.
 		Given I create a new forum user with name "Miles"
-		Then I create another eve user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group
@@ -20,7 +19,7 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
 	@block_user
 	Scenario: User block another user.
 		Given I create a new forum user with name "Miles"
-		Then I create another eve user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group
@@ -58,7 +57,7 @@ Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 
 	@unblock_user
 	Scenario: User block a user and unblock the user.
 		Given I create a new forum user with name "Miles"
-		Then I create another eve user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group

@@ -1,6 +1,6 @@
 require 'calabash-cucumber/ibase'
 
-class CommonPage < Calabash::IBase
+class AppPage < Calabash::IBase
   def trait
     "*"
   end
@@ -37,7 +37,7 @@ class CommonPage < Calabash::IBase
 
   def logout_if_already_logged_in
     if element_does_not_exist "* marked:'LOG\u2028IN'"
-      common_page.open("me")
+      app_page.open("me")
       me_page.logout
     end
   end

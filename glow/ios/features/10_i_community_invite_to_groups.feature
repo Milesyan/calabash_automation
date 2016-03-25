@@ -10,6 +10,7 @@ Feature: legacy and new invite users to group flow
     Then I invite the user to this group
     And I logout
     And I login as "Elsa"
+    And I open "community" page
     And I open "alert" page
     Then I click the button to join the group
     And I close the group page

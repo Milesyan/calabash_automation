@@ -58,6 +58,9 @@ module EveForumIOS
       }
     end
 
+    def complete_tutorial
+      self
+    end
 
     def signup_guest
       @uuid = SecureRandom.uuid.upcase

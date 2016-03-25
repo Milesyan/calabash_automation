@@ -156,8 +156,8 @@ class ForumPage < Calabash::ABase
   end
 #-----------------
   def login
-    common_page.tap_login
-    common_page.login
+    app_page.tap_login
+    app_page.login
   end
 
   def select_target_group

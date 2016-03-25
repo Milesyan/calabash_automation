@@ -62,7 +62,10 @@ module NurtureForumIOS
         "model" => "iPhone7,1",
       }
     end
-
+    
+    def complete_tutorial
+      self
+    end
 
     def signup(args = {})
       data = {

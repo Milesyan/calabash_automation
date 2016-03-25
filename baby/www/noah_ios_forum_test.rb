@@ -98,6 +98,10 @@ module NoahForumIOS
       }
     end
 
+    def complete_tutorial
+      self
+    end
+    
     def signup(args = {})
       user = args[:user] || self
       data = {

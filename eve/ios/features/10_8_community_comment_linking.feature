@@ -8,7 +8,7 @@ Feature: Comment linking function
     And I open "community" page
     And I go to the first group
     And I enter topic created in previous step
-    Then I should see "Show entire discussion"
+    Then I should see "Show entire discussion" in my view
     And I should see the last comment
     And I expand all the comments
     And I go back to group
@@ -27,7 +27,7 @@ Feature: Comment linking function
     And I logout
 
 
-  @notification_commentlinking 
+  @notification_commentlinking
   Scenario: User clicks a notification to enter a topic.
     Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
@@ -35,7 +35,7 @@ Feature: Comment linking function
     And I login as the new user "Miles" created through www
     And I open "alert" page
     And I touch button containing text "Check it out!" 
-    Then I should see "Show entire discussion"
+    Then I should see "Show entire discussion" in my view
     And I expand all the comments
     Then I click the bookmark icon
     And I click the close button and go back to previous page

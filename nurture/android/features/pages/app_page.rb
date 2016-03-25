@@ -1,6 +1,6 @@
 require 'calabash-android/abase'
 
-class CommonPage < Calabash::ABase
+class AppPage < Calabash::ABase
   def trait
     "*"
   end
@@ -27,7 +27,7 @@ class CommonPage < Calabash::ABase
     if element_exists "* id:'blockingView'"
       bypass_nurture_tutorial
     end
-    common_page.open "genius"
+    app_page.open "genius"
   end
 
   def bypass_nurture_tutorial

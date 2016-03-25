@@ -17,7 +17,7 @@ module Glow
   def logout_if_already_logged_in
     sleep 1
     wait_for_elements_do_not_exist("* id:'loading_view'", :timeout => 30)
-    common_page.logout if already_logged_in?
+    app_page.logout if already_logged_in?
   end
 
   def wait_touch(query_str)

@@ -2,7 +2,7 @@ def forum_new_user(args = {})
 	ForumUser.new(args).signup.login.leave_all_groups.join_group
 end
 
-def forum_new_other_user(args = {})
+def ntf_user(args = {})
 	ForumUser.new(args).signup.login
 end 
 
@@ -139,22 +139,22 @@ end
 
 Given(/^(\d+) other users upvote the topic and (\d+) other users downvote the topic$/) do |arg1, arg2|
   arg1.to_i.times do
-    new_user = forum_new_other_user.upvote_topic $user.topic_id
+    new_user = ntf_user.upvote_topic $user.topic_id
     puts "#{new_user.first_name} upvoted #{$user.topic_id}  >> #{$user.topic_title} << "
   end
   arg2.to_i.times do
-    new_user = forum_new_other_user.downvote_topic $user.topic_id
+    new_user = ntf_user.downvote_topic $user.topic_id
     puts "#{new_user.first_name} downvoted #{$user.topic_id} >> #{$user.topic_title} << "
   end
 end
 
 Given(/^(\d+) other users upvote the comment and (\d+) other users downvote the comment$/) do |arg1, arg2|
   arg1.to_i.times do
-    new_user = forum_new_other_user.upvote_comment $user.topic_id, $first_comment_id
+    new_user = ntf_user.upvote_comment $user.topic_id, $first_comment_id
     puts "#{new_user.first_name} upvoted comment #{$first_comment_id} under #{$user.topic_id}  >> #{$user.topic_title} << "
   end
   arg2.to_i.times do
-    new_user = forum_new_other_user.downvote_comment $user.topic_id, $first_comment_id
+    new_user = ntf_user.downvote_comment $user.topic_id, $first_comment_id
     puts "#{new_user.first_name} downvoted comment #{$first_comment_id} under #{$user.topic_id} >> #{$user.topic_title} << "
   end
 end
@@ -162,7 +162,7 @@ end
 Given(/^(\d+) other users reported the topic$/) do |arg1|
   reason_poll = ["Wrong group", "Rude", "Obscene", "Spam", "Solicitation"]
   arg1.to_i.times do
-    new_user = forum_new_other_user.report_topic $user.topic_id, reason_poll.sample
+    new_user = ntf_user.report_topic $user.topic_id, reason_poll.sample
     puts "#{new_user.first_name} reported #{$user.topic_id}"
   end
 end
@@ -171,7 +171,7 @@ end
 Given(/^(\d+) other users reported the comment$/) do |arg1|
   reason_poll = ["Rude", "Obscene", "Spam", "Solicitation"]
   arg1.to_i.times do
-    new_user = forum_new_other_user.report_comment $user.topic_id, $first_comment_id, reason_poll.sample
+    new_user = ntf_user.report_comment $user.topic_id, $first_comment_id, reason_poll.sample
     puts "#{new_user.first_name} reported #{$user.topic_id}"
   end
 end
@@ -186,14 +186,14 @@ end
 
 Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
   number.to_i.times do
-    new_user = forum_new_other_user.create_topic
+    new_user = ntf_user.create_topic
     $user.reply_to_topic new_user.topic_id
   end
   puts "#{name} replied to #{number} topics. "
 end
 
 Given(/^a user created a group in "(.*?)" category$/) do |arg1|
-  other_user = forum_new_other_user
+  other_user = ntf_user
   other_user.create_group
 end
 

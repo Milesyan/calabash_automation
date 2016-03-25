@@ -1,6 +1,6 @@
 require 'calabash-cucumber/ibase'
 
-class CommonPage < Calabash::IBase
+class AppPage < Calabash::IBase
   def trait
     "*"
   end
@@ -86,8 +86,8 @@ class CommonPage < Calabash::IBase
     when "ttc"
       wait_touch "* marked:'Trying to conceive' sibling PillButton index:0"
       wait_for_none_animating
-      common_page.choose_ttc_time
-      common_page.choose_children_number
+      app_page.choose_ttc_time
+      app_page.choose_children_number
       wait_touch "* marked:'Next'"
       check_user_status "ttc"
     when "pregnant"
@@ -112,25 +112,25 @@ class CommonPage < Calabash::IBase
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "prep"
-      common_page.complete_ft_step1
+      app_page.complete_ft_step1
       check_user_status "prep"
     when "med"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "med"
-      common_page.complete_ft_step1
+      app_page.complete_ft_step1
       check_user_status "med"
     when "iui"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "iui"
-      common_page.complete_ft_step1
+      app_page.complete_ft_step1
       check_user_status "iui"
     when "ivf"
       wait_touch "* marked:'Fertility treatments' sibling PillButton index:0"
       wait_for_none_animating
       $user.type = "ivf"
-      common_page.complete_ft_step1
+      app_page.complete_ft_step1
       check_user_status "ivf"
     end
   end

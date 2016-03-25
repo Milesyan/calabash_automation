@@ -1,5 +1,5 @@
 @forum @comment_reply
-Feature: User add comments and subreplies (3m16.685s 2 scenarios 20 steps)
+Feature: User add comments and sub-replies.
   @add_comment  
   Scenario: User create a poll topic and add comment @add_comment 
     Given I create a new forum user with name "Miles"

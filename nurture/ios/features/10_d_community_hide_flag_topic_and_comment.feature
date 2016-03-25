@@ -1,5 +1,5 @@
-@forum @hide_report 
-Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
+@forum @hide_report
+Feature: Test hide/report topic/comment.
   @hide_topic
   Scenario: User create a topic and hide it.
     Given I create a new forum user with name "Miles"

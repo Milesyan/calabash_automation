@@ -1,6 +1,6 @@
 require 'calabash-cucumber/ibase'
 
-class CommonPage < Calabash::IBase
+class AppPage < Calabash::IBase
   def trait
     "*"
   end

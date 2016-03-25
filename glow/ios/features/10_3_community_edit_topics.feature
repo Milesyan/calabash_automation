@@ -35,14 +35,14 @@ Feature: User edit topics.
     Then I should see the topic is posted successfully
     And I logout
 
-  # @edit_poll_after_voted
-  # Scenario: Create a user and a poll topic through www and create another user to vote it.
-  #   Given I create a new forum user with name "Miles"
-  #   And "Miles" create a "poll" topic in the test group
-  #   Then I created another user to vote the poll
-  #   And I login as the new user "Miles" created through www
-  #   And I open "community" page
-  #   And I go to the first group
-  #   Then I edit the topic "create poll by www api" which has been voted
-  #   Then I should see the topic cannot be voted
-  #   And I logout
+  @edit_poll_after_voted
+  Scenario: Create a user and a poll topic through www and create another user to vote it.
+    Given I create a new forum user with name "Miles"
+    And "Miles" create a "poll" topic in the test group
+    Then I created another user to vote the poll
+    And I login as the new user "Miles" created through www
+    And I open "community" page
+    And I go to the first group
+    Then I edit the topic "create poll by www api" and change the title and content
+    Then I should see the topic is posted successfully
+    And I logout

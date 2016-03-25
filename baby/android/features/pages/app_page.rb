@@ -1,6 +1,6 @@
 require 'calabash-android/abase'
 
-class CommonPage < Calabash::ABase
+class AppPage < Calabash::ABase
   def trait
     "*"
   end

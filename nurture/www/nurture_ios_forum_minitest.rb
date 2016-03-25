@@ -11,7 +11,7 @@ class NurtureTest < Minitest::Test
   def setup
   end
 
-  def new_nurture_user
+  def forum_new_user
     ForumUser.new.signup.login
   end
 
@@ -21,15 +21,15 @@ class NurtureTest < Minitest::Test
   end
 
   def test_create_example_user
-    u = new_nurture_user
+    u = forum_new_user
   end
 
-  def test_new_nurture_user
-    u = new_nurture_user
+  def test_forum_new_user
+    u = forum_new_user
   end
 
   def test_premium
-    u = new_nurture_user
+    u = forum_new_user
     u.get_premium
   end
 
@@ -38,12 +38,12 @@ class NurtureTest < Minitest::Test
   end
 
   def test_kaylee_signup
-    u = new_nurture_user
+    u = forum_new_user
     assert_rc u.res
   end
 
   def test_kaylee_login
-    u = new_nurture_user
+    u = forum_new_user
     u.login
     assert_rc u.res
   end
@@ -52,14 +52,14 @@ class NurtureTest < Minitest::Test
   #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     # assert that the user_id in the topic should be the user's id
     assert_equal u.user_id, u.res["data"]["topic"]["user_id"]
   end
 
   def test_create_poll_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_poll
     assert_equal u.user_id, u.res["data"]["result"]["user_id"]
   end
@@ -70,8 +70,8 @@ class NurtureTest < Minitest::Test
   end
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
-    u1 = new_nurture_user
-    u2 = new_nurture_user
+    u1 = forum_new_user
+    u2 = forum_new_user
     u1.create_topic
     u2.reply_to_topic u1.topic_id
     u2.reply_to_topic u1.topic_id
@@ -83,14 +83,14 @@ class NurtureTest < Minitest::Test
   end
 
   def test_add_comment_and_subreply_to_a_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.reply_to_topic u.topic_id
     u.reply_to_comment u.topic_id, u.reply_id
   end  
 
   def test_delete_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.delete_topic u.topic_id
     assert_rc u.res
@@ -99,17 +99,17 @@ class NurtureTest < Minitest::Test
 #----- follow/unfollow/block/unblock users
 
   def test_follow_user
-    u = new_nurture_user
+    u = forum_new_user
     sleep 1
-    u2 = new_nurture_user
+    u2 = forum_new_user
     u.follow_user u2.user_id
     assert_rc u.res
   end
 
   def test_unfollow_user
-    u = new_nurture_user
+    u = forum_new_user
     sleep 1
-    u2 = new_nurture_user
+    u2 = forum_new_user
     u.follow_user u2.user_id
     u.unfollow_user u2.user_id
     assert_rc u.res
@@ -117,25 +117,25 @@ class NurtureTest < Minitest::Test
 
 
   def test_block_user
-    u = new_nurture_user
+    u = forum_new_user
     sleep 1
-    u2 = new_nurture_user
+    u2 = forum_new_user
     u.block_user u2.user_id
     assert_rc u.res
   end
 
 
   def test_unblock_user
-    u = new_nurture_user
+    u = forum_new_user
     sleep 1
-    u2 = new_nurture_user
+    u2 = forum_new_user
     u.block_user u2.user_id
     u.unblock_user u2.user_id
     assert_rc u.res
   end
 
   def test_bookmark
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.bookmark_topic u.topic_id
     assert_rc u.res
@@ -143,7 +143,7 @@ class NurtureTest < Minitest::Test
 
 
   def test_unbookmark
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.bookmark_topic u.topic_id
     u.unbookmark_topic u.topic_id
@@ -152,28 +152,28 @@ class NurtureTest < Minitest::Test
 #------------Up/Downvote topic/comment--------
   
   def test_upvote_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.upvote_topic u.topic_id
     assert_rc u.res
   end
 
   def test_downvote_topic
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
     u.downvote_topic u.topic_id
     assert_rc u.res
   end
 
   def test_upvote_comment
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
     u.upvote_comment u.topic_id, u.reply_id
     assert_rc u.res
   end
 
   def test_downvote_comment
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
     u.downvote_comment u.topic_id, u.reply_id
     assert_rc u.res
@@ -181,10 +181,10 @@ class NurtureTest < Minitest::Test
 
   def test_report_topic
     reason_poll = ["Wrong group", "Rude", "Obscene", "Spam", "Solicitation"]
-    u1 = new_nurture_user
+    u1 = forum_new_user
     u1.create_topic
     2.times do
-      u2 = new_nurture_user
+      u2 = forum_new_user
       u2.report_topic u1.topic_id, reason_poll.sample
       assert_rc u2.res
     end
@@ -192,27 +192,27 @@ class NurtureTest < Minitest::Test
 
   def test_report_comment
     reason_poll = ["Rude", "Obscene", "Spam", "Solicitation"]
-    u1 = new_nurture_user
+    u1 = forum_new_user
     u1.create_topic
     2.times do
-      u2 = new_nurture_user
+      u2 = forum_new_user
       u2.report_comment u1.topic_id,u1.reply_id,reason_poll.sample
       assert_rc u2.res
     end
   end
 
   def test_leave_group
-    u = new_nurture_user
+    u = forum_new_user
     u.leave_group 72057594037927941
   end
 
   def test_get_all_groups
-    u = new_nurture_user
+    u = forum_new_user
     u.get_all_groups
   end
 
   def test_quit_all_groups
-    u = new_nurture_user
+    u = forum_new_user
     u.get_all_groups
     u.all_group_ids.each do |group_id|
       u.leave_group group_id
@@ -221,68 +221,68 @@ class NurtureTest < Minitest::Test
 
 
   def test_quit_all_groups_method
-    u = new_nurture_user.leave_all_groups
+    u = forum_new_user.leave_all_groups
   end
 
   def test_post_image
-    u = new_nurture_user
+    u = forum_new_user
     u.create_photo
     assert_rc u.res
   end
 
   def test_create_group 
-    u = new_nurture_user
+    u = forum_new_user
     u.create_group
     assert_equal u.res["data"]["group"]["creator_name"], u.first_name
   end
 
   def test_get_all_group_names
-    u = new_nurture_user
+    u = forum_new_user
     puts u.get_all_group_names
   end
   
   def test_get_all_group_ids
-    u = new_nurture_user
+    u = forum_new_user
     puts u.get_all_group_ids
   end
 
   def test_notification
-    u = new_nurture_user
+    u = forum_new_user
     u.create_topic
-    u2 = new_nurture_user
+    u2 = forum_new_user
     u2.reply_to_topic u.topic_id
   end
 
   def test_add_followings
-    u1= new_nurture_user
+    u1= forum_new_user
     puts u1.res
     2.times do
-      u = new_nurture_user
+      u = forum_new_user
       u1.follow_user u.user_id
     end
   end
 
   def test_turn_off_chat
-    u = new_nurture_user
+    u = forum_new_user
     u.turn_off_chat
     assert_rc u.res["data"]
   end
 
   def test_turn_on_chat
-    u = new_nurture_user
+    u = forum_new_user
     u.turn_off_chat
     u.turn_on_chat
     assert_rc u.res["data"]
   end
   
   def test_turn_off_signature
-    u = new_nurture_user
+    u = forum_new_user
     u.turn_off_signature
     assert_rc u.res["data"]
   end
   
   def test_turn_on_signature
-    u = new_nurture_user
+    u = forum_new_user
     u.turn_off_signature
     u.turn_on_signature
     assert_rc u.res["data"]
@@ -293,8 +293,8 @@ class NurtureTest < Minitest::Test
   end
 
   def test_send_chat_request
-    u1 = new_nurture_user
-    u2 = new_nurture_user
+    u1 = forum_new_user
+    u2 = forum_new_user
     u1.send_chat_request u2.user_id
     puts u1.res
     assert_equal u1.res["data"]["rc"], 8003
@@ -302,7 +302,7 @@ class NurtureTest < Minitest::Test
 
   def test_premium_request
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.send_chat_request u.user_id
     assert_rc up.res["data"]
     u.get_request_id
@@ -311,7 +311,7 @@ class NurtureTest < Minitest::Test
 
   def test_accept_chat_request
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.send_chat_request u.user_id
     u.accept_chat
     assert_equal u.res["data"]["msg"], "Chat request is accepted."
@@ -319,7 +319,7 @@ class NurtureTest < Minitest::Test
 
   def test_ignore_chat_request
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.send_chat_request u.user_id
     u.ignore_chat
     assert_equal u.res["data"]["msg"], "Chat request is rejected."
@@ -327,14 +327,14 @@ class NurtureTest < Minitest::Test
 
   def test_remove_chat_false
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.remove_chat u.user_id
     puts up.res
   end
 
   def test_remove_chat_true
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.send_chat_request u.user_id
     u.accept_chat
     up.remove_chat u.user_id
@@ -355,7 +355,7 @@ class NurtureTest < Minitest::Test
 
   def test_establish_chat
     up = premium_login
-    u = new_nurture_user
+    u = forum_new_user
     up.establish_chat u
     puts up.res
     puts u.res

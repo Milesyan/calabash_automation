@@ -1,5 +1,5 @@
-@forum @hide_report 
-Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
+@forum @hide_report
+Feature: Test hide/report topic/comment.
   @hide_topic
   Scenario: User create a topic and hide it.
     Given I create a new forum user with name "Miles"
@@ -54,7 +54,7 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
     And I go back to previous page
     And I logout
 
-  @report_reason @wip
+  @report_reason
   Scenario: Check report topic and report comment reasons, and report by other reason.
     Given another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
     Given I create a new forum user with name "Miles"

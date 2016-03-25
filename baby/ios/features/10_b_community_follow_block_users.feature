@@ -2,7 +2,7 @@
 Feature: user checks follow, unfollow, block and unblock.
 	Scenario: User follow another user.
 		Given I create a new forum user with name "Miles"
-		Then I create another noah user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group
@@ -19,7 +19,7 @@ Feature: user checks follow, unfollow, block and unblock.
 	@block_user
 	Scenario: User block another user.
 		Given I create a new forum user with name "Miles"
-		Then I create another noah user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group
@@ -57,7 +57,7 @@ Feature: user checks follow, unfollow, block and unblock.
 	@unblock_user
 	Scenario: User block a user and unblock the user.
 		Given I create a new forum user with name "Miles"
-		Then I create another noah user "Charlotte" and create a topic in the test group
+		Then I create another forum user "Charlotte" and create a topic in the test group
 		And I login as the new user "Miles" created through www
 		And I open "community" page
     And I go to the first group

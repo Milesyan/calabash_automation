@@ -4,7 +4,7 @@ Feature: Add topics and comments and user search for it.
   Scenario: User create some topics and search between them.
     Given I create a new forum user with name "Paddington"
     And "Paddington" create 10 topics for searching topic
-    And I login as the new user "Paddingtong" created through www
+    And I login as the new user "Paddington" created through www
     And I open "community" page
     And I go to search bar
     And I search the topic in the first step
@@ -62,9 +62,9 @@ Feature: Add topics and comments and user search for it.
     And I return to group page from search result
     And I logout
 
-  @search_groups 
+  @search_groups
   Scenario: User create a group and search it
-    Given I create a new forum user with name "Devil"
+    Given I create a new forum user with name "Miles"
     And "Miles" create a group in category "Baby" with name "SearchGroup"
     And I login as the new user "Miles" created through www
     And I open "community" page
