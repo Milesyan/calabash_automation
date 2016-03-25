@@ -9,6 +9,7 @@ Feature: Turn off chat and check chat icons and chat section.
     And I open "community" page
     And I go to the first group
     And I open the topic "Test self chat off"
+    Then I check that the chat requst failed to be sent
     And I enter new user's profile
     Then I check that the chat requst failed to be sent
     And I go back to forum page from forum profile page
@@ -23,6 +24,7 @@ Feature: Turn off chat and check chat icons and chat section.
     And I open "community" page
     And I go to the first group
     And I open the topic "Test chat off"
+    Then I check that the chat icon does not exist
     When I enter new user's profile
     Then I check that the chat icon does not exist
     And I go back to forum page from forum profile page

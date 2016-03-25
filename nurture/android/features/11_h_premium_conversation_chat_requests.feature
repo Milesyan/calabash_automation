@@ -21,6 +21,7 @@ Feature: Chat request -> accept/ignore.
     Then I enter the chat window and start to chat
     And I go back to previous page
     And I click done to close messages
+    And I go back to previous page from chat request page
     And I logout
 
   @ignore_chat_request

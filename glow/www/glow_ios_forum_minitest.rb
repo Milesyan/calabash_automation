@@ -244,17 +244,6 @@ class GlowTest < Minitest::Test
   end
 
 
-
-  def test_leo_group
-    u = forum_new_user :first_name => "Glow"
-    u.create_group :group_name => "Baby articles"
-  end
-
-
-  def test_miles
-    u = forum_new_user
-  end
-  
   def test_get_all_group_names
     u = forum_new_user
     puts u.get_all_group_names
