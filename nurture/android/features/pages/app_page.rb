@@ -72,4 +72,10 @@ class AppPage < Calabash::ABase
     wait_for_elements_exist "AppCompatImageView index:0"
   end
 
+  def ntf_join_group
+    wait_for_element_exists "* marked:'Join the group!'}"
+    wait_touch "* marked:'Check out the group!'"
+    wait_touch "* marked:'Join group'"
+    sleep 2
+  end
 end

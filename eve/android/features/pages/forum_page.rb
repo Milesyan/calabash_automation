@@ -124,8 +124,9 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'content_editor'", link
     sleep 1
     wait_for_elements_do_not_exist "* id:'progress_bar'"
-    sleep 1
+    sleep 2
     touch "* id:'create_yes'" # done button
+    sleep 0.5
   end
 
   def create_poll_common(args={}) 
@@ -204,7 +205,7 @@ class ForumPage < Calabash::ABase
   def add_comment
     sleep 2
     if element_exists "* id:'add_reply_btn'"
-      sleep 2
+      sleep 1
       touch "* id:'add_reply_btn'"
     else
       wait_touch "* marked:'Add a comment'"
@@ -214,7 +215,7 @@ class ForumPage < Calabash::ABase
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
     touch "* id:'add_reply_yes'"
-    sleep 1
+    sleep 5
   end
 
   def add_image_comment
@@ -243,6 +244,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_reply
+    sleep 1
     scroll_down
     wait_touch "* marked:'Reply'"
     enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s
@@ -695,7 +697,7 @@ class ForumPage < Calabash::ABase
       wait_touch "* marked:'Cancel'"
       puts "User not hide it"
     end
-    wait_for_elements_do_not_exist "* {text CONTAINS 'to hide this'}"
+    wait_for_elements_do_not_exist "* {text CONTAINS 'hide this'}"
   end
 
 
@@ -793,6 +795,8 @@ class ForumPage < Calabash::ABase
     wait_touch "* marked:'Discover'"
     sleep 0.2
   end
+
+
 #community v1.1 logging
   def click_search_under_explore
     wait_touch "* marked:'Search'"
@@ -808,7 +812,6 @@ class ForumPage < Calabash::ABase
   def touch_new_tab
     wait_touch "* marked:'New' index:0"
   end
-
 
 #--------NEW INVITE AND hist post flag --------
   def invite_user(args = "")
@@ -838,3 +841,4 @@ class ForumPage < Calabash::ABase
     sleep 2
   end
 end
+

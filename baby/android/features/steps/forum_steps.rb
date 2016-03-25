@@ -833,7 +833,7 @@ Then(/^I go to the second group$/) do
 end
 
 Then(/^I click the button to join the group$/) do
-  forum_page.ntf_join_group
+  app_page.ntf_join_group
 end
 
 #---for nurture fix 
@@ -851,4 +851,7 @@ Then(/^I click save button$/) do
   wait_touch "* marked:'Save'"
 end
 
+Then(/^I should see "([^"]*)" in my view$/) do |arg1|                                                                                              │
+  wait_for_element_exists arg1
+end
 

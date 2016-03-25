@@ -8,16 +8,16 @@ Feature: Test order by time and order by upvote (1m40.347s 1 scenario 21 steps)
     And I open "community" page
     And I go to the first group
     And I enter topic created in previous step
-    Then I should see "Show entire discussion"
+    Then I should see "Show entire discussion" in my view
     And I should see the last comment
     And I expand all the comments
     Then I click the hyperlink of comments
-    Then I should see "✓Sort by Upvotes"
-    And I should see "Sort by Time"
+    Then I should see "✓Sort by Upvotes" in my view
+    And I should see "Sort by Time" in my view
     And I touch "Sort by Time" and wait for 2 seconds
     Then I wait to see comment contains "comment 10"
     Then I click the hyperlink of comments
-    Then I should see "✓Sort by Time"
+    Then I should see "✓Sort by Time" in my view
     And I touch "Sort by Upvotes" and wait for 2 seconds
     Then I wait to see comment contains "comment 1"
     And I go back to group

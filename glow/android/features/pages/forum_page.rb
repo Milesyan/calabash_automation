@@ -122,10 +122,11 @@ class ForumPage < Calabash::ABase
     link = "www.baidu.com "
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", link
-    sleep 2
-    wait_for_elements_do_not_exist "* id:'progress_bar'"
     sleep 1
+    wait_for_elements_do_not_exist "* id:'progress_bar'"
+    sleep 2
     touch "* id:'create_yes'" # done button
+    sleep 0.5
   end
 
   def create_poll_common(args={}) 
@@ -204,6 +205,7 @@ class ForumPage < Calabash::ABase
   def add_comment
     sleep 2
     if element_exists "* id:'add_reply_btn'"
+      sleep 1
       touch "* id:'add_reply_btn'"
     else
       wait_touch "* marked:'Add a comment'"
@@ -213,7 +215,7 @@ class ForumPage < Calabash::ABase
     comment = "comment " + Time.now.to_s
     keyboard_enter_text comment
     touch "* id:'add_reply_yes'"
-    sleep 1
+    sleep 5
   end
 
   def add_image_comment
@@ -242,6 +244,7 @@ class ForumPage < Calabash::ABase
   end
 
   def add_reply
+    sleep 1
     scroll_down
     wait_touch "* marked:'Reply'"
     enter_text "* id:'new_reply_text'", "Test Reply" + Time.now.to_s
@@ -276,8 +279,8 @@ class ForumPage < Calabash::ABase
   end
  
   def delete_topic(args)
-    wait_touch "* id:'topic_menu'"
     wait_for_elements_exist "* {text CONTAINS 'Posted by'}"
+    wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Delete this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'delete this'}"}
     sleep 0.5
@@ -480,6 +483,7 @@ class ForumPage < Calabash::ABase
 
   def go_to_group_page_under_settings
     enter_community_settings
+    wait_for_element_exists "* marked:'Blocking'"
     sleep 1
     if element_exists "* marked:'Subscribed Groups'"
       touch "* marked:'Subscribed Groups'"
@@ -712,7 +716,7 @@ class ForumPage < Calabash::ABase
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
-    sleep 2
+    sleep 1.5
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Report this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'why you are flagging this topic'}"}
@@ -788,12 +792,14 @@ class ForumPage < Calabash::ABase
   end
 
   def click_discover
+    sleep 1
     wait_touch "* marked:'Discover'"
     logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
     sleep 0.2
   end
 
-  #community v1.1 logging
+
+#community v1.1 logging
   def click_search_under_explore
     wait_touch "* marked:'Search'"
   end
@@ -836,6 +842,5 @@ class ForumPage < Calabash::ABase
     wait_touch "* marked:'Join group'"
     sleep 2
   end
-
-
 end
+

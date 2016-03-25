@@ -401,6 +401,7 @@ class ForumPage < Calabash::ABase
     random_number = Random.rand($comment_number.to_i).to_i+1
     search_result = $search_content+" "+random_number.to_s
     puts "Search for #{search_result}"
+    sleep 2
     scroll_down_to_see search_result
     touch_search_result search_result,0
     wait_for_elements_exist "* marked:'#{search_result}'"
@@ -423,7 +424,7 @@ class ForumPage < Calabash::ABase
   def check_search_result_deleted(string)
     sleep 0.5
     touch "* marked:'#{string}' index:1"
-    wait_for_elements_exist("* {text CONTAINS 'Topic does not exist!'}", :timeout => 3)
+    wait_for_elements_exist("* {text CONTAINS 'Topic does not exist!'}", :timeout => 10)
     sleep 1
   end
 
