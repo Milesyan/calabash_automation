@@ -1,6 +1,7 @@
 .DS_Store
 .irb-history
 .gitignore
+.idea
 remove_screenshots.sh
 glow/android/builds/
 glow/android/test_servers
