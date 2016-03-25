@@ -1,4 +1,4 @@
-@forum_n @group
+@forum @group
 Feature: create/join/leave group 
   @create_group
   Scenario: User create a group.

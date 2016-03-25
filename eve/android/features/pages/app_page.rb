@@ -50,6 +50,9 @@ class AppPage < Calabash::ABase
     sleep 0.5
   end
   
+  def forum_element
+    wait_for_elements_exist "by"
+  end
   # def bypass_eve
   #   wait_touch "* id:'cycleDaysQuestionButton'"
   #   sleep 0.5

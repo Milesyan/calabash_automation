@@ -61,7 +61,7 @@ Feature: Add topics and comments and user search for it.
     Then I check the search result for deleted "reply"
     And I return to group page from search result after search deleted comment
     And I logout
-    
+
   @search_groups
   Scenario: User create a group and search it
     Given I create a new forum user with name "Miles"

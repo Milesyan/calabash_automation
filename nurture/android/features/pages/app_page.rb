@@ -68,4 +68,8 @@ class AppPage < Calabash::ABase
     touch "* marked:'Log out'"
   end
 
+  def forum_element
+    wait_for_elements_exist "AppCompatImageView index:0"
+  end
+
 end

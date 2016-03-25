@@ -6,7 +6,7 @@ Feature: legacy and new invite users to group flow
     Then I follow another user "Elsa" and the user also follows me
     And I login as the new user "Miles" created through www
     And I open "community" page
-    And I go to the second group
+    And I go to the first group
     Then I invite the user to this group
     And I logout
     And I login as "Elsa"

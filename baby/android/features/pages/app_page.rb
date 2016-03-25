@@ -47,10 +47,8 @@ class AppPage < Calabash::ABase
     touch "* marked:'Log out'"
     wait_for_element_exists "* {text CONTAINS 'Log in'}"
   end
-  # def login(email, password)
-  #   touch "* marked:'Log in'"
-  #   enter_text "* id:'email'", email
-  #   enter_text "* id:'password'", password
-  #   touch "* id:'action_login'"
-  # end
+
+  def forum_element
+    wait_for_elements_exist "AppCompatImageView index:0"
+  end
 end

@@ -152,6 +152,10 @@ module GlowForumAndroid
       self
     end
 
+    def complete_tutorial
+      self
+    end
+
     def login(email = nil, password = nil)
       data = {
         "email": email || @email,

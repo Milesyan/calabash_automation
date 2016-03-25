@@ -50,5 +50,8 @@ class AppPage < Calabash::ABase
     sleep 1
     touch "* text:'Log out'"
   end
-
+  
+  def forum_element
+    wait_for_elements_exist "* marked:'Community'"
+  end
 end

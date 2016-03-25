@@ -138,6 +138,10 @@ module NoahForumAndroid
       }.to_param
     end
 
+    def complete_tutorial
+      self
+    end
+    
     def signup(args = {})
       user = args[:user] || self
       data = {

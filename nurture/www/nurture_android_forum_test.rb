@@ -100,6 +100,10 @@ module NurtureForumAndroid
         "random": @forum_random
       }.to_param
     end
+    
+    def complete_tutorial
+      self
+    end
 
     def signup(args = {})
       data = {

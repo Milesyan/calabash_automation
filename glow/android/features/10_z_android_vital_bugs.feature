@@ -8,8 +8,8 @@ Feature: Some vital bugs and need to regress it each version.
     And I open "community" page
     And I go to search bar
     Then I test search group function
-    And I press the "Joined" button
-    And I go to previous page
+    # And I press the "Joined" button
+    # And I go to previous page
     And I go to previous page
     And I click the DISCOVER button in community tab
     Then I check the fab menu under discover tab
