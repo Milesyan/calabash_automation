@@ -46,29 +46,29 @@ rm -r baby/android/features/pages/premium_page.rb
 rm -r baby/android/features/step_definitions/forum_steps.rb
 rm -r baby/android/features/step_definitions/premium_steps.rb
 
-10046  ln -s common/android/features/1* eve/android/features/
-10047  ln -s common/android/features/1* nurture/android/features/
-10048  ln -s common/android/features/1* glow/android/features/
-10049  ln -s common/android/features/1* baby/android/features/
-10050  ln -s common/android/pages/* nurture/android/features/pages
+ln common/android/features/1* eve/android/features/
+ln common/android/features/1* nurture/android/features/
+ln common/android/features/1* glow/android/features/
+ln common/android/features/1* baby/android/features/
+ln common/android/pages/* nurture/android/features/pages
 
 
-10058  ln -s common/android/pages/* glow/android/features/pages
-10059  ln -s common/android/pages/* baby/android/features/pages
-10060  ln -s common/android/pages/* eve/android/features/pages
-10061  ln -s common/android/steps/* nurture/android/features/step_definitions
-10062  ln -s common/android/steps/* eve/android/features/step_definitions
-10063  ln -s common/android/steps/* glow/android/features/step_definitions
-10064  ln -s common/android/steps/* baby/android/features/step_definitions
-10065  ln -s common/ios/features/1* glow/ios/features/
-10066  ln -s common/ios/features/1* nurture/ios/features/
-10067  ln -s common/ios/features/1* eve/ios/features/
-10068  ln -s common/ios/features/1* baby/ios/features/
-10069  ln -s common/ios/pages/* glow/ios/features/pages
-10070  ln -s common/ios/pages/* nurture/ios/features/pages
-10071  ln -s common/ios/pages/* eve/ios/features/pages
-10072  ln -s common/ios/pages/* baby/ios/features/pages
-10073  ln -s common/ios/steps/* glow/ios/features/step_definitions
-10074  ln -s common/ios/steps/* nurture/ios/features/step_definitions
-10075  ln -s common/ios/steps/* eve/ios/features/step_definitions
-10076  ln -s common/ios/steps/* baby/ios/features/step_definitions
+ln common/android/pages/* glow/android/features/pages
+ln common/android/pages/* baby/android/features/pages
+ln common/android/pages/* eve/android/features/pages
+ln common/android/steps/* nurture/android/features/step_definitions
+ln common/android/steps/* eve/android/features/step_definitions
+ln common/android/steps/* glow/android/features/step_definitions
+ln common/android/steps/* baby/android/features/step_definitions
+ln common/ios/features/1* glow/ios/features/
+ln common/ios/features/1* nurture/ios/features/
+ln common/ios/features/1* eve/ios/features/
+ln common/ios/features/1* baby/ios/features/
+ln common/ios/pages/* glow/ios/features/pages
+ln common/ios/pages/* nurture/ios/features/pages
+ln common/ios/pages/* eve/ios/features/pages
+ln common/ios/pages/* baby/ios/features/pages
+ln common/ios/steps/* glow/ios/features/step_definitions
+ln common/ios/steps/* nurture/ios/features/step_definitions
+ln common/ios/steps/* eve/ios/features/step_definitions
+ln common/ios/steps/* baby/ios/features/step_definitions
