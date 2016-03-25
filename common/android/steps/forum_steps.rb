@@ -855,3 +855,6 @@ Then(/^I should see "([^"]*)" in my view$/) do |arg1|                           
   wait_for_element_exists arg1
 end
 
+When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
+  sleep 2
+end

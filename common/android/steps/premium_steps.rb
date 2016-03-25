@@ -439,4 +439,27 @@ end
 
 
 
+Then(/^I check the recommended people section and elements$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click chat button in recommended people section$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I can see a chat request is sent or premium prompt dialog$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click see all button in recommended people section$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I can see the list and check the elements$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+When(/^I click chat button in recommended people list$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
