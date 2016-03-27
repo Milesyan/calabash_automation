@@ -4,9 +4,10 @@ end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user milesp and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "milesp@g.com", :password => "111111"
-  $user.turn_on_chat
+  $user.turn_on_chat.turn_on_signature.remove_all_participants
   puts "$user user id = 72057594037936244"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
+  $user2.turn_on_chat.remove_all_participants
   puts "$user2 user id = 8492"
 end
 

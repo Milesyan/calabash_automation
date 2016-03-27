@@ -2,7 +2,7 @@ require 'calabash-cucumber/ibase'
 
 class ForumPage < Calabash::IBase
   def trait
-    "*"
+    '*'
   end
 
   def create_poll(anonymous=false)
