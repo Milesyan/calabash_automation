@@ -62,7 +62,7 @@ class PremiumPage < Calabash::ABase
 
   def click_name_of_chat_requester
     sleep 0.5
-    wait_touch "* marked:'New chat request.'"
+    wait_touch "* marked:'New chat request'"
     sleep 0.5
   end
 

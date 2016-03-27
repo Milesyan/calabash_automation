@@ -1,4 +1,4 @@
-@wip @discover_touch_points
+@premium @discover_touch_points
 Feature: Check touch points in discover tab.
   @discover_banner
   Scenario: Check the premium banner under dicover page.

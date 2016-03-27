@@ -18,14 +18,14 @@ Feature: Check chat relationship and forum relationship.
     And I logout
 
   @block_black_list
-  Scenario: Block a person will automatically put her/him in the forum blocked list.
+  Scenario: Block a person will automatically put her or him in the forum blocked list.
     Given A premium user milesp established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 
     And I go to the chat window for the new user
     And I click chat settings 
-    When I click "Block this user" in chat options
+    When I click "Block user" in chat options
     Then I confirm to block the user
     And I click done to close messages
     And I go to community settings page

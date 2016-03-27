@@ -192,7 +192,7 @@ class ForumPage < Calabash::ABase
 
   def click_back_button
     sleep 0.5
-    touch "* contentDescription:'Navigate up'"
+    touch "* marked:'Navigate up'"
   end  
   
   def edit_topic_voted (args1)

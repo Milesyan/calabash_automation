@@ -16,19 +16,19 @@ Feature: Check function in chat settings
     And I logout
 
 
-  @show_all_images
-  Scenario: Check show all images (Not in iOS)
-    Given A premium user milesp established chat relationship with a new user "Holmes"
-    And I login as premium user
-    And I open "community" page
-    And I go to messages 
-    And I go to the chat window for the new user
-    Then I send a message with last image
-    And I click chat settings 
-    When I click "Show all images" in chat options
-    Then I should see the image I sent
-    And I click done to close messages
-    And I logout
+  # @show_all_images
+  # Scenario: Check show all images (Not in iOS)
+  #   Given A premium user milesp established chat relationship with a new user "Holmes"
+  #   And I login as premium user
+  #   And I open "community" page
+  #   And I go to messages 
+  #   And I go to the chat window for the new user
+  #   Then I send a message with last image
+  #   And I click chat settings 
+  #   When I click "Show all images" in chat options
+  #   Then I should see the image I sent
+  #   And I click done to close messages
+  #   And I logout
 
 
   @block_user
@@ -39,7 +39,7 @@ Feature: Check function in chat settings
     And I go to messages 
     And I go to the chat window for the new user
     And I click chat settings 
-    And I click "Block this user" in chat options
+    And I click "Block user" in chat options
     Then I confirm to block the user
     Then I click done to close messages
     Then I go to community settings page
@@ -57,7 +57,7 @@ Feature: Check function in chat settings
     And I go to messages 
     And I go to the chat window for the new user
     And I click chat settings 
-    When I click "Delete this user" in chat options
+    When I click "Delete user" in chat options
     Then I confirm to delete the user
     And I click done to close messages
     And I logout
@@ -70,7 +70,7 @@ Feature: Check function in chat settings
     And I go to messages 
     And I go to the chat window for the new user
     And I click chat settings 
-    When I click "Report this user" in chat options
+    When I click "Report user" in chat options
     Then I choose one of the reasons as report reason
     And I click done to close messages
     And I logout

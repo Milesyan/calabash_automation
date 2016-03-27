@@ -182,6 +182,7 @@ Then(/^I check that the chat icon exists$/) do
 end
 
 Then(/^I click the chat icon and see the chat window$/) do
+  sleep 1
   wait_touch "* marked:'Chat'"
   wait_for_element_exists "* {text CONTAINS 'Send request to'}"
 end
@@ -222,7 +223,8 @@ Then(/^I click the areas in signature$/) do
 end
 
 Then(/^I should go to profile page$/) do
-  wait_for_element_exists "* {text CONTAINS 'FOLLOWING'}"
+  sleep 0.5
+  wait_for_element_exists "* marked:'Following'"
 end
 
 Given(/^I enter the topic "([^"]*)"$/) do |arg1|
@@ -261,24 +263,22 @@ Then(/^I click the name of the chat requester$/) do
 end
 
 When(/^I accept the chat request$/) do
-  wait_touch "* marked:'Confirm'"
-  wait_for_none_animating
+  wait_touch "* marked:'CONFIRM'"
 end
 
 When(/^I ignore the chat request$/) do
-  wait_touch "* marked:'Ignore'"
-  wait_for_none_animating
+  wait_touch "* marked:'IGNORE'"
 end
 
 Then(/^I enter the chat window and start to chat$/) do
-  sleep 1
-  if element_exists "* marked:'Start chatting now.'"
-    wait_touch "* marked:'Start chatting now.'"
+  sleep 2
+  if element_exists "* marked:'I accepted your chat request.'"
+    touch "* marked:'I accepted your chat request.'"
   else 
     puts "HERE IS A BUG!!!"
     wait_touch "* marked:'milesp'"
   end
-  wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
+  wait_for_element_exists "* marked:'Type something'"
 end
 
 Then(/^I click the name of the new user and enter the user's profile page$/) do
@@ -286,11 +286,12 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat request is ignored$/) do
-  puts "NEED TO CONFIRM THE TEXT HERE"
+  sleep 1
+  check_element_does_not_exist "* marked:'milesp'"
 end
 
 Then(/^I click done to close messages$/) do
-  wait_touch "* marked:'Done'"  
+  forum_page.click_back_button
 end
 
 Then(/^I cannot see a url field in edit profile page$/) do
@@ -314,7 +315,7 @@ end
 Then(/^I go to the chat window for the new user$/) do
   wait_for_element_exists "* marked:'Messages'"
   wait_touch "* marked:'#{$new_user.first_name}'"
-  wait_for_element_exists "* marked:'Enter Message'"
+  wait_for_element_exists "* marked:'Type something'"
 end
 
 Then(/^I click chat settings$/) do
@@ -372,7 +373,6 @@ end
 
 Then(/^I go back to previous page from chat request page$/) do
   sleep 1
-  app_page.close_chat_popup
   wait_touch "* marked: 'gl community back'"
 end
 
@@ -405,13 +405,11 @@ end
 
 When(/^I swipe the conversation log and click delete$/) do
   swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
-  wait_for_none_animating
   wait_touch "* marked:'Delete'"
 end
 
 When(/^I swipe the contact person and click delete$/) do
   swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
-  wait_for_none_animating
   wait_touch "* marked:'Delete'"
   if element_exists "* {text CONTAINS 'Zed'}"
     swipe "left", {:query => "* {text CONTAINS 'Zed'}"}
