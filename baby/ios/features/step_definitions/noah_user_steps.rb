@@ -53,5 +53,7 @@ Then(/^I go back to community page$/) do
     forum_page.click_topnav_close
   when "1091", "1092"
     forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  else 
+    forum_page.click_topnav_close
   end
 end

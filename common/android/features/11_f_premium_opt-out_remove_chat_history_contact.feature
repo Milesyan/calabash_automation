@@ -1,4 +1,4 @@
-@premium @opt-out
+@premium @opt-out 
 Feature: Opt-out; check remove chat history, remove contact.
   @remove_chat_history
   Scenario: Remove chat history in messages page

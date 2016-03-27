@@ -22,6 +22,5 @@ Feature: Premium user enter a non-premium user's profile and initial a chat requ
     When I accept the chat request
     Then I enter the chat window and start to chat
     And I go back to previous page
-    And I go back to previous page
     And I click done to close messages
     And I logout

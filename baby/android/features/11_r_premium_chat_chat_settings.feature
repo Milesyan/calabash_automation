@@ -41,6 +41,7 @@ Feature: Check function in chat settings
     And I click chat settings 
     And I click "Block user" in chat options
     Then I confirm to block the user
+    And I go back to previous page
     Then I click done to close messages
     Then I go to community settings page
     And I go to blocked users part under community settings
@@ -72,5 +73,6 @@ Feature: Check function in chat settings
     And I click chat settings 
     When I click "Report user" in chat options
     Then I choose one of the reasons as report reason
+    And I go back to previous page
     And I click done to close messages
     And I logout

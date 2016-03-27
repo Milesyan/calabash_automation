@@ -87,7 +87,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def send_text_in_chat(args)
-    set_text "* marked:'Type something'", args
+    enter_text "* marked:'Type something'", args
     sleep 1
     touch "* id:'send'"
   end
@@ -96,7 +96,7 @@ class PremiumPage < Calabash::ABase
     wait_touch "* id:'attachment'"
     # wait_touch "* marked:'Select from Gallery'"
     press_back_button
-    set_text "* marked:'Type something'", "Cannot send image in Android"
+    enter_text "* marked:'Type something'", "Cannot send image in Android"
     sleep 1
     touch "* id:'send'"
     sleep 3
@@ -113,6 +113,7 @@ class PremiumPage < Calabash::ABase
     forum_page.click_back_button
     wait_touch "* marked:'Chat' index:0" if [0,1,2,3,4].include? args
     _touch_points_reaction args
+    scroll_up if element_does_not_exist "* marked:'Chat' index:1"
     wait_touch "* marked:'Chat' index:1" if [0,1,2,3,4].include? args
     _touch_points_reaction args
   end

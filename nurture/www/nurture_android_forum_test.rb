@@ -614,7 +614,6 @@ module NurtureForumAndroid
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post("#{ANDROID_FORUM_BASE_URL}/chat/contact/remove#{@additional_forum}", :body => chat_data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
-      puts @res
       puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
       self
     end

@@ -9,6 +9,8 @@ Feature: Start chat request with others.
     Then I check the chat request is received 
     Then I click settings in chat request page and see edit profile page
     And I go back to forum page from forum profile page
+    And I wait for 2 seconds for the next page
     And I go back to previous page from chat request page
+    And I wait for 2 seconds for the next page
     And I go back to community page
     And I logout

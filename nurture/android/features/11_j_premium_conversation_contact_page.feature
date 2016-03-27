@@ -13,7 +13,6 @@ Feature: Check contact page features.
     And I should see the lock icon after the user's name
     When I click the name of user "Friend"
     Then I should see the prompt premium dialog
-    And I close the request dialog
     And I go back to previous page
     And I click done to close messages
     And I logout
@@ -27,7 +26,7 @@ Feature: Check contact page features.
     And I go to the chat window for the new user
     Then I send a message with text "test delete history"
     And I click chat settings 
-    When I click "Delete chat history" in chat options
+    And I click "Delete chat history" in chat options
     Then I should see the chat history has been deleted
     And I click done to close messages
     And I logout

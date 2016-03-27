@@ -50,6 +50,8 @@ Then(/^I go back to community page$/) do
     forum_page.click_back_button
   when "1091", "1092"
     forum_page.click_back_button
+  else
+    forum_page.click_back_button
   end
 end
 

@@ -28,6 +28,7 @@ Feature: Check chat relationship and forum relationship.
     When I click "Block user" in chat options
     Then I confirm to block the user
     And I click done to close messages
+    And I go back to previous page
     And I go to community settings page
     When I go to blocked users part under community settings
     Then I can see the person I blocked

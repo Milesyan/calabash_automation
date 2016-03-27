@@ -1,4 +1,4 @@
-@premium @chat_notification
+@premium @chat_notification @wip1
 Feature: Check notifications about chat
 
   @request_notification
@@ -8,8 +8,5 @@ Feature: Check notifications about chat
     When I open "alert" page
     Then I check the chat request is received 
     When I click accept request button
-    And I go back to previous page
-    And I wait for 2 seconds for the next page
     And I click done to close messages
-    And I go back to community page
     And I logout

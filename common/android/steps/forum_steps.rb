@@ -647,7 +647,7 @@ Then(/^I click back button in the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  wait_for_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
+  until_element_exists("* {text CONTAINS '#{$new_user.first_name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
   wait_for_element_exists "* marked:'Blocked'"
 end
 
@@ -851,10 +851,10 @@ Then(/^I click save button$/) do
   wait_touch "* marked:'Save'"
 end
 
-Then(/^I should see "([^"]*)" in my view$/) do |arg1|                                                                                              │
+Then(/^I should see "([^"]*)" in my view$/) do |arg1|
   wait_for_element_exists arg1
 end
 
-When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
-  sleep 2
+When(/^I wait for (\d+) second(?:s)? for the next page$/) do |time|
+  sleep time.to_i
 end

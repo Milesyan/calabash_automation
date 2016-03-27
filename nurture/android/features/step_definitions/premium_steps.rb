@@ -271,14 +271,18 @@ When(/^I ignore the chat request$/) do
 end
 
 Then(/^I enter the chat window and start to chat$/) do
-  sleep 2
+  sleep 3
   if element_exists "* marked:'I accepted your chat request.'"
     touch "* marked:'I accepted your chat request.'"
   else 
     puts "HERE IS A BUG!!!"
     wait_touch "* marked:'milesp'"
   end
-  wait_for_element_exists "* marked:'Type something'"
+  if element_does_not_exist "* marked:'Type something'"
+    touch "* marked:'I accepted your chat request.'"
+    puts "TOUCH AGAIN!"
+  end
+  premium_page.send_text_in_chat "Send text"
 end
 
 Then(/^I click the name of the new user and enter the user's profile page$/) do
@@ -327,11 +331,13 @@ Given(/^I click "([^"]*)" in chat options$/) do |arg1|
 end
 
 Then(/^I confirm to block the user$/) do
-  wait_touch "* marked:'Yes, I am sure'"
+  wait_for_element_exists "* marked:'Block'"
+  wait_touch "* marked:'OK'"
+  sleep 2
 end
 
 Then(/^I confirm to delete the user$/) do
-  wait_touch "* marked:'Yes, delete'"
+  wait_touch "* marked:'Delete'"
 end
 
 Given(/^I send a message with text "([^"]*)"$/) do |arg1|
@@ -339,6 +345,7 @@ Given(/^I send a message with text "([^"]*)"$/) do |arg1|
 end
 
 Then(/^I should see the chat history has been deleted$/) do
+  wait_touch "* marked:'Delete'"
   sleep 2
   check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
@@ -348,7 +355,6 @@ Then(/^I send a message with last image$/) do
 end
 
 Then(/^I should see the image I sent$/) do
-  wait_for_element_exists "MWTapDetectingView"
   touch "* marked:'Back'"
   if element_exists "* marked:'Back'"
     touch "* marked:'Back'"
@@ -356,29 +362,31 @@ Then(/^I should see the image I sent$/) do
 end
 
 Then(/^I choose one of the reasons as report reason$/) do
-  wait_for_element_exists "* marked:'Report'"
+  wait_for_element_exists "* {text CONTAINS 'Please select the reason'}"
   enum_reason = ["Spam or scam", "Rude", "Pornographic, Hate, or Threat"].sample
   wait_touch "* marked:'#{enum_reason}'"
 end
 
 Then(/^I check the chat request is received$/) do
   wait_for_element_exists "* marked:'New Chat Request'"
-  wait_for_element_exists "* {text contains '#{$user.first_name}'}"
+  wait_for_element_exists "* marked:'#{$user.first_name} is requesting to chat with you!\n\n'"
 end
 
 Then(/^I click accept request button$/) do
-  wait_touch "* marked:'Accept Request'"
-  wait_touch "* marked:'Confirm'"
+  wait_touch "* marked:'Check it out'"
+  premium_page.click_name_of_chat_requester
+  wait_touch "* marked:'CONFIRM'"
 end
 
 Then(/^I go back to previous page from chat request page$/) do
   sleep 1
-  wait_touch "* marked: 'gl community back'"
+  forum_page.click_back_button
 end
 
 Then(/^I goes to chat window and click close button$/) do
-  wait_for_element_exists "* marked:'Close'"
-  touch "* marked:'Close'"
+  # wait_for_element_exists "* marked:'Close'"
+  # touch "* marked:'Close'"
+  forum_page.click_back_button
 end
 
 Then(/^I go to contact list$/) do
@@ -390,7 +398,8 @@ Then(/^I should see the user "([^"]*)" is in the contact list$/) do |arg1|
 end
 
 Then(/^I should see the lock icon after the user's name$/) do
-  wait_for_element_exists "* id: 'contacts-lock'"
+  # wait_for_element_exists "* id:'contacts-lock'"
+  wait_for_element_exists "* id:'chat_lock'"
 end
 
 When(/^I click the name of user "([^"]*)"$/) do |arg1|
@@ -398,21 +407,22 @@ When(/^I click the name of user "([^"]*)"$/) do |arg1|
 end
 
 And(/^I click settings in chat request page and see edit profile page$/) do
-  wait_touch "* marked:'Accept Request'"
-  wait_touch "* {text CONTAINS 'settings'}"
-  wait_for_element_exists "* marked:'Edit Profile'"
+  wait_touch "* marked:'Check it out'"
+  premium_page.click_name_of_chat_requester
+  wait_touch "* id:'hit_msg'"
+  wait_for_element_exists "* marked:'Update cover photo'"
 end
 
 When(/^I swipe the conversation log and click delete$/) do
-  swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
+  pan "* {text CONTAINS 'Swipe'}", "left"
   wait_touch "* marked:'Delete'"
 end
 
 When(/^I swipe the contact person and click delete$/) do
-  swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
+  pan "* {text CONTAINS '#{$new_user.first_name}'}", "left"
   wait_touch "* marked:'Delete'"
   if element_exists "* {text CONTAINS 'Zed'}"
-    swipe "left", {:query => "* {text CONTAINS 'Zed'}"}
+    pan "* {text CONTAINS 'Zed'}", "left"
     wait_touch "* marked:'Delete'"
   end
 end
