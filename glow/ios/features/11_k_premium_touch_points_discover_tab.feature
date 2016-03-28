@@ -1,7 +1,16 @@
-@wip @discover_touch_points
+@premium @discover_touch_points @wip
 Feature: Check touch points in discover tab.
   @discover_banner
   Scenario: Check the premium banner under dicover page.
+    Given A premium user miles2 and a non-premium user milesn have been created for test
+    And I login as non-premium user
+    And I open "community" page 
+    When I click the DISCOVER button in community tab
+    Then I check the premium banner under discover tab
+    And I logout
+
+  @discover_chat_elements_premium
+  Scenario: Check touch points elements under discover tab.
     Given A premium user miles2 and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page 
@@ -11,10 +20,10 @@ Feature: Check touch points in discover tab.
     Then I can see a chat request is sent or premium prompt dialog
     And I logout
 
-  @discover_chat_elements
+  @discover_chat_elements_free
   Scenario: Check touch points elements under discover tab.
     Given A premium user miles2 and a non-premium user milesn have been created for test
-    And I login as premium user
+    And I login as non-premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab
     Then I check the recommended people section and elements
