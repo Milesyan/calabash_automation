@@ -621,10 +621,10 @@ module NurtureForumAndroid
     def get_all_participants
       chat_data = {
       }
-      _res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/chats_and_participants#{@additional_forum}", :body => chat_data.to_json,
+      @res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/chats_and_participants#{@additional_forum}", :body => chat_data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
       @all_participants = []
-      _res["participants"].each do |element|
+      @res["participants"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_participants.push v
@@ -642,6 +642,46 @@ module NurtureForumAndroid
       self
     end
 
+    def get_all_contacts
+      chat_data = {
+      }
+      @res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/chat/contacts#{@additional_forum}", :body => chat_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @all_contacts= []
+      @res["participants"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_contacts.push v
+          end
+        end
+      end
+      @all_contacts
+    end     
+
+    def remove_all_contacts
+      _contacts = self.get_all_contacts
+      _contacts.each do |id|
+        remove_chat id
+      end
+      self
+    end
+
+    def get_all_blocked
+      blocked_data= {
+      }
+      @res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/user/blocked_user_ids#{@additional_forum}", :body => blocked_data.to_json,
+        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @all_blocked= @res["data"]
+      @all_blocked
+    end     
+
+    def remove_all_blocked
+      _blocked_users = self.get_all_blocked
+      _blocked_users.each do |id|
+        unblock_user id
+      end
+      self
+    end
 
   end
 end

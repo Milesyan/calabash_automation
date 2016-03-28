@@ -336,6 +336,12 @@ class NurtureTest < Minitest::Test
     up.get_all_participants
   end
 
+  def test_remove_all_contacts
+    up = premium_login
+    up.remove_all_contacts
+    puts up.res
+  end
+  
   def test_establish_chat
     up = premium_login
     u = forum_new_user
@@ -360,6 +366,14 @@ class NurtureTest < Minitest::Test
       up.send_chat_request u.user_id
     end
   end
+
+  def test_remove_all_blocked
+    up = premium_login
+    up.remove_all_blocked
+    puts up.res
+    assert_rc up.res
+  end
+
 end
 
 

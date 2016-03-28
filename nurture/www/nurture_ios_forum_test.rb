@@ -693,10 +693,10 @@ module NurtureForumIOS
         "code_name": "kaylee",
         "ut": @ut
       }.merge(common_data)
-      _res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
+      @res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @all_participants = []
-      _res["data"]["participants"].each do |element|
+      @res["data"]["participants"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_participants.push v
@@ -715,6 +715,58 @@ module NurtureForumIOS
     end
 
     
+    def get_all_contacts
+      chat_data = {
+        "code_name": "kaylee",
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.get("#{FORUM_BASE_URL}/chat/contacts", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @all_contacts = []
+      @res["data"]["contacts"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_contacts.push v
+          end
+        end
+      end
+      @all_contacts
+    end     
+
+    def remove_all_contacts
+      _contacts = self.get_all_contacts
+      _contacts.each do |id|
+        remove_chat id
+      end
+      self
+    end
+
+    def get_all_blocked
+      blocked_data = {
+        "code_name": "kaylee",
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.get("#{FORUM_BASE_URL}/users/blocked", :body => blocked_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @all_blocked = []
+      @res["data"]["result"].each do |element|
+        element.each do |k,v|
+          if k == "id"
+            @all_blocked.push v
+          end
+        end
+      end
+      @all_blocked
+    end
+
+    def remove_all_blocked
+      _blocked_users = self.get_all_blocked
+      _blocked_users.each do |id|
+        unblock_user id
+      end
+      self
+    end
+
 
   end
 end
