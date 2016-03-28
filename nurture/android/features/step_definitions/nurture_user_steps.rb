@@ -14,15 +14,15 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     puts "Touch Check it out"
     wait_touch "* marked:'Check it out'"
   when "1055"
-    puts "Touch Take a look"
-    wait_touch "* marked:'Check it out'"
+    # wait_touch "* marked:'Check it out'"
+    wait_touch "* marked:'5 people liked'"
   when ""
     puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"
   when "1091"
     wait_touch "* marked:'Follow back'"
   when "1092"
-    sleep 10
+    sleep 5
   end
 end
 

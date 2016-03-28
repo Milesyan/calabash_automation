@@ -855,7 +855,7 @@ class ForumPage < Calabash::ABase
     end
     sleep 0.5
     touch "* marked:'Invite'"
-    wait_for_elements_exist "* {text CONTAINS 'Successfully'}"
+    wait_for_elements_exist "* marked:'Invitation Sent Successfully!'"
   end
 
   def go_to_second_group

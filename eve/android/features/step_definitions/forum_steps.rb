@@ -321,8 +321,10 @@ Given(/^I open the topic created by user "(.*?)"$/) do |arg1|
 end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
-  sleep 2
-  wait_touch "* {text CONTAINS '#{arg1}'} index:0"
+  sleep 0.5
+  wait_for_element_exists "* marked:'#{arg1}' index:0"
+  sleep 1
+  touch "* marked:'#{arg1}' index:0"
 end
 
 
@@ -404,8 +406,8 @@ Then(/^I edit the topic "([^"]*)" which has been voted$/) do |topic_name|
   forum_page.edit_topic_voted topic_name
 end
 
-Then(/^I delete the topic with (\d+) visible comment(?:s)?$/) do |args1|
-  forum_page.delete_topic args1
+Then(/^I delete the topic with 1 visible comment(?:s)?$/) do
+  forum_page.delete_topic
   wait_for_elements_exist "* marked:'Post deleted'"
 end
 
@@ -647,7 +649,12 @@ Then(/^I click back button in the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  until_element_exists("* {text CONTAINS '#{$new_user.first_name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
+  if $new_user.nil?
+    name = $user2.first_name
+  else 
+    name = $new_user.first_name
+  end
+  until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
   wait_for_element_exists "* marked:'Blocked'"
 end
 
@@ -852,7 +859,7 @@ Then(/^I click save button$/) do
 end
 
 Then(/^I should see "([^"]*)" in my view$/) do |arg1|
-  wait_for_element_exists arg1
+  wait_for_element_exists "* marked:'#{arg1}'"
 end
 
 When(/^I wait for (\d+) second(?:s)? for the next page$/) do |time|

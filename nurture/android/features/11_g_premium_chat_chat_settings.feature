@@ -31,7 +31,7 @@ Feature: Check function in chat settings
   #   And I logout
 
 
-  @block_user
+  @chat_block_user
   Scenario: Check block user
     Given A premium user milesp established chat relationship with a new user "Holmes"
     And I login as premium user
