@@ -345,7 +345,6 @@ Given(/^I send a message with text "([^"]*)"$/) do |arg1|
 end
 
 Then(/^I should see the chat history has been deleted$/) do
-  wait_touch "* marked:'Delete'"
   sleep 2
   check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
@@ -414,17 +413,21 @@ And(/^I click settings in chat request page and see edit profile page$/) do
 end
 
 When(/^I swipe the conversation log and click delete$/) do
-  pan "* {text CONTAINS 'Swipe'}", "left"
+  sleep 1
+  pan "android.widget.RelativeLayout", :left
   wait_touch "* marked:'Delete'"
 end
 
 When(/^I swipe the contact person and click delete$/) do
-  pan "* {text CONTAINS '#{$new_user.first_name}'}", "left"
+  sleep 1
+  pan "android.widget.RelativeLayout", :left
   wait_touch "* marked:'Delete'"
-  if element_exists "* {text CONTAINS 'Zed'}"
-    pan "* {text CONTAINS 'Zed'}", "left"
-    wait_touch "* marked:'Delete'"
-  end
+  wait_touch "* marked:'Remove'"
+  # if element_exists "android.widget.RelativeLayout"
+  #   pan "android.widget.RelativeLayout", :left
+  #   wait_touch "* marked:'Delete'"
+  #   wait_touch "* marked:'Remove'"
+  # end
 end
 
 Then(/^I should see the contact person is deleted$/) do

@@ -815,7 +815,12 @@ class ForumPage < Calabash::ABase
   end
 
   def click_explore
-    wait_touch "* marked:'Explore'"
+    begin
+      wait_for_element_exists "* marked:'Explore'",:timeout => 2
+      touch "* marked:'Explore'"
+    rescue RuntimeError => e 
+      touch "* id:'daimajia_slider_viewpager'"
+    end  
     logger.add event_name: "page_impression_explore", start_vesion: "community v1.1"
     sleep 1
   end
