@@ -1,8 +1,9 @@
 require 'httparty'
 require 'faker'
 require 'active_support/all'
-require_relative 'noah_test_helper'
+require_relative 'test_helper'
 require_relative "MultipartImage_Android.rb"
+require_relative 'ForumApiAndroid'
 
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
@@ -45,8 +46,8 @@ module NoahForumAndroid
     end
   end
 
-  class ForumUser
-    include BabyTestHelper
+  class ForumUser < ForumApiAndroid::ForumAndroid
+    include TestHelper
     include HTTParty
 
     base_uri BASE_URL

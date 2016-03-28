@@ -18,6 +18,12 @@ module TestHelper
     puts magenta(msg)
   end
 
+  def sky_blue(text); colorize(text, 95); end
+  
+  def log_important(msg)
+    puts sky_blue(msg)
+  end
+  
   def log_error(msg)
     puts light_red(msg)
   end

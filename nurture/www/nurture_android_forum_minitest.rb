@@ -357,11 +357,11 @@ class NurtureTest < Minitest::Test
 
   def test_mimic_chat
     up = premium_login
-    100.times do
+    3.times do
       u = forum_new_user
       up.establish_chat u
     end
-    50.times do
+    2.times do
       u = forum_new_user
       up.send_chat_request u.user_id
     end

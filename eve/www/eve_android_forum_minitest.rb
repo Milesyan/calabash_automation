@@ -263,14 +263,14 @@ class EveTest < Minitest::Test
 
   def test_multiple_groups
     u = forum_new_user
-    30.times do |n|
+    1.times do |n|
       u.create_group :group_name => "Test Load More #{n}"
     end
   end
 
   def test_temp
     u = forum_new_user.leave_all_groups
-    3.times do
+    1.times do
       u2 = forum_new_user.create_topic
       u.reply_to_topic u2.topic_id
     end 
@@ -283,35 +283,20 @@ class EveTest < Minitest::Test
 
   def test_invite_friends
     u = forum_new_user
-    10.times do |n|
+    1.times do |n|
       u2 = forum_new_user :first_name => "Follower#{n}<<<"
       u2.follow_user u.user_id
     end
 
-    10.times do |n|
+    1.times do |n|
       u2 = forum_new_user :first_name => "Following#{n}<<<"
       u.follow_user u2.user_id
     end
 
-    10.times do |n|
+    1.times do |n|
       u2 = forum_new_user :first_name => "Both#{n}<<<"
       u2.follow_user u.user_id
       u.follow_user u2.user_id
     end
   end
-
-  def test_prepare
-    15.times do
-      u = forum_new_user
-      u.reply_to_topic 3297
-    end
-  end
-
-
-  def test_follow_user_2
-    u = forum_new_user
-    u.follow_user 6866
-    assert_rc u.res
-  end
-
 end
