@@ -6,3 +6,7 @@ end
 Given(/^I logout$/) do
   me_page.logout
 end
+
+Given(/^I touch "([^"]*)" button$/) do |text|
+  touch "* marked:'#{text}'"
+end

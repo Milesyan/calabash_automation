@@ -1,5 +1,6 @@
 Given(/^I choose the baby to continue$/) do
-  sleep 2
+  wait_for_elements_exist( "* marked:'name'", :timeout => 10)
+  sleep 1
   touch "* marked:'name'"
 end
 
@@ -47,6 +48,29 @@ Given(/^I log a (poo|pee) with start time "([^"]*)"$/) do |type, start_time_str|
   start_time = eval(start_time_str)
   home_page.add_diaper(type: type, start_time: start_time)
 end
+
+# More logs
+Given(/^I open more logs$/) do
+  home_page.open_more_logs
+end
+
+Given(/^I log "([^"]*)" symptom$/) do |text|
+  home_page.log_symptom(text)
+end
+
+Given(/^I save more logs$/) do
+  home_page.save_more_logs
+end
+
+Given(/^I add some meds$/) do
+  home_page.add_med
+end
+
+Given(/^I add notes$/) do
+  home_page.add_notes
+end
+
+# Growth Chart
 
 Given(/^I log weight "([^"]*)" on "([^"]*)"$/) do |weight, date_str|
   date = eval(date_str)

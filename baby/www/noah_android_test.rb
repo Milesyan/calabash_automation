@@ -542,6 +542,7 @@ module BabyAndroid
       }
 
       @res = self.class.post "/android/baby/invite_family?#{common_data}", auth_options(data)
+
       if @res["rc"] == 0
         partner.user_id = @res["data"]["BabyFamily"]["update"].first["user_id"]
         partner.gender = @res["data"]["BabyFamily"]["update"].first["gender"]

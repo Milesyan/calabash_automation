@@ -1,3 +1,4 @@
+@regression
 Feature: Logs for baby > 1 year old
   @old_baby
   Scenario: baby greater than one year old

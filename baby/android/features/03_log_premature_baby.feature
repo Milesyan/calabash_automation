@@ -1,6 +1,6 @@
-@premature
+@premature @regression
 Feature: Premature baby
-  @day_279
+  @day_259
   Scenario: Premature baby
     Given I create a new mother with birthday "25.years.ago"
     And I login

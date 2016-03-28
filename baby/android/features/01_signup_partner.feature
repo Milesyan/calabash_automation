@@ -1,4 +1,4 @@
-@signup @partner_signup
+@signup @partner_signup @regression
 Feature: Partner signup
   Scenario: Partner should be able to signup
     Given I create a new mother with 1 born girl

@@ -6,10 +6,17 @@ class HomePage < Calabash::ABase
   end
 
   def open_milestones
-    wait_for_element_exists "* id:'fab_expand_menu_button'", time_out: 15
+    wait_for_element_exists "* id:'add_milestone'", time_out: 15
     sleep 1
-    touch "* id:'fab_expand_menu_button'"
-    touch "* marked:'Moment'"
+    touch "* id:'add_milestone'"
+  end
+
+  def open_more_logs
+    sleep 2
+    until_element_exists "* id:'summary'", action: lambda { scroll "android.support.v4.widget.NestedScrollView", :down }
+    sleep 1
+    touch "* id:'more'"
+    sleep 1
   end
 
   def close_milestones
@@ -62,10 +69,12 @@ class HomePage < Calabash::ABase
   end
 
   def add_born_baby(baby)
-    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 20
+    wait_for_element_exists "* marked:'Add my baby'", time_out: 20
     sleep 1
-    touch "* marked:'Let\\'s get started'"
-    touch "* marked:'Yes!'"
+    touch "* marked:'Add my baby'"
+    sleep 1
+    until_element_exists "* id:'name'", action: lambda { touch "* marked:'Yes!'" }, retry_frequency: 1
+    
     enter_text "* id:'name'", baby.first_name + " " + baby.last_name
     touch "* id:'gender'"
     gender = baby.gender == "M" ? "Boy" : "Girl"
@@ -82,11 +91,11 @@ class HomePage < Calabash::ABase
   end
 
   def add_upcoming_baby(baby)
-    wait_for_element_exists "* marked:'Let\\'s get started'", time_out: 20
+    wait_for_element_exists "* marked:'Add my baby'", time_out: 20
     sleep 1
-    touch "* marked:'Let\\'s get started'"
+    touch "* marked:'Add my baby'"
     sleep 1
-    touch "* marked:'No, not yet.'"
+    until_element_exists "* id:'name'", action: lambda { touch "* marked:'No, not yet.'" }, retry_frequency: 1
     enter_text "* id:'name'", baby.first_name + " " + baby.last_name
     touch "* id:'due_day'"
     set_date "datePicker", date_str(baby.birth_due_date)
@@ -190,11 +199,19 @@ class HomePage < Calabash::ABase
     set_date "datePicker", date_str(date)
     touch "* marked:'Done'"
 
-    touch "* id:'weight_input'"
-    enter_text "* id:'weight_input'", i + d
     touch "* id:'weight_unit'"
     sleep 0.5
-    touch "* marked:'#{unit.strip.downcase}'"
+    if unit.match /lb/
+      touch "* marked:'lb oz'"
+      touch "* id:'weight_input_lb'"
+      enter_text "* id:'weight_input_lb'", i
+      enter_text "* id:'weight_input_oz'", i
+    else
+      touch "* marked:'kg'"
+      touch "* id:'weight_input'"
+      enter_text "* id:'weight_input'", i + d
+    end
+
     touch "* marked:'Save'"
     touch "* contentDescription:'Navigate up'" # back button
   end
@@ -238,11 +255,53 @@ class HomePage < Calabash::ABase
 
   def add_birth_data
     touch "* id:'weight_chart'"
-    enter_text "* id:'weight_input'", "8.88"
-    enter_text "* id:'height_input'", "15"
-    enter_text "* id:'head_input'", "30"
+    touch "* id:'weight_unit'"
+    touch "* marked:'lb oz'"
+
+    enter_text "* id:'weight_input_lb'", "8"
+    enter_text "* id:'weight_input_oz'", "5"
+    enter_text "* id:'height_input'", "20"
+    enter_text "* id:'head_input'", "40"
     touch "* marked:'SAVE'"
     touch "* contentDescription:'Navigate up'"
+  end
+
+  def log_symptom(text)
+    touch "* marked:'Symptoms'"
+    case text
+    when "No negative symptoms", "General fussiness", "Rash", "Runny nose"
+      touch "android.support.v7.widget.AppCompatTextView marked:'#{text}'"
+    when "Fever"
+      #pan "android.widget.LinearLayout index:2", :left
+      sleep 0.5
+      touch "android.support.v7.widget.AppCompatTextView marked:'#{text}'"
+      # touch "* id:'temperature'"
+      # enter_text "* id:'input'", "102.4"
+      # touch "* marked:'Set'"
+    when "Funny breathing", "Low energy", "No appetite"
+      flick "android.widget.LinearLayout index:2", :left
+      sleep 0.5
+      touch "android.support.v7.widget.AppCompatTextView marked:'#{text}'"
+    end
+    touch "* id:'save'"
+    touch "* marked:'OK'"
+  end
+
+  def add_notes
+    touch "* marked:'Note'"
+    touch "* id:'note'"
+    enter_text "* id:'note'", "Hello Baby"
+    touch "* id:'action_save'"
+  end
+
+  def add_med
+    touch "* marked:'Medicine'"
+    touch "* marked:'Amoxicillin'"
+    touch "* marked:'OK'"
+  end
+
+  def save_more_logs
+    touch "* id:'save'"
   end
 
 end
