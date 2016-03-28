@@ -42,7 +42,7 @@ module NurtureForumAndroid
       @forum_android_version = "20000"
       @forum_time_zone = "American\/New_York"
       @forum_code_name = "kaylee"
-      @additional_forum = "?hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
+      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
     end
 
     def additional_post_data

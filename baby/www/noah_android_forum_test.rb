@@ -77,7 +77,7 @@ module NoahForumAndroid
       @forum_vc = 1
       @forum_time_zone = "American%2FNew_York"
       @forum_code_name = "noah"
-      @additional_forum = "?hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
     end
 
     def additional_post_data
