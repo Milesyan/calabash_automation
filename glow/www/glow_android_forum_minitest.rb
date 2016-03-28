@@ -33,13 +33,6 @@ class GlowTest < Minitest::Test
     assert_equal 3, u.res["user"]["settings"]["current_status"]
   end
 
-  def test_ttc_user_signup
-    u = forum_new_user
-    assert_rc u.res
-    u.login
-    assert_equal 0, u.res["user"]["settings"]["current_status"]
-  end
-
   def test_forum_new_user
     u = forum_new_user.leave_all_groups.join_group
   end
@@ -278,7 +271,7 @@ class GlowTest < Minitest::Test
 
   def test_multiple_groups
     u = forum_new_user
-    30.times do |n|
+    1.times do |n|
       u.create_group :group_name => "Test Load More #{n}"
     end
   end
@@ -298,18 +291,18 @@ class GlowTest < Minitest::Test
 
   def test_invite_friends
     u = forum_new_user
-    10.times do |n|
-      u2 = forum_new_user :first_name => "Follower#{n}<<<"
+    1.times do |n|
+      u2 = forum_new_user :first_name => "Follower#{n}"
       u2.follow_user u.user_id
     end
 
-    10.times do |n|
-      u2 = forum_new_user :first_name => "Following#{n}<<<"
+    1.times do |n|
+      u2 = forum_new_user :first_name => "Following#{n}"
       u.follow_user u2.user_id
     end
 
-    10.times do |n|
-      u2 = forum_new_user :first_name => "Both#{n}<<<"
+    1.times do |n|
+      u2 = forum_new_user :first_name => "Both#{n}"
       u2.follow_user u.user_id
       u.follow_user u2.user_id
     end
