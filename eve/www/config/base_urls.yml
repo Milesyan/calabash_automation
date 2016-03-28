@@ -3,3 +3,6 @@ SandboxForum: "http://dragon-forum.glowing.com/ios/forum"
 
 Local: "http://localhost:5010"
 LocalForum: "http://localhost:35010"
+
+Sandbox1: "http://titan-lexie.glowing.com"
+SandboxForum1: "http://titan-forum.glowing.com/android/forum"

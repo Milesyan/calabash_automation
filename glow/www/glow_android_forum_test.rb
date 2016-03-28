@@ -2,15 +2,16 @@ require 'httparty'
 require 'json'
 require 'net/http'
 require_relative "MultipartImage_Android.rb"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
+PASSWORD = 'Glow12345'
+GROUP_ID = 5
 
 module GlowForumAndroid
 
-  PASSWORD = 'Glow12345'
-  GROUP_ID = 5
+
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   GLOW_ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
-  IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
-  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class ForumUser
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids

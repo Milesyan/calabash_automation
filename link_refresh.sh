@@ -4,6 +4,7 @@ rm -r eve/ios/features/pages/premium_page.rb
 rm -r eve/ios/features/step_definitions/forum_steps.rb
 rm -r eve/ios/features/step_definitions/premium_steps.rb
 rm -r eve/www/ForumApi.rb
+rm -r eve/www/ForumApiAndroid.rb
 
 rm -r nurture/ios/features/1*
 rm -r nurture/ios/features/pages/forum_page.rb
@@ -11,6 +12,7 @@ rm -r nurture/ios/features/pages/premium_page.rb
 rm -r nurture/ios/features/step_definitions/forum_steps.rb
 rm -r nurture/ios/features/step_definitions/premium_steps.rb
 rm -r nurture/www/ForumApi.rb
+rm -r nurture/www/ForumApiAndroid.rb
 
 rm -r glow/ios/features/1*
 rm -r glow/ios/features/pages/forum_page.rb
@@ -18,6 +20,7 @@ rm -r glow/ios/features/pages/premium_page.rb
 rm -r glow/ios/features/step_definitions/forum_steps.rb
 rm -r glow/ios/features/step_definitions/premium_steps.rb
 rm -r glow/www/ForumApi.rb
+rm -r glow/www/ForumApiAndroid.rb
 
 rm -r baby/ios/features/1*
 rm -r baby/ios/features/pages/forum_page.rb
@@ -25,6 +28,7 @@ rm -r baby/ios/features/pages/premium_page.rb
 rm -r baby/ios/features/step_definitions/forum_steps.rb
 rm -r baby/ios/features/step_definitions/premium_steps.rb
 rm -r baby/www/ForumApi.rb
+rm -r baby/www/ForumApiAndroid.rb
 
 rm -r eve/android/features/1*
 rm -r eve/android/features/pages/forum_page.rb
@@ -80,3 +84,9 @@ ln common/www/ForumApi.rb glow/www/
 ln common/www/ForumApi.rb eve/www/
 ln common/www/ForumApi.rb baby/www/
 ln common/www/ForumApi.rb nurture/www/
+
+ln common/www/ForumApiAndroid.rb glow/www/
+ln common/www/ForumApiAndroid.rb eve/www/
+ln common/www/ForumApiAndroid.rb baby/www/
+ln common/www/ForumApiAndroid.rb nurture/www/
+

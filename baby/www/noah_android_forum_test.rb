@@ -6,15 +6,17 @@ require_relative "MultipartImage_Android.rb"
 
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
+PASSWORD = 'Glow12345'
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
+
 
 module NoahForumAndroid
-  extend BabyTestHelper
+  extend TestHelper
 
-  PASSWORD = 'Glow12345'
+
   BASE_URL = load_config["base_urls"]["Sandbox1"]
   ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
-  IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
-  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   class Baby
     attr_accessor :first_name, :last_name, :gender
