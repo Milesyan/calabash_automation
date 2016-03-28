@@ -1,4 +1,4 @@
-module NurtureTestHelper
+module TestHelper
   def colorize(text, color_code)
     "\e[#{color_code}m#{text}\e[0m"
   end
@@ -15,18 +15,19 @@ module NurtureTestHelper
   def light_red(text); colorize(text, 91); end
   def sky_blue(text); colorize(text, 95); end
 
+
   def log_msg(msg)
     puts magenta(msg)
+  end
+
+  def log_error(msg)
+    puts light_red(msg)
   end
 
   def log_important(msg)
     puts sky_blue(msg)
   end
   
-  def log_error(msg)
-    puts light_red(msg)
-  end
-
   def load_config
     config_folder = File.expand_path("./config", File.dirname(__FILE__))
     config = Dir[File.join(config_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}

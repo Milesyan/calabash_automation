@@ -1,12 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'nurture_ios_forum_test'
-require_relative 'nurture_test_helper'
+require_relative 'test_helper'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NurtureTest < Minitest::Test
   include NurtureForumIOS
-  extend NurtureTestHelper 
+  extend TestHelper 
 
   def setup
   end
@@ -289,7 +289,7 @@ class NurtureTest < Minitest::Test
   end
 
   def test_exising_email_login
-    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.join_group.leave_all_groups.join_group
   end
 
   def test_send_chat_request
