@@ -4,10 +4,10 @@ end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user miles2 and a non-premium user milesn have been created for test$/) do
   $user = premium_user :email => "miles2@g.com", :password => "111111"
-  $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts
+  $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
   puts "$user user id = 6500"
   $user2 = premium_user :email => "milesn@g.com", :password => "111111"
-  $user2.turn_on_chat.remove_all_participants.remove_all_contacts
+  $user2.turn_on_chat.remove_all_participants.remove_all_contacts.remove_all_blocked
   puts "$user2 user id = 6502"
 end
 
@@ -63,7 +63,7 @@ end
 Given(/^A premium user miles2 established chat relationship with a new user "([^"]*)"$/) do |name|
   $user = premium_user :email => "miles2@g.com", :password => "111111"
   $user.turn_on_chat
-  $user.remove_all_participants.remove_all_contacts
+  $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
   $user.establish_chat $new_user
   if $user.res["data"]["rc"] == 0 
