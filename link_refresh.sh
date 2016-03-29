@@ -13,6 +13,9 @@ do
   rm -r ${APP}/android/features/step_definitions/forum_steps.rb
   rm -r ${APP}/android/features/step_definitions/premium_steps.rb
   rm -r ${APP}/www/test_helper.rb
+  rm -r ${APP}/www/ios_minitest.rb
+  rm -r ${APP}/www/android_minitest.rb
+
   ln common/android/features/1* ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
   ln common/android/steps/* ${APP}/android/features/step_definitions
@@ -23,4 +26,5 @@ do
   ln common/www/ForumApiAndroid.rb ${APP}/www/
   ln common/www/test_helper.rb ${APP}/www/
   ln common/www/ios_minitest.rb ${APP}/www/
+  ln common/www/android_minitest.rb ${APP}/www/
 done
