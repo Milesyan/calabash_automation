@@ -1,25 +1,22 @@
-require_relative 'test_helper'
-
-module APICaseIos
+module Minitest_ios
+  include TestHelper
+  
   #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
     u = forum_new_user
     u.create_topic
     # assert that the user_id in the topic should be the user's id
-    assert_equal u.user_id, u.res["data"]["topic"]["user_id"]
+    assert_same u.user_id, u.res["topic"]["user_id"]
   end
 
   def test_create_poll_topic
     u = forum_new_user
     u.create_poll
-    assert_equal u.user_id, u.res["data"]["result"]["user_id"]
+    assert_same u.user_id, u.res["result"]["user_id"]
   end
 
 
-  def test_create_link_topic
-
-  end
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
     u1 = forum_new_user
@@ -27,7 +24,7 @@ module APICaseIos
     u1.create_topic
     u2.reply_to_topic u1.topic_id
     u2.reply_to_topic u1.topic_id
-    assert_equal u2.res["data"]["result"]["topic_id"], u1.topic_id
+    assert_same u2.res["result"]["topic_id"], u1.topic_id
   end
 
   def test_add_image_comments_to_a_topic
@@ -55,6 +52,7 @@ module APICaseIos
     sleep 1
     u2 = forum_new_user
     u.follow_user u2.user_id
+    puts u.res
     assert_rc u.res
   end
 
@@ -185,7 +183,7 @@ module APICaseIos
   def test_create_group 
     u = forum_new_user
     u.create_group
-    assert_equal u.res["data"]["group"]["creator_name"], u.first_name
+    assert_same u.res["group"]["creator_name"], u.first_name
   end
 
   def test_get_all_group_names
@@ -214,115 +212,125 @@ module APICaseIos
     end
   end
 
-  def test_turn_off_chat
-    u = forum_new_user
-    u.turn_off_chat
-    assert_rc u.res["data"]
-  end
+  # def test_turn_off_chat
+  #   u = forum_new_user
+  #   u.turn_off_chat
+  #   assert_rc u.res
+  # end
 
-  def test_turn_on_chat
-    u = forum_new_user
-    u.turn_off_chat
-    u.turn_on_chat
-    assert_rc u.res["data"]
-  end
+  # def test_turn_on_chat
+  #   u = forum_new_user
+  #   u.turn_off_chat
+  #   u.turn_on_chat
+  #   assert_rc u.res
+  # end
   
-  def test_turn_off_signature
-    u = forum_new_user
-    u.turn_off_signature
-    assert_rc u.res["data"]
-  end
+  # def test_turn_off_signature
+  #   u = forum_new_user
+  #   u.turn_off_signature
+  #   assert_rc u.res
+  # end
   
-  def test_turn_on_signature
-    u = forum_new_user
-    u.turn_off_signature
-    u.turn_on_signature
-    assert_rc u.res["data"]
-  end
-
-  def test_exising_email_login
-    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.join_group.leave_all_groups.join_group
-  end
-
-  def test_send_chat_request
-    u1 = forum_new_user
-    u2 = forum_new_user
-    u1.send_chat_request u2.user_id
-    puts u1.res
-    assert_equal u1.res["data"]["rc"], 8003
-  end
-
-  def test_premium_request
-    up = premium_login
-    u = forum_new_user
-    up.send_chat_request u.user_id
-    assert_rc up.res["data"]
-    u.get_request_id
-    puts u.res["data"]["requests"][0]["id"]
-  end
-
-  def test_accept_chat_request
-    up = premium_login
-    u = forum_new_user
-    up.send_chat_request u.user_id
-    u.accept_chat
-    assert_equal u.res["data"]["msg"], "Chat request is accepted."
-  end
-
-  def test_ignore_chat_request
-    up = premium_login
-    u = forum_new_user
-    up.send_chat_request u.user_id
-    u.ignore_chat
-    assert_equal u.res["data"]["msg"], "Chat request is rejected."
-  end
-
-  def test_remove_chat_false
-    up = premium_login
-    u = forum_new_user
-    up.remove_chat u.user_id
-    puts up.res
-  end
-
-  def test_remove_chat_true
-    up = premium_login
-    u = forum_new_user
-    up.send_chat_request u.user_id
-    u.accept_chat
-    up.remove_chat u.user_id
-    puts up.res
-  end
-
-  def test_get_participants
-    up = premium_login
-    up.get_all_participants
-    puts up.all_participants
-  end
-
-  def test_remove_all_participants
-    up = premium_login
-    up.remove_all_participants
-    up.get_all_participants
-  end
-
-  def test_remove_all_contacts
-    up = premium_login
-    up.remove_all_contacts
-    puts up.res
-  end
-
-  def test_remove_all_blocked
-    up = premium_login
-    up.remove_all_blocked
-    puts up.res
-  end
+  # def test_turn_on_signature
+  #   u = forum_new_user
+  #   u.turn_off_signature
+  #   u.turn_on_signature
+  #   assert_rc u.res
+  # end
 
 
-  def test_establish_chat
-    up = premium_login
-    u = forum_new_user
-    up.establish_chat u
-    puts up.res
-    puts u.res
-  end
+  # def test_send_chat_request
+  #   u1 = forum_new_user
+  #   u2 = forum_new_user
+  #   u1.send_chat_request u2.user_id
+  #   puts u1.res
+  #   assert_same u1.res["rc"], 8003
+  # end
+
+  # def test_premium_request
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.send_chat_request u.user_id
+  #   assert_rc up.res
+  #   u.get_request_id
+  #   puts u.res["requests"][0]["id"]
+  # end
+
+  # def test_accept_chat_request
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.send_chat_request u.user_id
+  #   u.accept_chat
+  #   assert_same u.res["msg"], "Chat request is accepted."
+  # end
+
+  # def test_ignore_chat_request
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.send_chat_request u.user_id
+  #   u.ignore_chat
+  #   assert_same u.res["msg"], "Chat request is rejected."
+  # end
+
+  # def test_remove_chat_false
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.remove_chat u.user_id
+  #   puts up.res
+  # end
+
+  # def test_remove_chat_true
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.send_chat_request u.user_id
+  #   u.accept_chat
+  #   up.remove_chat u.user_id
+  #   puts up.res
+  # end
+
+  # def test_get_participants
+  #   up = premium_login
+  #   up.get_all_participants
+  #   puts up.all_participants
+  # end
+
+  # def test_remove_all_participants
+  #   up = premium_login
+  #   up.remove_all_participants
+  #   up.get_all_participants
+  # end
+
+  # def test_remove_all_contacts
+  #   up = premium_login
+  #   up.remove_all_contacts
+  #   puts up.res
+  # end
+
+  # def test_remove_all_blocked
+  #   up = premium_login
+  #   up.remove_all_blocked
+  #   puts up.res
+  # end
+
+
+  # def test_establish_chat
+  #   up = premium_login
+  #   u = forum_new_user
+  #   up.establish_chat u
+  #   puts up.res
+  #   puts u.res
+  # end
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
