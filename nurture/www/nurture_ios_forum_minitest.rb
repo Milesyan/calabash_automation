@@ -1,14 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'nurture_ios_forum_test'
-require_relative 'test_helper'
-require_relative 'ios_minitest'
+require_relative 'public/nurture_ios_forum_test'
+require_relative 'public/ios_minitest'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NurtureTest < Minitest::Test
   include NurtureForumIOS
-  extend TestHelper 
   include Minitest_ios
 
 

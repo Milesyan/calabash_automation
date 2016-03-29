@@ -22,9 +22,9 @@ do
   ln common/ios/features/1* ${APP}/ios/features/
   ln common/ios/pages/* ${APP}/ios/features/pages
   ln common/ios/steps/* ${APP}/ios/features/step_definitions
-  ln common/www/ForumApi.rb ${APP}/www/
-  ln common/www/ForumApiAndroid.rb ${APP}/www/
-  ln common/www/test_helper.rb ${APP}/www/
-  ln common/www/ios_minitest.rb ${APP}/www/
-  ln common/www/android_minitest.rb ${APP}/www/
+  ln common/www/ForumApi.rb ${APP}/www/public
+  ln common/www/ForumApiAndroid.rb ${APP}/www/public
+  ln common/www/test_helper.rb ${APP}/www/public
+  ln common/www/ios_minitest.rb ${APP}/www/public
+  ln common/www/android_minitest.rb ${APP}/www/public
 done

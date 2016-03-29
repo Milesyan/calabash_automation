@@ -30,7 +30,7 @@ module TestHelper
   end
 
   def load_config
-    config_folder = File.expand_path("./config", File.dirname(__FILE__))
+    config_folder = File.expand_path("../config", File.dirname(__FILE__))
     config = Dir[File.join(config_folder, '*.yml')].map {|f| [File.basename(f, '.yml').to_s, YAML.load_file(f)]}
     Hash[config]
   end

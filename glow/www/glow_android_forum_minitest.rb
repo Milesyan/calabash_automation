@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'glow_android_forum_test'
-require_relative 'android_minitest'
+require_relative 'public/glow_android_forum_test'
+require_relative 'public/android_minitest'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 

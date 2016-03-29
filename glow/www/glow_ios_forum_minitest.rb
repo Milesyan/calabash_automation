@@ -1,14 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'glow_ios_forum_test'
-require_relative 'test_helper'
-require_relative 'ios_minitest'
+require_relative 'public/glow_ios_forum_test'
+require_relative 'public/ios_minitest'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class GlowTest < Minitest::Test
   include GlowForumIOS
-  extend TestHelper 
   include Minitest_ios
 
   def assert_rc(res)
