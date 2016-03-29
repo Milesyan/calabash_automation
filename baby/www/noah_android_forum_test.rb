@@ -43,6 +43,7 @@ module NoahForumAndroid
       @birth_headcirc = args[:birth_headcirc] || args[:birth_head]
       @headcirc_all = []
       @ethnicity = [1]
+      @forum_code_name = 'noah'
     end
   end
 
@@ -176,9 +177,7 @@ module NoahForumAndroid
         email: email,
         password: password
       }
-
       @res = self.class.post "/android/user/sign_in?#{common_data}", options(data)
-
       if @res["rc"] == 0
         @ut = @res["data"]["user"]["encrypted_token"]
         @user_id = @res["data"]["user"]["id"]

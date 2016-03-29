@@ -217,6 +217,7 @@ module ForumApiAndroid
       self
     end
 
+
     def bookmark_topic(topic_id)
       data = {
         "bookmarked": 1
@@ -533,14 +534,32 @@ module ForumApiAndroid
     def get_all_blocked
       blocked_data= {
       }
-      @res = HTTParty.get("#{ANDROID_FORUM_BASE_URL}/user/blocked_user_ids?#{@additional_forum}", :body => blocked_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      if ['noah', 'glow'].include? @forum_code_name
+        url = "#{ANDROID_FORUM_BASE_URL}/user/blocked_users?#{@additional_forum}"
+      else
+        url = "#{ANDROID_FORUM_BASE_URL}/user/blocked_user_ids?#{@additional_forum}"
+      end
+      url
+      @res = HTTParty.get( url, :body => blocked_data.to_json,
+          :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      puts @res
+      puts "AAAA"
       @all_blocked= @res["data"]
       @all_blocked
     end     
 
     def remove_all_blocked
-      _blocked_users = self.get_all_blocked
+      if @forum_code_name == 'noah'
+        _blocked_users =[]
+        data = self.get_all_blocked
+        data.each do |element|
+          element.each do |k,v|
+              _blocked_users.push v if k == "id"
+          end
+        end
+      else
+        _blocked_users = self.get_all_blocked
+      end
       _blocked_users.each do |id|
         unblock_user id
       end

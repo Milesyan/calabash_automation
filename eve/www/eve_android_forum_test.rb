@@ -21,7 +21,7 @@ module EveForumAndroid
   ANDROID_FORUM_BASE_URL = "http://titan-forum.glowing.com/android/forum"  
 
   def forum_new_user(args = {})
-    u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
+    u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email.login
   end
   
   class ForumUser < ForumApiAndroid::ForumAndroid
@@ -223,11 +223,11 @@ module EveForumAndroid
       sync_guest_info_2
       # get_daily_gems
       signup_with_email
-      login_with_email
+      login
       self
     end
 
-    def login_with_email(email = nil, password = nil)
+    def login(email = nil, password = nil)
       data = {
         "email": email || @email,
         "password": password || @password,
