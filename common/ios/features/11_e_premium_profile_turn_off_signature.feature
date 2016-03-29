@@ -16,4 +16,5 @@ Feature: Turn off signature and check it in posts
     When I click view all replies
     Then I should not see the signature in topic/comment/subreply
     And I go back to group
+    And I go back to previous page
     And I logout

@@ -17,7 +17,7 @@ Feature: Check function in chat settings
 
 
   @show_all_images
-  Scenario: Check show all images (Not in iOS)
+  Scenario: Check show all images.
     Given A premium user miles2 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
@@ -31,8 +31,8 @@ Feature: Check function in chat settings
     And I logout
 
 
-  @block_user
-  Scenario: Check block user
+  @block_user_chat
+  Scenario: Check block user.
     Given A premium user miles2 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
@@ -50,7 +50,7 @@ Feature: Check function in chat settings
     And I logout
 
   @delete_user
-  Scenario: Check delete user
+  Scenario: Check delete user.
     Given A premium user miles2 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page

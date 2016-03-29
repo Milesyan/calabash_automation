@@ -207,7 +207,11 @@ Then(/^I turn off signature in profile settings$/) do
 end
 
 Then(/^I should not see the signature in topic\/comment\/subreply$/) do
-  check_element_does_not_exist "* id:'gl-community-plus-badge.png'"
+  check_element_exists "* id:'gl-community-plus-badge.png'"
+  unless [2, 7].include? query("* id:'gl-community-plus-badge.png' index:1 sibling *").size 
+    puts query("* id:'gl-community-plus-badge.png' index:1 sibling *").size
+    screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+  end
 end
 
 Then(/^I update bio and location info$/) do
@@ -310,12 +314,13 @@ end
 #----CHAT WINDOW---
 Then(/^I go to the chat window for the new user$/) do
   wait_for_element_exists "* marked:'Messages'"
+  wait_for_element_exists "* marked:'Start chatting now.'"
   wait_touch "* marked:'#{$new_user.first_name}'"
   attempts = 0
   begin 
     attempts = attempts + 1
-    wait_for_element_exists "* marked:'Enter Message'", :time_out =>1
-  rescue
+    check_element_exists "* marked:'Enter Message'"
+  rescue RuntimeError
     wait_touch "* marked:'#{$new_user.first_name}'" if attempts < 3
   end
 end
@@ -408,18 +413,14 @@ end
 
 When(/^I swipe the conversation log and click delete$/) do
   swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
-  wait_for_none_animating
+  sleep 2
   wait_touch "* marked:'Delete'"
 end
 
 When(/^I swipe the contact person and click delete$/) do
   swipe "left", {:query => "* {text CONTAINS '#{$new_user.first_name}'}"}
-  wait_for_none_animating
+  sleep 2
   wait_touch "* marked:'Delete'"
-  if element_exists "* {text CONTAINS 'Zed'}"
-    swipe "left", {:query => "* {text CONTAINS 'Zed'}"}
-    wait_touch "* marked:'Delete'"
-  end
 end
 
 Then(/^I should see the contact person is deleted$/) do

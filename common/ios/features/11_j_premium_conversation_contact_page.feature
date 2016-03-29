@@ -24,10 +24,10 @@ Feature: Check contact page features.
     And I login as premium user
     And I open "community" page
     And I go to messages 
-    And I go to the chat window for the new user
-    Then I send a message with text "test delete history"
-    And I click chat settings 
-    When I click "Delete chat history" in chat options
-    Then I should see the chat history has been deleted
+    When I go to contact list    
+    And I click the name of user "Holmes"
+    Then I send a message with text "test start chat from contact"
+    And I go back to previous page
+    And I go back to previous page
     And I click done to close messages
     And I logout
