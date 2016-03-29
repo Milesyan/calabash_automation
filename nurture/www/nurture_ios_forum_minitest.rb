@@ -36,10 +36,6 @@ class NurtureTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
-  def assert_same(exp,res)
-    assert_equal exp,res["data"]
-  end
-
   def test_kaylee_signup
     u = forum_new_user
     assert_rc u.res

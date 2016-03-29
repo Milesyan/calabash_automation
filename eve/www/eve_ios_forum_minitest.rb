@@ -1,14 +1,12 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'eve_ios_forum_test'
-require_relative 'test_helper'
-require_relative 'ios_minitest'
+require_relative 'public/eve_ios_forum_test'
+require_relative 'public/ios_minitest'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class EveTest < Minitest::Test
   include EveForumIOS
-  extend TestHelper 
   include Minitest_ios
 
   def setup
@@ -24,9 +22,7 @@ class EveTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
-  def assert_same(exp,res)
-    assert_equal exp,res["data"]
-  end
+
 
   def test_eve_signup
     u = forum_new_user
@@ -39,7 +35,11 @@ class EveTest < Minitest::Test
     assert_rc u.res
   end
 
-
+  def premium_login
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login_with_email
+    premium
+  end
+  
 end
 
 

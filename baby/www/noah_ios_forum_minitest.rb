@@ -9,9 +9,6 @@ class NoahTest < Minitest::Test
   include NoahForumIOS
   include Minitest_ios
 
-  def assert_same(exp,res)
-    assert_equal exp,res["data"]
-  end
 
   def premium_login
     premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
@@ -41,9 +38,6 @@ class NoahTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
-  def assert_same(exp,res)
-    assert_equal exp,res["data"]
-  end
 
   def test_noah_signup
     u = forum_new_user

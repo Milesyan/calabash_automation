@@ -8,7 +8,7 @@ require_relative 'ForumApiAndroid'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
 PASSWORD = 'Glow12345'
-IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 

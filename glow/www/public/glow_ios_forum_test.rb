@@ -9,7 +9,7 @@ require_relative 'ForumApi'
 PASSWORD = 'Glow12345'
 NEW_PASSWORD = 'Glow1234'
 GROUP_ID = 5
-IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 module GlowForumIOS

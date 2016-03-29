@@ -9,7 +9,7 @@ require_relative 'ForumApi'
 
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
-IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 
 
 module NurtureForumIOS

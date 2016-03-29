@@ -12,11 +12,11 @@ class GlowTest < Minitest::Test
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
-
-  def assert_same(exp,res)
-    assert_equal exp,res
+  def premium_login
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium
   end
-
+  
 end
 
 

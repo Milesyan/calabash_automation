@@ -4,6 +4,7 @@ module ForumApi
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
   
   class ForumIOS
+    attr :code_name, :request_id, :all_participants
     def create_topic(args = {})
       topic_data = {
         "code_name": @code_name,

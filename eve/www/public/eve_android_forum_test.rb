@@ -11,7 +11,7 @@ require_relative 'ForumApiAndroid'
 PASSWORD = 'Glow12345'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
-IMAGE_ROOT = File.dirname(__FILE__) + "/../../images/"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 module EveForumAndroid
