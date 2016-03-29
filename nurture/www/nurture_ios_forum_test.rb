@@ -24,6 +24,9 @@ module NurtureForumIOS
     Time.now.to_i + n.to_i*7*24*3600
   end
 
+  def forum_new_user(args={})
+    ForumUser.new(args).signup.login
+  end
 
   class ForumUser < ForumApi::ForumIOS
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks

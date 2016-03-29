@@ -17,6 +17,10 @@ module NurtureForumAndroid
   BASE_URL = load_config["base_urls"]["Sandbox1"]
   ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
 
+  def forum_new_user(args={})
+    ForumUser.new(args).signup.login
+  end
+
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include HTTParty

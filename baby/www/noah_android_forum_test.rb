@@ -46,6 +46,10 @@ module NoahForumAndroid
     end
   end
 
+  def forum_new_user(args={})
+    ForumUser.new(args).signup.login.join_group
+  end
+    
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include HTTParty
@@ -275,7 +279,6 @@ module NoahForumAndroid
         puts "Baby #{baby.first_name} is added [baby_id: #{@current_baby.baby_id}]"
       end
       self
-    end
-
+    end    
   end
 end

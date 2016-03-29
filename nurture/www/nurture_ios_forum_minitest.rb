@@ -11,9 +11,6 @@ class NurtureTest < Minitest::Test
   def setup
   end
 
-  def forum_new_user
-    ForumUser.new.signup.login
-  end
 
   def premium_login
     premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login

@@ -19,6 +19,10 @@ module GlowForumIOS
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
 
+  def forum_new_user(args={})
+    ForumUser.new(args).ttc_signup.login.complete_tutorial
+  end
+
   class ForumUser < ForumApi::ForumIOS
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids

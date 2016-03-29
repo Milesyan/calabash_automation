@@ -6,12 +6,9 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NoahTest < Minitest::Test
   include NoahForumAndroid
+  include TestHelper
 
   def setup
-  end
-
-  def forum_new_user
-    ForumUser.new.signup.login.join_group
   end
 
   def premium_login
@@ -24,17 +21,16 @@ class NoahTest < Minitest::Test
     puts u.first_name
   end
 
-
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
 
-  def test_noah_signup
+  def test_signup
     u = forum_new_user
     assert_rc u.res
   end
 
-  def test_noah_login
+  def test_login
     u = forum_new_user
     u.login
     assert_rc u.res

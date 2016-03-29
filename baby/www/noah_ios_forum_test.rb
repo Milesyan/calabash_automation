@@ -49,6 +49,10 @@ module NoahForumIOS
     end
   end
 
+  def forum_new_user(args={})
+    ForumUser.new(args).signup.login
+  end
+
   class ForumUser < ForumApi::ForumIOS
     include TestHelper
     include HTTParty
@@ -260,6 +264,7 @@ module NoahForumIOS
       end
       self
     end
+
 
   end
 end

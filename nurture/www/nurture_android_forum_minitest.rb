@@ -10,9 +10,7 @@ class NurtureTest < Minitest::Test
   def setup
   end
 
-  def forum_new_user
-    ForumUser.new.signup.login
-  end
+
 
   def test_premium_login
     up = premium_login

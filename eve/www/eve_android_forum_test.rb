@@ -20,6 +20,10 @@ module EveForumAndroid
   EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
   ANDROID_FORUM_BASE_URL = "http://titan-forum.glowing.com/android/forum"  
 
+  def forum_new_user(args = {})
+    u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
+  end
+  
   class ForumUser < ForumApiAndroid::ForumAndroid
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :topic_title, :reply_content,:group_id,:all_group_ids

@@ -10,17 +10,8 @@ class GlowTest < Minitest::Test
   def setup
   end
 
-  def forum_new_user(args = {})
-    ForumUser.new(args).ttc_signup
-  end
-    
-  def forum_new_user(args = {})
-    ForumUser.new(args).non_ttc_signup.login.complete_tutorial.join_group
-  end
 
-  def new_ft_user(args = {})
-    ForumUser.new.ft_signup(args).login.complete_tutorial
-  end
+
 
   def assert_rc(res)
     assert_equal 0, res["rc"]

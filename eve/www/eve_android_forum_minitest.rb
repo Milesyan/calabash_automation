@@ -16,10 +16,6 @@ class EveTest < Minitest::Test
   end
 
 
-  def forum_new_user(args = {})
-    u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email
-  end
-
   def test_forum_user
     u = forum_new_user
     puts u.res

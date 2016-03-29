@@ -1,7 +1,4 @@
 require 'rubygems'
-
-
-
 module MultipartImage
   VERSION = "1.0.0"
   class Post

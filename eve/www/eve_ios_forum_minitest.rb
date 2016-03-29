@@ -10,17 +10,10 @@ class EveTest < Minitest::Test
   def setup
   end
 
-  def forum_new_user
-    ForumUser.new.all_signup_flow
-  end
 
   def test_forum_new_user
     u = forum_new_user
     puts u.first_name
-  end
-
-  def test_debug
-    u = ForumUser.new.signup_guest.signup_with_email
   end
 
   def assert_rc(res)
