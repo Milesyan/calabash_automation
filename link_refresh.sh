@@ -5,16 +5,16 @@ do
   rm -r ${APP}/ios/features/pages/premium_page.rb
   rm -r ${APP}/ios/features/step_definitions/forum_steps.rb
   rm -r ${APP}/ios/features/step_definitions/premium_steps.rb
-  rm -r ${APP}/www/ForumApi.rb
-  rm -r ${APP}/www/ForumApiAndroid.rb
   rm -r ${APP}/android/features/1*
   rm -r ${APP}/android/features/pages/forum_page.rb
   rm -r ${APP}/android/features/pages/premium_page.rb
   rm -r ${APP}/android/features/step_definitions/forum_steps.rb
   rm -r ${APP}/android/features/step_definitions/premium_steps.rb
-  rm -r ${APP}/www/test_helper.rb
-  rm -r ${APP}/www/ios_minitest.rb
-  rm -r ${APP}/www/android_minitest.rb
+  rm -r ${APP}/www/public/ForumApi.rb
+  rm -r ${APP}/www/public/ForumApiAndroid.rb
+  rm -r ${APP}/www/public/test_helper.rb
+  rm -r ${APP}/www/public/ios_minitest.rb
+  rm -r ${APP}/www/public/android_minitest.rb
 
   ln common/android/features/1* ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
