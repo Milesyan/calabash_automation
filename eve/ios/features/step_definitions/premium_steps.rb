@@ -311,7 +311,13 @@ end
 Then(/^I go to the chat window for the new user$/) do
   wait_for_element_exists "* marked:'Messages'"
   wait_touch "* marked:'#{$new_user.first_name}'"
-  wait_for_element_exists "* marked:'Enter Message'"
+  attempts = 0
+  begin 
+    attempts = attempts + 1
+    wait_for_element_exists "* marked:'Enter Message'", :time_out =>1
+  rescue
+    wait_touch "* marked:'#{$new_user.first_name}'" if attempts < 3
+  end
 end
 
 Then(/^I click chat settings$/) do
@@ -469,3 +475,4 @@ end
 Then(/^I check the premium banner under discover tab$/) do
   puts "No way to check the image now."
 end
+

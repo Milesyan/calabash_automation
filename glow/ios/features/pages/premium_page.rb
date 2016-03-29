@@ -93,6 +93,9 @@ class PremiumPage < Calabash::IBase
   def send_image_in_chat
     wait_touch "* marked:'Message Input Toolbar Camera Button'"
     wait_touch "* marked:'Last Photo'" 
+    if element_exists "* marked:'OK'"
+      touch "* marked:'OK'"
+    end
     sleep 1
     touch "* marked:'Send'"
     sleep 3

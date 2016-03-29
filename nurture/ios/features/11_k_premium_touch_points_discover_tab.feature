@@ -1,4 +1,4 @@
-@premium @discover_touch_points @wip
+@premium @discover_touch_points
 Feature: Check touch points in discover tab.
   @discover_banner
   Scenario: Check the premium banner under dicover page.
@@ -10,7 +10,7 @@ Feature: Check touch points in discover tab.
     And I logout
 
   @discover_chat_elements_premium
-  Scenario: Check touch points elements under discover tab.
+  Scenario: Check touch points elements under discover tab for premium users.
     Given A premium user miles2 and a non-premium user milesn have been created for test
     And I login as premium user
     And I open "community" page 
@@ -21,7 +21,7 @@ Feature: Check touch points in discover tab.
     And I logout
 
   @discover_chat_elements_free
-  Scenario: Check touch points elements under discover tab.
+  Scenario: Check touch points elements under discover tab for non-premium users.
     Given A premium user miles2 and a non-premium user milesn have been created for test
     And I login as non-premium user
     And I open "community" page 

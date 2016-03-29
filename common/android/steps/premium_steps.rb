@@ -450,28 +450,44 @@ Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
 end
 
 
-
+#UNDONE
 Then(/^I check the recommended people section and elements$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  wait_for_element_exists "* id:'discover_category_list'"
+  wait_for_element_exists "* id:'discover_category_people_card'"
+  wait_for_element_exists "* id:'discover_people_info_container'"
+  wait_for_element_exists "* id:'discover_category_people_name'"
+  wait_for_element_exists "* id:'discover_category_people_brief1'"
+  wait_for_element_exists "* id:'discover_category_people_brief2'"
+
 end
 
 When(/^I click chat button in recommended people section$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  wait_touch "* marked:'Chat'"
 end
 
 Then(/^I can see a chat request is sent or premium prompt dialog$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  begin
+    wait_for_element_exists "* marked:'Learn more'", :time_out => 1
+  rescue RuntimeError => e 
+    wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 1
+  end  
+  premium_page.close_request_dialog
 end
 
 When(/^I click see all button in recommended people section$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  wait_touch "* marked:'See all'"
 end
 
 Then(/^I can see the list and check the elements$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  wait_for_element_exists "* marked:'Find friends & Chat in private!'"
 end
 
 When(/^I click chat button in recommended people list$/) do
-  pending # Write code here that turns the phrase above into concrete actions
+  wait_for_element_exists "* id:'user_brief_info'"
+  wait_touch "* marked:'Chat'"
 end
 
+Then(/^I check the premium banner under discover tab$/) do
+  pan "* id:'daimajia_slider_viewpager'", :left
+  wait_for_element_exists "* id:'daimajia_slider_image'"
+end
