@@ -80,7 +80,7 @@ end
 
 Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |name|
   $user = premium_user :email => "miles2@g.com", :password => "111111"
-  $user.turn_on_chat
+  $user.login.turn_on_chat
   $user.remove_all_participants.remove_all_contacts
   $new_user = forum_new_user(first_name: name)
   $user.send_chat_request $new_user.user_id
@@ -474,6 +474,8 @@ When(/^I click chat button in recommended people list$/) do
 end
 
 Then(/^I check the premium banner under discover tab$/) do
+  check_element_exists "ForumDiscoverBanner"
+  flick "ForumDiscoverBanner", {x:-100,y:0}
   puts "No way to check the image now."
 end
 

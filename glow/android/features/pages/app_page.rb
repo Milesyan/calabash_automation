@@ -8,17 +8,18 @@ class AppPage < Calabash::ABase
   def login
     enter_text "* id:'email'", $user.email
     enter_text "* id:'password'", $user.password
-    touch "* id:'sign_in_button'"
+    wait_touch "* id:'sign_in_button'"
   end
 
   def login_with(email, password)
     enter_text "* id:'email'", email
     enter_text "* id:'password'", password
     sleep 1
-    touch "* id:'sign_in_button'"
+    wait_touch "* id:'sign_in_button'"
   end
 
   def open(page)
+    wait_for_element_exists "* id:'nav_home'"
     sleep 1
     case page.downcase
     when 'home'
@@ -38,7 +39,7 @@ class AppPage < Calabash::ABase
   def tap_login
     sleep 1
     puts "TOUCH LOGIN HERE "
-    touch "* id:'log_in'"
+    wait_touch "* id:'log_in'"
   end
 
   def logout
@@ -47,9 +48,9 @@ class AppPage < Calabash::ABase
     wait_for(:timeout => 10, :regry_frequency => 2) do
       element_exists menu_button
     end
-    touch menu_button
+    wait_touch menu_button
     sleep 1
-    touch "* text:'Log out'"
+    wait_touch "* text:'Log out'"
   end
   
   def forum_element

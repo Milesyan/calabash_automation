@@ -192,7 +192,7 @@ class ForumPage < Calabash::ABase
 
   def click_back_button
     sleep 0.5
-    touch "* marked:'Navigate up'"
+    wait_touch "* marked:'Navigate up'"
   end  
   
   def edit_topic_voted (args1)
@@ -205,7 +205,7 @@ class ForumPage < Calabash::ABase
 
   def edit_topic(args1)
     sleep 0.5
-    touch "* {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* {text CONTAINS '#{args1}'} index:0"
     sleep 2
     wait_touch "* id:'topic_menu'"
     sleep 1
@@ -215,11 +215,11 @@ class ForumPage < Calabash::ABase
     scroll_down
     enter_text "* id:'title_editor'", 'Modified title'
     enter_text "* id:'content_editor'", 'Modified content'
-    sleep 0.5
+    sleep 2
     if element_exists "* id:'create_yes'"
       touch "* id:'create_yes'" # done button
     else 
-      touch "* marked:'Done'"
+      wait_touch "* marked:'Done'"
     end
   end
 
@@ -490,7 +490,7 @@ class ForumPage < Calabash::ABase
   def get_element_x_y(args)
     wait_for_elements_exist "* id:'#{args}'"
     x = query("* id:'#{args}'")[0]["rect"]["x"]
-    y = query("* id:'#{args}'")[0]["rect"]["center_y"]
+    y = query("* id:'#{args}'")[0]["rect"]["y"]
     width = query("* id:'#{args}'")[0]["rect"]["width"]
     return x,y,width
   end
@@ -621,19 +621,21 @@ class ForumPage < Calabash::ABase
   end
 
   def touch_creator_name(args)
-    # sleep 1
-    # x,y,width = get_element_x_y "topic_author_date"
-    # if element_exists "* {text CONTAINS 'Posted by'}"
-    #  perform_action('touch_coordinate',(x+width*0.5), y)
-    #  sleep 1
-    #  if element_exists "* {text CONTAINS 'Posted by'}"
-    #    perform_action('touch_coordinate',(x+width*0.3), y)
-    #    sleep 1
-    #  end
-    # else
-    #  puts "Posted by text does not exist on screen."
-    # end
-    wait_touch "* {text CONTAINS '#{args}'}"
+    begin 
+      wait_touch "* {text CONTAINS '#{args}'}", :timeout => 1
+    rescue RuntimeError
+      x,y,width = get_element_x_y "topic_author_date"
+      if element_exists "* {text CONTAINS 'Posted by'}"
+       perform_action('touch_coordinate',(x+width*0.25), y)
+       sleep 1
+       if element_exists "* {text CONTAINS 'Posted by'}"
+         perform_action('touch_coordinate',(x+width*0.5), y)
+         sleep 1
+       end
+      else
+       puts "Posted by text does not exist on screen."
+      end
+    end
   end
 
   def action_to_other_user(action)

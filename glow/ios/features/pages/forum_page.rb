@@ -287,6 +287,10 @@ class ForumPage < Calabash::IBase
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
+  def scroll_down
+    swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }
+  end
+
   def click_cancel
     wait_touch "* marked:'Cancel'"
   end
@@ -663,7 +667,8 @@ class ForumPage < Calabash::IBase
   end
 
   def click_explore
-    wait_touch "UIButton marked:'Explore'"
+    flick "ForumDiscoverBanner", {x:-100,y:0}
+    wait_touch "ForumDiscoverBanner"
   end
 
   def create_a_group

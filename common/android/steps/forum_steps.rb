@@ -267,7 +267,7 @@ end
 
 Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
-  $user = forum_new_user(first_name: name).join_group group
+  $user = forum_new_user(first_name: name).leave_all_groups.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
 end
@@ -324,7 +324,7 @@ Given(/^I open the topic "(.*?)"$/) do |arg1|
   sleep 0.5
   wait_for_element_exists "* marked:'#{arg1}' index:0"
   sleep 1
-  touch "* marked:'#{arg1}' index:0"
+  wait_touch "* marked:'#{arg1}' index:0"
 end
 
 
@@ -370,6 +370,11 @@ end
 
 Then(/^I go to the first group$/) do
   forum_page.select_target_group
+end
+
+
+Then(/^I go to the invite target group$/) do 
+  wait_touch "* marked:'Twins'"
 end
 
 Then(/^I post a text topic with title "([^"]*)"$/) do |arg1|

@@ -210,7 +210,7 @@ end
 
 Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   logout_if_already_logged_in
-  $user = forum_new_user(first_name: name).complete_tutorial.join_group group
+  $user = forum_new_user(first_name: name).complete_tutorial.leave_all_groups.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
 end
@@ -309,7 +309,7 @@ end
 Then(/^I should not see the creator name$/) do
     wait_for_none_animating
     sleep 1
-    check_element_does_not_exist "* {text CONTAINS 'Upvote'}"
+    check_element_does_not_exist "* {text CONTAINS '#{$user.first_name}'}"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
@@ -379,6 +379,11 @@ end
 Then(/^I go to the first group$/) do
   forum_page.select_target_group
 end
+
+Then(/^I go to the invite target group$/) do 
+  wait_touch "* marked:'ab-group-2'"
+end
+
 
 Then(/^I click the DISCOVER button in community tab$/) do
   forum_page.click_discover
@@ -618,10 +623,15 @@ end
 Then(/^I can see the person I blocked$/) do
   wait_for_none_animating
   sleep 1
-  if element_exists "* {text CONTAINS '#{$new_user.first_name}'"
-    puts "CHECK NEW CHAT BLOCK"
-  else
-    check_element_exists "* {text CONTAINS '#{$user2.first_name}'"
+  begin
+    if not $new_user.nil?
+      check_element_exists "* {text CONTAINS '#{$new_user.first_name}'}"
+      puts "CHECK NEW CHAT BLOCK"
+    else
+     check_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
+    end
+  rescue RuntimeError => e 
+    puts "ERROR"
   end
   check_element_exists "* marked:'Blocked'"
 end
@@ -808,14 +818,17 @@ end
 
 
 Then(/^I should see "([^"]*)" in my view$/) do |arg1|
-  wait_for_element_exists arg1
+  wait_for_element_exists "* marked:'#{arg1}'"
 end
 
 Then(/^I scroll down the screen$/) do
-  scroll_down
+  forum_page.scroll_down
 end
 
 When(/^I wait for 2 seconds for the next page$/) do
   sleep 2
 end
 
+Then(/^I scroll down to see "([^"]*)"$/) do |arg1|
+  forum_page.scroll_down_to_see arg1
+end
