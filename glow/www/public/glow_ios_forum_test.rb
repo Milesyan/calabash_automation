@@ -92,7 +92,7 @@ module GlowForumIOS
 
       @res = HTTParty.post("#{BASE_URL}/api/v2/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      puts email + " has been signed up"
+      log_important email + " has been signed up"
       self
     end
 

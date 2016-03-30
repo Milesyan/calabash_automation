@@ -105,7 +105,7 @@ module GlowForumAndroid
         :headers => { 'Content-Type' => 'application/json' })
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      puts email + " has been signed up"
+      log_important email + " has been signed up"
       puts "User id is #{@user_id}"
       self
     end
