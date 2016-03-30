@@ -622,7 +622,8 @@ class ForumPage < Calabash::ABase
 
   def touch_creator_name(args)
     begin 
-      wait_touch "* {text CONTAINS '#{args}'}", :timeout => 1
+      wait_for_element_exists "* {text CONTAINS '#{args}'}", :timeout =>1
+      touch "* {text CONTAINS '#{args}'}"
     rescue RuntimeError
       x,y,width = get_element_x_y "topic_author_date"
       if element_exists "* {text CONTAINS 'Posted by'}"
