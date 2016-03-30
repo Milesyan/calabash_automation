@@ -624,17 +624,18 @@ class ForumPage < Calabash::ABase
     begin 
       wait_for_element_exists "* {text CONTAINS '#{args}'}", :timeout =>1
       touch "* {text CONTAINS '#{args}'}"
+      check_element_does_not_exist "* {text CONTAINS 'Posted by'}"
     rescue RuntimeError
       x,y,width = get_element_x_y "topic_author_date"
       if element_exists "* {text CONTAINS 'Posted by'}"
-       perform_action('touch_coordinate',(x+width*0.25), y)
+       perform_action('touch_coordinate',(x+width*0.2), y)
+       puts "0.2"
        sleep 1
-       if element_exists "* {text CONTAINS 'Posted by'}"
-         perform_action('touch_coordinate',(x+width*0.5), y)
-         sleep 1
-       end
-      else
-       puts "Posted by text does not exist on screen."
+      end
+      if element_exists "* {text CONTAINS 'Posted by'}"
+        perform_action('touch_coordinate',(x+width*0.5), y)
+        puts "0.5"
+        sleep 1
       end
     end
   end

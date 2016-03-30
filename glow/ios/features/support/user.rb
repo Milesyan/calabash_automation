@@ -3,14 +3,10 @@ require 'json'
 
 PASSWORD = 'Glow12345'
 
-# GROUP_ID = 72057594037927939  # sandbox0 Health & Lifestyle
-# GROUP_ID = 72057594037927938 # sandbox0 Sex & Relationships
 GROUP_ID = 5 # local group id 
 #NOTE!!! The TARGET_GROUP_NAME must be corresponding to GROUP_ID
 TARGET_GROUP_NAME = "High Risk Pregnancies"
 
-# BASE_URL = "http://localhost:5010"
-# FORUM_BASE_URL = "http://localhost:35010"
 
 BASE_URL = "http://dragon-emma.glowing.com"
 FORUM_BASE_URL = "http://dragon-forum.glowing.com"
