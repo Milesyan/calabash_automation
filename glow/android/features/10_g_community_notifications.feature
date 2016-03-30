@@ -1,4 +1,4 @@
-@forum
+@forum @notification
 Feature: Test all community notifications
 ''' TYPE_FORUM_REPLY_CREATOR = 1050
     TYPE_FORUM_REPLY_CREATOR_2 = 1085  # 6 comments

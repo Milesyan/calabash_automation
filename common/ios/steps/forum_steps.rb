@@ -807,7 +807,7 @@ Then(/^I close the group page$/) do
 end
 
 
-Then(/^I should see "([^"]*)" in my view$/) do |arg1|                                                                                              │
+Then(/^I should see "([^"]*)" in my view$/) do |arg1|
   wait_for_element_exists arg1
 end
 
@@ -815,7 +815,7 @@ Then(/^I scroll down the screen$/) do
   scroll_down
 end
 
-When(/^I wait for 2 seconds for the next page$/) do                                                                                          │
+When(/^I wait for 2 seconds for the next page$/) do
   sleep 2
 end
 

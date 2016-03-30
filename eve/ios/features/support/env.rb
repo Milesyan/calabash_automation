@@ -2,7 +2,7 @@
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'
-require_relative '../../../www/eve_ios_forum_test'
+require_relative '../../../www/public/eve_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'
 require_relative 'event_logger.rb'

@@ -5,7 +5,7 @@ require 'active_support/all'
 
 require_relative 'app'
 require_relative 'pages'
-require_relative '../../../www/eve_android_forum_test'
+require_relative '../../../www/public/eve_android_forum_test'
 require_relative 'event_logger.rb'
 
 class MinitestWorld

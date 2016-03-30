@@ -2,7 +2,7 @@ require 'calabash-android/abase'
 
 class AppPage < Calabash::ABase
   def trait
-    "* id:'sign_in_button'"
+    '*'
   end
 
   def login
@@ -36,6 +36,7 @@ class AppPage < Calabash::ABase
 
 
   def tap_login
+    sleep 1
     puts "TOUCH LOGIN HERE "
     touch "* id:'log_in'"
   end
