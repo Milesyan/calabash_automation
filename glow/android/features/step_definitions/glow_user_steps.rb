@@ -20,7 +20,7 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"
   when "1091"
-    wait_touch "* marked:'You have a new follower!'"
+    wait_touch "* marked:'Follow Back'"
   when "1092"
     sleep 10
   end
