@@ -138,6 +138,7 @@ module NoahForumIOS
       @res = HTTParty.post "#{BASE_URL}/ios/user/login", options(data)
       @ut = @res["data"]["user"]["encrypted_token"]
       @user_id = @res["data"]["user"]["id"]
+      @first_name = @res["data"]["user"]["first_name"]
       puts "Login User id is #{@user_id}"
       self
     end
