@@ -17,9 +17,10 @@ module ForumApi
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{@group_id}/create_topic", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts "Code name #{@code_name}"
-      @code_name == 'emma'? @topic_id = @res["topic"]["id"]: @topic_id = @res["data"]["topic"]["id"]
-      @code_name == 'emma'? @group_id = @res["topic"]["id"]: @group_id = @res["data"]["topic"]["group_id"]
-      @code_name == 'emma'? title = @res["topic"]["id"]: title = @res["data"]["topic"]["title"]
+      @res = @res["data"] if @code_name != 'emma'
+      @topic_id = @res["topic"]["id"]
+      @group_id = @res["topic"]["id"]
+      title = @res["topic"]["id"]
       @topic_title = title
       puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
@@ -35,7 +36,8 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @code_name == 'emma'? @reply_id = @res["result"]["id"]: @reply_id = @res["data"]["result"]["id"] 
+      @res = @res["data"] if @code_name != 'emma'
+      @reply_id = @res["result"]["id"]
       puts "Reply to topic >>>>>#{topic_id}<<<<<"
       self
     end 
@@ -52,8 +54,9 @@ module ForumApi
       @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{@group_id}/create_poll", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @code_name == 'emma'? @topic_id = @res["result"]["id"]: @topic_id = @res["data"]["result"]["id"]
-      @code_name == 'emma'? title = @res["result"]["title"]: title = @res["data"]["result"]["title"]
+      @res = @res["data"] if @code_name != 'emma'
+      @topic_id = @res["result"]["id"]
+      title = @res["result"]["title"]
       @topic_title = title
       puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
@@ -68,6 +71,7 @@ module ForumApi
       topic_id = args[:topic_id]
       @res = HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/vote", :body => vote_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Topic #{topic_id} is voted"
       self
     end 
@@ -83,7 +87,8 @@ module ForumApi
 
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @code_name == 'emma'? @reply_id = @res["result"]["id"]: @reply_id = @res["data"]["result"]["id"] 
+      @res = @res["data"] if @code_name != 'emma'
+      @reply_id = @res["result"]["id"]
       puts "Reply to topic >>>>>#{topic_id}<<<<<"
       self
     end
@@ -98,6 +103,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
       self
     end
@@ -110,6 +116,7 @@ module ForumApi
 
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{group_id}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "     -----Should Join group #{group_id}-----    "
       get_all_groups
       puts "User current group : >>>#{@all_group_ids} <<<"
@@ -124,6 +131,7 @@ module ForumApi
       unsubscribe_groupid = leave_group_id || GROUP_ID
       @res =  HTTParty.post("#{FORUM_BASE_URL}/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Leave group #{unsubscribe_groupid}"
       self
     end
@@ -137,6 +145,7 @@ module ForumApi
       topic_id = args[:topic_id]
       @res = HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/vote", :body => vote_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Topic #{topic_id} is voted"
       self
     end 
@@ -148,6 +157,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/remove", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       self
       puts "#{topic_id} deleted"
     end
@@ -159,6 +169,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/follow", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       self
       puts "#{user_id} is followed by user #{self.user_id}"
     end
@@ -170,6 +181,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unfollow", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       self
       puts "#{user_id} is unfollowed by user #{self.user_id}"
     end
@@ -181,6 +193,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/block", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       self
       puts "#{user_id} is blocked by user #{self.user_id}"
     end
@@ -192,6 +205,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/#{user_id}/unblock", :body => reply_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       self
       puts "#{user_id} is unblocked by user #{self.user_id}"
     end  
@@ -204,6 +218,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is bookmarked by #{self.user_id}"
       self
     end
@@ -216,6 +231,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/bookmark", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
       self
     end
@@ -228,6 +244,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is upvoted by #{self.user_id}"
       self
     end
@@ -240,6 +257,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is no longer upvoted by #{self.user_id}"
       self
     end
@@ -253,6 +271,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by >>#{self.user_id}<<"
       self
     end
@@ -266,6 +285,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/like", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Comment #{reply_id} under topic #{topic_id}is no longer upvoted by #{self.user_id}"
       self
     end
@@ -278,6 +298,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is downvoted by #{self.user_id}"
       self
     end
@@ -291,6 +312,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
       self
     end
@@ -303,6 +325,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is no longer downvoted by #{self.user_id}"
       self
     end
@@ -316,6 +339,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/reply/#{reply_id}/dislike", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "Comment #{reply_id} under topic #{topic_id}is no longer downvoted by #{self.user_id}"
       self
     end
@@ -328,6 +352,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
@@ -341,6 +366,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
@@ -352,10 +378,10 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.get("#{FORUM_BASE_URL}/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       @all_group_ids = []
       @all_group_names = []
-      @code_name == 'emma'? (temp = @res["groups"]): (temp = @res["data"]["groups"])
-      temp.each do |element|
+      @res["groups"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_group_ids.push v
@@ -401,8 +427,9 @@ module ForumApi
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
-      @code_name == 'emma'? @topic_title =  @res["result"]["title"]: @topic_title =  @res["data"]["result"]["title"] 
-      @code_name == 'emma'? @topic_id = @res["result"]["id"]: @topic_id = @res["data"]["result"]["id"]
+      @res = @res["data"] if @code_name != 'emma'
+      @topic_title =  @res["result"]["title"]
+      @topic_id = @res["result"]["id"]
       puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end
@@ -423,8 +450,9 @@ module ForumApi
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
-      @code_name == 'emma'? @group_id = @res["group"]["id"]: @group_id = @res["data"]["group"]["id"]
-      @code_name == 'emma'? @group_name = @res["group"]["name"]: @group_name = @res["data"]["group"]["name"]
+      @res = @res["data"] if @code_name != 'emma'
+      @group_id = @res["group"]["id"]
+      @group_name = @res["group"]["name"]
       puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end
@@ -437,6 +465,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "TURN OFF CHAT FOR #{self.user_id}"
       self
     end
@@ -449,6 +478,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "TURN ON CHAT FOR #{self.user_id}"
       self
     end
@@ -461,6 +491,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "TURN OFF Signature FOR #{self.user_id}"
       self
     end
@@ -473,6 +504,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "TURN ON Signature FOR #{self.user_id}"
       self
     end
@@ -487,6 +519,7 @@ module ForumApi
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post("#{FORUM_BASE_URL}/chat/new", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "#{self.user_id} send chat request to #{tgt_user_id}"
       self
     end
@@ -498,7 +531,8 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @code_name == 'emma'? @request_id = @res["requests"][0]["id"]: @request_id = @res["data"]["requests"][0]["id"]
+      @res = @res["data"] if @code_name != 'emma'
+      @request_id = @res["requests"][0]["id"]
       self
     end
 
@@ -511,6 +545,7 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.post("#{FORUM_BASE_URL}/chat/accept", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "#{self.user_id} accepts chat request id >>>#{request_id}<<<"
       self
     end
@@ -529,6 +564,7 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.post("#{FORUM_BASE_URL}/chat/reject", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "#{self.user_id} rejects chat request id >>>#{request_id}<<<"
       self
     end
@@ -542,6 +578,7 @@ module ForumApi
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post("#{FORUM_BASE_URL}/chat/remove_by_user", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
       self
     end
@@ -553,9 +590,9 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.get("#{FORUM_BASE_URL}/chats_and_participants", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       @all_participants = []
-      @code_name == 'emma'? temp = @res["participants"]: temp = @res["data"]["participants"]
-      temp.each do |element|
+      @res["participants"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_participants.push v
@@ -580,9 +617,9 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.get("#{FORUM_BASE_URL}/chat/contacts", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       @all_contacts = []
-      @code_name == 'emma'? temp = @res["contacts"]: temp = @res["data"]["contacts"]
-      temp.each do |element|
+      @res["contacts"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_contacts.push v
@@ -607,9 +644,9 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.get("#{FORUM_BASE_URL}/users/blocked", :body => blocked_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
       @all_blocked = []
-      @code_name == 'emma'? temp = @res["result"]: temp = @res["data"]["result"]
-      temp.each do |element|
+      @res["result"].each do |element|
         element.each do |k,v|
           if k == "id"
             @all_blocked.push v

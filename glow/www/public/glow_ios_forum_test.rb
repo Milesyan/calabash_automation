@@ -14,7 +14,6 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 
 module GlowForumIOS
   extend TestHelper 
-  extend ForumApi
 
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
@@ -24,7 +23,7 @@ module GlowForumIOS
   end
 
   class ForumUser < ForumApi::ForumIOS
-
+    include TestHelper
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category, :vote_index
 
