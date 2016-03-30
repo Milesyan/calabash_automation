@@ -13,7 +13,7 @@ GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
 ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
 
 module GlowForumAndroid
-
+  extend TestHelper
 
   GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
   ANDROID_FORUM_BASE_URL = "http://titan-forum.glowing.com/android/forum"
@@ -23,9 +23,9 @@ module GlowForumAndroid
   end
 
   class ForumUser < ForumApiAndroid::ForumAndroid
+    include TestHelper
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category
-
     attr_accessor :res
     attr_accessor :gender
 

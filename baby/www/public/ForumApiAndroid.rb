@@ -3,6 +3,7 @@ module ForumApiAndroid
   ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
 
   class ForumAndroid
+    extend TestHelper 
     attr :forum_code_name
   ########## Community ###########
     def create_topic(args = {})
