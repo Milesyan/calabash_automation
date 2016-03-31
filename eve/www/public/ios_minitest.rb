@@ -16,7 +16,6 @@ module Minitest_ios
     assert_equal u.user_id, u.res["result"]["user_id"]
   end
 
-
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
     u1 = forum_new_user
@@ -45,7 +44,7 @@ module Minitest_ios
     assert_rc u.res
   end
 
-#----- follow/unfollow/block/unblock users
+  #----- follow/unfollow/block/unblock users
 
   def test_follow_user
     u = forum_new_user
@@ -99,7 +98,7 @@ module Minitest_ios
     u.unbookmark_topic u.topic_id
     assert_rc u.res
   end
-#------------Up/Downvote topic/comment--------
+  #------------Up/Downvote topic/comment--------
   
   def test_upvote_topic
     u = forum_new_user
