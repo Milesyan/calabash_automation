@@ -66,14 +66,14 @@ Given(/^A premium user miles2 established chat relationship with a new user "([^
   $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
   $user.establish_chat $new_user
-  if $user.res["data"]["rc"] == 0 
+  if $user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
 Given(/^premium user miles2 established chat relationship with the new user$/) do
   $user.establish_chat $new_user
-  if $user.res["data"]["rc"] == 0 
+  if $user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
@@ -84,7 +84,7 @@ Given(/^A premium user miles2 sent chat request to a new user "([^"]*)"$/) do |n
   $user.remove_all_participants.remove_all_contacts
   $new_user = forum_new_user(first_name: name)
   $user.send_chat_request $new_user.user_id
-  if $user.res["data"]["rc"] == 0 
+  if $user.res["rc"] == 0 
     puts "CHAT REQUEST SENT SUCCESSFULLY"
   end
 end
@@ -292,7 +292,12 @@ Then(/^I should see the chat requst is ignored$/) do
 end
 
 Then(/^I click done to close messages$/) do
-  wait_touch "* marked:'Done'"  
+  begin
+    wait_touch "* marked:'Done'" 
+  rescue RuntimeError
+    wait_touch "* {text CONTAINS 'Accept Request'}"
+    forum_page.click_back_button
+  end 
 end
 
 Then(/^I cannot see a url field in edit profile page$/) do
@@ -374,7 +379,12 @@ Then(/^I check the chat request is received$/) do
 end
 
 Then(/^I click accept request button$/) do
-  wait_touch "* marked:'Accept Request'"
+  begin 
+    wait_for_element_exists "* marked:'Accept Request'", :time_out => 1
+    touch "* marked:'Accept Request'"
+  rescue RuntimeError
+    wait_touch "* {text CONTAINS 'Accept Request'}"
+  end
   wait_touch "* marked:'Confirm'"
 end
 

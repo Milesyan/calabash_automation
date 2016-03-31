@@ -157,10 +157,8 @@ module GlowForumIOS
           "password": password || @password
         }
       }.merge(common_data)
-
       res = HTTParty.post("#{BASE_URL}/api/users/signin", :body => login_data.to_json,
         :headers => { 'Content-Type' => 'application/json' }).to_json
-
       @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
