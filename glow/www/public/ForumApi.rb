@@ -19,8 +19,8 @@ module ForumApi
       puts "Code name #{@code_name}"
       @res = @res["data"] if @code_name != 'emma'
       @topic_id = @res["topic"]["id"]
-      @group_id = @res["topic"]["id"]
-      title = @res["topic"]["id"]
+      @group_id = @res["topic"]["group_id"]
+      title = @res["topic"]["title"]
       @topic_title = title
       puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self

@@ -379,12 +379,7 @@ Then(/^I check the chat request is received$/) do
 end
 
 Then(/^I click accept request button$/) do
-  begin 
-    wait_for_element_exists "* marked:'Accept Request'", :time_out => 1
-    touch "* marked:'Accept Request'"
-  rescue RuntimeError
-    wait_touch "* {text CONTAINS 'Accept Request'}"
-  end
+  premium_page.touch_accept_request
   wait_touch "* marked:'Confirm'"
 end
 
@@ -416,7 +411,7 @@ When(/^I click the name of user "([^"]*)"$/) do |arg1|
 end
 
 And(/^I click settings in chat request page and see edit profile page$/) do
-  wait_touch "* marked:'Accept Request'"
+  premium_page.touch_accept_request
   wait_touch "* {text CONTAINS 'settings'}"
   wait_for_element_exists "* marked:'Edit Profile'"
 end

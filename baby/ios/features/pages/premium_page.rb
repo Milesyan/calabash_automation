@@ -135,4 +135,12 @@ class PremiumPage < Calabash::IBase
     end
   end
 
+  def touch_accept_request
+    begin 
+      wait_for_element_exists "* marked:'Accept Request'", :time_out => 1
+      touch "* marked:'Accept Request'"
+    rescue RuntimeError
+      wait_touch "* {text CONTAINS 'Accept Request'}"
+    end
+  end
 end
