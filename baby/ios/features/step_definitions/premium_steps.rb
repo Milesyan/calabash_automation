@@ -450,7 +450,7 @@ end
 
 #UNDONE
 Then(/^I check the recommended people section and elements$/) do
-  wait_for_element_exists "* id:'home-babies'"
+  wait_for_element_exists "DiscoveredPeopleCollectionViewCell"
 end
 
 When(/^I click chat button in recommended people section$/) do

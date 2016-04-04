@@ -20,7 +20,8 @@ class AppPage < Calabash::IBase
     when "home"
       wait_touch "UITabBarButtonLabel marked:'Home'"
     when "community"
-      wait_touch "UITabBarButtonLabel marked:'Community'"
+      wait_for_element_exists "UITabBarButtonLabel marked:'Community'"
+      touch "UITabBarButtonLabel marked:'Community'"
       sleep 1
       get_started_popup = "* id:'gl-foundation-popup-close'"
       wait_touch get_started_popup if element_exists get_started_popup

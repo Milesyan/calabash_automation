@@ -6,14 +6,22 @@ module Minitest_ios
   def test_create_text_topic
     u = forum_new_user
     u.create_topic
-    # assert that the user_id in the topic should be the user's id
     assert_equal u.user_id, u.res["topic"]["user_id"]
+    assert_equal u.topic_title, u.res["topic"]["title"]
   end
 
   def test_create_poll_topic
     u = forum_new_user
     u.create_poll
     assert_equal u.user_id, u.res["result"]["user_id"]
+    assert_equal u.topic_title, u.res["result"]["title"]
+  end
+
+  def test_create_image_topic
+    u = forum_new_user
+    u.create_photo
+    assert_rc u.res
+    assert_contains 's3.amazonaws.com', u.res["result"]["content"], 'Does not contains image url'
   end
 
   # --- Add comments to a topic
@@ -22,19 +30,26 @@ module Minitest_ios
     u2 = forum_new_user
     u1.create_topic
     u2.reply_to_topic u1.topic_id
-    u2.reply_to_topic u1.topic_id
     assert_equal u1.topic_id,u2.res["result"]["topic_id"]
+    assert_equal u2.user_id,u2.res["result"]["user_id"]
   end
 
   def test_add_image_comments_to_a_topic
-
+    u1 = forum_new_user
+    u2 = forum_new_user
+    u1.create_topic
+    u2.reply_to_topic u1.topic_id
   end
 
   def test_add_comment_and_subreply_to_a_topic
     u = forum_new_user
+    u1 = forum_new_user
     u.create_topic
     u.reply_to_topic u.topic_id
-    u.reply_to_comment u.topic_id, u.reply_id
+    u1.reply_to_comment u.topic_id, u.reply_id
+    assert_equal u.topic_id, u1.res["result"]["topic_id"]
+    assert_equal u.reply_id, u1.res["result"]["reply_to"]
+    assert_equal u1.user_id, u1.res["result"]["user_id"]
   end  
 
   def test_delete_topic
@@ -44,6 +59,14 @@ module Minitest_ios
     assert_rc u.res
   end
 
+  def test_delete_topic_fail
+    u = forum_new_user
+    u1 = forum_new_user
+    u.create_topic
+    u1.delete_topic u.topic_id
+    assert_equal "Post deletion failed. Please try again later.", u1.res["msg"]
+    assert_equal 1, u1.res["rc"]
+  end
   #----- follow/unfollow/block/unblock users
 
   def test_follow_user
@@ -51,8 +74,8 @@ module Minitest_ios
     sleep 1
     u2 = forum_new_user
     u.follow_user u2.user_id
-    puts u.res
     assert_rc u.res
+    assert_equal 1, u.res["result"]
   end
 
   def test_unfollow_user
@@ -62,8 +85,17 @@ module Minitest_ios
     u.follow_user u2.user_id
     u.unfollow_user u2.user_id
     assert_rc u.res
+    assert_equal 1, u.res["result"]
   end
 
+  def test_unfollow_user_fail
+    u = forum_new_user
+    sleep 1
+    u2 = forum_new_user
+    u.unfollow_user u2.user_id
+    assert_rc u.res
+    assert_equal 1, u.res["result"]
+  end
 
   def test_block_user
     u = forum_new_user
@@ -79,23 +111,54 @@ module Minitest_ios
     sleep 1
     u2 = forum_new_user
     u.block_user u2.user_id
+    assert_rc u.res
+    assert_equal 1, u.res["result"]
     u.unblock_user u2.user_id
     assert_rc u.res
+    assert_equal 1, u.res["result"]
   end
 
-  def test_bookmark
+  def test_unblock_user_fail
+    u = forum_new_user
+    sleep 1
+    u2 = forum_new_user
+    u.unblock_user u2.user_id
+    puts u.res
+    assert_rc u.res
+    assert_equal 1, u.res["result"]
+  end
+
+  def test_bookmark_self
     u = forum_new_user
     u.create_topic
     u.bookmark_topic u.topic_id
+    assert_equal 1, u.res["result"]
     assert_rc u.res
   end
 
+  def test_bookmark_other
+    u = forum_new_user
+    u.create_topic
+    u2 = forum_new_user
+    u2.bookmark_topic u.topic_id
+    assert_equal 1, u2.res["result"]
+    assert_rc u2.res
+  end
 
   def test_unbookmark
     u = forum_new_user
     u.create_topic
     u.bookmark_topic u.topic_id
     u.unbookmark_topic u.topic_id
+    assert_equal 1, u2.res["result"]
+    assert_rc u.res
+  end
+
+  def test_unbookmark_fail
+    u = forum_new_user
+    u.create_topic
+    u.unbookmark_topic u.topic_id
+    assert_equal 1, u2.res["result"]
     assert_rc u.res
   end
   #------------Up/Downvote topic/comment--------
@@ -105,7 +168,18 @@ module Minitest_ios
     u.create_topic
     u.upvote_topic u.topic_id
     assert_rc u.res
+    assert_equal 1, u2.res["result"]
   end
+
+  def test_upvote_topic_deleted
+    u = forum_new_user
+    u.create_topic
+    u.delete_topic u.topic_id
+    u.upvote_topic u.topic_id
+    assert_rc u.res
+    assert_equal 1, u.res["result"]
+  end
+
 
   def test_downvote_topic
     u = forum_new_user
@@ -125,7 +199,16 @@ module Minitest_ios
     u = forum_new_user
     u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
     u.downvote_comment u.topic_id, u.reply_id
+    puts u.res
     assert_rc u.res
+  end
+
+  def test_downvote_comment_deleted
+    u = forum_new_user
+    u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
+    u.delete_topic u.topic_id
+    u.downvote_comment u.topic_id, u.reply_id
+    assert_equal 6003, u.res["rc"]
   end
 
   def test_report_topic
@@ -152,12 +235,15 @@ module Minitest_ios
 
   def test_leave_group
     u = forum_new_user
-    u.leave_group 72057594037927941
+    u.leave_group 1
+    assert_rc u.res
   end
 
   def test_get_all_groups
     u = forum_new_user
     u.get_all_groups
+    puts u.all_group_ids
+    puts u.all_group_names
   end
 
   def test_quit_all_groups
@@ -165,50 +251,46 @@ module Minitest_ios
     u.get_all_groups
     u.all_group_ids.each do |group_id|
       u.leave_group group_id
+      assert_rc u.res
     end
   end
 
 
   def test_quit_all_groups_method
     u = forum_new_user.leave_all_groups
-  end
-
-  def test_post_image
-    u = forum_new_user
-    u.create_photo
-    assert_rc u.res
+    puts u.res["subscribed"]
+    assert_equal nil, u.res["subscribed"]
   end
 
   def test_create_group 
     u = forum_new_user
     u.create_group
+    assert_contains 's3.amazonaws.com', u.res["group"]["image"]
     assert_equal u.first_name, u.res["group"]["creator_name"]
   end
 
-  def test_get_all_group_names
-    u = forum_new_user
-    puts u.get_all_group_names
-  end
-  
-  def test_get_all_group_ids
-    u = forum_new_user
-    puts u.get_all_group_ids
-  end
 
   def test_notification
     u = forum_new_user
     u.create_topic
+    puts u.user_id
     u2 = forum_new_user
     u2.reply_to_topic u.topic_id
+    sleep 1
+    u.pull
+    puts u.res["notifications"][0]
+    assert_equal 8, u.res["notifications"][0]["button"]
+    assert_equal 1050,u.res["notifications"][0]["type"]
+    assert_equal "You have a new comment",u.res["notifications"][0]["text"]
   end
 
   def test_add_followings
-    u1= forum_new_user
-    puts u1.res
-    2.times do
-      u = forum_new_user
-      u1.follow_user u.user_id
-    end
+    u = forum_new_user
+    u2 = forum_new_user
+    u.follow_user u2.user_id
+    puts u.res
+    u.follow_user u2.user_id
+    puts u.res
   end
 
   def test_turn_off_chat

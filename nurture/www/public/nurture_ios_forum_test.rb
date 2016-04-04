@@ -132,6 +132,21 @@ module NurtureForumIOS
       self
     end
 
+    def pull
+      pull_data = {
+        "article_ts": 10.days.ago.to_i,
+        "checklist_ts": 0,
+        "sign": "daily_log:-5297321039698049625|daily_task:-4144874413046290064|article_categories:1944778104830470978|health_rules:-4413499579029728433|appointments:-4801534297506013527|readability:571520",
+        "support_postpartum": 1,
+        "hp_ts": 0,
+        "ts": 0,
+        "ut": @ut
+      }.merge(common_data)
+      @res = HTTParty.get("#{BASE_URL}/ios/users/pull", :body => pull_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"]
+      self
+    end   
   end
 end
 
