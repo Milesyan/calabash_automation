@@ -6,12 +6,19 @@ class AppPage < Calabash::IBase
   end
 
   def tap_login_link
+    bypass_continue_as
     wait_for_element_exists "* marked:'LOG\u2028IN'"
     touch "* marked:'LOG\u2028IN'"
     if element_does_not_exist "* marked:'Email'"
       wait_touch "* marked:'LOG\u2028IN'"
     end
     sleep 1
+  end
+
+  def bypass_continue_as
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* {text contains 'Click here to switch user'}"
+    end
   end
 
   def get_started
@@ -73,22 +80,41 @@ class AppPage < Calabash::IBase
     scroll_to_row_with_mark "Logout"
     wait_for_none_animating
     wait_touch "* marked:'Logout'"
-    wait_for_element_exists "* marked:'Get it, Girl'"
+    sleep 0.5
+    if element_does_not_exist "* marked:'Get it, Girl'"
+      wait_for_element_exists "* {text contains 'Continue as'}"
+    end
   end
 
+  def close_community_popup
+    if element_exists  "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'"
+    end
+  end
+
+  def close_chat_popup
+    if element_exists  "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'"
+    end
+    if element_exists "* marked:'Messages'"
+      wait_touch "* marked:'Done'"
+    end
+  end
+
+
   def open(tab_name)
+    wait_touch "* marked:'Me'"
     case tab_name.downcase
     when "home"
       wait_touch "UITabBarButton marked:'Home'"
     when "community"
       wait_touch "UITabBarButtonLabel marked:'Community'"
+      close_community_popup
       if element_does_not_exist "* marked:'New'"
         wait_touch "UITabBarButtonLabel marked:'Community'"
       end
       sleep 1
-      if element_exists  "* id:'gl-foundation-popup-close'"
-        touch "* id:'gl-foundation-popup-close'"
-      end
+      close_community_popup
     when "alert"
       wait_touch "UITabBarButtonLabel marked:'Alert'"
       if element_does_not_exist "* marked:'Notifications'"
@@ -97,5 +123,8 @@ class AppPage < Calabash::IBase
     when "me"
       wait_touch "UITabBarButton marked:'Me'"
     end
+  end
+
+  def finish_tutorial
   end
 end

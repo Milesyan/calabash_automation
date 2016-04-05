@@ -241,6 +241,7 @@ module EveForumAndroid
       @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
         :headers => {'Content-Type' => 'text/plain' })
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
+      @user_id = @res["data"]["user_id"]
       self
     end
 

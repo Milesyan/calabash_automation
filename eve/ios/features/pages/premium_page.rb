@@ -1,20 +1,26 @@
 require 'calabash-cucumber/ibase'
 
 class PremiumPage < Calabash::IBase
+
   def trait
     "*"
   end
 
+  def random_url
+    ran = ('a'..'z').to_a.shuffle[0,8].join
+    $random_url = "www.#{ran}.com"
+  end
+
   def input_url_in_profile_page
-    if element_does_not_exist "* marked:'#{URL}'"
-      wait_touch "* marked:'Link' sibling * index:0"
-      keyboard_enter_text URL
-    end
+    random_url
+    clear_text "* marked:'Link' sibling * index:0"
+    wait_touch "* marked:'Link' sibling * index:0"
+    keyboard_enter_text $random_url
   end
 
   def check_url
-    wait_for_element_exists "* {text CONTAINS '#{URL}'}", :time_out =>3
-    touch "* {text CONTAINS '#{URL}'}"
+    wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :time_out =>3
+    touch "* {text CONTAINS '#{$random_url}'}"
   end
 
   def back_from_web_page

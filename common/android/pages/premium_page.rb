@@ -5,15 +5,20 @@ class PremiumPage < Calabash::ABase
     '*'
   end
 
+  def random_url
+    ran = ('a'..'z').to_a.shuffle[0,8].join
+    $random_url = "www.#{ran}.com"
+  end
+
   def input_url_in_profile_page
-    if element_does_not_exist "* marked:'website Url'"
-      enter_text "* id:'website'", 'www.google.com'
-    end
+    random_url
+    clear_text_in "* id:'website'"
+    enter_text "* id:'website'", $random_url
   end
 
   def check_url
-    wait_for_element_exists "* {text CONTAINS '#{URL}'}", :time_out =>3
-    touch "* {text CONTAINS '#{URL}'}"
+    wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :time_out =>3
+    touch "* {text CONTAINS '#{$random_url}'}"
   end
 
   def back_from_web_page

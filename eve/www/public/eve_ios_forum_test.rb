@@ -209,7 +209,7 @@ module EveForumIOS
     end
 
     
-    def login_with_email(email = nil, password = nil)
+    def login(email = nil, password = nil)
       data = {
         "email": email || @email,
         "password": password || @password,
@@ -231,6 +231,7 @@ module EveForumIOS
       @res = HTTParty.post("#{BASE_URL}/ios/users/login_with_email", :body => data.to_json,
         :headers => {'Content-Type' => 'text/plain' })
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
+      @user_id = @res["data"]["user_id"]
       self
     end
 
@@ -244,7 +245,7 @@ module EveForumIOS
       # get_daily_gems
       signup_with_email
       # get_daily_gems
-      login_with_email
+      login
       self
     end
   end

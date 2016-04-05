@@ -544,8 +544,6 @@ module ForumApiAndroid
       url
       @res = HTTParty.get( url, :body => blocked_data.to_json,
           :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
-      puts @res
-      puts "AAAA"
       @all_blocked= @res["data"]
       @all_blocked
     end     

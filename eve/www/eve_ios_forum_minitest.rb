@@ -36,8 +36,12 @@ class EveTest < Minitest::Test
   end
 
   def premium_login
-    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login_with_email
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
     premium
+  end
+
+  def test_premium
+    up = premium_login
   end
   
 end

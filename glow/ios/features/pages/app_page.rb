@@ -88,4 +88,14 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Join'"
     sleep 2
   end
+
+  def close_chat_popup
+    if element_exists  "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'"
+    end
+    if element_exists "* marked:'Messages'"
+      wait_touch "* marked:'Done'"
+    end
+  end
+
 end
