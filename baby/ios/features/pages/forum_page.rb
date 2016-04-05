@@ -539,7 +539,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_hyperlink_comments
-    wait_touch "UILabel {text CONTAINS 'comment'}"  
+    wait_touch "UILabel {text CONTAINS 'comments'}"  
   end
 
   def hide_topic
