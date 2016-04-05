@@ -30,6 +30,7 @@ class NurtureTest < Minitest::Test
   def test_premium
     u = forum_new_user
     u.get_premium
+    puts u.user_id
   end
 
   def assert_rc(res)

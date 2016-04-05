@@ -18,12 +18,10 @@ class PremiumPage < Calabash::ABase
 
   def check_url
     wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :time_out =>3
+    sleep 0.5
     touch "* {text CONTAINS '#{$random_url}'}"
   end
 
-  def back_from_web_page
-    puts 'Cannot open web page and go back in android'
-  end
 
   def switch_chat_option
     forum_page.scroll_down_to_see 'Turn off Chat'

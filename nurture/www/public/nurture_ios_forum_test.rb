@@ -111,6 +111,7 @@ module NurtureForumIOS
       }.merge(common_data)
       @res = HTTParty.get("http://dragon-bryo.glowing.com/ios/plan/fetch", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      puts @res
       self 
     end
 

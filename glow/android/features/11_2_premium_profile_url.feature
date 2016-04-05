@@ -10,10 +10,17 @@ Feature: Check url field for Premium/Non-premium users
     Then I input URL in edit profile page
     And I click save button
     Then I click the url and check the link works
-    Then I go back to previous page from the pop-up web page
+    And I go back to previous page from the pop-up web page
     And I go back to forum page from forum profile page
     And I logout
-
+    And I login as premium user
+    And I open "community" page
+    When I go to community profile page
+    Then I click the url and check the link works
+    And I go back to previous page from the pop-up web page
+    And I go back to forum page from forum profile page
+    And I logout
+       
   @others_url
   Scenario: Check url not exist in non-premium users profile
     Given A premium user milesp and a non-premium user milesn have been created for test

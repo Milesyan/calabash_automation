@@ -164,7 +164,13 @@ Then(/^I click the url and check the link works$/) do
 end
 
 Then(/^I go back to previous page from the pop-up web page$/) do
-  premium_page.back_from_web_page
+    sleep 2
+    system("adb shell input keyevent KEYCODE_BACK")
+    if element_does_not_exist "*"
+      sleep 3
+      puts "CLICK AGAIN!"
+      system("adb shell input keyevent KEYCODE_BACK")
+    end
 end
 
 Then(/^I check that chat icon does not exist$/) do
