@@ -141,7 +141,7 @@ module Minitest_ios
     u.create_topic
     u2 = forum_new_user
     u2.bookmark_topic u.topic_id
-    assert_equal 1, u2.res["result"]
+    assert_equal 1, u.res["result"]
     assert_rc u2.res
   end
 
@@ -150,7 +150,7 @@ module Minitest_ios
     u.create_topic
     u.bookmark_topic u.topic_id
     u.unbookmark_topic u.topic_id
-    assert_equal 1, u2.res["result"]
+    assert_equal 1, u.res["result"]
     assert_rc u.res
   end
 
@@ -158,7 +158,7 @@ module Minitest_ios
     u = forum_new_user
     u.create_topic
     u.unbookmark_topic u.topic_id
-    assert_equal 1, u2.res["result"]
+    assert_equal 1, u.res["result"]
     assert_rc u.res
   end
   #------------Up/Downvote topic/comment--------
@@ -168,7 +168,7 @@ module Minitest_ios
     u.create_topic
     u.upvote_topic u.topic_id
     assert_rc u.res
-    assert_equal 1, u2.res["result"]
+    assert_equal 1, u.res["result"]
   end
 
   def test_upvote_topic_deleted

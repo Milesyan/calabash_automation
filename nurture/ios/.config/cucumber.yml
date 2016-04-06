@@ -11,5 +11,5 @@ html_report:  -f html -o <%= default_report %>
 
 
 
-default:   -p rerun_out -p html_report
+run:  -p rerun_out -p html_report
 test: NO_STOP=1 --format 'Slowhandcuke::Formatter' -t @wip

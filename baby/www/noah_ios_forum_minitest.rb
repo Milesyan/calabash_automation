@@ -11,7 +11,7 @@ class NoahTest < Minitest::Test
 
 
   def premium_login
-    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login.reset_all_flags
     premium
   end
   

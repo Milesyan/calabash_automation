@@ -82,7 +82,7 @@ module NoahForumAndroid
       @forum_vc = 1
       @forum_time_zone = "American%2FNew_York"
       @forum_code_name = "noah"
-      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&time_zone=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&tz=#{@forum_time_zone}&code_name=#{@forum_code_name}"
     end
 
     def additional_post_data
@@ -182,6 +182,7 @@ module NoahForumAndroid
         @ut = @res["data"]["user"]["encrypted_token"]
         @user_id = @res["data"]["user"]["id"]
         @current_baby_id = @res["data"]["user"]["current_baby_id"]
+        @first_name = @res["data"]["user"]["first_name"]
         log_msg email + " just logged in. [user_id: #{@user_id}]"
         if @res["data"]["babies"].size > 0
           current_baby = @res["data"]["babies"].detect {|b| b["Baby"]["baby_id"] == @current_baby_id }

@@ -4,7 +4,7 @@ module ForumApiAndroid
 
   class ForumAndroid
     extend TestHelper 
-    attr :forum_code_name, :tgt_user_id, :request_id, :all_participants,
+    attr :forum_code_name, :tgt_user_id, :request_id, :all_participants
   ########## Community ###########
     def create_topic(args = {})
       data = {
@@ -15,6 +15,7 @@ module ForumApiAndroid
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      puts @res
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
