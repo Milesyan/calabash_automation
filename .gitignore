@@ -27,6 +27,16 @@ eve/ios/features/screenshots/
 eve/ios/*.html
 eve/ios/*.png
 
+glow/android/reports/*
+glow/ios/reports/*
+nurture/android/reports/*
+nurture/ios/reports/*
+
+baby/android/reports/*
+baby/ios/reports/*
+
+eve/android/reports/*
+eve/ios/reports/*
 
 glow/android/*.html
 glow/ios/features/support/env_miles.rb.example
