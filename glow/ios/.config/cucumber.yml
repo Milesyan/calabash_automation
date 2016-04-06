@@ -5,7 +5,7 @@ default_rerun = "./reports/rerun-#{date}.txt"
 %>
 
 
-common: SCREENSHOT_PATH=./screenshots/ -f 'Slowhandcuke::Formatter' 
+common:  -f 'Slowhandcuke::Formatter' 
 rerun_out: -f rerun -o <%= default_rerun %>
 html_report:  -f html -o <%= default_report %>
 
