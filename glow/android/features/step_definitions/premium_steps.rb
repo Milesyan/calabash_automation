@@ -497,3 +497,54 @@ Then(/^I check the premium banner under discover tab$/) do
   pan "* id:'daimajia_slider_viewpager'", :left
   wait_for_element_exists "* id:'daimajia_slider_image'"
 end
+
+Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
+  $user.reset_all_flags
+  logout_if_already_logged_in
+  app_page.tap_login
+  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  app_page.login_with($user.email,$user.password)
+  sleep 2
+end
+
+Then(/^I turn on all the flags$/) do
+  forum_page.scroll_down_to_see "Turn off signature"
+  sleep 1
+  # if query("* marked:'Hide posts in profile?'")[0]["value"]!= "0"
+  #   screenshot_and_raise("Hide post flag error", :name => "Flag.png")
+  # # elsif query("* marked:'Hide from discovery'")[0]["value"]!= "0"
+  # #   screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
+  # elsif query("* marked:'Turn off Chat'")[0]["value"]!= "0"
+  #   screenshot_and_raise("Turn off chat error", :name => "Flag.png")
+  # elsif query("* marked:'Turn off Signature'")[0]["value"]!= "0"
+  #   screenshot_and_raise("Turn off signature error", :name => "Flag.png")
+  # end
+  wait_touch "* marked:'Hide posts in profile?' sibling *"
+  touch "* marked:'Hide from discovery' sibling *"
+  touch "* marked:'Turn off chat' sibling *"
+  touch "* marked:'Turn off signature' sibling *"
+end
+
+
+Then(/^I check all the flags are turned on$/) do
+  forum_page.scroll_down_to_see 'Turn off signature'
+  # if query("* marked:'Hide posts in profile?'")[0]["value"]!= '1'
+  #   screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
+  # # elsif query("* marked:'Hide from discovery'")[0]["value"]!= '1'
+  # #   screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
+  # elsif query("* marked:'Turn off Chat'")[0]["value"]!= '1'
+  #   screenshot_and_raise("Turn off chat error", :name => "Flag_after_turn_on.png")
+  # elsif query("* marked:'Turn off Signature'")[0]["value"]!= '1'
+  #   screenshot_and_raise("Turn off signature error", :name => "Flag_after_turn_on.png")
+  # end
+  sleep 5
+end
+
+Then(/^I click the requestor's profile photo to see the profile page$/) do
+  wait_touch "* marked:'Check it out'"
+  premium_page.click_name_of_chat_requester
+  wait_touch "* id:'req_in_avatar'"
+  wait_for_element_exists "* marked:'Follow'"
+end
+
+

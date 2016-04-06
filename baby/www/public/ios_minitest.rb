@@ -402,6 +402,11 @@ module Minitest_ios
     puts u.res
   end
 
+  def test_reset_all
+    up = premium_login
+    up.reset_all_flags
+    assert_equal "Updated", up.res["msg"]
+  end
 end
 
 

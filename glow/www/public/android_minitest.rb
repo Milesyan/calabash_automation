@@ -375,6 +375,17 @@ module Minitest_android
     assert_rc up.res
   end
 
+  def test_reset_all
+    u = forum_new_user
+    u.reset_all_flags_close_all
+    u.get_user_info
+    puts u.res
+    u.reset_all_flags
+    u.get_user_info
+    puts u.res
+    # assert_equal "Updated", up.res["msg"]
+  end
+
 end
 
 

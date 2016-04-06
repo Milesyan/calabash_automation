@@ -484,3 +484,71 @@ Then(/^I check the premium banner under discover tab$/) do
   puts "No way to check the image now."
 end
 
+
+Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
+  $user.reset_all_flags
+  logout_if_already_logged_in
+  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  app_page.login($user.email,$user.password)
+  sleep 2
+  app_page.finish_tutorial 
+end
+
+
+Then(/^I turn on all the flags$/) do
+  forum_page.scroll_down_to_see "Turn off Signature"
+  sleep 1
+  if query("UISwitch marked:'Hide posts in profile?'")[0]["value"]!= "0"
+    screenshot_and_raise("Hide post flag error", :name => "Flag.png")
+  # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= "0"
+  #   screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
+  elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= "0"
+    screenshot_and_raise("Turn off chat error", :name => "Flag.png")
+  elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= "0"
+    screenshot_and_raise("Turn off signature error", :name => "Flag.png")
+  end
+  wait_touch "UISwitch marked:'Hide posts in profile?'"
+  touch "UISwitch marked:'Hide from discovery'"
+  touch "UISwitch marked:'Turn off Chat'"
+  touch "UISwitch marked:'Turn off Signature'"
+end
+
+
+Then(/^I check all the flags are turned on$/) do
+  forum_page.scroll_down_to_see 'Turn off Signature'
+  if query("UISwitch marked:'Hide posts in profile?'")[0]["value"]!= '1'
+    screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
+  # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= '1'
+  #   screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
+  elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= '1'
+    screenshot_and_raise("Turn off chat error", :name => "Flag_after_turn_on.png")
+  elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= '1'
+    screenshot_and_raise("Turn off signature error", :name => "Flag_after_turn_on.png")
+  end
+end
+
+Then(/^I click the requestor's profile photo to see the profile page$/) do
+  premium_page.touch_accept_request
+  wait_touch ["* marked:'would like to chat with you.' sibling * index:0","* marked:'would like to chat with you.' sibling * index:1"].sample
+  wait_for_element_exists "* marked:'Follow'"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

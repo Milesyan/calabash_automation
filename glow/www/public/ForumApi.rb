@@ -4,6 +4,7 @@ module ForumApi
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
   
   class ForumIOS
+    include TestHelper
     attr :code_name, :request_id, :all_participants, :all_group_ids, :all_group_names
     def create_topic(args = {})
       topic_data = {
@@ -496,6 +497,7 @@ module ForumApi
       self
     end
 
+
     def turn_on_signature(args={})
       user_data = {
         "code_name": @code_name,
@@ -509,6 +511,19 @@ module ForumApi
       self
     end
 
+    def reset_all_flags(args={})
+      user_data = {
+        "code_name": @code_name,
+        "update_data":{"chat_off":0,"discoverable":1,"signature_on":1,"hide_posts":false},
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.post("#{FORUM_BASE_URL}/user/update", :body => user_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
+      log_important "RESET ALL FLAGS FOR #{self.user_id}"
+      self
+    end
+    
     def send_chat_request(tgt_user_id)
       chat_data = {
         "code_name": @code_name,
@@ -523,6 +538,8 @@ module ForumApi
       puts "#{self.user_id} send chat request to #{tgt_user_id}"
       self
     end
+
+
 
     def get_request_id
       chat_data = {
@@ -663,6 +680,8 @@ module ForumApi
       end
       self
     end
+
+
   end
 
 end

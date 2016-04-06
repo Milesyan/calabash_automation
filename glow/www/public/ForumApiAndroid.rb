@@ -427,6 +427,40 @@ module ForumApiAndroid
       self
     end
 
+    def reset_all_flags
+      data = {
+        "hide_posts": 0,
+        "chat_off":0,
+        "signature_on":1,
+        "discoverable":1
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info?#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "RESET flags #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+    def reset_all_flags_close_all
+      data = {
+        "hide_posts": 1,
+        "chat_off":1,
+        "signature_on":0,
+        "discoverable":0
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/update_basic_info?#{@additional_forum}"
+      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      log_important "RESET flags #{self.user_id} >>#{self.first_name}<<"
+      self
+    end
+
+    def get_user_info
+      data = {
+      }
+      url = "#{ANDROID_FORUM_BASE_URL}/user/#{@user_id}?#{@additional_forum}"
+      @res = HTTParty.get(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      self
+    end
+
     def send_chat_request(tgt_user_id)
       chat_data = {
         "src": 2,
