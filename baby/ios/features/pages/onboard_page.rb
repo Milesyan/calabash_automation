@@ -6,7 +6,7 @@ class OnboardPage < Calabash::IBase
   end
 
   def signup
-    wait_touch "* marked:'Get started!'"
+    wait_touch "* marked:'Sign up!'"
     wait_touch "UITextFieldLabel marked:'Your Name'"
     keyboard_enter_text $user.first_name + " " + $user.last_name
     wait_touch "UITextFieldLabel marked:'MM/DD/YYYY'"

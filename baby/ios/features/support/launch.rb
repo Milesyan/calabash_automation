@@ -36,8 +36,8 @@ After do |scenario|
     calabash_exit
   end
   logger.stop
-  logger.pull_log(user: $user).pretty
-  logger.diff
-  logger.clear
+  # logger.pull_log(user: $user).pretty
+  # logger.diff
+  # logger.clear
 end
 

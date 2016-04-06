@@ -30,7 +30,7 @@ class HomePage < Calabash::IBase
 
   def add_upcoming_nurture_baby
     wait_touch "* marked:'Add my baby'"
-    wait_touch "* marked:'No, no baby yet.'"
+    wait_touch "* marked:'No, not yet.'"
     wait_touch "* marked:'Choose' sibling UITableViewLabel"
     wait_touch "* marked:'#{$user.relation}'"
     wait_touch "* marked:'Done'"
@@ -41,7 +41,7 @@ class HomePage < Calabash::IBase
 
   def add_upcoming_baby(baby)
     wait_touch "* marked:'Add my baby'"
-    wait_touch "* marked:'No, no baby yet.'"
+    wait_touch "* marked:'No, not yet.'"
     wait_touch "* marked:'Enter name'"
     keyboard_enter_text baby.first_name + " " + baby.last_name
     wait_touch "* marked:'Due date' sibling UITableViewLabel"
@@ -87,7 +87,8 @@ class HomePage < Calabash::IBase
 
     touch "UITextView"
     keyboard_enter_text title
-    wait_touch "* marked:'Choose date'"
+    wait_touch "* marked:'Today'"
+    #wait_touch "* marked:'Choose date'"
     picker_set_date_time date
     wait_touch "* marked:'Done'"
 
@@ -182,7 +183,7 @@ class HomePage < Calabash::IBase
   def scroll_to_growth_chart
     sleep 1
     wait_for_element_exists "* marked:'FEED'", time_out: 15
-    until_element_exists "* marked: 'Growth Chart'", action: lambda { scroll "scrollView index:0", :down }
+    until_element_exists "* marked: 'HEAD CIRC.'", action: lambda { scroll "scrollView index:0", :down }
   end
 
   def add_baby_birth_data
@@ -245,7 +246,8 @@ class HomePage < Calabash::IBase
     touch "* marked:'Height' sibling UITableViewLabel"
     sleep 1
     touch "* marked:'#{unit.upcase}'"
-    height = %Q[{0 "#{h} #{unit.downcase}"}]
+    #height = %Q[{0 "#{h} #{unit.downcase}"}]
+    height = %Q[{0 "#{h}"}]
     str = %Q[uia.selectPickerValues('#{height}')]
     uia str
     wait_for_none_animating

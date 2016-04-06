@@ -113,6 +113,10 @@ module BabyIOS
           "birthday": user.birthday,
           "first_name": user.first_name,
           "last_name": user.last_name,
+          "appsflyer_install_data": {
+            "af_message": "organic install",
+            "af_status": "Organic"
+          },
           "email": args[:email] || user.email,
           "password": args[:password] || user.password
         }
@@ -158,7 +162,7 @@ module BabyIOS
         "data": {
           "user": {
             "user_id": @user_id,
-            "sync_time": 0
+            "sync_token": ""
           },
           "babies": []
         },
@@ -168,7 +172,9 @@ module BabyIOS
       @res = self.class.post "/ios/user/pull", options(data)
 
       if @res["rc"] == 0
-        @notifications = @res["data"]["user"]["Notification"]["update"]
+        if @res["data"]["user"]["Notification"]
+          @notifications = @res["data"]["user"]["Notification"]["update"]
+        end
       end
     end
 

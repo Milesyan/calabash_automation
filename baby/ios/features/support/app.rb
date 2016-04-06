@@ -8,22 +8,28 @@ module BabyHelper
     Time.now
   end
 
-  def wait_touch(query_str)
-    begin 
-      tries ||= 3
-      wait_for_elements_exist([query_str])
-      touch(query_str)
-      wait_for_none_animating
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
-      if (tries -= 1) > 0
-        close_popup_if_needed
-        puts "waiting timed out"
-        retry
-      else
-      end
-    end
-  end
+  # def wait_touch(query_str)
+  #   begin 
+  #     tries ||= 1
+  #     wait_for_elements_exist([query_str])
+  #     touch(query_str)
+  #     wait_for_none_animating
+  #   rescue Calabash::Cucumber::WaitHelpers::WaitError
+  #     if (tries -= 1) > 0
+  #       close_popup_if_needed
+  #       puts "waiting timed out"
+  #       retry
+  #     else
+  #     end
+  #   end
+  # end
 
+  def wait_touch(query_str)
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+    wait_for_none_animating
+  end
+  
   def logout_if_already_logged_in
     sleep 1
     wait_for_none_animating

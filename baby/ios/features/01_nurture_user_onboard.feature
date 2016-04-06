@@ -13,3 +13,4 @@ Feature: Nurture users should be able to login to Baby
     And I invite my partner
     And I login
     And I add a baby with nurture pre-filled data
+    And I logout
