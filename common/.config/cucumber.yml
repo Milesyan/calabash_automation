@@ -11,4 +11,4 @@ html_report:  -f html -o <%= default_report %>
 
 
 
-launch:  -p common -p rerun_out -p html_report
+default:  -p common -p rerun_out -p html_report

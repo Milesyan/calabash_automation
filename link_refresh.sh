@@ -17,7 +17,8 @@ do
   rm -r ${APP}/www/public/android_minitest.rb
   rm -r ${APP}/ios/.config
   rm -r ${APP}/android/.config
-
+  mkdir ${APP}/android/.config
+  mkdir ${APP}/ios/.config
   ln common/android/features/1* ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
   ln common/android/steps/* ${APP}/android/features/step_definitions
@@ -29,6 +30,6 @@ do
   ln common/www/test_helper.rb ${APP}/www/public
   ln common/www/ios_minitest.rb ${APP}/www/public
   ln common/www/android_minitest.rb ${APP}/www/public
-  ln common/.config/* ${APP}/ios/.config
-  ln common/.config/* ${APP}/android/.config
+  ln common/.config/* ${APP}/ios/.config/
+  ln common/.config/* ${APP}/android/.config/
 done
