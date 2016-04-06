@@ -5,6 +5,7 @@ end
 
 Given(/^I logout$/) do
   app_page.open("me")
+  sleep 0.5
   app_page.logout
 end
 

@@ -36,6 +36,10 @@ class AppPage < Calabash::ABase
     else 
       touch "android.support.design.widget.TabLayout$TabView index:#{i}"
     end
+    sleep 0.5
+    if element_exists "* marked:'Connect now!'"
+      touch "* marked:'Cancel'"
+    end
   end
 
   def logout
