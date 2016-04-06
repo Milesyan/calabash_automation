@@ -12,3 +12,5 @@ Feature: Start chat requst with others.
     And I go back to previous page from chat request page
     And I go back to community page
     And I logout
+
+  @opt-in_
