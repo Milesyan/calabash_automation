@@ -379,10 +379,14 @@ module Minitest_android
     u = forum_new_user
     u.reset_all_flags_close_all
     u.get_user_info
-    puts u.res
-    u.reset_all_flags
-    u.get_user_info
-    puts u.res
+    res = u.res["data"]
+
+    all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
+    assert_equal [1,0,1,0], all_flags
+    puts all_flags
+    # u.reset_all_flags
+    # u.get_user_info
+    # puts u.res
     # assert_equal "Updated", up.res["msg"]
   end
 

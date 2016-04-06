@@ -528,16 +528,13 @@ end
 
 Then(/^I check all the flags are turned on$/) do
   forum_page.scroll_down_to_see 'Turn off signature'
-  # if query("* marked:'Hide posts in profile?'")[0]["value"]!= '1'
-  #   screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
-  # # elsif query("* marked:'Hide from discovery'")[0]["value"]!= '1'
-  # #   screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
-  # elsif query("* marked:'Turn off Chat'")[0]["value"]!= '1'
-  #   screenshot_and_raise("Turn off chat error", :name => "Flag_after_turn_on.png")
-  # elsif query("* marked:'Turn off Signature'")[0]["value"]!= '1'
-  #   screenshot_and_raise("Turn off signature error", :name => "Flag_after_turn_on.png")
-  # end
-  sleep 5
+  $user.get_user_info
+  res = $user.res["data"]
+  all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
+  if all_flags != [1,0,1,0]
+    screenshot_and_raise "Flags are wrong"
+  end
+  sleep 1
 end
 
 Then(/^I click the requestor's profile photo to see the profile page$/) do
