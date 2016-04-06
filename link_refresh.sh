@@ -15,10 +15,10 @@ do
   rm -r ${APP}/www/public/test_helper.rb
   rm -r ${APP}/www/public/ios_minitest.rb
   rm -r ${APP}/www/public/android_minitest.rb
-  rm -r ${APP}/ios/.config
-  rm -r ${APP}/android/.config
-  mkdir ${APP}/android/.config
-  mkdir ${APP}/ios/.config
+  rm -r ${APP}/ios/.config/*
+  rm -r ${APP}/android/.config/*
+
+
   ln common/android/features/1* ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
   ln common/android/steps/* ${APP}/android/features/step_definitions

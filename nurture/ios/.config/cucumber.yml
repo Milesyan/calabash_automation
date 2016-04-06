@@ -1,0 +1,14 @@
+<%
+date = Time.now.strftime('%Y-%m-%d-%H%M-%S')
+default_report = "./reports/calabash-#{date}.html"
+default_rerun = "./reports/rerun-#{date}.txt"
+%>
+
+
+common: SCREENSHOT_PATH=./screenshots/ -f 'Slowhandcuke::Formatter' 
+rerun_out: -f rerun -o <%= default_rerun %>
+html_report:  -f html -o <%= default_report %>
+
+
+
+default:  -p common -p rerun_out -p html_report
