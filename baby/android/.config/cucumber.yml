@@ -1,15 +1,16 @@
 <%
-date = Time.now.strftime('%Y-%m-%d-%H%M-%S')
-default_report = "./reports/calabash-#{date}.html"
-default_rerun = "./reports/rerun-#{date}.txt"
+date = Time.now.strftime('%m/%d-%H:%M:%S')
+default_report = "./reports/output_#{date}.html"
+default_rerun = "./reports/rerun_#{date}.txt"
 %>
 
 
-common:  -f 'Slowhandcuke::Formatter' 
 rerun_out: -f rerun -o <%= default_rerun %>
 html_report:  -f html -o <%= default_report %>
 
 
 
 run:  -p rerun_out -p html_report
+runpremium: -p rerun_out -p html_report -t @premium
+runforum: -p rerun_out -p html_report -t @forum
 test: NO_STOP=1 --format 'Slowhandcuke::Formatter' -t @wip

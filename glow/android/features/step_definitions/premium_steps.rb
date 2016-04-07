@@ -374,7 +374,7 @@ end
 
 Then(/^I check the chat request is received$/) do
   wait_for_element_exists "* marked:'New Chat Request'"
-  wait_for_element_exists "* marked:'#{$user.first_name} is requesting to chat with you!\n\n'"
+  wait_for_element_exists "* {text contains '#{$user.first_name} is requesting to chat with you!'}"
 end
 
 Then(/^I click accept request button$/) do

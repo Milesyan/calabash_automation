@@ -345,10 +345,14 @@ class ForumPage < Calabash::ABase
   def evoke_search_bar
     if element_exists "* marked:'Search'"
       wait_touch "* marked:'Search'"
-    else 
-      wait_touch "* id:'menu_community_search'"
+    elsif element_exists "* id:'menu_community_search'"
+      touch "* id:'menu_community_search'"
       sleep 0.5
       wait_touch "* id:'menu_search'"
+    else 
+      wait_touch "* marked:'More options'"
+      wait_touch "* marked:'Search'"
+      wait_for_element_does_not_exist "* marked:'Community Settings'"
     end
   end
 
