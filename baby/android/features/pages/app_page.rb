@@ -14,6 +14,7 @@ class AppPage < Calabash::ABase
   def login
     enter_text "* id:'email'", $user.email
     enter_text "* id:'password'", $user.password
+    sleep 1
     touch "* id:'action_login'"
   end
 
@@ -36,8 +37,9 @@ class AppPage < Calabash::ABase
     else 
       touch "android.support.design.widget.TabLayout$TabView index:#{i}"
     end
-    sleep 0.5
+    sleep 1
     if element_exists "* marked:'Connect now!'"
+      sleep 0.5
       touch "* marked:'Cancel'"
     end
   end
