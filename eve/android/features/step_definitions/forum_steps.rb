@@ -826,7 +826,9 @@ Then(/^I check the fab menu under discover tab$/) do
   sleep 1
   check_element_exists "* marked:'Create a group'"
   #Eve and baby
-  #forum_page.touch_floating_menu
+  if $user.code_name == 'noah' || $user.code_name == 'lexie'
+    forum_page.touch_floating_menu
+  end
   #sleep 1
 end
 

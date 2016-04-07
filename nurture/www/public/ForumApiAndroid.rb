@@ -4,7 +4,7 @@ module ForumApiAndroid
 
   class ForumAndroid
     extend TestHelper 
-    attr :forum_code_name, :tgt_user_id, :request_id, :all_participants
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name
   ########## Community ###########
     def create_topic(args = {})
       data = {
@@ -15,7 +15,6 @@ module ForumApiAndroid
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{ANDROID_FORUM_BASE_URL}/group/#{group_id}/topic?#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts @res
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
@@ -41,7 +40,7 @@ module ForumApiAndroid
 
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
-      if @forum_code_name != 'lexie'
+      if @code_name != 'lexie'
         topic_data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
@@ -350,7 +349,7 @@ module ForumApiAndroid
 
     def create_group(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
-      if @forum_code_name != "lexie"
+      if @code_name != "lexie"
         topic_data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
@@ -571,7 +570,7 @@ module ForumApiAndroid
     def get_all_blocked
       blocked_data= {
       }
-      if ['noah', 'glow'].include? @forum_code_name
+      if ['noah', 'glow'].include? @code_name
         url = "#{ANDROID_FORUM_BASE_URL}/user/blocked_users?#{@additional_forum}"
       else
         url = "#{ANDROID_FORUM_BASE_URL}/user/blocked_user_ids?#{@additional_forum}"
@@ -584,7 +583,7 @@ module ForumApiAndroid
     end     
 
     def remove_all_blocked
-      if @forum_code_name == 'noah'
+      if @code_name == 'noah'
         _blocked_users =[]
         data = self.get_all_blocked
         data.each do |element|

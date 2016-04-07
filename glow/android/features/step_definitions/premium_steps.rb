@@ -164,10 +164,10 @@ Then(/^I click the url and check the link works$/) do
 end
 
 Then(/^I go back to previous page from the pop-up web page$/) do
-    sleep 2
+    sleep 3
     system("adb shell input keyevent KEYCODE_BACK")
+    sleep 3
     if element_does_not_exist "*"
-      sleep 3
       puts "CLICK AGAIN!"
       system("adb shell input keyevent KEYCODE_BACK")
     end
@@ -351,6 +351,7 @@ Given(/^I send a message with text "([^"]*)"$/) do |arg1|
 end
 
 Then(/^I should see the chat history has been deleted$/) do
+  touch "* marked:'Delete'"
   sleep 2
   check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
@@ -519,7 +520,11 @@ Then(/^I turn on all the flags$/) do
   # elsif query("* marked:'Turn off Signature'")[0]["value"]!= "0"
   #   screenshot_and_raise("Turn off signature error", :name => "Flag.png")
   # end
-  wait_touch "* marked:'Hide posts in profile?' sibling *"
+  begin
+    wait_touch "* marked:'Hide posts in profile' sibling *"
+  rescue RuntimeError
+    wait_touch "* marked:'Hide posts in profile?' sibling *"
+  end
   touch "* marked:'Hide from discovery' sibling *"
   touch "* marked:'Turn off chat' sibling *"
   touch "* marked:'Turn off signature' sibling *"
@@ -532,7 +537,7 @@ Then(/^I check all the flags are turned on$/) do
   res = $user.res["data"]
   all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
   if all_flags != [1,0,1,0]
-    screenshot_and_raise "Flags are wrong"
+    screenshot_and_raise "Flags are wrong",:name => "flags_from_www_are_wrong.png"
   end
   sleep 1
 end

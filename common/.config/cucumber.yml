@@ -1,7 +1,7 @@
 <%
 date = Time.now.strftime('%m/%d-%H:%M:%S')
 default_report = "./reports/output_#{date}.html"
-default_rerun = "./reports/rerun_#{date}.txt"
+default_rerun = "rerun_#{date}.txt"
 %>
 
 

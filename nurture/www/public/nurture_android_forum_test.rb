@@ -45,8 +45,8 @@ module NurtureForumAndroid
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
       @forum_android_version = "20000"
       @forum_time_zone = "American\/New_York"
-      @forum_code_name = "kaylee"
-      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
+      @code_name = "kaylee"
+      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@code_name}"
     end
 
     def additional_post_data
@@ -55,7 +55,7 @@ module NurtureForumAndroid
         "android_version": @forum_android_version,
         "device_id": @forum_device_id,
         "random": @forum_random,
-        "code_name": @forum_code_name
+        "code_name": @code_name
       }
     end
     

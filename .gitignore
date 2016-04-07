@@ -64,3 +64,14 @@ nurture/android/*.png
 nurture/android/*.html
 nurture/android/test_servers/
 nurture/www/images/
+
+baby/android/*.txt
+glow/android/*.txt
+nurture/android/*.txt
+eve/android/*.txt
+
+baby/ios/*.txt
+glow/ios/*.txt
+nurture/ios/*.txt
+eve/ios/*.txt
+

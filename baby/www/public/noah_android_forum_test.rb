@@ -43,7 +43,7 @@ module NoahForumAndroid
       @birth_headcirc = args[:birth_headcirc] || args[:birth_head]
       @headcirc_all = []
       @ethnicity = [1]
-      @forum_code_name = 'noah'
+      @code_name = 'noah'
     end
   end
 
@@ -81,8 +81,8 @@ module NoahForumAndroid
       @forum_android_version = "1.0_beta_test_miles"
       @forum_vc = 1
       @forum_time_zone = "American%2FNew_York"
-      @forum_code_name = "noah"
-      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&tz=#{@forum_time_zone}&code_name=#{@forum_code_name}"
+      @code_name = "noah"
+      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&tz=#{@forum_time_zone}&code_name=#{@code_name}"
     end
 
     def additional_post_data
@@ -93,7 +93,7 @@ module NoahForumAndroid
         "android_version": @forum_android_version,
         "vc": @forum_vc,
         "time_zone": @forum_time_zone,
-        "code_name": @forum_code_name
+        "code_name": @code_name
       }
     end
     

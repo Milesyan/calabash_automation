@@ -50,9 +50,9 @@ module EveForumAndroid
       @forum_android_version = "Eve_1.0_miles_test"
       @forum_app_version = "HAHAHA_2"
       @forum_time_zone = "Asia\/Shanghai"
-      @forum_code_name = "lexie"
+      @code_name = "lexie"
       @forum_ts = Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,3].join
-      @additional_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@forum_code_name}"
+      @additional_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@code_name}"
       @additional_post_data = "device_id=#{@forum_device_id}&app_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}"
     end
 
@@ -93,7 +93,7 @@ module EveForumAndroid
         "random": @forum_random,
         "ts": @forum_ts,
         "is_guest": 0,
-        "code_name": @forum_code_name
+        "code_name": @code_name
       }
     end
 

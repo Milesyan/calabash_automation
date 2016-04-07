@@ -45,8 +45,8 @@ module GlowForumAndroid
       @forum_android_version = "Miles_test"
       @forum_vc = 999
       @forum_time_zone = "Asia\/Shanghai"
-      @forum_code_name = "emma"
-      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@forum_code_name}"
+      @code_name = "emma"
+      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@code_name}"
     end
 
     def random_str
