@@ -726,7 +726,7 @@ end
 
 
 Then(/^I should still see the comment$/) do
-  check_element_exists "* marked:'#{$hidereply_content}'"
+  wait_for_element_exists "* marked:'#{$hidereply_content}'"
   puts "I can still see comment #{$hidereply_content}"
 end
 

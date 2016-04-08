@@ -15,7 +15,7 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     wait_touch "* marked:'Check it out'"
   when "1055"
     # wait_touch "* marked:'Check it out'"
-    wait_touch "* {text CONTAINS '5 people liked'}"
+    wait_touch "* marked:'5 people liked \"notification_1055\"!'"
   when ""
     puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"

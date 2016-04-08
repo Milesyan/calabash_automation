@@ -250,7 +250,7 @@ Then(/^I should see the send request dialog$/) do
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_touch "* marked:'Learn more'" 
+  premium_page.click_upgrade_premium
   sleep 1
   wait_touch "* marked:'OK'" 
   # wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
@@ -297,7 +297,7 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat request is ignored$/) do
-  sleep 1
+  sleep 2
   check_element_does_not_exist "* marked:'milesp'"
 end
 
@@ -377,7 +377,9 @@ end
 
 Then(/^I check the chat request is received$/) do
   wait_for_element_exists "* marked:'New Chat Request'"
-  wait_for_element_exists "* marked:'#{$user.first_name} is requesting to chat with you!'"
+  wait_for(:time_out=>2) do
+    element_exists("* marked:'#{$user.first_name} is requesting to chat with you!'")||element_exists("* marked:'#{$user.first_name} is requesting to chat with you!\n\n'")
+  end
 end
 
 Then(/^I click accept request button$/) do
@@ -475,11 +477,15 @@ When(/^I click chat button in recommended people section$/) do
 end
 
 Then(/^I can see a chat request is sent or premium prompt dialog$/) do
-  begin
-    wait_for_element_exists "* marked:'Learn more'", :time_out => 1
-  rescue RuntimeError => e 
-    wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 1
-  end  
+  # wait_for_element_exists "* marked:'Learn more'", :time_out => 1
+  options = {:timeout => 2,
+             :retry_frequency => 0.2,
+             :post_timeout => 0.1,
+             :timeout_message => "Time out for chat or premium prompt"}
+  wait_for(options) do
+    element_exists("* marked:'Learn more'")|| element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
+  end
+  # wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 1
   premium_page.close_request_dialog
 end
 
