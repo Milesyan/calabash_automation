@@ -72,7 +72,7 @@ class AppPage < Calabash::IBase
   end
   
   def finish_tutorial
-    puts "NO TUTORIAL"
+    puts "NO TUTORIAL IN BABY"
   end
 
   def ntf_join_group

@@ -110,7 +110,35 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
-    puts "No tutorial"
+    when_element_exists("NewDateButton index:2", :timeout => 10)
+    if element_exists "* id:'tutorial-arrow-right'"
+      puts "NEED TUTORIAL IN GLOW"
+      until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
+      wait_for_none_animating
+      #wait_touch "NewDateButton index:1"
+      wait_touch "* marked:'Today'"
+      wait_for_none_animating
+      from = "NewDateButton index:2"
+      to = "* marked:'Complete log!'"
+      until_element_does_not_exist("* marked:'Pull down to see the full calendar view'", :action => lambda { pan from, to, duration: 1 } )  
+      wait_for_none_animating
+
+      from = "* marked:'WED'"
+      to = "* marked:'Sex'" #if ["iui", "ivf", "med", "prep"].include? $user.type
+      until_element_does_not_exist("* marked:'Pull down to see the small calendar view'", :action => lambda { pan from, to, duration: 1 })
+      wait_for_none_animating
+      
+      touch_later_link
+      wait_for_none_animating
+    end
+  end
+
+  def touch_later_link
+    begin
+      when_element_exists("* marked:'Later'", :timeout => 3)
+      touch "* marked:'Later'"
+    rescue # Calabash::Cucumber::WaitHelpers::WaitError
+    end
   end
 
 end

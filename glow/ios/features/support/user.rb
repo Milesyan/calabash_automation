@@ -3,9 +3,9 @@ require 'json'
 
 PASSWORD = 'Glow12345'
 
-GROUP_ID = 5 # local group id 
+GROUP_ID = 3 # local group id 
 #NOTE!!! The TARGET_GROUP_NAME must be corresponding to GROUP_ID
-TARGET_GROUP_NAME = "High Risk Pregnancies"
+TARGET_GROUP_NAME = "1st Child"
 
 
 BASE_URL = "http://dragon-emma.glowing.com"

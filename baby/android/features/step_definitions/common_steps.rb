@@ -11,6 +11,8 @@ end
 
 Then(/^I touch the "(.*?)" button$/) do |text|
   touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
 
 Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|

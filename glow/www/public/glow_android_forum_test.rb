@@ -8,7 +8,7 @@ require_relative 'ForumApiAndroid'
 IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 PASSWORD = 'Glow12345'
-GROUP_ID = 5
+GROUP_ID = 3
 GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
 ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
 

@@ -17,6 +17,7 @@ module Glow
   def logout_if_already_logged_in
     sleep 1
     if already_logged_in?
+      app_page.finish_tutorial
       app_page.dismiss_install_message
       app_page.open("me")
       app_page.open_settings
