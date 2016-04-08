@@ -22,6 +22,10 @@ class AppPage < Calabash::IBase
   end 
 
   def open_login_link 
+    sleep 1
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* {text CONTAINS 'Click here'}"
+    end
     wait_touch "* marked:'Log in'"
     if element_does_not_exist "* marked:'Email'"
       wait_touch "* marked:'Log in'"
@@ -60,21 +64,26 @@ class AppPage < Calabash::IBase
   end
   
   def open(tab_name)
+    wait_for_element_exists "UITabBar"
+    sleep 1
     case tab_name.downcase
     when "home"
-      wait_touch "UITabBarButtonLabel marked:'Home'"
+      wait_touch "* marked:'Home'"
     when "community"
-      wait_touch "UITabBarButtonLabel marked:'Community'"
+      wait_touch "* marked:'Community'"
       sleep 1
       if element_exists  "* id:'gl-foundation-popup-close'"
         touch "* id:'gl-foundation-popup-close'"
       end
+      if element_does_not_exist "* marked:'New'"
+        touch "* marked:'Community'"
+      end
     when "genius"
-      wait_touch "UITabBarButtonLabel marked:'Genius'"
+      wait_touch "* marked:'Genius'"
     when "alert"
-      wait_touch "UITabBarButtonLabel marked:'Alert'"
+      wait_touch "* marked:'Alert'"
     when "me"
-      wait_touch "UITabBarButtonLabel marked:'Me'"
+      wait_touch "* marked:'Me'"
       sleep 1
       if element_exists "* marked:'gl foundation popup close'"
         touch "* marked:'gl foundation popup close'"
