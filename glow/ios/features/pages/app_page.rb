@@ -75,6 +75,8 @@ class AppPage < Calabash::IBase
       if element_exists  "* id:'gl-foundation-popup-close'"
         touch "* id:'gl-foundation-popup-close'"
       end
+      wait_for_element_exists "* marked:'Community'"
+      sleep 0.5
       if element_does_not_exist "* marked:'New'"
         touch "* marked:'Community'"
       end
