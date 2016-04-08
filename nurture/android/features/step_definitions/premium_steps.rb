@@ -325,7 +325,13 @@ end
 #----CHAT WINDOW---
 Then(/^I go to the chat window for the new user$/) do
   wait_for_element_exists "* marked:'Messages'"
-  wait_touch "* marked:'#{$new_user.first_name}'"
+  attempt = 0
+  begin 
+    wait_touch "* marked:'#{$new_user.first_name}'"
+  rescue RuntimeError
+    retry if attempt <3
+    attempt += 1
+  end 
   wait_for_element_exists "* marked:'Type something'"
 end
 
