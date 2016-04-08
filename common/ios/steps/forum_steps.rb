@@ -792,7 +792,7 @@ Then(/^I can see many groups$/) do
 end
 
 Then(/^I touch button containing text "Check it out!"$/) do
-  wait_touch "* {text CONTAINS 'Check it out!'}"
+  wait_touch "* {text CONTAINS 'Check it out'}"
 end 
 
 # -------NEW Invite and hide post flag----------------
@@ -825,6 +825,10 @@ Then(/^I scroll down the screen$/) do
   forum_page.scroll_down
 end
 
+Then(/^I scroll up the screen$/) do
+  forum_page.scroll_up
+end
+
 When(/^I wait for 2 seconds for the next page$/) do
   sleep 2
 end
@@ -832,3 +836,25 @@ end
 Then(/^I scroll down to see "([^"]*)"$/) do |arg1|
   forum_page.scroll_down_to_see arg1
 end
+
+Then(/^I should see the floating buttons for creating topics$/) do
+  check_element_exists "* marked:'Poll'"
+end
+
+Then(/^I should not see the floating buttons for creating topics$/) do
+  check_element_does_not_exist "* marked:'Poll'"
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,7 @@ Feature: Check function in chat settings
 
   @delete_chat_history
   Scenario: Check delete chat history.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 
@@ -18,7 +18,7 @@ Feature: Check function in chat settings
 
   @show_all_images
   Scenario: Check show all images.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 
@@ -33,7 +33,7 @@ Feature: Check function in chat settings
 
   @block_user_chat
   Scenario: Check block user.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 
@@ -51,7 +51,7 @@ Feature: Check function in chat settings
 
   @delete_user
   Scenario: Check delete user.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 
@@ -64,7 +64,7 @@ Feature: Check function in chat settings
 
   @report_user
   Scenario: Check report user
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 

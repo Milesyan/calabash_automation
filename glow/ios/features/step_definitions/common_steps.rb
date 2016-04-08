@@ -4,7 +4,11 @@ Then(/^I logout$/) do
   app_page.logout
 end
 
-Then(/^I touch "(.*?)" button|link$/) do |text|
+Given(/^I touch "(.*?)" button$/) do |text|
+  wait_touch "* marked:'#{text}'"
+end
+
+Then(/^I touch "(.*?)" link$/) do |text|
   wait_touch "* marked:'#{text}'"
 end
 

@@ -56,7 +56,9 @@ class PremiumPage < Calabash::ABase
   end
 
   def click_upgrade_premium
-    wait_touch "* marked:'Learn more'"
+    sleep 1
+    touch "* marked:'Learn more'" if element_exists "* marked:'Learn more'"
+    touch "* marked:'Try for FREE'" if element_exists "* marked:'Try for FREE'"
   end
 
   def enter_messages
@@ -128,7 +130,7 @@ class PremiumPage < Calabash::ABase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for_element_exists "* marked:'Glow Premium Only'"
+      wait_for_element_exists "* marked:'Try for FREE'"
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Type something'"

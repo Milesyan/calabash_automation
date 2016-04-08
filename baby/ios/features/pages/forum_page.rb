@@ -109,13 +109,13 @@ class ForumPage < Calabash::IBase
   end  
 
   def edit_topic_voted (args1)
-    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+    wait_touch "label marked:'#{args1}'"
     wait_touch "* id:'community-dots'"
     wait_touch "UILabel marked:'Edit this post'"
   end
 
   def edit_topic(args1)
-    wait_touch "label {text CONTAINS '#{args1}'} index:0"
+    wait_touch "label marked:'#{args1}'"
     wait_touch "* id:'community-dots'"
     wait_touch "UILabel marked:'Edit this post'"
     wait_for_none_animating
@@ -289,6 +289,10 @@ class ForumPage < Calabash::IBase
 
   def scroll_down
     swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }
+  end
+
+  def scroll_up
+    swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }
   end
 
   def click_cancel

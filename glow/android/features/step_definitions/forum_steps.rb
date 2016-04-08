@@ -311,6 +311,7 @@ Given(/^I open "(.*?)" tab in community$/) do |tab_name|
 end
 
 Given(/^I scroll down and wait for a while$/) do
+  sleep 1
   scroll_down
   sleep 0.5
 end
@@ -394,11 +395,13 @@ Then (/^I go back to group$/) do
 end
 
 Then (/^I go back to previous page$/) do
+  sleep 1
   forum_page.click_back_button
   sleep 1
 end
 
 Then (/^I go to previous page$/) do
+  sleep 1
   forum_page.click_back_button
   sleep 1
 end
@@ -607,6 +610,7 @@ Then(/^I go back to user profile page and check the changes in profile page$/) d
 end
 
 Then(/^I go back to forum page from forum profile page$/) do
+  sleep 1
   forum_page.click_back_button
 end
 
@@ -727,8 +731,9 @@ Then(/^I should still see the comment$/) do
 end
 
 Then(/^I should still see the topic$/) do
+  sleep 2
   check_element_exists "* marked:'#{$user2.topic_title}'"
-  puts "I can sitll see topic #{$user2.topic_title}"
+  puts "I can still see topic #{$user2.topic_title}"
 end
 
 

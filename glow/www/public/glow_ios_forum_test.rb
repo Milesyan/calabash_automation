@@ -58,8 +58,7 @@ module GlowForumIOS
         "random" => random_str,
       }
     end
-
-
+    
     def ttc_signup(args = {})
       age = args[:age] || 25
       data = {

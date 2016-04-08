@@ -44,7 +44,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def enter_premium_profile
-    wait_touch "* marked:'miles2'"
+    wait_touch "* marked:'miles3'"
   end
 
   def enter_non_premium_profile

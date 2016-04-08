@@ -2,7 +2,7 @@
 Feature: Check chat relationship and forum relationship.
   @request_follow
   Scenario: Send a chat request will automatically follow the user
-    Given A premium user miles2 and a non-premium user milesn have been created for test
+    Given A premium user miles3 and a non-premium user milesn have been created for test
     And I create another non-premium user "Charlotte" and create a topic in the test group with topic name "Test request chat auto follow"
     And I login as premium user
     And I open "community" page
@@ -19,7 +19,7 @@ Feature: Check chat relationship and forum relationship.
 
   @block_black_list
   Scenario: Block a person will automatically put her/him in the forum blocked list.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 

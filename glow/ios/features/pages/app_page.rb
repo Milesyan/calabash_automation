@@ -109,4 +109,8 @@ class AppPage < Calabash::IBase
     end
   end
 
+  def finish_tutorial
+    puts "No tutorial"
+  end
+
 end

@@ -15,7 +15,7 @@ class NurtureTest < Minitest::Test
   end
 
   def premium_login
-    premium = ForumUser.new(:email=>"miles2@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login
     premium
   end
 
@@ -48,7 +48,10 @@ class NurtureTest < Minitest::Test
     assert_rc u.res
   end
 
-
+  # def test_sign_up
+  #   u = ForumUser.new(:email=>"miles3@g.com", :password => "111111", :first_name=>'miles3').signup
+  #   puts u.res
+  # end
 
 end
 

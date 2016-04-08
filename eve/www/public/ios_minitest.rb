@@ -260,6 +260,8 @@ module Minitest_ios
     u = forum_new_user.leave_all_groups
     puts u.res["subscribed"]
     assert_equal nil, u.res["subscribed"]
+    u.leave_all_groups
+    puts u.res
   end
 
   def test_create_group 
@@ -407,6 +409,17 @@ module Minitest_ios
     up.reset_all_flags
     assert_equal "Updated", up.res["msg"]
   end
+
+  def test_free_user
+    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
+  def test_premium_user
+    ForumUser.new(:email => "miles3@g.com", :password => "111111").login.leave_all_groups.join_group
+  end
+
+
+
 end
 
 

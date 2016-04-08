@@ -98,6 +98,7 @@ module NurtureForumIOS
       }.merge(common_data)
       @res = HTTParty.post("#{BASE_URL}/ios/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
+      puts @res
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
       @preg_id = @res["data"]["pregnancies"].first["id"]

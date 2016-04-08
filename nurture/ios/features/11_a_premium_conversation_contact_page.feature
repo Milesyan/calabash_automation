@@ -20,7 +20,7 @@ Feature: Check contact page features.
 
   @start_chat
   Scenario: Click name of people with chat relationship established will go to chat window.
-    Given A premium user miles2 established chat relationship with a new user "Holmes"
+    Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
     And I open "community" page
     And I go to messages 

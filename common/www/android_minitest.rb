@@ -93,7 +93,6 @@ module Minitest_android
     sleep 1
     u2 = forum_new_user
     u.block_user u2.user_id
-    puts u.res
     assert_rc u.res
   end
 

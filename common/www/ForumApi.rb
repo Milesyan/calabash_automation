@@ -382,6 +382,7 @@ module ForumApi
       @res = @res["data"] if @code_name != 'emma'
       @all_group_ids = []
       @all_group_names = []
+      puts @res
       @res["groups"].each do |element|
         element.each do |k,v|
           if k == "id"

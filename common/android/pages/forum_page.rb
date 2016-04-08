@@ -197,7 +197,7 @@ class ForumPage < Calabash::ABase
   
   def edit_topic_voted (args1)
     sleep 2
-    wait_touch "* {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* marked:'#{args1}'"
     sleep 1
     wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Edit this post'"
@@ -205,7 +205,7 @@ class ForumPage < Calabash::ABase
 
   def edit_topic(args1)
     sleep 0.5
-    wait_touch "* {text CONTAINS '#{args1}'} index:0"
+    wait_touch "* marked:'#{args1}'"
     sleep 2
     wait_touch "* id:'topic_menu'"
     sleep 1
@@ -324,9 +324,9 @@ class ForumPage < Calabash::ABase
 
   def enter_topic(args1)
     sleep 2
-    wait_for_elements_exist "* {text CONTAINS '#{args1}'} index:0"
+    wait_for_elements_exist "* marked:'#{args1}'"
     sleep 0.5
-    touch "* {text CONTAINS '#{args1}'} index:0"
+    touch "* marked:'#{args1}'"
     sleep 1
   end
 

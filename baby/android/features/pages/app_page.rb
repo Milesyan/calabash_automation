@@ -65,4 +65,7 @@ class AppPage < Calabash::ABase
     sleep 2
   end
 
+  def signup_flow
+  end
+
 end

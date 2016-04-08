@@ -3,7 +3,7 @@ Feature: Start chat requst with others.
 
   @opt-in_setting
   Scenario: Enter setting page in chat request.
-    Given A premium user miles2 sent chat request to a new user "Albert"
+    Given A premium user miles3 sent chat request to a new user "Albert"
     And I login as the new user
     When I open "alert" page
     Then I check the chat request is received 
@@ -15,7 +15,7 @@ Feature: Start chat requst with others.
 
   @opt-in_profile
   Scenario: Check the profile photo is clickable in chat request dialog.
-    Given A premium user miles2 sent chat request to a new user "Albert"
+    Given A premium user miles3 sent chat request to a new user "Albert"
     And I login as the new user
     When I open "alert" page
     Then I check the chat request is received 

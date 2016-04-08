@@ -34,6 +34,7 @@ end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
+  sleep 1
   app_page.tap_login
   puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login_with($new_user.email,$new_user.password)
@@ -351,7 +352,8 @@ Given(/^I send a message with text "([^"]*)"$/) do |arg1|
 end
 
 Then(/^I should see the chat history has been deleted$/) do
-  touch "* marked:'Delete'"
+  sleep 0.5
+  touch "* marked:'Delete'" if element_exists "* marked:'Delete'"
   sleep 2
   check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
@@ -375,7 +377,7 @@ end
 
 Then(/^I check the chat request is received$/) do
   wait_for_element_exists "* marked:'New Chat Request'"
-  wait_for_element_exists "* {text contains '#{$user.first_name} is requesting to chat with you!'}"
+  wait_for_element_exists "* marked:'#{$user.first_name} is requesting to chat with you!'"
 end
 
 Then(/^I click accept request button$/) do
