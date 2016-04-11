@@ -161,6 +161,7 @@ module GlowForumIOS
       @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
+      @first_name = @res["user"]["first_name"]
       puts "Login User id is #{@user_id}"
       self
     end

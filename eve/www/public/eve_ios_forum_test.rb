@@ -232,6 +232,7 @@ module EveForumIOS
         :headers => {'Content-Type' => 'text/plain' })
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
+      @first_name = @res["data"]["first_name"]
       self
     end
 

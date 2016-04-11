@@ -293,7 +293,8 @@ end
 
 Then(/^I click done to close messages$/) do
   begin
-    wait_touch "* marked:'Done'" 
+    wait_for_element_exists "* marked:'Done'",:time_out=>1
+    touch "* marked:'Done'" 
   rescue RuntimeError
     wait_touch "* {text CONTAINS 'Accept Request'}"
     forum_page.click_back_button

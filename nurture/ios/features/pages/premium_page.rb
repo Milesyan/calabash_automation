@@ -68,9 +68,7 @@ class PremiumPage < Calabash::IBase
     sleep 0.5
     wait_touch "* marked:'New chat request.'"
     sleep 1
-    if element_does_not_exist "* marked:'Enter Message'"
-      wait_touch "* marked:'New chat request.'"
-    end
+    touch "* marked:'New chat request.'" if element_exists "* marked:'New chat request.'"
   end
 
   def enter_new_user_profile

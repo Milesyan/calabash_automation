@@ -174,6 +174,7 @@ module GlowForumAndroid
       @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/signin", :body => data.to_json,
         :headers => {'Content-Type' => 'application/json' })
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
+      @first_name = @res["user"]["first_name"]
       self
     end
 

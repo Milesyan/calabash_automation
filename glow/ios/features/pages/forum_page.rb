@@ -105,7 +105,12 @@ class ForumPage < Calabash::IBase
   end  
 
   def click_back_button
-    wait_touch "* marked:'Back'"
+    sleep 1
+    if element_exists "* marked:'Back'"
+      touch "* marked:'Back'" 
+    else 
+      touch "* marked:'Close'"
+    end
   end  
 
   def edit_topic_voted (args1)

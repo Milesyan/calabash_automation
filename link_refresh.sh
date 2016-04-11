@@ -17,7 +17,8 @@ do
   rm -r ${APP}/www/public/android_minitest.rb
   rm -r ${APP}/ios/.config/*
   rm -r ${APP}/android/.config/*
-
+  rm -r ${APP}/ios/Gemfile*
+  rm -r ${APP}/android/Gemfile*
 
   ln common/android/features/*.feature ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
@@ -32,4 +33,6 @@ do
   ln common/www/android_minitest.rb ${APP}/www/public
   ln common/.config/* ${APP}/ios/.config/
   ln common/.config/* ${APP}/android/.config/
+  ln common/Gemfile* ${APP}/ios/
+  ln common/Gemfile* ${APP}/android/
 done
