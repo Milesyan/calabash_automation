@@ -7,6 +7,7 @@ class AppPage < Calabash::ABase
 
 
   def tap_login
+    pass_sso
     puts "TOUCH LOGIN HERE "
     touch "* marked:'Log in'"
   end
@@ -19,11 +20,18 @@ class AppPage < Calabash::ABase
   end
 
   def login_with(email, password)
+    pass_sso
     touch "* marked:'Log in'"
     enter_text "* id:'email'", email
     enter_text "* id:'password'", password
     sleep 1
     touch "* id:'action_login'"
+  end
+
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* marked:'Sign up with another account'"
+    end
   end
 
   def open(tab_name)
@@ -66,6 +74,22 @@ class AppPage < Calabash::ABase
   end
 
   def signup_flow
+    pass_sso
+    wait_touch "* marked:'Sign up!'"
   end
 
+
+  def touch_terms
+    x,y,width = forum_page.get_element_x_y 'terms'
+    perform_action('touch_coordinate',(x+width*0.4), y+45)
+  end
+
+  def touch_privacy_policy
+    x,y,width = forum_page.get_element_x_y 'terms'
+    perform_action('touch_coordinate',(x+width*0.55), y+45)
+  end
+
+  def hint_section 
+    wait_for_element_exists "* marked:'terms'"
+  end
 end

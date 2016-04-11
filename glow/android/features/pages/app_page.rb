@@ -64,4 +64,50 @@ class AppPage < Calabash::ABase
     sleep 2
   end
   
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* marked:'Sign up with another account'"
+    end
+  end
+
+  def signup_flow
+    pass_sso
+    touch "* marked:'Sign up'"
+    touch "* id:'ttc_text'"
+    
+    touch "* id:'children_count_picker'"
+    touch "* marked:'1'"
+    touch "* id:'ttc_length_text_view'"
+    touch "* marked:'Set'"
+    touch "* id:'bmi_calculator'"
+    enter_text "* id:'lb_editor'", "144"
+    touch "* id:'ft_spinner'"
+    touch "* marked:'5 FT'"
+    touch "* id:'in_spinner'"
+    touch "* marked:'6 IN'"
+    touch "* marked:'Set'"
+    touch "* marked:'Next'"
+
+    touch "* id:'cycle_length'"
+    touch "* marked:'30 days'"
+    touch "* id:'first_pb'"
+    touch "* id:'month_day'"
+    touch "* id:'next_action'" # DONE button
+    touch "* id:'next_action'"
+  end
+
+
+  def touch_terms
+    x,y,width = forum_page.get_element_x_y 'tos'
+    perform_action('touch_coordinate',(x+width*0.4), y+40)
+  end
+
+  def touch_privacy_policy
+    x,y,width = forum_page.get_element_x_y 'tos'
+    perform_action('touch_coordinate',(x+width*0.55), y+40)
+  end
+
+  def hint_section 
+    wait_for_element_exists "* marked:'tos'"
+  end
 end

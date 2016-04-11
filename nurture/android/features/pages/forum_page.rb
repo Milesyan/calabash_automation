@@ -868,6 +868,5 @@ class ForumPage < Calabash::ABase
     sleep 2
     touch "* marked:'#{TARGET_GROUP_NAME}' sibling * index:0"
   end
-
 end
 

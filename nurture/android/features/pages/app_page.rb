@@ -6,6 +6,7 @@ class AppPage < Calabash::ABase
   end
 
   def tap_login
+    pass_sso
     puts "TOUCH LOGIN HERE "
     x,y,width = forum_page.get_element_x_y "log_in"
     perform_action('touch_coordinate',(x+width*0.3), y)
@@ -28,6 +29,12 @@ class AppPage < Calabash::ABase
       bypass_nurture_tutorial
     end
     app_page.open "genius"
+  end
+
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* marked:'Sign up with another account'"
+    end
   end
 
   def bypass_nurture_tutorial
@@ -78,4 +85,55 @@ class AppPage < Calabash::ABase
     wait_touch "* marked:'Join group'"
     sleep 2
   end
+
+  def signup_flow
+    wait_touch "* marked:'Get started'"
+    wait_touch "* marked:'Choose'"
+    wait_touch "* id:'text1' index:0"
+    wait_touch "* id:'yes_selector'"
+    wait_touch "* id:'due_date_button'"
+    wait_touch "* marked:'OK'"
+    wait_touch "* marked:'Next'"
+    wait_touch "* id:'how_pregnant_button'"
+    wait_touch "* id:'text1' index:0"
+    wait_touch "* id:'weight_button'"
+    enter_text "* marked:'Weight'", "100"
+    wait_touch "* marked:'Set'"
+    wait_touch "* id:'height_button'"
+    wait_touch "* id:'ft_spinner'"
+    wait_touch "* id:'text1' index:1"
+    wait_touch "* id:'in_spinner'"
+    wait_touch "* id:'text1' index:1"
+    wait_touch "* marked:'Set'"
+    wait_touch "* marked:'Next'"
+    wait_for_element_exists "* marked:'Email'"
+  end
+
+
+  def touch_terms
+    x,y,width = forum_page.get_element_x_y 'bottom_hint'
+    perform_action('touch_coordinate',(x+width*0.4), y+80)
+  end
+
+  def touch_privacy_policy
+    x,y,width = forum_page.get_element_x_y 'bottom_hint'
+    perform_action('touch_coordinate',(x+width*0.55), y+80)
+  end
+
+  def hint_section 
+    wait_for_element_exists "* marked:'button_hint'"
+  end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -80,5 +80,29 @@ class AppPage < Calabash::ABase
     wait_touch "* marked:'Join group'"
     sleep 2
   end
+
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* marked:'Sign up with another account'"
+    end
+  end
+
+  def signup_flow
+    pass_sso
+  end
+
+  def touch_terms
+    x,y,width = forum_page.get_element_x_y 'termsAndPolicy'
+    perform_action('touch_coordinate',(x+width*0.6), y+10)
+  end
+
+  def touch_privacy_policy
+    x,y,width = forum_page.get_element_x_y 'termsAndPolicy'
+    perform_action('touch_coordinate',(x+width*0.85), y+10)
+  end
+
+  def hint_section 
+    wait_for_element_exists "* marked:'termsAndPolicy'"
+  end
   
 end
