@@ -114,13 +114,15 @@ class ForumPage < Calabash::IBase
   end  
 
   def edit_topic_voted (args1)
-    wait_touch "label marked:'#{args1}'"
+    wait_touch "* marked:'#{args1}'"
     wait_touch "* id:'community-dots'"
     wait_touch "UILabel marked:'Edit this post'"
   end
 
   def edit_topic(args1)
-    wait_touch "label marked:'#{args1}'"
+    sleep 1
+    wait_touch "* marked:'#{args1}'"
+    sleep 1
     wait_touch "* id:'community-dots'"
     wait_touch "UILabel marked:'Edit this post'"
     wait_for_none_animating
@@ -137,6 +139,28 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text("Modified content")
     wait_touch "label text:'Update'"
   end
+
+  def edit_poll_topic
+    sleep 1
+    wait_touch "* marked:'    create poll by www api'"
+    sleep 1
+    wait_touch "* id:'community-dots'"
+    wait_touch "UILabel marked:'Edit this post'"
+    wait_for_none_animating
+    sleep 1
+    puts $user.topic_title
+    
+    wait_touch "UIWebView"
+    scroll "scrollView", :up
+    wait_for_none_animating
+    wait_touch "UITextFieldLabel"
+    #keyboard_enter_text('Delete')
+    keyboard_enter_text("Modified title")
+    wait_touch "UIWebView index:0"
+    keyboard_enter_text("Modified content")
+    wait_touch "label text:'Update'"
+  end
+
 
   def add_comment
     wait_touch "* marked:'Add a comment'"

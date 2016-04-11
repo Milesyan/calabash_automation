@@ -31,7 +31,7 @@ Feature: User edit topics.
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    Then I edit the topic "create poll by www api" and change the title and content
+    Then I edit the topic create poll by www api and change the title and content
     Then I should see the topic is posted successfully
     And I logout
 
@@ -43,6 +43,6 @@ Feature: User edit topics.
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    Then I edit the topic "create poll by www api" and change the title and content
+    Then I edit the topic create poll by www api and change the title and content
     Then I should see the topic is posted successfully
     And I logout

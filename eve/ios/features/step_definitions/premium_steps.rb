@@ -246,7 +246,9 @@ Then(/^I should see the send request dialog$/) do
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_for_element_exists "* {text CONTAINS 'Get Glow Premium'}", :time_out => 3
+  wait_for(:time_out => 3) do
+    element_exists("* {text CONTAINS 'Get Glow Premium'}") || element_exists("* marked:'Try for FREE'")
+  end
 end
 
 Then(/^I click send request button$/) do
@@ -459,11 +461,9 @@ When(/^I click chat button in recommended people section$/) do
 end
 
 Then(/^I can see a chat request is sent or premium prompt dialog$/) do
-  begin
-    wait_for_element_exists "* {text CONTAINS 'Get Glow Premium'}", :time_out => 1
-  rescue RuntimeError => e 
-    wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 1
-  end  
+    wait_for(:time_out=>3) do
+      element_exists("* {text CONTAINS 'Get Glow Premium'}") || element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
+    end
   premium_page.close_request_dialog
 end
 
@@ -472,7 +472,7 @@ When(/^I click see all button in recommended people section$/) do
 end
 
 Then(/^I can see the list and check the elements$/) do
-  wait_for_element_exists "* text:'Find other women in the community to chat with!'"
+  wait_for_element_exists "* text:'Find friends & chat in private!'"
 end
 
 When(/^I click chat button in recommended people list$/) do

@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
 ruby '2.2.1'
-gem 'calabash-android', '~> 0.6.0'
+gem 'calabash-cucumber', '0.18.2'
+gem 'run_loop',  '2.0.9'
 gem 'm', '~> 1.4.0'
 gem 'minitest-reporters', '1.1.5'
 gem 'minitest', '5.7.0'
 gem 'httparty', '0.13.7'
-gem 'test-unit'
+gem 'activesupport', '4.2.6'
+gem 'mime-types', '3.0'

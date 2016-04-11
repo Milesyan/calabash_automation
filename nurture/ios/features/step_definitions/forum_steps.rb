@@ -422,6 +422,11 @@ Then(/^I edit the topic "([^"]*)" and change the title and content$/) do |topic_
   forum_page.edit_topic topic_name
 end
 
+Then(/^I edit the topic create poll by www api and change the title and content$/) do
+  forum_page.edit_poll_topic
+end
+
+
 Then(/^I edit the topic "([^"]*)" which has been voted$/) do |topic_name|
   forum_page.edit_topic_voted topic_name
 end

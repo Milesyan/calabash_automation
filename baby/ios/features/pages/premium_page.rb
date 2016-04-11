@@ -56,7 +56,9 @@ class PremiumPage < Calabash::IBase
   end
 
   def click_upgrade_premium
-    wait_touch "UIButton marked:'Get Glow Premium'"
+    sleep 1
+    touch "UIButton marked:'Get Glow Premium'" if element_exists "UIButton marked:'Get Glow Premium'"
+    touch "* marked:'Try for FREE'" if element_exists "* marked:'Try for FREE'"
   end
 
   def enter_messages
@@ -131,7 +133,9 @@ class PremiumPage < Calabash::IBase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for_element_exists "UIButton marked:'Get Glow Premium'"
+      wait_for(:time_out=>3) do
+        element_exists("UIButton marked:'Get Glow Premium'") || element_exists("UIButton marked:'Try for FREE'")
+      end
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Enter Message'"
