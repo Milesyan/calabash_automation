@@ -11,5 +11,5 @@ Feature: Check notifications about chat
     And I go back to previous page
     And I wait for 2 seconds for the next page
     And I click done to close messages
-    And I go back to community page
+    # And I go back to community page
     And I logout

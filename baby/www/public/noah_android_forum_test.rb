@@ -79,10 +79,9 @@ module NoahForumAndroid
       @forum_random = rand.to_s[2..15]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
       @forum_android_version = "1.0_beta_test_miles"
-      @forum_vc = 1
       @forum_time_zone = "American%2FNew_York"
       @code_name = "noah"
-      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&vc=#{@forum_vc}&tz=#{@forum_time_zone}&code_name=#{@code_name}"
+      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&tz=#{@forum_time_zone}&code_name=#{@code_name}"
     end
 
     def additional_post_data
@@ -91,7 +90,6 @@ module NoahForumAndroid
         "random": @forum_random,
         "device_id": @forum_device_id,
         "android_version": @forum_android_version,
-        "vc": @forum_vc,
         "time_zone": @forum_time_zone,
         "code_name": @code_name
       }

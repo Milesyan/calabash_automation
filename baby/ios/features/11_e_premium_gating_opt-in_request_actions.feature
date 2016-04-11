@@ -10,7 +10,6 @@ Feature: Start chat requst with others.
     Then I click settings in chat request page and see edit profile page
     And I go back to forum page from forum profile page
     And I go back to previous page from chat request page
-    And I go back to community page
     And I logout
 
   @opt-in_profile
@@ -22,5 +21,4 @@ Feature: Start chat requst with others.
     Then I click the requestor's profile photo to see the profile page
     And I go back to forum page from forum profile page
     And I go back to previous page from chat request page
-    And I go back to community page
     And I logout
