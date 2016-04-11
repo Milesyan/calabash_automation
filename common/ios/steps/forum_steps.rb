@@ -134,11 +134,11 @@ end
 
 Given(/^(\d+) other users upvote the comment and (\d+) other users downvote the comment$/) do |arg1, arg2|
   arg1.to_i.times do
-    new_user = forum_new_user.upvote_comment $user.topic_id, $first_comment_id
+    new_user = ntf_user.upvote_comment $user.topic_id, $first_comment_id
     puts "#{new_user.first_name} upvoted comment #{$first_comment_id} under #{$user.topic_id}  >> #{$user.topic_title} << "
   end
   arg2.to_i.times do
-    new_user = forum_new_user.downvote_comment $user.topic_id, $first_comment_id
+    new_user = ntf_user.downvote_comment $user.topic_id, $first_comment_id
     puts "#{new_user.first_name} downvoted comment #{$first_comment_id} under #{$user.topic_id} >> #{$user.topic_title} << "
   end
 end

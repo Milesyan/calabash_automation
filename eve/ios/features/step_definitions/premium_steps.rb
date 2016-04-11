@@ -329,7 +329,7 @@ Then(/^I go to the chat window for the new user$/) do
     attempts = attempts + 1
     check_element_exists "* marked:'Enter Message'"
   rescue RuntimeError
-    wait_touch "* marked:'#{$new_user.first_name}'" if attempts < 3
+    wait_touch "* marked:'#{$new_user.first_name}'" if attempts < 5
   end
 end
 
@@ -420,6 +420,7 @@ And(/^I click settings in chat request page and see edit profile page$/) do
 end
 
 When(/^I swipe the conversation log and click delete$/) do
+  sleep 3
   swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
   sleep 2
   wait_touch "* marked:'Delete'"

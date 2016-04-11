@@ -5,10 +5,12 @@ Then(/^I logout$/) do
 end
 
 Given(/^I touch "(.*?)" button$/) do |text|
+  sleep 1
   wait_touch "* marked:'#{text}'"
 end
 
 Then(/^I touch "(.*?)" link$/) do |text|
+  sleep 1
   wait_touch "* marked:'#{text}'"
 end
 
