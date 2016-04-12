@@ -45,3 +45,5 @@ Feature: Chat request -> accept/ignore.
     Then I should see the chat requst is ignored
     And I click done to close messages
     And I logout
+
+  # @block_chat_request

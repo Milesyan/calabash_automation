@@ -21,8 +21,10 @@ Feature: Test hide/report topic/comment.
     And I go to the first group
     And I enter topic created by another user
     And I report the topic by reason "Wrong group"
+    And I type in report reason and click flag
     Then I should still see the topic
     And I report the topic by reason "Spam"
+    And I type in report reason and click flag
     And I click confirm to hide it
     Then I should not see the topic hidden by me
     And I logout
@@ -49,6 +51,7 @@ Feature: Test hide/report topic/comment.
     And I go to the first group
     And I enter topic created by another user
     And I report the comment by reason "Spam"
+    And I type in report reason and click flag
     And I click confirm to hide it
     Then I should not see the comment hidden by me
     And I go back to previous page
@@ -69,7 +72,7 @@ Feature: Test hide/report topic/comment.
       |Obscene      |
       |Spam         |
       |Solicitation |
-      |Other        |
+      # |Other        |
       |Cancel       |
     And I report the topic by reason "Other"
     And I type in report reason and click flag
@@ -81,7 +84,7 @@ Feature: Test hide/report topic/comment.
       |Obscene|
       |Spam|
       |Solicitation|
-      |Other|
+      # |Other|
       |Cancel|
     And I report the comment by reason "Other"
     And I type in report reason and click flag
