@@ -147,6 +147,23 @@ class OnboardPage < Calabash::IBase
     wait_for_none_animating
   end
 
+  def choose_one_day_period
+    wait_touch "button marked:'M/D/Y'"
+    wait_touch "* marked:'Today'"
+    p1, p2 = query "GLCalendarRangePoint"
+    p = 0
+    if p1["rect"]["y"].to_f > p2["rect"]["y"].to_f 
+      p = 0
+    elsif p1["rect"]["x"].to_f > p2["rect"]["x"].to_f
+      p = 0
+    else
+      p = 1
+    end
+    pan "GLCalendarRangePoint index:#{p}", "* marked:'Today'"
+    wait_touch "button marked:'Done'"
+    wait_for_none_animating
+  end
+
   def choose_fertility_treatment_clinic(name='No one')
     wait_touch "PillButton index:0"
     wait_touch "* marked:'#{name}'"
