@@ -6,12 +6,16 @@ end
 
 Given(/^I touch "(.*?)" button$/) do |text|
   sleep 1
-  wait_touch "* marked:'#{text}'"
+  touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
 
 Then(/^I touch "(.*?)" link$/) do |text|
   sleep 1
-  wait_touch "* marked:'#{text}'"
+  touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
 
 Then(/^I wait until I see "(.*?)"$/) do |text|

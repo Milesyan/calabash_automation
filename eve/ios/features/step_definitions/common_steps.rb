@@ -24,11 +24,17 @@ end
 #OLD
 
 Given(/^I touch "(.*?)" button$/) do |text|
-  wait_touch "* marked:'#{text}'"
+  sleep 1
+  touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
 
 Then(/^I touch "(.*?)" link$/) do |text|
-  wait_touch "* marked:'#{text}'"
+  sleep 1
+  touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
 
 

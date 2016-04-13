@@ -1,6 +1,10 @@
 Then(/^I touch the "(.*?)" button$/) do |text|
+  sleep 1
   touch "* marked:'#{text}'"
+  sleep 0.5
+  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
 end
+
 
 Given(/^I open "(.*?)" page$/) do |page|
   app_page.open(page.downcase)

@@ -10,6 +10,7 @@ Given(/^I logout$/) do
 end
 
 Then(/^I touch the "(.*?)" button$/) do |text|
+  sleep 1
   touch "* marked:'#{text}'"
   sleep 0.5
   touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
