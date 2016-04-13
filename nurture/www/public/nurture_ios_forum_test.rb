@@ -64,8 +64,9 @@ module NurtureForumIOS
         "app_version" => "2.9.0",
         "locale" => "en_US",
         # "time_zone"=> "Asia\/Shanghai",
-        "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
-        "model" => "iPhone7,1",
+        # "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
+        "device_id" => "VpqHBZ32za3BmwWj9DzKy4Hv-TPf1AaKNi89OZhCpRqc4K6YE6Zan-y8"+('A'..'Z').to_a.shuffle[0,9].join,
+        "model" => "x86_64",
       }
     end
     

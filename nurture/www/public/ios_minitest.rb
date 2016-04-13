@@ -421,15 +421,34 @@ module Minitest_ios
     # assert_equal "You have a new comment",u.res["notifications"][0]["text"]
   end
 
-  def get_notification(user)
-    user.pull
-    puts user.res["notifications"]
-  end
+
 
   def test_premium_login
     up = premium_login
     puts up.res["data"]["pregnancies"].first["id"]
   end
+
+  def test_availability
+    up = premium_login
+    u = forum_new_user
+    up.availability u.user_id
+    assert_equal "Please send chat request first.", up.res["msg"]
+    up.send_chat_request u.user_id
+    up.availability u.user_id
+    assert_equal "Your chat request is pending response.", up.res["msg"]
+  end
+
+  def test_chat_request_notification
+    up = premium_login
+    u = forum_new_user
+    get_notification u
+    # up.availability u.user_id
+    # assert_equal "Please send chat request first.", up.res["msg"]
+    up.send_chat_request u.user_id
+    sleep 1
+    get_notification u
+  end
+
 
 end
 

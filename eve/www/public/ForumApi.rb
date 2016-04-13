@@ -681,6 +681,24 @@ module ForumApi
       self
     end
 
+    def availability(tgt_user_id)
+      chat_data = {
+        "code_name": @code_name,
+        "auto_confirm": 0,
+        "counterpart_id": tgt_user_id,
+        "ut": @ut
+      }.merge(common_data)
+      @tgt_user_id = tgt_user_id
+      @res = HTTParty.get("#{FORUM_BASE_URL}/chat/availability", :body => chat_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
+      self
+    end
+
+    def get_notification(user=self)
+      user.pull
+      puts user.res["notifications"]
+    end    
 
   end
 

@@ -83,6 +83,8 @@ Given(/^A premium user miles3 sent chat request to a new user "([^"]*)"$/) do |n
   $user.login.turn_on_chat
   $user.remove_all_participants.remove_all_contacts
   $new_user = forum_new_user(first_name: name)
+  $new_user.get_notification
+  $user.availability $new_user.user_id
   $user.send_chat_request $new_user.user_id
   if $user.res["rc"] == 0 
     puts "CHAT REQUEST SENT SUCCESSFULLY"
@@ -300,7 +302,7 @@ Then(/^I click done to close messages$/) do
     end
     touch "* marked:'Done'"
   rescue RuntimeError
-    touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"j
+    touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"
     forum_page.click_back_button
   end 
 end
