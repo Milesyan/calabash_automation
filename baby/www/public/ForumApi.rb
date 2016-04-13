@@ -77,22 +77,22 @@ module ForumApi
       self
     end 
 
-    def reply_to_topic(topic_id, args = {})
-      reply_data = {
-        "code_name": @code_name,
-        "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
-        "anonymous": 0,
-        "reply_to": 0,
-        "ut": @ut
-      }.merge(common_data)
+    # def reply_to_topic(topic_id, args = {})
+    #   reply_data = {
+    #     "code_name": @code_name,
+    #     "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
+    #     "anonymous": 0,
+    #     "reply_to": 0,
+    #     "ut": @ut
+    #   }.merge(common_data)
 
-      @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @res = @res["data"] if @code_name != 'emma'
-      @reply_id = @res["result"]["id"]
-      puts "Reply to topic >>>>>#{topic_id}<<<<<"
-      self
-    end
+    #   @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/create_reply", :body => reply_data.to_json,
+    #     :headers => { 'Content-Type' => 'application/json' })
+    #   @res = @res["data"] if @code_name != 'emma'
+    #   @reply_id = @res["result"]["id"]
+    #   puts "Reply to topic >>>>>#{topic_id}<<<<<"
+    #   self
+    # end
 
     def reply_to_comment(topic_id,reply_id,args = {})
       reply_data = {

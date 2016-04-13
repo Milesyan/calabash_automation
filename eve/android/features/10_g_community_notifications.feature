@@ -8,6 +8,7 @@ Feature: Test all community notifications
     TYPE_FORUM_REPLY_PARTICIPANT = 1051
     TYPE_FORUM_SUBREPLY = 1053
     TYPE_FORUM_TOPIC_LIKED_DAILY = 1055  # only in app notification
+    1056 Participant subreply 
     TYPE_FORUM_REPLY_LIKED = 1059
     TYPE_FORUM_POLL_VOTED = 1060
 
@@ -37,6 +38,7 @@ Feature: Test all community notifications
         |1051   |
         |1053   |
         |1055   |
+        |1056   |
         |1059   |
         |1060   |
         |1088   |

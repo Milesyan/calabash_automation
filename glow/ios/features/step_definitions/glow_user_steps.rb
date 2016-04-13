@@ -22,6 +22,9 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     wait_touch "* marked:'Check out the results'"
   when "1091"
     wait_touch "* marked:'Follow back'"
+  when "1056"
+    wait_for_element_exists "* {text CONTAINS 'commentAAA'}"
+    wait_touch "* {text CONTAINS 'Check it out'}"
   when "1092"
     sleep 10
   end
@@ -38,6 +41,9 @@ Then(/^I should see the page is navigating to the right page$/) do
     wait_for_element_exists "* {text CONTAINS 'Reply_#{$ntf_type}'}"
   when "1091"
     wait_for_element_exists "* marked:'Follow'"
+  when "1056"
+    wait_for_element_exists "* marked:'notification_1056'"
+    wait_for_element_exists "* marked:'commentAAA'"
   end
 end
 
