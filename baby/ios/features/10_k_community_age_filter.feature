@@ -1,4 +1,4 @@
-@age_filter @wip
+@age_filter
 Feature: Age filter for topic and comments
   Scenario: Test age filter for topics
 

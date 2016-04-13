@@ -65,8 +65,9 @@ Given(/^A premium user miles3 established chat relationship with a new user "([^
   $user.turn_on_chat
   $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
-  $user.establish_chat $new_user
-  if $user.res["rc"] == 0 
+  $new_user.get_notification
+  $new_user.establish_chat $user
+  if $new_user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
@@ -542,8 +543,17 @@ end
 
 
 
+Then(/^I check the accept chat request notification is received$/) do
+  wait_for_element_exists "* marked:'Chat Now!'"
+end
 
+When(/^I click chat now button$/) do
+  touch "* marked:'Chat Now!'"
+end
 
+Then(/^I should see the messages page$/) do
+  wait_for_element_exists "* marked:'Messages'"
+end
 
 
 
