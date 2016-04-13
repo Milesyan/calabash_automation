@@ -838,6 +838,17 @@ end
 Then(/^I scroll down the screen$/) do
   forum_page.scroll_down
 end
+Then(/^I scroll down the screen with strong force$/) do
+  3.times do 
+    swipe :up, force: :strong
+  end
+end
+
+Then(/^I scroll up the screen with strong force$/) do
+  3.times do 
+    swipe :down, force: :strong
+  end
+end
 
 Then(/^I scroll up the screen$/) do
   forum_page.scroll_up
@@ -859,10 +870,47 @@ Then(/^I should not see the floating buttons for creating topics$/) do
   check_element_does_not_exist "* marked:'Poll'"
 end
 
+When(/^I wait for the animation is finished$/) do
+  wait_for_none_animating
+  sleep 5
+end
+
+#----AGE FILTER----
+Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
+  $young_user = forum_new_user :birthday => 892461217, :first_name => "Age"
+  $young_user.create_topic :topic_title => "Test age filter topic"
+  puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
+end
+
+Then(/^I go to test group and check the topic exists$/) do
+  forum_page.select_target_group
+  wait_for_element_exists "* marked:'Test age filter topic'"
+end
 
 
+Then(/^I go to age filter and choose the 3rd choice$/) do
+  forum_page.go_to_community_settings
+  wait_touch "* marked:'13 - 18'"
+  touch "* marked:'19 - 25'"
+  forum_page.click_save_button
+end
+  
+Then(/^I go to test group and check the topic not exist$/) do
+  forum_page.select_target_group
+  check_element_does_not_exist "* marked:'Test age filter topic'"
+end
 
+Given(/^a forum user with the age (\d+) and create a topic in test group and some test comments and subreplies are created$/) do |arg1|
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
+Then(/^I check I can see the user's comment and subreply$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
+
+Then(/^I check I can not see the user's comment and subreply$/) do
+  pending # Write code here that turns the phrase above into concrete actions
+end
 
 
 

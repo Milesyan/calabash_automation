@@ -29,7 +29,7 @@ module NurtureForumIOS
   end
 
   class ForumUser < ForumApi::ForumIOS
-    attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
+    attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks, :birthday
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
     attr_accessor :reply_content,:group_id,:all_group_ids
     attr_accessor :tgt_user_id, :request_id, :all_participants
@@ -41,6 +41,7 @@ module NurtureForumIOS
       @password = args[:password] || PASSWORD
       @due_in_weeks = args[:due_in_weeks]
       @code_name = 'kaylee'
+      @birthday = args[:birthday] || 566452800
     end
 
     def uuid
@@ -91,7 +92,7 @@ module NurtureForumIOS
           "password": @password,
           "tz": "Asia\/Shanghai",
           "last_name": "Kaylee",
-          "birthday": 566452800,
+          "birthday": @birthday,
           "email": @email,
           "as_partner": false,
           "first_name": @first_name

@@ -14,10 +14,10 @@ Feature: Check floating button display logic.
     And I open "community" page
     When I go to the first group
     Then I should see the floating buttons for creating topics
-    When I scroll down the screen
+    When I scroll down the screen with strong force
     Then I should not see the floating buttons for creating topics
     When I wait for the animation is finished
     Then I should not see the floating buttons for creating topics
     When I scroll up the screen
-    Then I should see the floating buttons for createing topics
+    Then I should see the floating buttons for creating topics
     And I logout

@@ -121,7 +121,7 @@ class AppPage < Calabash::ABase
   end
 
   def hint_section 
-    wait_for_element_exists "* marked:'button_hint'"
+    wait_for_element_exists "* id:'button_hint'"
   end
 end
 
