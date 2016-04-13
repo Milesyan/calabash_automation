@@ -73,6 +73,7 @@ class AppPage < Calabash::ABase
       element_exists "* marked:'Log out'"
     end
     touch "* marked:'Log out'"
+    sleep 2
   end
 
   def forum_element
@@ -121,7 +122,7 @@ class AppPage < Calabash::ABase
   end
 
   def hint_section 
-    wait_for_element_exists "* id:'button_hint'"
+    wait_for_element_exists "* id:'bottom_hint'"
   end
 end
 
