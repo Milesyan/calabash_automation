@@ -295,10 +295,12 @@ end
 
 Then(/^I click done to close messages$/) do
   begin
-    wait_for_element_exists "* marked:'Done'",:time_out=>1
-    touch "* marked:'Done'" 
+    wait_for(:time_out=>2) do
+      element_exists "* marked:'Done'"
+    end
+    touch "* marked:'Done'"
   rescue RuntimeError
-    wait_touch "* {text CONTAINS 'Accept Request'}"
+    touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"j
     forum_page.click_back_button
   end 
 end
@@ -343,6 +345,7 @@ end
 
 Then(/^I confirm to block the user$/) do
   wait_touch "* marked:'Yes, I am sure'"
+  sleep 1
 end
 
 Then(/^I confirm to delete the user$/) do
@@ -500,7 +503,7 @@ end
 Then(/^I turn on all the flags$/) do
   forum_page.scroll_down_to_see "Turn off Signature"
   sleep 1
-  if query("UISwitch marked:'Hide posts in profile?'")[0]["value"]!= "0"
+  if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= "0"
     screenshot_and_raise("Hide post flag error", :name => "Flag.png")
   # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= "0"
   #   screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
@@ -509,7 +512,7 @@ Then(/^I turn on all the flags$/) do
   elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= "0"
     screenshot_and_raise("Turn off signature error", :name => "Flag.png")
   end
-  wait_touch "UISwitch marked:'Hide posts in profile?'"
+  wait_touch "UISwitch marked:'Hide posts in profile'"
   touch "UISwitch marked:'Hide from discovery'"
   touch "UISwitch marked:'Turn off Chat'"
   touch "UISwitch marked:'Turn off Signature'"
@@ -518,7 +521,7 @@ end
 
 Then(/^I check all the flags are turned on$/) do
   forum_page.scroll_down_to_see 'Turn off Signature'
-  if query("UISwitch marked:'Hide posts in profile?'")[0]["value"]!= '1'
+  if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= '1'
     screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
   # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= '1'
   #   screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")

@@ -113,6 +113,7 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Get Started!'"
   end
 
+
   def login(email, password)
     tap_login_link
     wait_for_none_animating

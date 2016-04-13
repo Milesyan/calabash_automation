@@ -138,6 +138,7 @@ class PremiumPage < Calabash::IBase
       end
       close_request_dialog
     when 4
+      app_page.close_chat_popup
       wait_for_element_exists "* marked:'Enter Message'"
       app_page.close_chat_popup
       forum_page.click_back_button
