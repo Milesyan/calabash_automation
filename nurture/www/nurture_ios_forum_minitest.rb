@@ -10,9 +10,6 @@ class NurtureTest < Minitest::Test
   include Minitest_ios
 
 
-  def test_exising_email_login
-    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.join_group.leave_all_groups.join_group
-  end
 
   def premium_login
     premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login
@@ -46,6 +43,10 @@ class NurtureTest < Minitest::Test
     u = forum_new_user
     u.login
     assert_rc u.res
+  end
+  
+  def test_exising_email_login
+    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.join_group.leave_all_groups.join_group
   end
 
   # def test_sign_up

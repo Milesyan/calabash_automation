@@ -141,7 +141,7 @@ module Minitest_ios
     u.create_topic
     u2 = forum_new_user
     u2.bookmark_topic u.topic_id
-    assert_equal 1, u.res["result"]
+    assert_equal 1, u2.res["result"]
     assert_rc u2.res
   end
 
@@ -410,15 +410,26 @@ module Minitest_ios
     assert_equal "Updated", up.res["msg"]
   end
 
-  def test_free_user
-    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
+  def test_accept_chat_notification
+    u = forum_new_user
+    up = premium_login
+    u.send_chat_request up.user_id
+    up.accept_chat
+    get_notification u
+    # assert_equal 8, u.res["notifications"][0]["button"]
+    # assert_equal 1050,u.res["notifications"][0]["type"]
+    # assert_equal "You have a new comment",u.res["notifications"][0]["text"]
   end
 
-  def test_premium_user
-    ForumUser.new(:email => "miles3@g.com", :password => "111111").login.leave_all_groups.join_group
+  def get_notification(user)
+    user.pull
+    puts user.res["notifications"]
   end
 
-
+  def test_premium_login
+    up = premium_login
+    puts up.res["data"]["pregnancies"].first["id"]
+  end
 
 end
 
