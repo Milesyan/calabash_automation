@@ -912,7 +912,36 @@ Then(/^I check I can not see the user's comment and subreply$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
 
+# ----TOS ----
+Given(/^I open the app and go to the signup page$/) do
+  logout_if_already_logged_in
+  app_page.signup_flow
+end
 
+When(/^I click the link for Terms$/) do
+  # wait_touch "* marked:'Terms'"
+  app_page.touch_terms
+end
+
+Then(/^I should see the correct website for Terms$/) do
+  wait_for_elements_exist "* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"
+  sleep 2
+end
+
+When(/^I click the link for Privacy Policy$/) do
+  # wait_touch "* marked:'Privacy Policy'"
+  app_page.touch_privacy_policy
+end
+
+Then(/^I should see the correct website for Privacy Policy$/) do
+  wait_for_elements_exist "* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"
+  sleep 2
+end
+
+Then(/^I should see the bottom hint section$/) do
+  app_page.hint_section
+end
+  
 
 
 

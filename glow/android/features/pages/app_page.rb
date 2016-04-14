@@ -108,6 +108,6 @@ class AppPage < Calabash::ABase
   end
 
   def hint_section 
-    wait_for_element_exists "* marked:'tos'"
+    wait_for_element_exists "* id:'tos'"
   end
 end

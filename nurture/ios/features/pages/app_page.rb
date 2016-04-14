@@ -100,9 +100,7 @@ class AppPage < Calabash::IBase
 
   def tap_login_link
     sleep 1
-    if element_exists "* {text CONTAINS 'Continue as'}"
-      touch "* {text CONTAINS 'Click here'}"
-    end
+    pass_sso
     wait_for_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
     touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     sleep 1
@@ -131,4 +129,46 @@ class AppPage < Calabash::IBase
     sleep 2
   end
 
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* {text CONTAINS 'Click here'}"
+    end
+  end
+  
+  def signup_flow
+    pass_sso
+    wait_touch "* marked:'Get Started!'"
+    wait_touch "* marked:'Choose'"
+    wait_for_none_animating
+    wait_touch "* marked:'Done'"
+    choose_due_date
+    touch "* marked:'Next'"
+    wait_touch "* marked:'How did you get pregnant?' sibling GLPillButton"
+    wait_touch "* marked:'Done'"
+
+    touch "GLPillButton marked:'Weight'"
+    wait_for_none_animating
+    wait_touch "* marked:'Done'"
+    touch "GLPillButton marked:'Height'"
+    wait_for_none_animating
+    wait_touch "* marked:'Done'"
+  end
+
+  def touch_terms
+    x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
+    _x = x + w * 0.6
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def touch_privacy_policy
+    x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
+    _x = x + w * 0.8
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def hint_section 
+    wait_for_element_exists "* {text CONTAINS 'you agree to our Terms and Privacy Policy'}"
+  end
 end

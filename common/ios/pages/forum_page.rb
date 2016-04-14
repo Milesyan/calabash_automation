@@ -754,4 +754,18 @@ class ForumPage < Calabash::IBase
     touch "* marked:'Done'"
     sleep 2
   end
+
+  def get_coordinate(args)
+    x = query("* {text contains '#{args}'}")[0]["rect"]["x"]
+    y = query("* {text contains '#{args}'}")[0]["rect"]["y"]
+    w = query("* {text contains '#{args}'}")[0]["rect"]["width"]
+    h = query("* {text contains '#{args}'}")[0]["rect"]["height"]
+    puts "coordinate of item is x => #{x}, y => #{y}, w => #{width}, h => #{height}"
+    return x,y,w,h
+  end
+
+  def touch_coordinate(x,y)
+    puts "TOUCH x = #{x}, y = #{y}"
+    send_uia_command({:command => %Q[target.tapWithOptions({x: #{x}, y: #{y}}, {tapCount: 1, touchCount: 1, duration: 1.0})]})
+  end
 end

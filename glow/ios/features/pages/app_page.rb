@@ -23,9 +23,7 @@ class AppPage < Calabash::IBase
 
   def open_login_link 
     sleep 1
-    if element_exists "* {text CONTAINS 'Continue as'}"
-      touch "* {text CONTAINS 'Click here'}"
-    end
+    pass_sso
     wait_touch "* marked:'Log in'"
     if element_does_not_exist "* marked:'Email'"
       wait_touch "* marked:'Log in'"
@@ -139,6 +137,50 @@ class AppPage < Calabash::IBase
       touch "* marked:'Later'"
     rescue # Calabash::Cucumber::WaitHelpers::WaitError
     end
+  end
+
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue as'}"
+      touch "* {text CONTAINS 'Click here'}"
+    end
+  end
+  def signup_flow
+    pass_sso
+    wait_touch "* marked:'Get Started'"
+    wait_touch "button index:0"
+    wait_touch "* marked:'Condom'"
+    wait_touch "* marked:'Done'"
+    wait_touch "button marked:'Weight'"
+    wait_touch "* marked:'150'"
+    wait_touch "* marked:'Done'"
+    wait_touch "button marked:'Height'"
+    wait_touch "* marked:'6 ft'"
+    wait_touch "* marked:'0 in'"
+    wait_touch "* marked:'Done'"
+    wait_touch "button marked:'Next'"
+
+    wait_touch "button marked:'-- days'"
+    wait_touch "* marked:'30'"
+    wait_touch "button marked:'OK'"
+    wait_touch "button marked:'M/D/Y'"
+    #wait_touch "* marked:'#{(Time.now - 3600*48).strftime("%d")}'"
+    wait_touch "* marked:'Today'"
+    wait_touch "button marked:'Done'"
+    wait_for_none_animating
+    wait_touch "* marked:'Next'"
+  end
+
+
+  def touch_terms
+    wait_touch "* marked:'Terms'"
+  end
+
+  def touch_privacy_policy
+    wait_touch "* marked:'Privacy Policy'"
+  end
+
+  def hint_section 
+    wait_for_elements_exist "* marked:'Terms", "* marked:'Privacy Policy'"
   end
 
 end
