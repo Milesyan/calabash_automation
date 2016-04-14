@@ -277,6 +277,13 @@ When(/^I ignore the chat request$/) do
   wait_for_none_animating
 end
 
+When(/^I block the chat request$/) do
+  wait_touch "* marked:'Block'"
+  wait_for_none_animating
+  touch "* marked:'Block'" if element_exists "* marked:'Block'"
+end
+
+
 Then(/^I enter the chat window and start to chat$/) do
   sleep 1
   if element_exists "* marked:'Start chatting now.'"
@@ -293,6 +300,10 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat requst is ignored$/) do
+  puts "NEED TO CONFIRM THE TEXT HERE"
+end
+
+Then(/^I should see the chat requst is blocked$/) do
   puts "NEED TO CONFIRM THE TEXT HERE"
 end
 
