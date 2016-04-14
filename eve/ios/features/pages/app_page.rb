@@ -127,4 +127,26 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
   end
+
+  def signup_flow
+    bypass_continue_as
+  end
+
+  def touch_terms
+    x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
+    _x = x + w * 0.6
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def touch_privacy_policy
+    x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
+    _x = x + w * 0.8
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def hint_section 
+    wait_for_element_exists "* {text CONTAINS 'you agree to our Terms and Privacy Policy'}"
+  end
 end

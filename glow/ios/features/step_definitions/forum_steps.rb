@@ -919,7 +919,6 @@ Given(/^I open the app and go to the signup page$/) do
 end
 
 When(/^I click the link for Terms$/) do
-  # wait_touch "* marked:'Terms'"
   app_page.touch_terms
 end
 
@@ -929,7 +928,6 @@ Then(/^I should see the correct website for Terms$/) do
 end
 
 When(/^I click the link for Privacy Policy$/) do
-  # wait_touch "* marked:'Privacy Policy'"
   app_page.touch_privacy_policy
 end
 

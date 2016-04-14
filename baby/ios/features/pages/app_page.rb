@@ -52,9 +52,7 @@ class AppPage < Calabash::IBase
   end
 
   def open_login_link
-    if element_exists "* {text CONTAINS 'Continue'}"
-      touch "* {text CONTAINS 'Click here to switch user'}"
-    end
+    pass_sso
     wait_touch "* marked:'Log in'"
   end
 
@@ -80,6 +78,35 @@ class AppPage < Calabash::IBase
     wait_touch "* {text CONTAINS 'Check it out'}"
     wait_touch "* marked:'Join'"
     sleep 2
+  end
+
+  def pass_sso
+    if element_exists "* {text CONTAINS 'Continue'}"
+      touch "* {text CONTAINS 'Click here to switch user'}"
+    end
+  end
+
+  def signup_flow
+    pass_sso
+    wait_touch "* marked:'Sign up!'"
+  end
+
+  def touch_terms
+    x,y,w,h = forum_page.get_coordinate 'Terms and Privacy Policy'
+    _x = x + w * 0.3
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def touch_privacy_policy
+    x,y,w,h = forum_page.get_coordinate 'Terms and Privacy Policy'
+    _x = x + w * 0.6
+    _y = y + h * 0.85
+    forum_page.touch_coordinate _x,_y
+  end
+
+  def hint_section 
+    wait_for_element_exists "* {text CONTAINS 'Terms and Privacy Policy'}"
   end
 
 end
