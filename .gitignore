@@ -11,3 +11,4 @@ glow/android/Calabash/
 glow/android/features/support/env.rb
 glow/ios
 glow/www/test
+test_servers
