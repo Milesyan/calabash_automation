@@ -33,7 +33,7 @@ module NurtureForumAndroid
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
     def initialize(args = {})
-      @first_name = (args[:first_name] || "ba") + Time.now.to_i.to_s[2..-1] + random_str_b(2)
+      @first_name = (args[:first_name] || "ba") + Time.now.to_i.to_s[2..-1] + random_str_b(2).to_s
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Miles_test"
       @password = args[:password] || PASSWORD

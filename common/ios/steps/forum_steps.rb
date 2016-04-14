@@ -878,14 +878,15 @@ end
 #----AGE FILTER----
 Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
   $young_user = forum_new_user :birthday => 892461217, :first_name => "Age"
-  $young_user.create_topic :topic_title => "Test age filter topic"
+  $test_title = "#{$young_user.first_name}Test age filter topic"
+  $young_user.create_topic :topic_title => $test_title
   puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
 end
 
 Then(/^I go to test group and check the topic exists$/) do
   forum_page.select_target_group
-  wait_for_elements_exist ["* text:'Test age filter topic'", "* marked:'#{$young_user.first_name}'"]
-  puts "Young user name exists >>>#{$young_user.first_name}"
+  wait_for_elements_exist "* text:'#{$test_title}'"
+  puts "Young user topic exists >>>#{$test_title}"
 end
 
 
@@ -898,13 +899,13 @@ end
   
 Then(/^I go to test group and check the topic not exist$/) do
   forum_page.select_target_group
-  check_element_does_not_exist "* marked:'#{$young_user.first_name}'"
-  puts "Yound user name not exist >>>#{$young_user.first_name}'"
+  check_element_does_not_exist "* text:'#{$test_title}'"
+  puts "Yound user topic not exist >>>#{$test_title}"
 end
 
 Given(/^a forum user with the age (\d+) and create a topic in test group and some test comments and subreplies are created$/) do |arg1|
   $young_user = forum_new_user :birthday => 892461217, :first_name => "Filter"
-  temp_user = ntf_user
+  temp_user = ntf_user :birthday => 324558633
   temp_user.create_topic :topic_title => "Test age filter comment"
   temp_user.reply_to_topic temp_user.topic_id, :reply_content => "Should Show"
   $young_user.reply_to_topic temp_user.topic_id, :reply_content => "Filter comment"
@@ -913,11 +914,18 @@ Given(/^a forum user with the age (\d+) and create a topic in test group and som
 end
 
 Then(/^I check I can see the user's comment and subreply$/) do
-  wait_for_elements_exist ["* marked:'Filter comment", "* marked:'Filter subreply'"]
+  wait_touch "UIButtonLabel marked:'Show entire discussion'" 
+  swipe :up
+  wait_for_elements_exist ["* marked:'Filter comment'", "* {text CONTAINS 'Filter subreply'}"]
 end
 
 Then(/^I check I can not see the user's comment and subreply$/) do
-  wait_for_elements_not_exist ["* marked:'Filter comment", "* marked:'Filter subreply'"]
+  touch "UIButtonLabel marked:'Show entire discussion'" if element_exists "UIButtonLabel marked:'Show entire discussion'"
+  swipe :up
+  wait_for_elements_do_not_exist ["* marked:'Filter comment'", "* {text CONTAINS 'Filter subreply'}"]
+  forum_page.view_all_replies
+  sleep 1
+  check_element_does_not_exist "* marked:'Filter subreply'"
 end
 
 # ----TOS ----
