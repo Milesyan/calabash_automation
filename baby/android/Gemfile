@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 ruby '2.2.1'
+gem 'faker'
 gem 'calabash-cucumber', '0.18.2'
 gem 'run_loop',  '2.0.9'
 gem 'm', '~> 1.4.0'
