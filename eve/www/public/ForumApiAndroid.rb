@@ -328,7 +328,8 @@ module ForumApiAndroid
   #-----------Flag topic/comment--------------
     def report_topic(topic_id, report_reason)
       data = {
-        "reason": report_reason
+        "reason": report_reason,
+        "reason_comment": "Test topic"
       }
       url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag?#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
@@ -339,7 +340,8 @@ module ForumApiAndroid
     def report_comment(topic_id, reply_id, report_reason)
       data = {
         "reply_id": reply_id,
-        "reason": report_reason
+        "reason": report_reason,
+        "reason_comment": "Test comment"
       }
       url = "#{ANDROID_FORUM_BASE_URL}/topic/#{topic_id}/flag?#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 

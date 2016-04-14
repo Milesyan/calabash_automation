@@ -334,6 +334,7 @@ module ForumApi
       topic_data = {
         "code_name": @code_name,
         "reason": report_reason,
+        "comment": "test topic",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
@@ -348,6 +349,7 @@ module ForumApi
         "code_name": @code_name,
         "reason": report_reason,
         "reply_id": reply_id,
+        "comment": "test reply",
         "ut": @ut
       }.merge(common_data)
       @res =  HTTParty.post("#{FORUM_BASE_URL}/topic/#{topic_id}/flag", :body => topic_data.to_json,
