@@ -760,7 +760,7 @@ class ForumPage < Calabash::IBase
     y = query("* {text contains '#{args}'}")[0]["rect"]["y"]
     w = query("* {text contains '#{args}'}")[0]["rect"]["width"]
     h = query("* {text contains '#{args}'}")[0]["rect"]["height"]
-    puts "coordinate of item is x => #{x}, y => #{y}, w => #{width}, h => #{height}"
+    puts "coordinate of item is x => #{x}, y => #{y}, width => #{w}, height => #{h}"
     return x,y,w,h
   end
 
