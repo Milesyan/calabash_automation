@@ -890,7 +890,7 @@ Given(/^I open the app and go to the signup page$/) do
   logout_if_already_logged_in
   app_page.signup_flow
 end
-
+#---TOS----
 When(/^I click the link for Terms$/) do
   # wait_touch "* marked:'Terms'"
   app_page.touch_terms
@@ -914,4 +914,50 @@ end
 Then(/^I should see the bottom hint section$/) do
   app_page.hint_section
 end
+
+#----AGE FILTER----
+Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
+  $young_user = forum_new_user :birthday => 892461217, :first_name => "Age"
+  $young_user.create_topic :topic_title => "Test age filter topic"
+  puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
+end
+
+Then(/^I go to test group and check the topic exists$/) do
+  forum_page.select_target_group
+  wait_for_elements_exist ["* text:'Test age filter topic'", "* marked:'#{$young_user.first_name}'"]
+  puts "Young user name exists >>>#{$young_user.first_name}"
+end
+
+
+Then(/^I go to age filter and choose the 3rd choice$/) do
+  forum_page.go_to_community_settings
+  wait_touch "* marked:'13 - 18'"
+  touch "* marked:'19 - 25'"
+  forum_page.click_save_button
+end
+  
+Then(/^I go to test group and check the topic not exist$/) do
+  forum_page.select_target_group
+  check_element_does_not_exist "* marked:'#{$young_user.first_name}'"
+  puts "Yound user name not exist >>>#{$young_user.first_name}'"
+end
+
+Given(/^a forum user with the age (\d+) and create a topic in test group and some test comments and subreplies are created$/) do |arg1|
+  $young_user = forum_new_user :birthday => 892461217, :first_name => "Filter"
+  temp_user = ntf_user
+  temp_user.create_topic :topic_title => "Test age filter comment"
+  temp_user.reply_to_topic temp_user.topic_id, :reply_content => "Should Show"
+  $young_user.reply_to_topic temp_user.topic_id, :reply_content => "Filter comment"
+  $young_user.reply_to_comment temp_user.topic_id, temp_user.reply_id, :reply_content => "Filter subreply"
+  puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
+end
+
+Then(/^I check I can see the user's comment and subreply$/) do
+  wait_for_elements_exist ["* marked:'Filter comment", "* marked:'Filter subreply'"]
+end
+
+Then(/^I check I can not see the user's comment and subreply$/) do
+  wait_for_elements_not_exist ["* marked:'Filter comment", "* marked:'Filter subreply'"]
+end
+
   

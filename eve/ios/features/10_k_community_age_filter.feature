@@ -18,11 +18,11 @@ Feature: Age filter for topic and comments
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I go to the first group
-    And I open the topic "create poll by www api"
+    And I open the topic "Test age filter comment"
     Then I check I can see the user's comment and subreply
     And I go back to previous page
     And I go to age filter and choose the 3rd choice
-    And I open the topic "create poll by www api"
+    And I open the topic "Test age filter comment"
     Then I check I can not see the user's comment and subreply
     And I go back to previous page
     And I logout
