@@ -308,10 +308,12 @@ Then(/^I should see the chat requst is blocked$/) do
 end
 
 Then(/^I click done to close messages$/) do
+  sleep 0.5
   begin
-    wait_for(:time_out=>2) do
+    wait_for(:time_out=>3) do
       element_exists "* marked:'Done'"
     end
+    sleep 0.5
     touch "* marked:'Done'"
   rescue RuntimeError
     touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"

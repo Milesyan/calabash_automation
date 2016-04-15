@@ -6,7 +6,7 @@ class AppPage < Calabash::IBase
   end
 
   def tap_login_link
-    bypass_continue_as
+    pass_sso
     wait_for_element_exists "* marked:'LOG\u2028IN'"
     touch "* marked:'LOG\u2028IN'"
     if element_does_not_exist "* marked:'Email'"
@@ -15,7 +15,7 @@ class AppPage < Calabash::IBase
     sleep 1
   end
 
-  def bypass_continue_as
+  def pass_sso
     if element_exists "* {text CONTAINS 'Continue as'}"
       touch "* {text contains 'Click here to switch user'}"
     end
@@ -129,7 +129,7 @@ class AppPage < Calabash::IBase
   end
 
   def signup_flow
-    bypass_continue_as
+    pass_sso
   end
 
   def touch_terms

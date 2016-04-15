@@ -141,7 +141,9 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Choose'"
     wait_for_none_animating
     wait_touch "* marked:'Done'"
-    choose_due_date
+    wait_touch "* marked:'Do you know your due date?' sibling GLPillButton index:0" #Yes
+    wait_touch "* marked:'Estimated due date' sibling GLPillButton index:0"
+    wait_touch "* marked:'Done'"
     touch "* marked:'Next'"
     wait_touch "* marked:'How did you get pregnant?' sibling GLPillButton"
     wait_touch "* marked:'Done'"

@@ -21,10 +21,7 @@ module Nurture
 
   def logout_if_already_logged_in
     app_page.close_chat_popup
-    if element_exists "all * marked:'Swipe left or right to navigate through days'"
-      puts "TUTORIAL IN LOGOUT PROCESS"
-      app_page.finish_tutorial
-    end
+    app_page.finish_tutorial
     app_page.close_chat_popup
     sleep 2
     if element_exists "UITabBarButton"

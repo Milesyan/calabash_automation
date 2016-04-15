@@ -456,7 +456,7 @@ class ForumPage < Calabash::ABase
 
   def check_search_result_deleted(string)
     sleep 0.5
-    touch "* marked:'#{string}' index:1"
+    wait_touch "* marked:'#{string}' index:1"
     wait_for_elements_exist("* {text CONTAINS 'Topic does not exist!'}", :timeout => 10)
     sleep 1
   end

@@ -39,7 +39,7 @@ class PremiumPage < Calabash::IBase
 
   def update_bio_location
     forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
-    wait_touch "UILabel marked:'Bio'"
+    wait_touch "UILabel marked:'Signature'"
     keyboard_enter_text "testbio"
   end
 

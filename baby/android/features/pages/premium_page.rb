@@ -17,6 +17,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def check_url
+    sleep 1
     wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :time_out =>3
     sleep 0.5
     touch "* {text CONTAINS '#{$random_url}'}"
@@ -57,6 +58,9 @@ class PremiumPage < Calabash::ABase
 
   def click_upgrade_premium
     sleep 1
+    wait_for(:time_out=>5) do
+      element_exists("* marked:'Learn more'") || element_exists("* marked:'Try for FREE'")    
+    end
     touch "* marked:'Learn more'" if element_exists "* marked:'Learn more'"
     touch "* marked:'Try for FREE'" if element_exists "* marked:'Try for FREE'"
   end

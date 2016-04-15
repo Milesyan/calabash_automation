@@ -162,6 +162,7 @@ end
 
 #change
 Given(/^I create a new forum user with name "([^"]*)"$/) do |name|
+  app_page.pass_sso
   logout_if_already_logged_in
   $user = forum_new_user(first_name: name).complete_tutorial
   puts $user.email, $user.password
@@ -580,7 +581,7 @@ end
 Then(/^I edit some field in profile page$/) do
   forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
   forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
-  wait_touch "UILabel marked:'Bio'"
+  wait_touch "UILabel marked:'Signature'"
   keyboard_enter_text "Edit Bio info"
 end
 

@@ -516,7 +516,7 @@ Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
     string = $random_str2
   end
   puts "Search for #{string}"
-  forum_page.scroll_down_to_see string
+  forum_page.scroll_down_to_see string if element_does_not_exist "* marked:'#{string}'"
   forum_page.check_search_result_deleted string
 end
 
@@ -757,10 +757,10 @@ Then(/^I click to report the "([^"]*)" and check the reasons:$/) do |arg1,table|
 end
 
 Then(/^I type in report reason and click flag$/) do
-  # wait_for_element_exists "* {text CONTAINS 'Please tell us why you are flagging this'}"
-  # keyboard_enter_text "Test Flag reason by Miles"
-  # wait_touch "* marked:'Flag'"
-  puts ">>>>>>>>>>Other reason dialog is not realized in Android yet<<<<<<<<<<<<<"
+  wait_for_element_exists "* {text CONTAINS 'flagging this'}"
+  enter_text "* id:'custom'", "Miles test flag"
+  wait_touch "* marked:'flag'"
+  wait_for_element_exists "* marked:'OK'"
 end
 
 Then(/^I touch "(.*?)" in auto\-hidden topic$/) do |arg1|
@@ -876,6 +876,10 @@ end
 #Save
 Then(/^I click save button$/) do
   wait_touch "* marked:'Save'"
+  begin
+    wait_for_element_does_not_exist "* marked:'Save'"
+  rescue RuntimeError
+  end
 end
 
 Then(/^I should see "([^"]*)" in my view$/) do |arg1|

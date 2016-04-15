@@ -86,7 +86,7 @@ Feature: Test hide/report topic/comment.
       |Solicitation|
       # |Other|
       |Cancel|
-    And I report the comment by reason "Rudej"
+    And I report the comment by reason "Rude"
     And I type in report reason and click flag
     And I click confirm not to hide it
     Then I should still see the comment

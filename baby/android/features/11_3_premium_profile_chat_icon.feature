@@ -10,7 +10,7 @@ Feature: Check chat icon for users.
     And I go back to forum page from forum profile page
     And I logout
 
-  @p_others_chat_icon
+  @p_others_chat_icon @unstable
   Scenario: Premium user check chat icon in other users profile page
     Given A premium user milesp and a non-premium user milesn have been created for test
     Then the non-premium user create a topic in the test group
