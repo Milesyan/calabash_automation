@@ -6,7 +6,10 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
-    wait_for_element_does_not_exist "* marked:'Log in with Glow account'"
+    begin
+      wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout => 1
+    rescue RuntimeError
+    end
     sleep 3
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
@@ -144,30 +147,32 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Do you know your due date?' sibling GLPillButton index:0" #Yes
     wait_touch "* marked:'Estimated due date' sibling GLPillButton index:0"
     wait_touch "* marked:'Done'"
-    touch "* marked:'Next'"
+    wait_touch "* marked:'Next'"
     wait_touch "* marked:'How did you get pregnant?' sibling GLPillButton"
     wait_touch "* marked:'Done'"
-
     touch "GLPillButton marked:'Weight'"
     wait_for_none_animating
     wait_touch "* marked:'Done'"
     touch "GLPillButton marked:'Height'"
     wait_for_none_animating
     wait_touch "* marked:'Done'"
+    wait_touch "* marked:'Next'"
   end
 
   def touch_terms
     x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
     _x = x + w * 0.6
-    _y = y + h * 0.85
+    _y = y + h * 0.8
     forum_page.touch_coordinate _x,_y
+    # send_uia_command({:command => %Q[target.tapWithOptions({x: #{_x}, y: #{_y}}, {tapCount: 1, touchCount: 1, duration: 2.0})]})
   end
 
   def touch_privacy_policy
     x,y,w,h = forum_page.get_coordinate 'you agree to our Terms and Privacy Policy'
     _x = x + w * 0.8
-    _y = y + h * 0.85
+    _y = y + h * 0.8
     forum_page.touch_coordinate _x,_y
+    # send_uia_command({:command => %Q[target.tapWithOptions({x: #{_x}, y: #{_y}}, {tapCount: 1, touchCount: 1, duration: 2.0})]})
   end
 
   def hint_section 

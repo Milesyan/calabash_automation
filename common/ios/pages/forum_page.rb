@@ -548,6 +548,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_blocked_users
+    sleep 1
     wait_touch "* {text CONTAINS 'user(s)'}"
   end
   
@@ -700,7 +701,7 @@ class ForumPage < Calabash::IBase
   end
 
   def click_explore
-    flick "ForumDiscoverBanner", {x:-100,y:0}
+    # flick "ForumDiscoverBanner", {x:-100,y:0}
     wait_touch "ForumDiscoverBanner"
   end
 
@@ -766,6 +767,6 @@ class ForumPage < Calabash::IBase
 
   def touch_coordinate(x,y)
     puts "TOUCH x = #{x}, y = #{y}"
-    send_uia_command({:command => %Q[target.tapWithOptions({x: #{x}, y: #{y}}, {tapCount: 1, touchCount: 1, duration: 1.0})]})
+    touch :x => x, :y => y
   end
 end

@@ -2,7 +2,7 @@ module Nurture
   def wait_touch(query_str)
     wait_for_elements_exist([query_str])
     touch(query_str)
-    wait_for_none_animating
+    wait_for_none_animating :time_out => 10
   end
 
   def touch_if_elements_exist(query_str)
@@ -20,6 +20,7 @@ module Nurture
   
 
   def logout_if_already_logged_in
+    app_page.pass_sso
     app_page.close_chat_popup
     app_page.finish_tutorial
     app_page.close_chat_popup

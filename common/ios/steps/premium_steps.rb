@@ -308,7 +308,7 @@ Then(/^I should see the chat requst is blocked$/) do
 end
 
 Then(/^I click done to close messages$/) do
-  sleep 0.5
+  sleep 1
   begin
     wait_for(:time_out=>3) do
       element_exists "* marked:'Done'"
@@ -345,6 +345,7 @@ Then(/^I go to the chat window for the new user$/) do
   attempts = 0
   begin 
     attempts = attempts + 1
+    sleep 2
     check_element_exists "* marked:'Enter Message'"
   rescue RuntimeError
     wait_touch "* marked:'#{$new_user.first_name}'" if attempts < 5
