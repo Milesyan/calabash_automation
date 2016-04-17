@@ -280,10 +280,11 @@ module Minitest_ios
     u2.reply_to_topic u.topic_id
     sleep 1
     u.pull
-    puts u.res["notifications"][0]
-    assert_equal 8, u.res["notifications"][0]["button"]
-    assert_equal 1050,u.res["notifications"][0]["type"]
-    assert_equal "You have a new comment",u.res["notifications"][0]["text"]
+    puts u.res
+    puts u.notifications
+    assert_equal 8, u.notifications[0]["button"]
+    assert_equal 1050,u.notifications[0]["type"]
+    assert_equal "You have a new comment",u.notifications[0]["text"]
   end
 
   def test_add_followings
@@ -425,7 +426,7 @@ module Minitest_ios
 
   def test_premium_login
     up = premium_login
-    puts up.res["data"]["pregnancies"].first["id"]
+    assert_rc up.res
   end
 
   def test_availability
@@ -459,18 +460,20 @@ module Minitest_ios
     # get_notification u
   end
 
-  def test_create_new_badge
-    u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
-    puts "premium acc >>#{u1.user_id }"   
-    u2 = forum_new_user :first_name=>"admin", :email => "admin@g.com", :password => '111111'
-    puts "admin acc >>#{u2.user_id }"
-    u3 = forum_new_user :first_name=>"expert", :email => "expert@g.com", :password => '111111'
-    puts "expert acc >>#{u3.user_id }"
-    u4 = forum_new_user :first_name=>"verifed", :email => "verifed@g.com", :password => '111111'
-    puts "verifed acc >>#{u4.user_id }"
-    u5 = forum_new_user :first_name=>"staff", :email => "staff@g.com", :password => '111111'
-    puts "staff acc >>#{u5.user_id }"
-  end
+  # def test_create_new_badge
+  #   u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
+  #   puts "premium acc >>#{u1.user_id }"   
+  #   u2 = forum_new_user :first_name=>"admin", :email => "admin@g.com", :password => '111111'
+  #   puts "admin acc >>#{u2.user_id }"
+  #   u3 = forum_new_user :first_name=>"expert", :email => "expert@g.com", :password => '111111'
+  #   puts "expert acc >>#{u3.user_id }"
+  #   u4 = forum_new_user :first_name=>"verified", :email => "verified@g.com", :password => '111111'
+  #   puts "verifed acc >>#{u4.user_id }"
+  #   u5 = forum_new_user :first_name=>"staff", :email => "staff@g.com", :password => '111111'
+  #   puts "staff acc >>#{u5.user_id }"
+  #   u6 = forum_new_user :first_name=>"forumadmin", :email => "forumadmin@g.com", :password => '111111'
+  #   puts "forumadmin acc >>#{u6.user_id }"
+  # end
 end
 
 

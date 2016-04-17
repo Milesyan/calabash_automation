@@ -60,7 +60,7 @@ module NoahForumIOS
     attr_accessor :first_name, :last_name, :gender,:birth_due_date, :birth_timezone
     attr_accessor :res
     attr_accessor :current_baby, :current_baby_id, :birthday, :relation 
-    attr_accessor :tgt_user_id, :request_id, :all_participants
+    attr_accessor :tgt_user_id, :request_id, :all_participants, :notifications
 
     def initialize(args = {})  
       @first_name = (args[:first_name] || "noah") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
@@ -123,6 +123,9 @@ module NoahForumIOS
         },
       }.merge(common_data)
       @res = HTTParty.post "#{BASE_URL}/ios/user/signup", options(data)
+      puts data
+      puts "AAA"
+      puts @res
       user.user_id = @res["data"]["user"]["user_id"]
       log_important "#{user.email} has been signed up"
       log_important "User id is >>>>#{user.user_id}<<<<"
@@ -161,10 +164,8 @@ module NoahForumIOS
       }.merge(common_data)
 
       @res = self.class.post "#{BASE_URL}/ios/user/pull", options(data)
-
-      if @res["rc"] == 0
-        @notifications = @res["data"]["user"]["Notification"]["update"]
-      end
+      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
+      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
 
     def new_born_baby(args = {})
