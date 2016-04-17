@@ -72,7 +72,7 @@ module NoahForumAndroid
       @last_name = "Miles_test"
       @password = args[:password] || PASSWORD
       @relation = args[:relation] || "Mother"
-      @birthday = args[:birthday] || 25.years.ago.to_i
+      @birthday = args[:birthday] || 30.years.ago.to_i
       @babies = []
       @partners = []
       @forum_hl = "en_US"

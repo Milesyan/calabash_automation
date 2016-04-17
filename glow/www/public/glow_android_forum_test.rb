@@ -75,7 +75,7 @@ module GlowForumAndroid
     end
 
     def ttc_signup(args = {})
-      age = args[:age] || 25
+      age = args[:age] || 30
       data = {
         "user": {
           "android_version": "3.8.0-play-beta",

@@ -41,7 +41,7 @@ module EveForumAndroid
       @pb = (Time.new - 10*60*60*24).strftime("%Y\/%m\/%d")
       @pe = (Time.new - 6*60*60*24).strftime("%Y\/%m\/%d")
       @next_pb = (Time.new + 12*60*60*24).strftime("%Y\/%m\/%d")
-      @birthday =  632406657
+      @birthday =  args[:birthday] || 166984446
       @forum_locale = "en_US"
       @forum_random = random_str
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join

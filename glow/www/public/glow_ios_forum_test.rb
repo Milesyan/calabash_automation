@@ -60,7 +60,7 @@ module GlowForumIOS
     end
     
     def ttc_signup(args = {})
-      age = args[:age] || 25
+      age = args[:age] || 30
       data = {
         "onboardinginfo": {
           "gender": "F",

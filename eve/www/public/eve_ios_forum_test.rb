@@ -35,7 +35,7 @@ module EveForumIOS
       @first_name = (args[:first_name] || "ei") + Time.now.to_i.to_s
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || PASSWORD
-      @birthday = args[:birthday] || 20.years.ago.to_i
+      @birthday = args[:birthday] || 30.years.ago.to_i
       @code_name = 'lexie'
     end
 

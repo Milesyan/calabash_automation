@@ -68,7 +68,7 @@ module NoahForumIOS
       @last_name = "Noah"
       @password = args[:password] || PASSWORD
       @partners = []
-      @birthday = args[:birthday] || 25.years.ago.to_i
+      @birthday = args[:birthday] || 30.years.ago.to_i
       @babies = []
       @code_name = 'noah'
     end

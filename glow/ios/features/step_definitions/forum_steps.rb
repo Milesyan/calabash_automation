@@ -581,6 +581,7 @@ end
 Then(/^I edit some field in profile page$/) do
   forum_page.edit_text_fields "#{$user.first_name}", "Edit first"
   forum_page.edit_text_fields "Shanghai", "Edit Shanghai"
+  swipe :up
   wait_touch "UILabel {text CONTAINS 'Signature'}"
   keyboard_enter_text "Edit Bio info"
 end
