@@ -246,22 +246,21 @@ module EveForumAndroid
       self
     end
 
+
     def pull
       data = {
-        "data": {
-          "user": {
-            "user_id": @user_id,
-            "sync_time": 0
-          },
-          "babies": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      @res = HTTParty.post "#{BASE_URL}/ios/user/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
+        "user_id": self.user_id,
+        "sync_items": [],
+        "need_pull": 1,
+        "additional_info": {
+          "notification_last_read_time": 0,
+          "time_zone": @forum_time_zone
+        }
+      }
+      @res = HTTParty.post "#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
-
+    
   end
 end

@@ -157,18 +157,15 @@ module NurtureForumAndroid
 
     def pull
       data = {
-        "data": {
-          "user": {
-            "user_id": @user_id,
-            "sync_time": 0
-          },
-          "babies": []
-        },
-        "ut": @ut
-      }.merge(common_data)
+        "ts": 0,
+        "article_ts": Time.now.to_i,
+        "checklist_ts": Time.now.to_i,
+        "sign": "daily_task:-4144874413046290064|daily_log:-5297321039698049625|article_categories:1944778104830470978",
+        "support_postpartum": true,
+      }
 
-      @res = HTTParty.post "#{BASE_URL}/ios/user/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
+      @res = HTTParty.post "#{BASE_URL}/android/users/stripped_pull?#{common_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @notifications = @res["dict"]["notifications"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
     

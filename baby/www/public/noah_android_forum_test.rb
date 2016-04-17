@@ -194,13 +194,12 @@ module NoahForumAndroid
     def pull
       data = {
         "data": {
-          "user": {
-            "last_sync_time": 0
-          }
+          "user": {},
+          "babies": []
         }
       }
-
       @res = self.class.post "/android/user/pull?#{common_data}", auth_options(data)
+      @notifications = @res["data"]["user"]["Notification"]["update"]
       self
     end
 

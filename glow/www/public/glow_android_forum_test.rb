@@ -65,7 +65,7 @@ module GlowForumAndroid
       {
         "code_name": "emma",
         "time_zone": "Asia\/Shanghai",
-        "vc": 380,
+        "vc": 393,
         "android_version": "3.8.0-play-beta",
         "device_id": "be3ca737160d9da3",
         "random": random_str,
@@ -199,19 +199,12 @@ module GlowForumAndroid
 
     def pull
       data = {
-        "data": {
-          "user": {
-            "user_id": @user_id,
-            "sync_time": 0
-          },
-          "babies": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      @res = HTTParty.post "#{BASE_URL}/ios/user/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+        "ts": 0,
+        "sign": "todos:|activity_rules:|clinics:|fertile_score_coef:|fertile_score:|predict_rules:|health_rules:",
+      }
+      @res = HTTParty.get "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?#{additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @notifications = @res["notifications"] if @res["user_id"]
+      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["user_id"].nil?
     end
     
   end

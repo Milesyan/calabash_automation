@@ -269,6 +269,20 @@ module Minitest_android
     up.turn_on_chat
   end
   
+  def test_notification
+    u = forum_new_user
+    u.create_topic
+    u2 = forum_new_user
+    u2.reply_to_topic u.topic_id
+    sleep 1
+    u.pull
+    # puts u.res["user"]["notification"]
+    puts u.notifications
+    assert_equal 8, u.notifications[0]["button"]
+    assert_equal 1050,u.notifications[0]["type"]
+    assert_equal "You have a new comment",u.notifications[0]["text"]
+  end
+
   def test_turn_off_signature
     u = forum_new_user
     u.turn_off_signature

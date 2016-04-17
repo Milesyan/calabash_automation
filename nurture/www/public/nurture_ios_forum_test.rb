@@ -151,9 +151,6 @@ module NurtureForumIOS
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
       self
     end   
-
-    
-
   end
 end
 
