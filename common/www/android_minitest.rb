@@ -391,6 +391,18 @@ module Minitest_android
     # assert_equal "Updated", up.res["msg"]
   end
 
+  def test_create_new_badge
+    u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
+    puts "premium acc >>#{u1.user_id }"   
+    u2 = forum_new_user :first_name=>"admin", :email => "admin@g.com", :password => '111111'
+    puts "admin acc >>#{u2.user_id }"
+    u3 = forum_new_user :first_name=>"expert", :email => "expert@g.com", :password => '111111'
+    puts "expert acc >>#{u3.user_id }"
+    u4 = forum_new_user :first_name=>"verifed", :email => "verifed@g.com", :password => '111111'
+    puts "verifed acc >>#{u4.user_id }"
+    u5 = forum_new_user :first_name=>"staff", :email => "staff@g.com", :password => '111111'
+    puts "staff acc >>#{u5.user_id }"
+  end
 end
 
 

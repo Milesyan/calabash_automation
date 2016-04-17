@@ -1,8 +1,8 @@
 Sandbox: "http://dragon-kaylee.glowing.com"
 SandboxForum: "http://dragon-forum.glowing.com/ios/forum"
 
-Local: "http://localhost:5010"
-LocalForum: "http://localhost:35010"
+Local: "http://localhost:15010"
+LocalForum: "http://localhost:35010/ios/forum"
 
 Sandbox1: "http://titan-kaylee.glowing.com"
 SandboxForum1: "http://titan-forum.glowing.com/android/forum"

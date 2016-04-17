@@ -438,19 +438,47 @@ module Minitest_ios
     assert_equal "Your chat request is pending response.", up.res["msg"]
   end
 
+  def get_notification(user=self)
+    user.pull
+    puts user.res["notifications"]
+  end  
+
   def test_chat_request_notification
     up = premium_login
     u = forum_new_user
-    get_notification u
+    # get_notification u
     # up.availability u.user_id
     # assert_equal "Please send chat request first.", up.res["msg"]
     up.send_chat_request u.user_id
-    sleep 1
-    get_notification u
+    puts up.res
+    puts "-------"
+    # sleep 1
+    u.get_notification
+    # u.create_topicss
+    # up.reply_to_topic u.topic_id
+    # get_notification u
   end
 
-
+  def test_create_new_badge
+    u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
+    puts "premium acc >>#{u1.user_id }"   
+    u2 = forum_new_user :first_name=>"admin", :email => "admin@g.com", :password => '111111'
+    puts "admin acc >>#{u2.user_id }"
+    u3 = forum_new_user :first_name=>"expert", :email => "expert@g.com", :password => '111111'
+    puts "expert acc >>#{u3.user_id }"
+    u4 = forum_new_user :first_name=>"verifed", :email => "verifed@g.com", :password => '111111'
+    puts "verifed acc >>#{u4.user_id }"
+    u5 = forum_new_user :first_name=>"staff", :email => "staff@g.com", :password => '111111'
+    puts "staff acc >>#{u5.user_id }"
+  end
 end
+
+
+
+
+
+
+
 
 
 

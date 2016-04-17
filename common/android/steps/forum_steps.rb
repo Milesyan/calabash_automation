@@ -267,7 +267,7 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
     temp_user1.reply_to_topic temp_user1.topic_id, :reply_content=>"commentAAA"
     $user.reply_to_comment temp_user1.topic_id,temp_user1.reply_id
     temp_user2 = ntf_user
-    temp_user2.reply_to_comment temp_user1.topic_id,temp_user1.reply_id, :reply_content=>"subreplyAAA"
+    temp_user2.reply_to_comment temp_user1.topic_id,temp_user1.reply_id,:reply_content=>"subreplyAAA"
   end
 end
 

@@ -2,6 +2,8 @@ module ForumApi
   extend TestHelper 
   BASE_URL = load_config["base_urls"]["Sandbox"]
   FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
+  # BASE_URL = load_config["base_urls"]["Local"]
+  # FORUM_BASE_URL = load_config["base_urls"]["LocalForum"] 
   
   class ForumIOS
     include TestHelper
