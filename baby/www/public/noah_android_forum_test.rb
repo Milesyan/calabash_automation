@@ -199,7 +199,6 @@ module NoahForumAndroid
         }
       }
       @res = self.class.post "/android/user/pull?#{common_data}", auth_options(data)
-      # puts @res
       @notifications = @res["data"]["user"]["Notification"]["update"] if not @res["data"]["user"]["Notification"].nil?
       log_important "No notification field in response" if @res["data"]["user"]["Notification"].nil?
       self

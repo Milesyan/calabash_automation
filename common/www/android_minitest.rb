@@ -118,7 +118,6 @@ module Minitest_android
   def test_unbookmark
     u = forum_new_user
     u.create_topic
-    puts u.res
     u.bookmark_topic u.topic_id
     u.unbookmark_topic u.topic_id
     assert_rc u.res
@@ -217,7 +216,6 @@ module Minitest_android
     u = forum_new_user
     u.create_photo
     assert_rc u.res
-    puts u.res
   end
 
   def test_create_group 
@@ -254,7 +252,6 @@ module Minitest_android
   def test_turn_off_chat
     u = forum_new_user
     u.turn_off_chat
-    puts u.res
     assert_rc u.res
   end
 

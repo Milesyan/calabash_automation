@@ -256,7 +256,6 @@ module EveForumAndroid
         }
       }
       @res = HTTParty.post "#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
-      puts @res
       @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
