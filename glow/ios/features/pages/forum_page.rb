@@ -105,10 +105,11 @@ class ForumPage < Calabash::IBase
   end  
 
   def click_back_button
-    sleep 1
-    if element_exists "* marked:'Back'"
-      touch "* marked:'Back'" 
-    else 
+    sleep 0.5
+    begin 
+      wait_for_elements_exist "* marked:'Back'", :timeout =>2
+      touch "* marked:'Back'"
+    rescue RuntimeError
       touch "* marked:'Close'"
     end
   end  

@@ -4,11 +4,20 @@ Then(/^I logout$/) do
   app_page.logout
 end
 
-Then(/^I touch "(.*?)" button|link$/) do |text|
+# Then(/^I touch "(.*?)" button|link$/) do |text,arg1|
+#   sleep 1
+#   puts "111111#{text}"
+#   puts "222222#{arg1}"
+#   touch "* marked:'#{text}'"
+#   sleep 0.5
+#   touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
+# end
+
+Then(/^I touch "([^"]*)" (?:button|link)$/) do |arg1|
   sleep 1
-  touch "* marked:'#{text}'"
+  touch "* marked:'#{arg1}'"
   sleep 0.5
-  touch "* marked:'#{text}'" if element_exists "* marked:'#{text}'"
+  touch "* marked:'#{arg1}'" if element_exists "* marked:'#{arg1}'"
 end
 
 

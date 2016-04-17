@@ -687,7 +687,8 @@ module ForumApi
     def get_notification(user=self)
       user.pull
       puts "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
-      puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications      end    
+      puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications 
+    end  
   end
 
 end

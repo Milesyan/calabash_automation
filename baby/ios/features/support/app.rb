@@ -48,7 +48,7 @@ module Baby
   def wait_touch(query_str)
     wait_for_elements_exist([query_str])
     touch(query_str)
-    wait_for_none_animating
+    wait_for_none_animating :time_out => 10
   end
 
   def relaunch_app

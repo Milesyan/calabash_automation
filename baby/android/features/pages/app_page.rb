@@ -43,9 +43,12 @@ class AppPage < Calabash::ABase
       puts "i == 4"
       touch "* marked:'More options'"
     else 
-      touch "android.support.design.widget.TabLayout$TabView index:#{i}"
+      wait_touch "android.support.design.widget.TabLayout$TabView index:#{i}"
     end
     sleep 1
+    if element_exists  "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'"
+    end
     if element_exists "* marked:'Connect now!'"
       sleep 0.5
       touch "* marked:'Cancel'"

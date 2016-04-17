@@ -30,6 +30,8 @@ class AppPage < Calabash::IBase
     when "me"
       wait_touch "UITabBarButtonLabel marked:'More'"
     end
+    sleep 1
+    close_chat_popup
   end
 
   def logout

@@ -210,10 +210,19 @@ Then(/^I turn off signature in profile settings$/) do
 end
 
 Then(/^I should not see the signature in topic\/comment\/subreply$/) do
-  check_element_exists "* id:'gl-community-plus-badge.png'"
-  unless [2, 7].include? query("* id:'gl-community-plus-badge.png' index:1 sibling *").size 
-    puts query("* id:'gl-community-plus-badge.png' index:1 sibling *").size
-    screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+  wait_for(:time_out=>3) do
+    element_exists("* id:'gl-community-plus-badge.png'") || element_exists("* id:'gl-community-plus-badge'")
+  end
+  if element_exists "* id:'gl-community-plus-badge.png' sibling *"
+    unless (query("* id:'gl-community-plus-badge.png' index:0 sibling *").size== 2) && (query("* id:'gl-community-plus-badge' index:0 sibling *").size == 7)
+      puts query("* id:'gl-community-plus-badge.png' index:0 sibling *").size
+      screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+    end
+  else 
+    unless query("* id:'gl-community-plus-badge' index:0 sibling *").size == 7
+      puts query("* id:'gl-community-plus-badge' index:0 sibling *").size
+      screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+    end
   end
 end
 
@@ -440,8 +449,11 @@ And(/^I click settings in chat request page and see edit profile page$/) do
 end
 
 When(/^I swipe the conversation log and click delete$/) do
-  sleep 3
+  sleep 2
   swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
+  until element_exists "* marked:'Delete'"
+    swipe "left", {:query => "* {text CONTAINS 'Swipe'}"}
+  end
   sleep 2
   wait_touch "* marked:'Delete'"
 end
