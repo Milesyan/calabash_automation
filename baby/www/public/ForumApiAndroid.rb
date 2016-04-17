@@ -4,7 +4,7 @@ module ForumApiAndroid
 
   class ForumAndroid
     extend TestHelper 
-    attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name, :notifications
   ########## Community ###########
     def create_topic(args = {})
       data = {

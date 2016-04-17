@@ -147,26 +147,11 @@ module NurtureForumIOS
       }.merge(common_data)
       @res = HTTParty.get("#{BASE_URL}/ios/users/pull", :body => pull_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
-      @res = @res["data"]
+      @notifications = @res["data"]["notifications"] if @res["rc"] == 0
+      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
       self
     end   
 
-    def pull
-      data = {
-        "data": {
-          "user": {
-            "user_id": @user_id,
-            "sync_time": 0
-          },
-          "babies": []
-        },
-        "ut": @ut
-      }.merge(common_data)
-
-      @res = HTTParty.post "#{BASE_URL}/ios/user/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
-    end
     
 
   end

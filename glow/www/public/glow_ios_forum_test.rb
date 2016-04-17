@@ -51,7 +51,7 @@ module GlowForumIOS
 
     def common_data
       {
-        "app_version" => "5.3.0",
+        "app_version" => "5.5.0",
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "model" => "iPhone7,1",
@@ -172,19 +172,14 @@ module GlowForumIOS
 
     def pull
       data = {
-        "data": {
-          "user": {
-            "user_id": @user_id,
-            "sync_time": 0
-          },
-          "babies": []
-        },
+        "ts": 0,
+        "rs": "",
+        "sign": "todos:-3985177229087007215|activity_rules:-4394188183635176431|clinics:-263395673388636808|drugs:5594482260161071637|fertile_score:-1915309563115276298|predict_rules:8588338023020872333|health_rules:3809831023003012200",
         "ut": @ut
       }.merge(common_data)
-
-      @res = HTTParty.post "#{BASE_URL}/ios/user/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      @res = HTTParty.get "#{BASE_URL}/api/v2/users/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
+      @notifications = @res["user"]["notifications"] if @res
+      # log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
     
   end

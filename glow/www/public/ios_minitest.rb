@@ -280,8 +280,8 @@ module Minitest_ios
     u2.reply_to_topic u.topic_id
     sleep 1
     u.pull
-    puts u.res
-    puts u.notifications
+    # puts u.res["user"]["notification"]
+    # puts u.notifications
     assert_equal 8, u.notifications[0]["button"]
     assert_equal 1050,u.notifications[0]["type"]
     assert_equal "You have a new comment",u.notifications[0]["text"]

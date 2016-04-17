@@ -7,7 +7,7 @@ module ForumApi
   
   class ForumIOS
     include TestHelper
-    attr :code_name, :request_id, :all_participants, :all_group_ids, :all_group_names
+    attr :code_name, :request_id, :all_participants, :all_group_ids, :all_group_names, :notifications
     def create_topic(args = {})
       topic_data = {
         "code_name": @code_name,
