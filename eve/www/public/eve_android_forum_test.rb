@@ -41,14 +41,12 @@ module EveForumAndroid
       @pb = (Time.new - 10*60*60*24).strftime("%Y\/%m\/%d")
       @pe = (Time.new - 6*60*60*24).strftime("%Y\/%m\/%d")
       @next_pb = (Time.new + 12*60*60*24).strftime("%Y\/%m\/%d")
-      # @birthday = args[:birthday] || 25.years.ago.to_i
       @birthday =  632406657
       @forum_locale = "en_US"
-      @forum_fc = 1
       @forum_random = random_str
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "Eve_1.0_miles_test"
-      @forum_app_version = "HAHAHA_2"
+      @forum_android_version = "30000"
+      @forum_app_version = "30000"
       @forum_time_zone = "Asia\/Shanghai"
       @code_name = "lexie"
       @forum_ts = Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,3].join
@@ -258,6 +256,7 @@ module EveForumAndroid
         }
       }
       @res = HTTParty.post "#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      puts @res
       @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end

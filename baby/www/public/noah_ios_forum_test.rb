@@ -96,7 +96,7 @@ module NoahForumIOS
 
     def common_data
       {
-        "app_version" => "1.0",
+        "app_version" => "9.0",
         "locale" => "en_US",
         "time_zone"=> "Asia\/Shanghai",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
@@ -161,8 +161,8 @@ module NoahForumIOS
       }.merge(common_data)
 
       @res = self.class.post "#{BASE_URL}/ios/user/pull", options(data)
-      @notifications = @res["data"]["user"]["Notification"]["update"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      @notifications = @res["data"]["user"]["Notification"]["update"] if not @res["data"]["user"]["Notification"].nil?
+      log_important "No notification field in response" if @res["data"]["user"]["Notification"].nil?
     end
 
     def new_born_baby(args = {})

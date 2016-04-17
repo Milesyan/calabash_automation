@@ -33,7 +33,7 @@ module NurtureForumAndroid
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
     def initialize(args = {})
-      @first_name = (args[:first_name] || "ba") + Time.now.to_i.to_s[2..-1] + random_str_b(2).to_s
+      @first_name = (args[:first_name] || "na") + Time.now.to_i.to_s[2..-1] + random_str_b(2).to_s
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Miles_test"
       @password = args[:password] || PASSWORD
@@ -131,7 +131,7 @@ module NurtureForumAndroid
       if @res["rc"] == 0
         @ut = @res["dict"]["encrypted_token"]
         @user_id = @res["dict"]["user_id"]
-        log_msg @email + " has been signed up. [user_id: #{@user_id}]"
+        # log_msg @email + " has been signed up. [user_id: #{@user_id}]"
       end
       self
     end
@@ -164,9 +164,12 @@ module NurtureForumAndroid
         "support_postpartum": true,
       }
 
-      @res = HTTParty.post "#{BASE_URL}/android/users/stripped_pull?#{common_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{BASE_URL}/android/users/pull?#{common_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
       @notifications = @res["dict"]["notifications"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      if @res["rc"] != 0
+        log_important "RC IS NOT EQUAL to 0 in pull api call" 
+        puts "Debug #{@res}"
+      end
     end
     
   end

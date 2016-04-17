@@ -271,22 +271,6 @@ module Minitest_ios
     assert_equal u.first_name, u.res["group"]["creator_name"]
   end
 
-
-  def test_notification
-    u = forum_new_user
-    u.create_topic
-    puts u.user_id
-    u2 = forum_new_user
-    u2.reply_to_topic u.topic_id
-    sleep 1
-    u.pull
-    # puts u.res["user"]["notification"]
-    # puts u.notifications
-    assert_equal 8, u.notifications[0]["button"]
-    assert_equal 1050,u.notifications[0]["type"]
-    assert_equal "You have a new comment",u.notifications[0]["text"]
-  end
-
   def test_add_followings
     u = forum_new_user
     u2 = forum_new_user
@@ -411,21 +395,9 @@ module Minitest_ios
     assert_equal "Updated", up.res["msg"]
   end
 
-  def test_accept_chat_notification
-    u = forum_new_user
-    up = premium_login
-    u.send_chat_request up.user_id
-    up.accept_chat
-    get_notification u
-    # assert_equal 8, u.res["notifications"][0]["button"]
-    # assert_equal 1050,u.res["notifications"][0]["type"]
-    # assert_equal "You have a new comment",u.res["notifications"][0]["text"]
-  end
-
-
-
   def test_premium_login
     up = premium_login
+    puts up.res
     assert_rc up.res
   end
 
@@ -439,26 +411,57 @@ module Minitest_ios
     assert_equal "Your chat request is pending response.", up.res["msg"]
   end
 
-  def get_notification(user=self)
+  def print_notification(user=self)
     user.pull
-    puts user.res["notifications"]
+    puts user.notifications
   end  
+
+  def test_notification
+    u = forum_new_user
+    u.pull
+    u.create_topic
+    puts u.user_id
+    u2 = forum_new_user
+    u2.reply_to_topic u.topic_id
+    sleep 1
+    u.pull
+    # puts u.res["user"]["notification"]
+    # puts u.notifications
+    assert_equal 8, u.notifications[0]["button"]
+    assert_equal 1050,u.notifications[0]["type"]
+    assert_equal "You have a new comment",u.notifications[0]["text"]
+  end
 
   def test_chat_request_notification
     up = premium_login
     u = forum_new_user
-    # get_notification u
-    # up.availability u.user_id
-    # assert_equal "Please send chat request first.", up.res["msg"]
+    u.get_notification
     up.send_chat_request u.user_id
     puts up.res
-    puts "-------"
-    # sleep 1
+    puts "-------------------------"
     u.get_notification
-    # u.create_topicss
-    # up.reply_to_topic u.topic_id
-    # get_notification u
+    assert_equal 1100,u.notifications[0]["type"]
   end
+  def test_accept_chat_notification
+    u = forum_new_user
+    u.get_notification
+    up = premium_login
+    u.send_chat_request up.user_id
+    up.accept_chat
+    puts "-------------------------"
+    u.get_notification
+    assert_equal 1102,u.notifications[0]["type"]
+  end
+
+
+
+end
+
+
+
+
+
+
 
   # def test_create_new_badge
   #   u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
@@ -474,15 +477,6 @@ module Minitest_ios
   #   u6 = forum_new_user :first_name=>"forumadmin", :email => "forumadmin@g.com", :password => '111111'
   #   puts "forumadmin acc >>#{u6.user_id }"
   # end
-end
-
-
-
-
-
-
-
-
 
 
 

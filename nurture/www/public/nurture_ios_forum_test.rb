@@ -64,7 +64,7 @@ module NurtureForumIOS
 
     def common_data
       {
-        "app_version" => "2.9.0",
+        "app_version" => "3.0.0",
         "locale" => "en_US",
         # "time_zone"=> "Asia\/Shanghai",
         # "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
@@ -148,7 +148,10 @@ module NurtureForumIOS
       @res = HTTParty.get("#{BASE_URL}/ios/users/pull", :body => pull_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @notifications = @res["data"]["notifications"] if @res["rc"] == 0
-      log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      if @res["rc"] != 0
+        log_important "RC IS NOT EQUAL to 0 in pull api call"
+        puts "Debug #{@res}"
+      end
       self
     end   
   end

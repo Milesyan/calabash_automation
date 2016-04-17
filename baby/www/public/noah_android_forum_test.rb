@@ -78,7 +78,7 @@ module NoahForumAndroid
       @forum_hl = "en_US"
       @forum_random = rand.to_s[2..15]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "1.0_beta_test_miles"
+      @forum_android_version = "10200"
       @forum_time_zone = "American%2FNew_York"
       @code_name = "noah"
       @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&tz=#{@forum_time_zone}&code_name=#{@code_name}"
@@ -138,7 +138,7 @@ module NoahForumAndroid
         "random": random_num,
         "device_id": "be3ca737160d9da3",
         "android_version": "1.0-beta",
-        "vc": 1,
+        "vc": 50000,
         "time_zone": "Asia Shanghai",
         "code_name": "noah",
       }.to_param
@@ -181,7 +181,7 @@ module NoahForumAndroid
         @user_id = @res["data"]["user"]["id"]
         @current_baby_id = @res["data"]["user"]["current_baby_id"]
         @first_name = @res["data"]["user"]["first_name"]
-        log_msg email + " just logged in. [user_id: #{@user_id}]"
+        puts email + " just logged in. [user_id: #{@user_id}]"
         if @res["data"]["babies"].size > 0
           current_baby = @res["data"]["babies"].detect {|b| b["Baby"]["baby_id"] == @current_baby_id }
           @current_baby = Baby.new current_baby["Baby"].symbolize_keys
@@ -199,7 +199,9 @@ module NoahForumAndroid
         }
       }
       @res = self.class.post "/android/user/pull?#{common_data}", auth_options(data)
-      @notifications = @res["data"]["user"]["Notification"]["update"]
+      # puts @res
+      @notifications = @res["data"]["user"]["Notification"]["update"] if not @res["data"]["user"]["Notification"].nil?
+      log_important "No notification field in response" if @res["data"]["user"]["Notification"].nil?
       self
     end
 

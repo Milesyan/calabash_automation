@@ -563,4 +563,16 @@ Then(/^I click the requestor's profile photo to see the profile page$/) do
   wait_for_element_exists "* marked:'Follow'"
 end
 
+Then(/^I check the accept chat request notification is received$/) do
+  wait_for_element_exists "* marked:'Chat Now!'"
+end
+
+When(/^I click chat now button$/) do
+  touch "* marked:'Chat Now!'"
+end
+
+Then(/^I should see the messages page$/) do
+  wait_for_element_exists "* marked:'Messages'"
+end
+
 

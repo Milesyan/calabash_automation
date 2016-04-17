@@ -12,7 +12,7 @@ class NurtureTest < Minitest::Test
 
 
   def premium_login
-    premium = ForumUser.new(:email=>"miles@glowing.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     # premium = ForumUser.new(:email=>"local5@g.com", :password => "111111").login
     premium
   end

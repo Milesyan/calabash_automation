@@ -57,7 +57,7 @@ module EveForumIOS
 
     def common_data
       {
-        "app_version" => "1.5.1",
+        "app_version" => "3.0.0",
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "model" => "iPhone7,1",

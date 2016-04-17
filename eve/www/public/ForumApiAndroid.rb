@@ -4,7 +4,7 @@ module ForumApiAndroid
 
   class ForumAndroid
     extend TestHelper 
-    attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name, :notifications
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name, :notifications, :app_version
   ########## Community ###########
     def create_topic(args = {})
       data = {
@@ -601,6 +601,13 @@ module ForumApiAndroid
       end
       self
     end
+
+    def get_notification(user=self)
+      user.pull
+      puts "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
+      puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications  
+    end    
+
   end
 end
 

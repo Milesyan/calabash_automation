@@ -14,6 +14,7 @@ module Minitest_android
     u = forum_new_user
     u.create_poll
     assert_equal u.user_id, u.res["result"]["user_id"]
+
   end
 
   def test_community_create_anonymous_topic
@@ -268,20 +269,6 @@ module Minitest_android
     up = premium_login
     up.turn_on_chat
   end
-  
-  def test_notification
-    u = forum_new_user
-    u.create_topic
-    u2 = forum_new_user
-    u2.reply_to_topic u.topic_id
-    sleep 1
-    u.pull
-    # puts u.res["user"]["notification"]
-    puts u.notifications
-    assert_equal 8, u.notifications[0]["button"]
-    assert_equal 1050,u.notifications[0]["type"]
-    assert_equal "You have a new comment",u.notifications[0]["text"]
-  end
 
   def test_turn_off_signature
     u = forum_new_user
@@ -395,7 +382,6 @@ module Minitest_android
     u.reset_all_flags_close_all
     u.get_user_info
     res = u.res["data"]
-
     all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
     assert_equal [1,0,1,0], all_flags
     puts all_flags
@@ -404,6 +390,70 @@ module Minitest_android
     # puts u.res
     # assert_equal "Updated", up.res["msg"]
   end
+
+  def test_accept_chat_notification
+    u = forum_new_user
+    up = premium_login
+    u.send_chat_request up.user_id
+    up.accept_chat
+    get_notification u
+    # assert_equal 8, u.res["notifications"][0]["button"]
+    # assert_equal 1050,u.res["notifications"][0]["type"]
+    # assert_equal "You have a new comment",u.res["notifications"][0]["text"]
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  def test_notification
+    u = forum_new_user
+    u.create_topic
+    u2 = forum_new_user
+    u2.reply_to_topic u.topic_id
+    sleep 1
+    u.get_notification
+    assert_equal 8, u.notifications[0]["button"]
+    assert_equal 1050,u.notifications[0]["type"]
+    assert_equal "You have a new comment",u.notifications[0]["text"]
+  end
+
+  def print_notification(user=self)
+    user.pull
+    puts user.notifications
+  end  
+
+  def test_chat_request_notification
+    up = premium_login
+    u = forum_new_user
+    u.get_notification
+    up.send_chat_request u.user_id
+    puts up.res
+    puts "-------"
+    u.get_notification
+    assert_equal 1100,u.notifications[0]["type"]
+  end
+  def test_accept_chat_notification
+    u = forum_new_user
+    u.get_notification
+    up = premium_login
+    u.send_chat_request up.user_id
+    up.accept_chat
+    u.get_notification
+    assert_equal 1102,u.notifications[0]["type"]
+  end
+
+end
+
 
   # def test_create_new_badge
   #   u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
@@ -419,10 +469,6 @@ module Minitest_android
   #   u6 = forum_new_user :first_name=>"forumadmin", :email => "forumadmin@g.com", :password => '111111'
   #   puts "forumadmin acc >>#{u6.user_id }"
   # end
-end
-
-
-
 
 
 

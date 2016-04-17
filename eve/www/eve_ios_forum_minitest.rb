@@ -31,12 +31,12 @@ class EveTest < Minitest::Test
 
   def test_eve_login
     u = forum_new_user
-    u.login_with_email
+    u.login
     assert_rc u.res
   end
 
   def premium_login
-    premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     premium
   end
 
