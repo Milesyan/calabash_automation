@@ -6,9 +6,8 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
-    sleep 2
+    sleep 3
     pass_premium_promt
-    sleep 1
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
     else 
@@ -50,7 +49,7 @@ class AppPage < Calabash::IBase
   def pass_premium_promt
     if element_exists "* marked:'Unlock now!'"
       touch "* marked:'Continue for free'"
-      sleep 1
+      sleep 2
     end
   end
 

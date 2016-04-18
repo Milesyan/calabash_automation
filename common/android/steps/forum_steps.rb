@@ -981,7 +981,8 @@ Then(/^I check I can not see the user's comment and subreply$/) do
   wait_touch "* marked:'Show entire discussion'" if element_exists "* marked:'Show entire discussion'"
   sleep 1
   scroll_down
-  wait_for_elements_do_not_exist ["* marked:'Filter comment'", "* {text CONTAINS 'Filter subreply'}"]
+  # wait_for_elements_do_not_exist ["* marked:'Filter comment'", "* {text CONTAINS 'Filter subreply'}"]
+  wait_for_element_does_not_exist "* marked:'Filter comment'"
   forum_page.view_all_replies
   sleep 1
   check_element_does_not_exist "* marked:'Filter subreply'"
