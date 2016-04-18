@@ -534,8 +534,8 @@ Then(/^I turn on all the flags$/) do
   sleep 1
   if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= "0"
     screenshot_and_raise("Hide post flag error", :name => "Flag.png")
-  # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= "0"
-  #   screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
+  elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= "0"
+    screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
   elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= "0"
     screenshot_and_raise("Turn off chat error", :name => "Flag.png")
   elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= "0"
@@ -552,8 +552,8 @@ Then(/^I check all the flags are turned on$/) do
   forum_page.scroll_down_to_see 'Turn off Signature'
   if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= '1'
     screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
-  # elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= '1'
-  #   screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
+  elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= '1'
+    screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
   elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= '1'
     screenshot_and_raise("Turn off chat error", :name => "Flag_after_turn_on.png")
   elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= '1'
@@ -570,11 +570,14 @@ end
 
 
 Then(/^I check the accept chat request notification is received$/) do
-  wait_for_element_exists "* marked:'Chat Now!'"
+  wait_for(:time_out=>5) do
+    element_exists("* marked:'Chat Now!'") || element_exists("* marked:'     Chat Now!     '")
+  end
 end
 
 When(/^I click chat now button$/) do
-  touch "* marked:'Chat Now!'"
+  touch "* marked:'Chat Now!'" if element_exists "* marked:'Chat Now!'"
+  touch "* marked:'     Chat Now!     '" if element_exists "* marked:'     Chat Now!     '"
 end
 
 Then(/^I should see the messages page$/) do

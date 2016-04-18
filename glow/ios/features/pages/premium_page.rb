@@ -68,7 +68,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def click_name_of_chat_requester
-    sleep 0.5
+    sleep 1
     wait_touch "* marked:'New chat request.'"
     sleep 1
     touch "* marked:'New chat request.'" if element_exists "* marked:'New chat request.'"
@@ -140,7 +140,7 @@ class PremiumPage < Calabash::IBase
       close_request_dialog
     when 4
       app_page.close_chat_popup
-      wait_for_element_exists "* marked:'Enter Message'"
+      wait_for_element_exists "* marked:'Enter Message'", :time_out => 10
       app_page.close_chat_popup
       forum_page.click_back_button
     when 5,6

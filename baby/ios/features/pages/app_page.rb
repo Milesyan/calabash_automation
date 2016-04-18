@@ -35,6 +35,8 @@ class AppPage < Calabash::IBase
   end
 
   def logout
+    sleep 1
+    close_chat_popup
     wait_for_element_exists "* id:'Settings'"
     scroll_to_row_with_mark "Logout"
     wait_touch "* marked:'Logout'"
