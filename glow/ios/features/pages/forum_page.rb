@@ -5,6 +5,12 @@ class ForumPage < Calabash::IBase
     '*'
   end
 
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+    end
+  end
+  
   def create_poll(anonymous=false)
     wait_touch "label text:'Poll'"
     title = "Your favorite drink? " + Time.now.strftime("%m%d-%H:%M:%S")

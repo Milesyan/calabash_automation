@@ -13,6 +13,7 @@ class AppPage < Calabash::IBase
     keyboard_enter_text password
     touch "* marked:'Next'"
     sleep 2
+    pass_premium_promt
   end
 
   def dismiss_install_message
@@ -108,6 +109,7 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
+    pass_premium_promt
     when_element_exists("NewDateButton index:2", :timeout => 10)
     if element_exists "* id:'tutorial-arrow-right'"
       puts "NEED TUTORIAL IN GLOW"
@@ -128,6 +130,13 @@ class AppPage < Calabash::IBase
       
       touch_later_link
       wait_for_none_animating
+    end
+  end
+
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
     end
   end
 

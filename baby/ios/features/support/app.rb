@@ -15,6 +15,7 @@ module Baby
 
   def logout_if_already_logged_in
     sleep 1
+    app_page.finish_tutorial
     if already_logged_in?
       app_page.open("me")
       app_page.open_settings

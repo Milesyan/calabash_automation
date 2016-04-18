@@ -52,7 +52,8 @@ class AppPage < Calabash::IBase
     keyboard_enter_text password
     # touch "* marked:'Next'"
     touch "* marked:'Log me in!' index:0"
-    sleep 3
+    sleep 1
+    pass_premium_promt
   end
 
   def open_login_link
@@ -74,9 +75,16 @@ class AppPage < Calabash::IBase
   end
   
   def finish_tutorial
-    puts "NO TUTORIAL IN BABY"
+    pass_premium_promt
   end
 
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
+    end
+  end
+  
   def ntf_join_group
     wait_for_element_exists "* {text CONTAINS 'Check it out'}"
     wait_touch "* {text CONTAINS 'Check it out'}"

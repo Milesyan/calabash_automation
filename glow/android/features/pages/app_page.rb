@@ -110,4 +110,15 @@ class AppPage < Calabash::ABase
   def hint_section 
     wait_for_element_exists "* id:'tos'"
   end
+
+  def finish_tutorial
+    pass_premium_promt
+  end
+
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
+    end
+  end
 end

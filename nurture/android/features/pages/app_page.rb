@@ -48,6 +48,17 @@ class AppPage < Calabash::ABase
     end  
   end
 
+  def finish_tutorial
+    pass_premium_promt
+  end
+
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
+    end
+  end
+
   def open(tab_name)
     wait_for_element_exists "* id:'bottom_action_bar'"
     sleep 1

@@ -6,11 +6,9 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
-    begin
-      wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout => 1
-    rescue RuntimeError
-    end
-    sleep 3
+    sleep 2
+    pass_premium_promt
+    sleep 1
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
     else 
@@ -49,6 +47,12 @@ class AppPage < Calabash::IBase
     sleep 1
   end
 
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
+    end
+  end
 
   def close_insights_popup
     sleep 1
@@ -107,6 +111,13 @@ class AppPage < Calabash::IBase
     wait_for_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
     touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     sleep 1
+    begin
+      wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout => 3
+      sleep 1
+      pass_premium_promt
+    rescue RuntimeError
+      puts "PASS PREMIUM PROMT FAIL!!!"
+    end
   end
 
   def get_started

@@ -40,9 +40,11 @@ class AppPage < Calabash::IBase
     if element_exists "* marked:'Get it, Girl'"
       bypass_temp
     end
+    pass_premium_promt
   end
 
   def logout_if_already_logged_in
+    app_page.finish_tutorial
     if element_does_not_exist "* marked:'LOG\u2028IN'"
       app_page.open("me")
       me_page.logout
@@ -126,6 +128,14 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
+    pass_premium_promt
+  end
+
+  def pass_premium_promt
+    if element_exists "* marked:'Unlock now!'"
+      touch "* marked:'Continue for free'"
+      sleep 1
+    end
   end
 
   def signup_flow
