@@ -23,7 +23,7 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     wait_touch "* marked:'Follow back'"
   when "1056"
     wait_for_element_exists "AppCompatTextView {text CONTAINS 'commentAAA'}"
-    wait_touch "* {text CONTAINS 'Check it out'}"
+    wait_touch "AppCompatTextView id:'action_button' {text CONTAINS 'Check it out'}"
   when "1092"
     sleep 5
   end
