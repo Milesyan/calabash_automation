@@ -49,10 +49,12 @@ class PremiumPage < Calabash::ABase
   end
 
   def enter_non_premium_profile
+    sleep 1
     wait_touch "* marked:'milesn'"
   end
 
   def click_send_request
+    sleep 1
     wait_touch "* marked:'Send request'"
   end
 
@@ -84,6 +86,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def chat_request_fail
+    sleep 1.5
     wait_touch "* marked:'Chat'"
     wait_for_element_exists "* {text CONTAINS 'Can not chat'}"
   end

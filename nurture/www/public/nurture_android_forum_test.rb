@@ -170,6 +170,7 @@ module NurtureForumAndroid
         log_important "RC IS NOT EQUAL to 0 in pull api call" 
         puts "Debug #{@res}"
       end
+      self
     end
     
   end

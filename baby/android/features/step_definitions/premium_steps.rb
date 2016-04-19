@@ -1,5 +1,5 @@
 def premium_user(args={})
-  ForumUser.new(args).login.leave_all_groups.join_group
+  ForumUser.new(args).login.pull.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user milesp and a non-premium user milesn have been created for test$/) do
@@ -189,7 +189,7 @@ Then(/^I check that the chat icon exists$/) do
 end
 
 Then(/^I click the chat icon and see the chat window$/) do
-  sleep 1
+  sleep 1.5
   wait_touch "* marked:'Chat'"
   retries = 0
   begin
@@ -335,7 +335,7 @@ Then(/^I go to the chat window for the new user$/) do
   begin 
     wait_touch "* marked:'#{$new_user.first_name}'"
   rescue RuntimeError
-    retry if attempt <3
+    retry if attempt <4
     attempt += 1
   end 
   wait_for_element_exists "* marked:'Type something'"

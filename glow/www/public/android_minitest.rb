@@ -382,35 +382,7 @@ module Minitest_android
     all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
     assert_equal [1,0,1,0], all_flags
     puts all_flags
-    # u.reset_all_flags
-    # u.get_user_info
-    # puts u.res
-    # assert_equal "Updated", up.res["msg"]
   end
-
-  def test_accept_chat_notification
-    u = forum_new_user
-    up = premium_login
-    u.send_chat_request up.user_id
-    up.accept_chat
-    get_notification u
-    # assert_equal 8, u.res["notifications"][0]["button"]
-    # assert_equal 1050,u.res["notifications"][0]["type"]
-    # assert_equal "You have a new comment",u.res["notifications"][0]["text"]
-  end
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   def test_notification
     u = forum_new_user
@@ -437,6 +409,7 @@ module Minitest_android
     puts up.res
     puts "-------"
     u.get_notification
+    print_notification u
     assert_equal 1100,u.notifications[0]["type"]
   end
   def test_accept_chat_notification
@@ -446,6 +419,7 @@ module Minitest_android
     u.send_chat_request up.user_id
     up.accept_chat
     u.get_notification
+    print_notification u
     assert_equal 1102,u.notifications[0]["type"]
   end
 

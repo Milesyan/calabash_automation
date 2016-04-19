@@ -4,20 +4,19 @@ Feature: Test all community notifications
     TYPE_FORUM_REPLY_CREATOR_2 = 1085  # 6 comments
     TYPE_FORUM_REPLY_CREATOR_3 = 1086  # 16 comments
     TYPE_FORUM_REPLY_CREATOR_4 = 1087  # 50 comments
-
     TYPE_FORUM_REPLY_PARTICIPANT = 1051
     TYPE_FORUM_SUBREPLY = 1053
     TYPE_FORUM_TOPIC_LIKED_DAILY = 1055  # only in app notification
-    TYPE FORUM PARTICIPANT SUBREPLY = 1056
     TYPE_FORUM_REPLY_LIKED = 1059
     TYPE_FORUM_POLL_VOTED = 1060
-
     TYPE_FORUM_INVITE_TO_GROUP = 1068
     TYPE_FORUM_REPLY_PHOTO_CREATOR = 1088
     TYPE_FORUM_REPLY_PHOTO_CREATOR_2 = 1089
-
     TYPE_FORUM_NEW_FOLLOWER = 1091
-    TYPE_FORUM_FOLLOWERS_SUMMARY = 1092'''
+    TYPE_FORUM_FOLLOWERS_SUMMARY = 1092
+    
+    ======NEW======
+    TYPE_FORUM_SUBREPLY_PARTICIPATE = 1056'''
   @notif
   Scenario Outline: Test different notification types
     Given I create a new forum user with name "Miles"
@@ -38,9 +37,13 @@ Feature: Test all community notifications
         |1051   |
         |1053   |
         |1055   |
-        |1056   |
         |1059   |
         |1060   |
         |1088   |
         |1089   |
-        |1091   |  
+        |1091   |
+
+    @new_notification
+    Examples: 
+        |ntf_type|
+        |1056   |
