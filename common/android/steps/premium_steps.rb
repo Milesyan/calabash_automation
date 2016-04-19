@@ -581,4 +581,15 @@ Then(/^I should see the messages page$/) do
   wait_for_element_exists "* marked:'Messages'"
 end
 
+When(/^I block the chat request$/) do
+  wait_touch "* marked:'BLOCK'"
+  touch "* marked:'BLOCK'" if element_exists "* marked:'BLOCK'"
+  wait_for_element_exists "* marked:'Block this user?'"
+  wait_touch "* marked:'Block'"
+  wait_for_element_exists "* marked:'Blocked!'"
+end
+
+Then(/^I should see the chat requst is blocked$/) do
+  puts "NEED TO CONFIRM THE TEXT HERE"
+end
 
