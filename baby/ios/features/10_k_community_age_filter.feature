@@ -25,5 +25,6 @@ Feature: Age filter for topic and comments
     And I open the topic "Test age filter comment"
     Then I check I can not see the user's comment and subreply
     And I go back to previous page
+    And I go back to previous page
     And I logout
   

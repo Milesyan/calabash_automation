@@ -47,6 +47,7 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
+    sleep 2
     if element_exists "* marked:'Unlock now!'"
       touch "* marked:'Continue for free'"
       sleep 2
@@ -72,8 +73,11 @@ class AppPage < Calabash::IBase
     end
     scroll_to_row_with_mark "Settings"
     wait_for_none_animating
+    close_chat_popup
     wait_touch "* marked:'Settings'"
+    close_chat_popup
     scroll_to_row_with_mark "Logout"
+    close_chat_popup
     wait_for_none_animating
     sleep 0.5
     wait_touch "* marked:'Logout'"
@@ -98,6 +102,7 @@ class AppPage < Calabash::IBase
     when "alert"
       wait_touch "UITabBarButtonLabel marked:'Alert'"
     when "me"
+      close_chat_popup
       wait_touch "UITabBarButtonLabel marked:'Me'"
     end
     sleep 1
@@ -108,10 +113,15 @@ class AppPage < Calabash::IBase
     sleep 1
     pass_sso
     wait_for_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
+    sleep 0.5
     touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     sleep 1
     begin
       wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout => 3
+    rescue RuntimeError
+      touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
+    end
+    begin
       sleep 1
       pass_premium_promt
     rescue RuntimeError

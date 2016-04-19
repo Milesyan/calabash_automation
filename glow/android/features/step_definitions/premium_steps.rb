@@ -65,7 +65,7 @@ Given(/^A premium user milesp established chat relationship with a new user "([^
   $user.turn_on_chat
   $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
-  $user.establish_chat $new_user
+  $new_user.establish_chat $user
   if $user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
@@ -139,7 +139,7 @@ end
 Then(/^I check the badge on the profile page exists$/) do
   # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
   sleep 2
-  wait_for_element_exists "android.widget.ImageView index:3"
+  wait_for_element_exists "* marked:'Premium'"
 end
 
 
@@ -191,7 +191,13 @@ end
 Then(/^I click the chat icon and see the chat window$/) do
   sleep 1
   wait_touch "* marked:'Chat'"
-  wait_for_element_exists "* {text CONTAINS 'Send request to'}"
+  retries = 0
+  begin
+    wait_for_element_exists "* {text CONTAINS 'Send request to'}"
+  rescue Timeout::Error
+    raise if (retries += 1) > 3
+    retry
+  end
 end
 
 Then(/^I click the chat icon$/) do

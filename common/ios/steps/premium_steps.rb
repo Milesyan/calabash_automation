@@ -319,7 +319,7 @@ end
 Then(/^I click done to close messages$/) do
   sleep 1
   begin
-    wait_for(:time_out=>3) do
+    wait_for(:time_out=>5) do
       element_exists "* marked:'Done'"
     end
     sleep 0.5

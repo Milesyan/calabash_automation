@@ -2,7 +2,7 @@ module Nurture
   def wait_touch(query_str)
     wait_for_elements_exist([query_str])
     touch(query_str)
-    wait_for_none_animating :time_out => 10
+    wait_for_none_animating :time_out => 20
   end
 
   def touch_if_elements_exist(query_str)
