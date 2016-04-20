@@ -647,7 +647,7 @@ Then(/^I can see the person I blocked$/) do
      check_element_exists "* {text CONTAINS '#{$user2.first_name}'}"
     end
   rescue RuntimeError => e 
-    puts "ERROR"
+    puts "Name not for new user or user2"
   end
   check_element_exists "* marked:'Blocked'"
 end

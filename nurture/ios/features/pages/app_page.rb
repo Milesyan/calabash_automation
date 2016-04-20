@@ -47,9 +47,9 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    sleep 2
-    if element_exists "* marked:'Unlock now!'"
-      touch "* marked:'Continue for free'"
+    sleep 1.2
+    if element_exists "* marked:'Try for FREE'"
+      touch "* id:'cross-close'"
       sleep 2
     end
   end
@@ -71,10 +71,10 @@ class AppPage < Calabash::IBase
     if element_exists "* marked:'Invite your partner!'"
       wait_touch "* id:'gl-foundation-popup-close'"
     end
-    scroll_to_row_with_mark "Settings"
+    scroll_to_row_with_mark "Account settings"
     wait_for_none_animating
     close_chat_popup
-    wait_touch "* marked:'Settings'"
+    wait_touch "* marked:'Account settings'"
     close_chat_popup
     scroll_to_row_with_mark "Logout"
     close_chat_popup

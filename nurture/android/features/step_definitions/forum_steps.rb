@@ -666,12 +666,17 @@ Then(/^I click back button in the community settings page$/) do
 end
 
 Then(/^I can see the person I blocked$/) do
-  if $new_user.nil?
-    name = $user2.first_name
-  else 
-    name = $new_user.first_name
+  begin
+    if $new_user.nil?
+      name = $user2.first_name
+    else 
+      name = $new_user.first_name
+    end
+    puts "Name is #{name}"
+    until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
+  rescue
+    puts "Name not for new user or user2"
   end
-  until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
   wait_for_element_exists "* marked:'Blocked'"
 end
 

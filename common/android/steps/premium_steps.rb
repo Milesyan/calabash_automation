@@ -574,7 +574,11 @@ Then(/^I check the accept chat request notification is received$/) do
 end
 
 When(/^I click chat now button$/) do
-  touch "* marked:'Chat Now!'"
+  begin 
+    touch "* marked:'Chat Now!'"
+  rescue RuntimeError
+    touch "* marked:'Check it out'"
+  end
 end
 
 Then(/^I should see the messages page$/) do
@@ -582,8 +586,8 @@ Then(/^I should see the messages page$/) do
 end
 
 When(/^I block the chat request$/) do
+  sleep 1
   wait_touch "* marked:'BLOCK'"
-  touch "* marked:'BLOCK'" if element_exists "* marked:'BLOCK'"
   wait_for_element_exists "* marked:'Block this user?'"
   wait_touch "* marked:'Block'"
   wait_for_element_exists "* marked:'Blocked!'"
