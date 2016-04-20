@@ -71,6 +71,7 @@ class AppPage < Calabash::IBase
     if element_exists "* marked:'Invite your partner!'"
       wait_touch "* id:'gl-foundation-popup-close'"
     end
+    close_chat_popup
     scroll_to_row_with_mark "Account settings"
     wait_for_none_animating
     close_chat_popup
