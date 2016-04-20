@@ -840,6 +840,7 @@ end
 Then(/^I scroll down the screen$/) do
   forum_page.scroll_down
 end
+
 Then(/^I scroll down the screen with strong force$/) do
   3.times do 
     swipe :up, force: :strong

@@ -14,7 +14,7 @@ Feature: Opt-out; check remove chat history, remove contact.
     And I click done to close messages
     And I logout
 
-  @remove_contact
+  @remove_contact 
   Scenario: Remove contact in contact list.
     Given A premium user miles3 established chat relationship with a new user "Remove"
     And I login as premium user

@@ -589,6 +589,13 @@ Then(/^I should not see the group which I left$/) do
   check_element_does_not_exist "* marked:'$group_name'"
 end
 
+Then(/^I scroll down to see "([^"]*)"$/) do |arg1|
+  forum_page.scroll_down_to_see arg1
+end
+
+Then(/^I scroll down the screen$/) do
+  scroll_down
+end
 
 #----------------profile page -------------------------
 
@@ -825,8 +832,7 @@ end
 
 
 Then(/^I click see all button after "([^"]*)"$/) do |arg1|
-  forum_page.scroll_down_to_see arg1
-  wait_touch "* {text CONTAINS '#{arg1}'} sibling *"
+  wait_touch "* marked:'#{arg1}' sibling *"
   logger.add event_name: "page_impression_#{arg1}", start_version: "community v1.1"
 end
 

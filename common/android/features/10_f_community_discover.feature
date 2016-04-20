@@ -25,12 +25,12 @@ Feature: User enter discover tab and check elements
     And I login as the new user "Miles" created through www
     And I open "community" page
     And I click the DISCOVER button in community tab
-    And I scroll down to see "POPULAR GROUPS"
+    And I scroll down to see "Popular Groups"
     Then I click see all button after "Popular Groups"
     # And I can see many groups
     And I go to previous page
     Then I scroll down the screen
-    And I scroll down to see "SUPER ACTIVE GROUPS"
+    And I scroll down to see "Super Active Groups"
     Then I click see all button after "Super Active Groups"
     # And I can see many groups
     And I go to previous page
