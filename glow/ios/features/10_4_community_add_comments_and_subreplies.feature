@@ -1,6 +1,6 @@
 @forum @comment_reply
 Feature: User add comments and sub-replies.
-  @add_comment  
+  @add_comment @p0
   Scenario: User create a poll topic and add comment @add_comment 
     Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
@@ -24,7 +24,7 @@ Feature: User add comments and sub-replies.
     And I go back to previous page
     And I logout
 
-  @add_reply  
+  @add_reply @p0
   Scenario: User create a text topic and add comment @add_reply
     Given I create a new forum user with name "Miles"
     And "Miles" create a "text" topic in the test group

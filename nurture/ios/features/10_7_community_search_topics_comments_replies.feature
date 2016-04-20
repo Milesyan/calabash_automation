@@ -1,6 +1,6 @@
 @forum @search_topics_comments
 Feature: Add topics and comments and user search for it.
-  @search_topics  
+  @search_topics @p0
   Scenario: User create some topics and search between them.
     Given I create a new forum user with name "Paddington"
     And "Paddington" create 10 topics for searching topic

@@ -1,6 +1,6 @@
 @premium @request
 Feature: Chat request -> accept/ignore.
-  @accept_request
+  @accept_request @p0
   Scenario: Premium User sends chat request to no-premium user and the non-premium user accepts the request
     Given A premium user milesp and a non-premium user milesn have been created for test
     And I create another non-premium user "Charlotte" and create a topic in the test group with topic name "Test signature chat"
@@ -45,7 +45,7 @@ Feature: Chat request -> accept/ignore.
     And I click done to close messages
     And I logout
 
-  @block_chat_request @wip
+  @block_chat_request @p0
   Scenario: Premium User sends chat request to no-premium user and the non-premium user blocks the request
     Given A premium user milesp and a non-premium user milesn have been created for test
     And I create another non-premium user "Troll" and create a topic in the test group with topic name "Test chat block"

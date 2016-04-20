@@ -15,7 +15,7 @@ Feature: Start chat request with others.
     And I go back to community page
     And I logout
 
-  @opt-in_profile
+  @opt-in_profile @p0
   Scenario: Check the profile photo is clickable in chat request dialog.
     Given A premium user milesp sent chat request to a new user "Albert"
     And I login as the new user

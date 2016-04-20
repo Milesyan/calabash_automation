@@ -16,7 +16,7 @@ Feature: Turn off chat and check chat icons and chat section.
     And I go back to group
     And I logout
 
-  @others_turn_off_chat_premium
+  @others_turn_off_chat @p0
   Scenario: Other users turn off chat and I cannot see the Chat icon.
     Given A premium user milesp and a non-premium user milesn have been created for test
     Then I create another non-premium user "Bigbang" and create a topic in the test group with topic name "Test chat off" and the user turns chat off

@@ -1,6 +1,6 @@
 @premium @url
 Feature: Check url field for Premium/Non-premium users
-  @self_url
+  @self_url @p0
   Scenario: Check url in user's own profile page
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as premium user

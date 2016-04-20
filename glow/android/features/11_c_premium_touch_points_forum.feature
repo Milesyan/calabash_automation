@@ -1,7 +1,7 @@
 @premium @premium_forum
 Feature: Check all touch points in community.
 
-  @topic_touch_points_p2np
+  @topic_touch_points_p2np @p0
   Scenario: Check chat touch points in topics for premium user to non-premium user
     Given A premium user milesp and a non-premium user milesn have been created for test
     And a new user "Emma" creates 1 topic with name "Test touch point p2np" and 1 comment and 1 subreply for each comment
@@ -26,7 +26,7 @@ Feature: Check all touch points in community.
     And I go back to previous page
     And I logout
 
-  @topic_touch_points_np2np
+  @topic_touch_points_np2np @p0
   Scenario: Check chat touch points in topics for non-premium user to non-premium user
     Given A premium user milesp and a non-premium user milesn have been created for test
     And a new user "Carrie" creates 1 topic with name "Test touch point np2np" and 1 comment and 1 subreply for each comment

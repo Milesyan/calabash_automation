@@ -1,6 +1,6 @@
 @forum @forum_delete
 Feature: User create a topic and delete it (5m8.716s 4 scenarios 43 steps)
-  @delete_topic  
+  @delete_topic @p0
   Scenario: User create a text topic and delete it. @delete_topic 
     Given I create a new forum user with name "Miles"
     And "Miles" create a "text" topic in the test group

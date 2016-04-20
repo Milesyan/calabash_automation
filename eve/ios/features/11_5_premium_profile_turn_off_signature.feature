@@ -19,7 +19,7 @@ Feature: Turn off signature and check it in posts
     And I go back to previous page
     And I logout
 
-  @profile_flags
+  @profile_flags @p0
   Scenario: User turn off signature and cannot see signature in posts
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as the premium user and reset all the flags under profile page

@@ -31,7 +31,7 @@ Feature: Check touch points in discover tab.
     Then I can see a chat request is sent or premium prompt dialog
     And I logout
 
-  @discover_chat_see_all
+  @discover_chat_see_all @p0
   Scenario: Check recommended people see all list.
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as premium user

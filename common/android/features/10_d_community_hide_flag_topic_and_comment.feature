@@ -12,7 +12,7 @@ Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
     Then I should not see the topic hidden by me
     And I logout
 
-  @report_topic
+  @report_topic @p0
   Scenario: User create a topic and hide it @report_topic
     Given another user "Charlotte" create 1 topic and 1 comment and 1 subreply for each comment
     Given I create a new forum user with name "Miles"

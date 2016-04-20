@@ -24,7 +24,7 @@ Feature: create/join/leave group
     Then I should see "Create my own group" in my view
     And I logout
 
-  @join_group
+  @join_group @p0
   Scenario: User join a group.
     # Given a user created a group in "Eve" category
     Given I create a new forum user with name "Rachel"

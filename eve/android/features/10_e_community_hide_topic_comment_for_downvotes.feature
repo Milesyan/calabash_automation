@@ -38,7 +38,7 @@ Feature: User downvote or flag topics to make it hidden.
     And I go back to group
     And I logout
 
-  @hidden_by_downvote_comment
+  @hidden_by_downvote_comment @p0
   Scenario: User create a comment and other users downvote it to make it hidden.
     Given I create a new forum user with name "Miles"
     And "Miles" create 1 topic and 1 comment and 3 subreplies for each comment

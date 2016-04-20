@@ -31,7 +31,7 @@ Feature: Check function in chat settings
     And I logout
 
 
-  @block_user_chat
+  @block_user_chat @p0
   Scenario: Check block user.
     Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
@@ -49,7 +49,7 @@ Feature: Check function in chat settings
     And I click save of the community settings page
     And I logout
 
-  @delete_user
+  @delete_user @p0
   Scenario: Check delete user.
     Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user
@@ -62,7 +62,7 @@ Feature: Check function in chat settings
     And I click done to close messages
     And I logout
 
-  @report_user
+  @report_user @p0
   Scenario: Check report user
     Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user

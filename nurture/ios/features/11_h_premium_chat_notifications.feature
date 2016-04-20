@@ -1,4 +1,4 @@
-@premium @chat_notification
+@premium @chat_notification @p0
 Feature: Check notifications about chat
 
   @request_notification
