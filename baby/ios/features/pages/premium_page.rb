@@ -150,8 +150,11 @@ class PremiumPage < Calabash::IBase
 
   def touch_accept_request
     begin 
-      wait_for_element_exists "* marked:'Accept Request'", :time_out => 1
-      touch "* marked:'Accept Request'"
+      wait_for(:time_out => 2) do
+        element_exists("* marked:'Accept Request'") || element_exists("* {text CONTAINS 'Accept Request'}")
+      end
+      touch "* marked:'Accept Request'" if element_exists "* marked:'Accept Request'"
+      touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"
     rescue RuntimeError
       wait_touch "* {text CONTAINS 'Accept Request'}"
     end
