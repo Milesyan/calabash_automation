@@ -65,7 +65,7 @@ Given(/^A premium user miles3 established chat relationship with a new user "([^
   $user.turn_on_chat
   $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
-  $new_user.get_notification
+  $new_user.pull
   $new_user.establish_chat $user
   if $new_user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
@@ -84,7 +84,7 @@ Given(/^A premium user miles3 sent chat request to a new user "([^"]*)"$/) do |n
   $user.login.turn_on_chat
   $user.remove_all_participants.remove_all_contacts
   $new_user = forum_new_user(first_name: name)
-  $new_user.get_notification
+  $new_user.pull
   $user.availability $new_user.user_id
   $user.send_chat_request $new_user.user_id
   if $user.res["rc"] == 0 
