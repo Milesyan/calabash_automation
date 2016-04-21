@@ -49,7 +49,7 @@ class AppPage < Calabash::IBase
   def pass_premium_promt
     sleep 1.2
     if element_exists "* marked:'Try for FREE'"
-      touch "* id:'cross-close'"
+      touch "* marked:'sk cross close'"
       sleep 2
     end
   end
