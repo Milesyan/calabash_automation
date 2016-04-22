@@ -1,4 +1,4 @@
-@forum @anonymous_tmi
+@forum @anonymous_tmi @restart
 Feature: Create and edit anonymous topic, Check TMI photo.
 
   @create_anonymous_topic

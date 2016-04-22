@@ -1,6 +1,6 @@
 @premium @discover_touch_points
 Feature: Check touch points in discover tab.
-  @discover_banner
+  @discover_banner @restart
   Scenario: Check the premium banner under dicover page.
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as non-premium user

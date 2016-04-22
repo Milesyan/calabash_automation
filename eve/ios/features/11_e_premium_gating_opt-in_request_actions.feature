@@ -1,7 +1,7 @@
 @premium @opt-in
 Feature: Start chat requst with others. 
 
-  @opt-in_setting
+  @opt-in_setting @restart
   Scenario: Enter setting page in chat request.
     Given A premium user miles3 sent chat request to a new user "Albert"
     And I login as the new user

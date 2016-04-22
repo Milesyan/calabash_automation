@@ -17,7 +17,7 @@ Feature: Test all community notifications
     
     ======NEW======
     TYPE_FORUM_SUBREPLY_PARTICIPATE = 1056'''
-  @notif @p0
+  @notif @p0 @restart
   Scenario Outline: Test different notification types
     Given I create a new forum user with name "Miles"
     Given the notification test data for type <ntf_type> has been prepared through www 

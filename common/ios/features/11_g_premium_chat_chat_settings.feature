@@ -1,7 +1,7 @@
 @premium @chat_setting
 Feature: Check function in chat settings
 
-  @delete_chat_history
+  @delete_chat_history @restart
   Scenario: Check delete chat history.
     Given A premium user miles3 established chat relationship with a new user "Holmes"
     And I login as premium user

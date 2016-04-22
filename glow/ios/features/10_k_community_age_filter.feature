@@ -1,6 +1,6 @@
 @forum @age_filter
 Feature: Age filter for topic and comments
-  @filter_topic
+  @filter_topic @restart
   Scenario: Test age filter for topics
     Given a forum user with the age 18 and create a topic in test group
     Given I create a new forum user with name "Miles"

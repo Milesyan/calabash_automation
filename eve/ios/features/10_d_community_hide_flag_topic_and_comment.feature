@@ -1,4 +1,4 @@
-@forum @hide_report
+@forum @hide_report @restart
 Feature: Test hide/report topic/comment.
   @hide_topic
   Scenario: User create a topic and hide it.

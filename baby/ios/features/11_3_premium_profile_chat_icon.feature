@@ -1,6 +1,6 @@
 @premium @chat_icon
 Feature: Check chat icon for users.
-  @self_chat_icon
+  @self_chat_icon @restart
   Scenario: Check chat icon in user's own profile page
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as premium user

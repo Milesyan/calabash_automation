@@ -1,6 +1,6 @@
 @forum @edit_topic
 Feature: User edit topics.
-  @edit_post  
+  @edit_post @restart
   Scenario: User create a text topic and edit it.
     Given I create a new forum user with name "Charlotte"
     And I login as the new user "Charlotte" created through www

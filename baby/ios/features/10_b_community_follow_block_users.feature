@@ -1,4 +1,4 @@
-@forum @follow_block_user
+@forum @follow_block_user @restart
 Feature: user checks follow, unfollow, block and unblock.
 	Scenario: User follow another user.
 		Given I create a new forum user with name "Miles"

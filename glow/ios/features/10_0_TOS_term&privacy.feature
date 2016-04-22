@@ -1,4 +1,4 @@
-@forum @TOS @p0
+@forum @TOS @p0 
 Feature: Check TOS when open the app 
   Scenario: User opens the app and checks the TOS in the home page.
     Given I open the app and go to the signup page

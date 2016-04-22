@@ -1,6 +1,6 @@
 @forum @load_more
 Feature: Load more topics and comments.
-  @load_topics  
+  @load_topics @restart
   Scenario: User create 20+ topics.
     Given I create a new forum user with name "Miles"
     And "Miles" create 30 topics

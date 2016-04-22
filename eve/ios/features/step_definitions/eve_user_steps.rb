@@ -5,7 +5,12 @@ end
 def ntf_user(args = {})
   ForumUser.new(args).all_signup_flow
 end
-  
+
+And(/^I print something$/) do
+  5.times do |i|
+    puts "A"*i
+  end
+end
 
 
 #----------------Community--------------------

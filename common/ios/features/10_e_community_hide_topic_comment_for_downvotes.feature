@@ -1,4 +1,4 @@
-@forum @hide_topic/comment_by_downvote
+@forum @hide_topic/comment_by_downvote @restart
 Feature: User downvote or flag topics to make it hidden.
   @hidden_by_downvote_topic
   Scenario: User create a topic and other users downvote it to make it hidden.

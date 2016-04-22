@@ -1,7 +1,7 @@
 @premium @contact_page
 Feature: Check contact page features.
 
-  @follow_contact
+  @follow_contact @restart
   Scenario: The followed people should appear in the contact list
     Given I create a new forum user with name "Legend"
     Then I follow another user "Friend" and the user also follows me

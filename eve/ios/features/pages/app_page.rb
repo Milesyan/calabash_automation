@@ -56,11 +56,13 @@ class AppPage < Calabash::IBase
     wait_touch "* {text CONTAINS 'days'}"
     wait_touch "* {text CONTAINS '28'}"
     wait_touch "* {text CONTAINS 'Done'}"
+    sleep 1
     wait_touch "* {text CONTAINS 'Next'}"
     wait_touch "* {text CONTAINS 'm/d/y'}"
     wait_touch "* {text CONTAINS 'Today'}"
     sleep 1
     wait_touch "UIButtonLabel {text CONTAINS 'Done'}"
+    sleep 1
     wait_touch "* {text CONTAINS 'Next'}"
     wait_touch "* {text CONTAINS 'Choose'}"
     wait_touch "* {text CONTAINS 'None'}"

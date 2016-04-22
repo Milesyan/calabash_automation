@@ -1,6 +1,6 @@
 @forum @comment_linking
 Feature: Comment linking function
-  @group_commentlinking
+  @group_commentlinking  @restart
   Scenario: User clicks a topic in normal group.
     Given I create a new forum user with name "Miles"
     And "Miles" create 1 topic and 10 comments and 0 subreply for each comment

@@ -1,19 +1,49 @@
 require 'calabash-cucumber/launcher'
 
+# noinspection ALL
+module LaunchControl
+  @@launcher = nil
 
-Before do |scenario|
-  @calabash_launcher = Calabash::Cucumber::Launcher.new
-  @calabash_launcher.relaunch
-  @calabash_launcher.calabash_notify(self)   
-end
+  def self.launcher
+    @@launcher ||= Calabash::Cucumber::Launcher.new
+  end
 
-After do |scenario|
-  unless @calabash_launcher.calabash_no_stop? 
-    puts "EXIT APP"
-    calabash_exit
+  def self.launcher=(launcher)
+    @@launcher = launcher
   end
 end
 
-at_exit do
+Before('@restart') do |_|
+  LaunchControl.launcher.run_loop = nil
 end
 
+Before do |_|
+  launcher = LaunchControl.launcher
+
+  options = {
+    # Physical devices: default is :host
+    # Xcode < 7.0:      default is :prefences
+    # Xcode >= 7.0:     default is :host
+    # :uia_strategy => :shared_element,
+    # :uia_strategy => :preferences,
+    # :uia_strategy => :host
+    :relaunch_simulator => false,
+    :uia_strategy => :preferences
+  }
+  unless launcher.active?
+    LaunchControl.launcher.relaunch(options)
+    LaunchControl.launcher.calabash_notify(self)
+  end
+end
+
+
+After('@restart_after') do |_|
+  LaunchControl.launcher.run_loop = nil
+end
+
+After do |_|
+  launcher = LaunchControl.launcher
+  unless launcher.calabash_no_stop?
+    calabash_exit
+  end
+end

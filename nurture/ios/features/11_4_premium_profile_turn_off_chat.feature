@@ -1,7 +1,7 @@
 @premium @turn_off_chat
 Feature: Turn off chat and check chat icons and chat section.
 
-  @self_turn_off_chat
+  @self_turn_off_chat @restart
   Scenario: User turn off chat and cannot see chat icon in other users' profile page.
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I create another non-premium user "Rabbit" and create a topic in the test group with topic name "Test self chat off"

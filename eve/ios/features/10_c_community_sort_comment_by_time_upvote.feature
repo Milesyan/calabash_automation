@@ -1,4 +1,4 @@
-@forum @order_by
+@forum @order_by @restart
 Feature: Test order by time and order by upvote.
 	Scenario: User create a topic and switch between order by time and upvote.
 		Given I create a new forum user with name "Miles"
