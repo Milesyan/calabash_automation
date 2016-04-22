@@ -2,6 +2,8 @@
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'
+require 'rspec/expectations'
+
 require_relative '../../../www/public/eve_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'

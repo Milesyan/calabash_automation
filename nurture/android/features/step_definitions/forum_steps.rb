@@ -943,6 +943,7 @@ end
 
 Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
   $young_user = forum_new_user :birthday => 892461217, :first_name => "Age"
+  expect($young_user.birthday).to be(892461217)
   $test_title = "#{$young_user.first_name}Test age filter topic"
   $young_user.create_topic :topic_title => $test_title
   puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
@@ -950,7 +951,9 @@ end
 
 Then(/^I go to test group and check the topic exists$/) do
   forum_page.select_target_group
-  wait_for_elements_exist "* text:'#{$test_title}'"
+  sleep 1
+  expect(query("* text:'#{$test_title}'")[0]).to be_truthy
+  # wait_for_elements_exist "* text:'#{$test_title}'"
   puts "Young user topic exists >>>#{$test_title}"
 end
 
@@ -967,7 +970,9 @@ end
   
 Then(/^I go to test group and check the topic not exist$/) do
   forum_page.select_target_group
-  check_element_does_not_exist "* text:'#{$test_title}'"
+  sleep 1
+  expect(query("* text:'#{$test_title}'")[0]).to be_nil
+  # check_element_does_not_exist "* text:'#{$test_title}'"
   puts "Yound user topic not exist >>>#{$test_title}"
 end
 
@@ -992,6 +997,8 @@ Then(/^I check I can see the user's comment and subreply$/) do
 end
 
 Then(/^I check I can not see the user's comment and subreply$/) do
+  wait_for_elements_exist "* marked:'Upvote'"
+  sleep 0.5
   wait_touch "* marked:'Show entire discussion'" if element_exists "* marked:'Show entire discussion'"
   sleep 1
   scroll_down

@@ -155,7 +155,9 @@ module NoahForumAndroid
           "first_name": user.first_name,
           "last_name": user.last_name,
           "email": user.email,
-          "password": user.password
+          "password": user.password,
+          "birthday": @birthday,
+          "birthday_str": "1980\/04\/22"
         }
       }
       user.res = self.class.post "/android/user/sign_up?#{common_data}", options(data)

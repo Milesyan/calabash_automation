@@ -2,6 +2,7 @@ require 'calabash-android/cucumber'
 require 'calabash-android/abase'
 require 'minitest/autorun'
 require 'active_support/all'
+require 'rspec/expectations'
 
 require_relative 'app'
 require_relative 'pages'

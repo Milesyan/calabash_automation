@@ -193,7 +193,7 @@ Then(/^I click the chat icon and see the chat window$/) do
   wait_touch "* marked:'Chat'"
   retries = 0
   begin
-    wait_for_element_exists "* {text CONTAINS 'Send request to'}"
+    wait_for_element_exists "DialogTitle id:'alertTitle' {text CONTAINS 'Send request to'}"
   rescue Timeout::Error
     raise if (retries += 1) > 3
     retry
@@ -570,7 +570,11 @@ Then(/^I click the requestor's profile photo to see the profile page$/) do
 end
 
 Then(/^I check the accept chat request notification is received$/) do
-  wait_for_element_exists "* marked:'Chat Now!'"
+  if $new_user.code_name != 'noah'
+    wait_for_element_exists "* marked:'Chat Now!'"
+  else 
+    wait_for_element_exists "* marked:'Check it out'"
+  end
 end
 
 When(/^I click chat now button$/) do
