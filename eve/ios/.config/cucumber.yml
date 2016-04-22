@@ -4,15 +4,15 @@ default_report = "./reports/output_#{date}.html"
 default_rerun = "./rerun.txt"
 %>
 
-
+common: NO_STOP='1'
 rerun_out: -f rerun -o <%= default_rerun %>
 html_report:  -f html -o <%= default_report %>
 p0_report: -f html -o p0.html
 
 
-run:  -p rerun_out -p html_report
-runpremium: -p rerun_out -p html_report -t @premium
-runforum: -p rerun_out -p html_report -t @forum
-rerun:  -f html -o rerun_result.html
-runp0: -p rerun_out -p p0_report -t @p0
-test: NO_STOP=1 --format 'Slowhandcuke::Formatter' -t @wip
+run:  -p common -p rerun_out -p html_report
+runpremium: -p common -p rerun_out -p html_report -t @premium
+runforum: -p common -p rerun_out -p html_report -t @forum
+rerun:  -p common -f html -o rerun_result.html
+runp0: -p common -p rerun_out -p p0_report -t @p0
+test: -p common  --format 'Slowhandcuke::Formatter' -t @wip
