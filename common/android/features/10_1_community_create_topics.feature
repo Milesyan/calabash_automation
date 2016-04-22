@@ -4,6 +4,7 @@ Feature: User create text/poll/image/url topics
   Scenario: User create a text topic.
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www
+    And I wait for 5 seconds
     And I open "community" page
     And I post a "text" topic
     Then I should see the topic is posted successfully

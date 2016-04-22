@@ -81,8 +81,10 @@ class AppPage < Calabash::IBase
     close_chat_popup
     wait_for_none_animating
     sleep 0.5
+    close_chat_popup
     wait_touch "* marked:'Logout'"
     sleep 1
+    close_chat_popup
     touch "* marked:'Yes, log out'"
     wait_for_element_does_not_exist "* marked:'Yes, log out'"
     sleep 0.5
@@ -143,6 +145,7 @@ class AppPage < Calabash::IBase
     keyboard_enter_text email
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
+    sleep 1
     touch "UINavigationButton marked:'Next'"
   end
   

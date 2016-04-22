@@ -62,7 +62,9 @@ class AppPage < Calabash::ABase
       element_exists "* marked:'Log out'"
     end
     touch "* marked:'Log out'"
-    wait_for_element_exists "* {text CONTAINS 'Log in'}"
+    wait_for do
+      element_exists("* {text CONTAINS 'Log in'}") || element_exists("* marked:'Sign up with another account'")
+    end
   end
 
   def forum_element

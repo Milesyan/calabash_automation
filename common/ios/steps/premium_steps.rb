@@ -563,7 +563,11 @@ end
 
 Then(/^I click the requestor's profile photo to see the profile page$/) do
   premium_page.touch_accept_request
-  wait_touch ["* marked:'would like to chat with you.' sibling * index:0","* marked:'would like to chat with you.' sibling * index:1"].sample
+  sleep 1
+  wait_touch "* marked:'would like to chat with you.' sibling * index:0"
+  wait_for_element_exists "* marked:'Follow'"
+  forum_page.exit_profile_page forum_page.get_UIButton_number-1
+  wait_touch "* marked:'would like to chat with you.' sibling * index:1"
   wait_for_element_exists "* marked:'Follow'"
 end
 
@@ -581,7 +585,9 @@ When(/^I click chat now button$/) do
 end
 
 Then(/^I should see the messages page$/) do
-  wait_for_element_exists "* marked:'Messages'"
+  wait_for(:time_out=>3) do
+    element_exists("* marked:'Messages'") || element_exists("* marked:'Enter Message'")
+  end
 end
 
 
