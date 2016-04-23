@@ -1,4 +1,4 @@
-#@regression
+@regression
 Feature: ToS
   @check_tos
   Scenario: check tos clickable on signup page
