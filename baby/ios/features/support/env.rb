@@ -3,6 +3,7 @@ require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'
 require 'rspec/expectations'
+require 'allure-cucumber'
 
 require_relative '../../../www/public/noah_ios_forum_test'
 require_relative 'app'
@@ -29,6 +30,10 @@ class MinitestWorld
   def initialize
     self.assertions = 0
   end
+end
+
+AllureCucumber.configure do |config|
+  config.output_dir = 'allure'
 end
 
 World do

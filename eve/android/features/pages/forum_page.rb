@@ -394,7 +394,6 @@ class ForumPage < Calabash::ABase
     puts "Scroll down to see >>>* marked:'#{args}'<<<<"
     sleep 1
     until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
-    scroll_down
     sleep 1
   end
 
