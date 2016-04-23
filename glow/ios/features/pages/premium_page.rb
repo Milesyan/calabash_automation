@@ -64,6 +64,7 @@ class PremiumPage < Calabash::IBase
 
   def enter_messages
     app_page.close_chat_popup
+    sleep 0.5
     wait_touch "* marked:'gl community navtab search' sibling UIView index:3"
   end
 
@@ -72,6 +73,7 @@ class PremiumPage < Calabash::IBase
     wait_touch "* marked:'New chat request.'"
     sleep 1
     touch "* marked:'New chat request.'" if element_exists "* marked:'New chat request.'"
+    sleep 1
   end
 
   def enter_new_user_profile

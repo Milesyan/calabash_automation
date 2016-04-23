@@ -48,6 +48,11 @@ module Baby
 
   def wait_touch(query_str)
     wait_for_elements_exist([query_str])
+    begin
+      wait_for_none_animating :time_out => 3
+    rescue RuntimeError
+      log_error "touch #{query_str} animation not finished."
+    end
     touch(query_str)
     wait_for_none_animating :time_out => 10
   end
