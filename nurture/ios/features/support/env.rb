@@ -15,7 +15,7 @@ require_relative 'event_logger.rb'
 # World(Calabash::Cucumber::Operations)
 
 URL = "https://www.google.com"
-
+NO_STOP=1
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 # ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/kaylee/ios/kayleedev.app"

@@ -25,3 +25,4 @@ end
 World(MiniTestAssertions)
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
+NO_STOP=1

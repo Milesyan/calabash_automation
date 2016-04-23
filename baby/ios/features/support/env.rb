@@ -21,6 +21,7 @@ ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/noah/iOS/Noah_fix_api.app"
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
 URL = "http://www.google.com"
+NO_STOP=1
 
 class MinitestWorld
   extend Minitest::Assertions
@@ -29,10 +30,6 @@ class MinitestWorld
   def initialize
     self.assertions = 0
   end
-end
-
-AllureCucumber.configure do |config|
-  config.output_dir = 'allure'
 end
 
 World do

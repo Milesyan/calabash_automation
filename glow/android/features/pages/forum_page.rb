@@ -78,12 +78,10 @@ class ForumPage < Calabash::ABase
   def create_poll_in_group(args={})
     create_poll args
     $user.topic_title = @title
-    puts $user.topic_title
   end
 
   def create_post_in_group(args={})
     create_post args
-    puts "In group post title #{$user.topic_title}"
   end
 
 
@@ -211,7 +209,6 @@ class ForumPage < Calabash::ABase
     sleep 1
     touch "* marked:'Edit this post'"
     sleep 1
-    puts $user.topic_title
     scroll_down
     enter_text "* id:'title_editor'", 'Modified title'
     enter_text "* id:'content_editor'", 'Modified content'
@@ -475,7 +472,6 @@ class ForumPage < Calabash::ABase
     $group_name = query("* id:'title' index:0")[0]["text"]
     puts $group_name.to_s + '<<<<<<Group name lefted.'
     wait_touch "* marked:'Leave'"
-    puts "Left group"
   end
 
   def enter_community_settings
@@ -504,11 +500,9 @@ class ForumPage < Calabash::ABase
     if element_exists "* {text CONTAINS 'group'}"
       perform_action('touch_coordinate',(x+width*0.1), y)
       sleep 1
-      puts "Group #{(x+width/6)} , #{y}"
     elsif element_exists "* {text CONTAINS 'groups'}"
       perform_action('touch_coordinate',(x+width*0.1), y)
       sleep 1
-      puts "Groups #{(x+width/6)} , #{y}"
     else
       puts "Group text does not exist on screen."
     end
@@ -527,7 +521,6 @@ class ForumPage < Calabash::ABase
   def check_groups
     go_to_group_page_under_profile
     wait_for_elements_exist "* marked:'#{ TARGET_GROUP_NAME }'"
-    puts "I can see target group"
   end
 
 
@@ -720,10 +713,8 @@ class ForumPage < Calabash::ABase
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'hide this'}"}
     if args ==1 
       wait_touch "* marked:'OK'"
-      puts "User hide it"
     else 
       wait_touch "* marked:'Cancel'"
-      puts "User not hide it"
     end
     wait_for_elements_do_not_exist "* {text CONTAINS 'hide this'}"
   end

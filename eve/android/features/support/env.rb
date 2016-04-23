@@ -29,3 +29,4 @@ include Minitest::Assertions
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 GLOW_PASSWORD = "Glow12345"
 GLOW_ENV = "dev-office"
+NO_STOP=1

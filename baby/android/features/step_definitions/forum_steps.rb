@@ -952,9 +952,8 @@ end
 
 Then(/^I go to test group and check the topic exists$/) do
   forum_page.select_target_group
-  sleep 1
-  assert query("* text:'#{$test_title}'")[0]
-  # wait_for_elements_exist "* text:'#{$test_title}'"
+  # wait_for(:time_out=>5) {assert query("* text:'#{$test_title}'")[0]}
+  wait_for_elements_exist "* text:'#{$test_title}'"
   puts "Young user topic exists >>>#{$test_title}"
 end
 
@@ -972,7 +971,7 @@ end
 Then(/^I go to test group and check the topic not exist$/) do
   forum_page.select_target_group
   sleep 1
-  expect_nil query("* text:'#{$test_title}'")[0]
+  assert_nil query("* text:'#{$test_title}'")[0]
   # check_element_does_not_exist "* text:'#{$test_title}'"
   puts "Yound user topic not exist >>>#{$test_title}"
 end

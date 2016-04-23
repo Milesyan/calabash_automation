@@ -14,7 +14,7 @@ end
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
   app_page.tap_login
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end
@@ -23,7 +23,7 @@ Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
   app_page.tap_login
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end
@@ -36,7 +36,7 @@ Then(/^I login as the new user$/) do
   logout_if_already_logged_in
   sleep 1
   app_page.tap_login
-  puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
+  puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login_with($new_user.email,$new_user.password)
   sleep 2
 end
@@ -44,19 +44,17 @@ end
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
   app_page.tap_login
-  puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
+  puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login_with($user2.email,$user2.password)
   sleep 2 
 end
 
 Given(/^the premium user create a topic in the test group$/) do
-  puts GROUP_ID
   $user.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
 
 Given(/^the non\-premium user create a topic in the test group$/) do
-  puts GROUP_ID
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
@@ -94,13 +92,11 @@ end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
   $new_user = forum_new_user(first_name: user_name).join_group
-  puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
   $new_user = forum_new_user(first_name: user_name).join_group
-  puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
   $new_user.turn_off_chat
 end
@@ -138,7 +134,7 @@ end
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
   # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
-  sleep 2
+  sleep 1
   wait_for_element_exists "* marked:'Premium'"
 end
 
@@ -523,7 +519,7 @@ Given(/^I login as(?: the)? premium user and reset all the flags under profile p
   $user.reset_all_flags
   logout_if_already_logged_in
   app_page.tap_login
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end

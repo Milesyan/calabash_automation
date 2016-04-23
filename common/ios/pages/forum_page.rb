@@ -53,14 +53,10 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text args[:text] ||Time.now.to_s
     wait_touch "label text:'Next'"
     sleep 1
-    # select the first group
     wait_touch "UITableViewCellContentView child label index:0"
     wait_touch "* marked:'Done!'"
     sleep 1
-    #check_element_exists "* marked:'#{title}'"
-
     $user.topic_title = title
-    puts $user.topic_title
   end
 
   def create_link
@@ -102,7 +98,6 @@ class ForumPage < Calabash::IBase
     #check_element_exists "* marked:'#{title}'"
     $user.topic_title = title
     @topic_title = title
-    puts $user.topic_title
   end
 
   def discard_topic
@@ -134,8 +129,6 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Edit this post'"
     wait_for_none_animating
     sleep 1
-    puts $user.topic_title
-    
     wait_touch "UIWebView"
     scroll "scrollView", :up
     wait_for_none_animating
@@ -155,8 +148,6 @@ class ForumPage < Calabash::IBase
     wait_touch "UILabel marked:'Edit this post'"
     wait_for_none_animating
     sleep 1
-    puts $user.topic_title
-    
     wait_touch "UIWebView"
     scroll "scrollView", :up
     wait_for_none_animating
@@ -315,7 +306,6 @@ class ForumPage < Calabash::IBase
   end
 
   def scroll_down_to_see(args)
-    puts "* marked:'#{args}'"
     until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
@@ -380,7 +370,6 @@ class ForumPage < Calabash::IBase
   def long_press(args)
     x = query("* marked:'#{args}'")[0]["rect"]["x"]
     y = query("* marked:'#{args}'")[0]["rect"]["y"]
-    puts "coordinate of item is x => #{x}, y => #{y}"
     send_uia_command({:command => %Q[target.tapWithOptions({x: #{x}, y: #{y}}, {tapCount: 1, touchCount: 1, duration: 2.0})]})
   end
 

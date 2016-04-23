@@ -19,6 +19,7 @@ require_relative 'event_logger.rb'
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 ENV["APP_BUNDLE_PATH"] = "/Users/Miles/repos/lexie/ios/Lexie_3.app"
 ENV["DEVICE_TARGET"] = "068BE9E1-CE89-439B-8654-50785707D0CA"
+NO_STOP=1
 
 class MinitestWorld
   extend Minitest::Assertions

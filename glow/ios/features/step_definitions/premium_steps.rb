@@ -13,7 +13,7 @@ end
 
 Given(/^I login as(?: the)? premium user$/) do
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2
   app_page.finish_tutorial 
@@ -22,7 +22,7 @@ end
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2
   app_page.finish_tutorial 
@@ -35,7 +35,7 @@ end
 
 Then(/^I login as the new user$/) do
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$new_user.email}, #{$new_user.password}" 
+  puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login($new_user.email,$new_user.password)
   sleep 2
   app_page.finish_tutorial 
@@ -43,20 +43,18 @@ end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$user2.email}, #{$user2.password}" 
+  puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login($user2.email,$user2.password)
   sleep 2
   app_page.finish_tutorial 
 end
 
 Given(/^the premium user create a topic in the test group$/) do
-  puts GROUP_ID
   $user.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
 
 Given(/^the non\-premium user create a topic in the test group$/) do
-  puts GROUP_ID
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
@@ -95,13 +93,11 @@ end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
   $new_user = forum_new_user(first_name: user_name)
-  puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
   $new_user = forum_new_user(first_name: user_name).join_group
-  puts GROUP_ID
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
   $new_user.turn_off_chat
 end
@@ -139,8 +135,7 @@ end
 
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
-  # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
-  puts "NON GLOW gl-community-plus-badge"
+  wait_for_element_exists "* marked:'Premium'"
 end
 
 
@@ -526,7 +521,7 @@ end
 Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
   $user.reset_all_flags
   logout_if_already_logged_in
-  puts "Log in using email and password: #{$user.email}, #{$user.password}" 
+  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2
   app_page.finish_tutorial 
@@ -536,15 +531,10 @@ end
 Then(/^I turn on all the flags$/) do
   forum_page.scroll_down_to_see "Turn off Signature"
   sleep 1
-  if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= "0"
-    screenshot_and_raise("Hide post flag error", :name => "Flag.png")
-  elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= "0"
-    screenshot_and_raise("Hide from discovery error", :name => "Flag.png")
-  elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= "0"
-    screenshot_and_raise("Turn off chat error", :name => "Flag.png")
-  elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= "0"
-    screenshot_and_raise("Turn off signature error", :name => "Flag.png")
-  end
+  assert_equal '0', query("UISwitch marked:'Hide posts in profile'")[0]["value"], "Hide post flag error"
+  assert_equal '0', query("UISwitch marked:'Hide from discovery'")[0]["value"], "Hide from discovery error"
+  assert_equal '0', query("UISwitch marked:'Turn off Chat'")[0]["value"], "Turn off chat error"
+  assert_equal '0', query("UISwitch marked:'Turn off Signature'")[0]["value"], "Turn off signature error"
   wait_touch "UISwitch marked:'Hide posts in profile'"
   touch "UISwitch marked:'Hide from discovery'"
   touch "UISwitch marked:'Turn off Chat'"
@@ -554,15 +544,10 @@ end
 
 Then(/^I check all the flags are turned on$/) do
   forum_page.scroll_down_to_see 'Turn off Signature'
-  if query("UISwitch marked:'Hide posts in profile'")[0]["value"]!= '1'
-    screenshot_and_raise("Hide post flag error", :name => "Flag_after_turn_on.png")
-  elsif query("UISwitch marked:'Hide from discovery'")[0]["value"]!= '1'
-    screenshot_and_raise("Hide from discovery error", :name => "Flag_after_turn_on.png")
-  elsif query("UISwitch marked:'Turn off Chat'")[0]["value"]!= '1'
-    screenshot_and_raise("Turn off chat error", :name => "Flag_after_turn_on.png")
-  elsif query("UISwitch marked:'Turn off Signature'")[0]["value"]!= '1'
-    screenshot_and_raise("Turn off signature error", :name => "Flag_after_turn_on.png")
-  end
+  assert_equal '1', query("UISwitch marked:'Hide posts in profile'")[0]["value"], "Hide post flag error"
+  assert_equal '1', query("UISwitch marked:'Hide from discovery'")[0]["value"], "Hide from discovery error"
+  assert_equal '1', query("UISwitch marked:'Turn off Chat'")[0]["value"], "Turn off chat error"
+  assert_equal '1', query("UISwitch marked:'Turn off Signature'")[0]["value"], "Turn off signature error"
 end
 
 Then(/^I click the requestor's profile photo to see the profile page$/) do
