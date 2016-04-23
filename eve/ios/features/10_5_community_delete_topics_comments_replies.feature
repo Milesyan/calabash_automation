@@ -1,6 +1,6 @@
-@forum @forum_delete 
+@forum @forum_delete  @restart
 Feature: User create a topic and delete it.
-  @delete_topic @p0 @restart
+  @delete_topic @p0
   Scenario: User create a text topic and delete it. @delete_topic 
     Given I create a new forum user with name "Miles"
     And "Miles" create a "text" topic in the test group

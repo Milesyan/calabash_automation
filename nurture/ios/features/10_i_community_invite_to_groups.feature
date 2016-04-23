@@ -1,6 +1,6 @@
-@forum @invite
+@forum @invite @restart
 Feature: legacy and new invite users to group flow
-  @new_invite @p0 @restart
+  @new_invite @p0 
   Scenario: Invite other users to a group in new group banner
     Given I create a new forum user with name "Miles" and join group 1340
     Then I follow another user "Elsa" and the user also follows me

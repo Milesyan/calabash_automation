@@ -1,6 +1,6 @@
-@forum @comment_reply
+@forum @comment_reply @restart
 Feature: User add comments and sub-replies.
-  @add_comment @p0 @restart
+  @add_comment @p0
   Scenario: User create a poll topic and add comment @add_comment 
     Given I create a new forum user with name "Miles"
     And "Miles" create a "poll" topic in the test group
