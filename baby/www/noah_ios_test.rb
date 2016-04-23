@@ -67,7 +67,7 @@ module BabyIOS
     def get_first_name
       # add the random string, so that the email will not be duplicated
       # "bi" + Time.now.to_i.to_s + random_str(3)
-      "bi" + Time.now.to_i.to_s[0..-1] + random_str(5)
+      Time.now.to_i.to_s[0..-1] + random_str(1)
     end
 
     def random_str(n)
@@ -206,7 +206,7 @@ module BabyIOS
 
     def add_born_baby(baby)
       data = {
-        "relation": baby.relation.capitalize,
+        "relation": baby.relation,
         "baby_info": {
           "first_name": baby.first_name,
           "last_name": baby.last_name,
@@ -235,7 +235,7 @@ module BabyIOS
 
     def add_upcoming_baby(baby)
       data = {
-        "relation": baby.relation.capitalize,
+        "relation": baby.relation,
         "baby_info": {
           "first_name": baby.first_name,
           "last_name": baby.last_name,
@@ -542,7 +542,7 @@ module BabyIOS
 
     def change_relation(relation)
       data = {
-        "relation": relation.capitalize,
+        "relation": relation,
         "baby_id": current_baby.baby_id,
         "ut": @ut
       }.merge(common_data)

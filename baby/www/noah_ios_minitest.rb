@@ -94,6 +94,7 @@ class NoahTest < Minitest::Test
     u2 = BabyUser.new.signup(email: u.email, password: "wrong_pwd")
     assert_equal 4000101, u2.res["rc"]
     assert_equal "Your email has already been used to create a Glow account.", u2.res["msg"]
+    puts u.res["msg"]
   end
 
   def test_invalid_login_with_wrong_email
@@ -101,6 +102,7 @@ class NoahTest < Minitest::Test
     u.login(email: "wrong_email", password: u.password)
     assert_equal 4000102, u.res["rc"]
     assert_equal "This email and password do not match. Please try again.", u.res["msg"]
+    puts u.res["msg"]
   end
 
   def test_invalid_login_with_wrong_password
@@ -108,6 +110,7 @@ class NoahTest < Minitest::Test
     u.login(email: u.email, password: "wrong_password")
     assert_equal 4000102, u.res["rc"]
     assert_equal "This email and password do not match. Please try again.", u.res["msg"]
+    puts u.res["msg"]
   end
 
   def test_forgot_password
@@ -136,6 +139,7 @@ class NoahTest < Minitest::Test
     u.change_password(old: u.password + "wrong", new: "111111")
     assert_equal 4000204, u.res["rc"]
     assert_equal "Sorry, old password is not correct.", u.res["msg"]
+    puts u.res["msg"]
   end
 
   def test_change_password_right_old_password
@@ -306,8 +310,9 @@ class NoahTest < Minitest::Test
 
   def test_mother_invites_father
     u = create_user
-    baby = u.new_born_baby(relation: "Mather", gender: "M")
+    baby = u.new_born_baby(relation: "Mother", gender: "M")
     u.add_born_baby(baby)
+    
     partner = BabyUser.new
     u.invite_family partner: partner, relation: "Father"
     assert_rc u.res
@@ -316,6 +321,51 @@ class NoahTest < Minitest::Test
     partner_relation_update = partner_relation.first # should be only one
     
     assert_equal "Father", partner_relation_update["relation"]
+    assert_equal partner.user_id, partner_relation_update["user_id"]
+    assert_equal "#{partner.user_id}_#{u.current_baby.baby_id}", partner_relation_update["user_baby_id"].to_s
+    
+    partner.signup user: partner
+    params = partner.res["data"]["babies"].first["Baby"].symbolize_keys
+    
+    baby1 = Baby.new(params)
+    assert_equal u.current_baby.baby_id, baby1.baby_id
+    
+  end
+
+   def test_mother_invites_family_member
+    u = create_user
+    baby = u.new_born_baby(relation: "Mother", gender: "M")
+    u.add_born_baby(baby)
+    partner = BabyUser.new
+    u.invite_family partner: partner, relation: "Family Member"
+    assert_rc u.res
+    # u.res["data"]["UserBabyRelation"]["update"] should have 2 items, one for self, the other for partner
+    partner_relation = u.res["data"]["UserBabyRelation"]["update"].select { |v| v["relation"] == "Family Member"}
+    partner_relation_update = partner_relation.first # should be only one
+    
+    assert_equal "Family Member", partner_relation_update["relation"]
+    assert_equal partner.user_id, partner_relation_update["user_id"]
+    assert_equal "#{partner.user_id}_#{u.current_baby.baby_id}", partner_relation_update["user_baby_id"].to_s
+
+    partner.signup user: partner
+    params = partner.res["data"]["babies"].first["Baby"].symbolize_keys
+
+    baby = Baby.new(params)
+    assert_equal u.current_baby.baby_id, baby.baby_id
+  end
+
+  def test_family_member_invites_nanny_babysister
+    u = create_user
+    baby = u.new_born_baby(relation: "Family Member", gender: "M")
+    u.add_born_baby(baby)
+    partner = BabyUser.new
+    u.invite_family partner: partner, relation: "Nanny\/Babysitter"
+    assert_rc u.res
+    # u.res["data"]["UserBabyRelation"]["update"] should have 2 items, one for self, the other for partner
+    partner_relation = u.res["data"]["UserBabyRelation"]["update"].select { |v| v["relation"] == "Nanny\/Babysitter"}
+    partner_relation_update = partner_relation.first # should be only one
+    
+    assert_equal "Nanny\/Babysitter", partner_relation_update["relation"]
     assert_equal partner.user_id, partner_relation_update["user_id"]
     assert_equal "#{partner.user_id}_#{u.current_baby.baby_id}", partner_relation_update["user_baby_id"].to_s
 
