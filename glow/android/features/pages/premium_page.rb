@@ -88,7 +88,7 @@ class PremiumPage < Calabash::ABase
   def chat_request_fail
     sleep 1.5
     wait_touch "* marked:'Chat'"
-    wait_for_element_exists "* {text CONTAINS 'Can not chat'}"
+    wait_for_element_exists "* {text CONTAINS 'Can not chat'}", :retry_frequency => 0.1
   end
 
 #---IOS 

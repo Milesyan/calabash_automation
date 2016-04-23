@@ -1,6 +1,6 @@
 require 'calabash-android/cucumber'
 require 'active_support/all'
-require 'rspec/expectations'
+require 'minitest/autorun'
 
 require_relative 'app'
 require_relative 'pages'
@@ -13,5 +13,15 @@ include BabyAndroid
 include NoahForumAndroid
 include GlowLogger
 include BabyHelper
+
+module MiniTestAssertions
+  def self.extended(base)
+    base.extend(MiniTest::Assertions)
+    base.assertions = 0
+  end
+
+  attr_accessor :assertions
+end
+World(MiniTestAssertions)
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

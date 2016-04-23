@@ -2,8 +2,7 @@
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'
-require 'rspec/expectations'
-require 'allure-cucumber'
+
 
 require_relative '../../../www/public/noah_ios_forum_test'
 require_relative 'app'

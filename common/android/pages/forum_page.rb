@@ -859,7 +859,7 @@ class ForumPage < Calabash::ABase
     end
     sleep 0.5
     touch "* marked:'Invite'"
-    wait_for_elements_exist "* marked:'Invitation Sent Successfully!'"
+    wait_for_elements_exist "* marked:'Invitation Sent Successfully!'", :retry_frequency => 0.1
   end
 
   def go_to_second_group
