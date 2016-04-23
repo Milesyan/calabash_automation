@@ -1,4 +1,4 @@
-@nurture @regression
+@nurture 
 Feature: Nurture users should be able to login to Baby
   @nurture1
   Scenario: Nurture User

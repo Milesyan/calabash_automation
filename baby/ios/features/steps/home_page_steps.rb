@@ -28,6 +28,35 @@ Given(/^I create a milestone with date "([^"]*)" and title "([^"]*)"$/) do |date
   home_page.create_milestone(date: eval(date), title: title)
 end
 
+
+Given(/^I check the first milestone with date "([^"]*)"$/) do |date|
+  home_page.check_first_milestone(date: eval(date))
+end
+
+Given(/^I add a picture for milestone$/) do
+  home_page.add_picture_for_milestone
+end
+
+Given(/^I skip of sharing milestone to community$/) do
+  home_page.skip_share_milestone
+end
+
+Given(/^I share milestone to community$/) do
+  home_page.share_milestone
+end
+
+Given(/^I save this milestone$/) do
+  home_page.save_milestone
+end
+
+Given(/^I share milestone from home page to community with topic title "([^"]*)"$/) do |title|
+  home_page.share_milestone_from_home_page(title: title)
+end
+
+Given(/^I share milestone from home page to community$/) do
+  home_page.share_milestone_from_home_page_with_photo
+end
+
 # Daily log
 Given(/^I log a bottle feeding with (breast|formula) milk with start time "([^"]*)"$/) do |milk_type, start_time_str|
   start_time = eval(start_time_str)

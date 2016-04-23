@@ -35,7 +35,7 @@ module BabyIOS
     def initialize(args = {})
       @first_name = args[:first_name] || get_first_name
       @email = args[:email] || "#{@first_name}@g.com"
-      @last_name = "Glow"
+      @last_name = args[:last_name] || "Glow"
       @relation = args[:relation]
       @partners = []
       @password = args[:password] || PASSWORD
@@ -49,7 +49,7 @@ module BabyIOS
     end
 
     def get_first_name
-      "bi" + Time.now.to_i.to_s[2..-1] + random_str(2)
+      Time.now.to_i.to_s[2..-1] + random_str(2)
     end
 
   end

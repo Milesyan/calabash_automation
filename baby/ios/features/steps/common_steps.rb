@@ -15,3 +15,8 @@ And(/^I logout$/) do
   nav_page.open("more")
   me_page.logout
 end
+
+And(/^I close premium introduction pop up$/) do
+  onboard_page.close_premium_introdution
+end
+

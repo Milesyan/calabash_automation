@@ -45,9 +45,9 @@ module BabyHelper
         element_exists "* id:'icon-close'"
       end
       touch "* id:'icon-close'"
-      puts "closed pop-up"
+      puts "closed insight pop-up"
     rescue
-    end    
+    end   
   end
 
   def colorize(text, color_code)

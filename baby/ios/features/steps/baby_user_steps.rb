@@ -1,4 +1,13 @@
-Given(/^I sign up a new (mother|father) with birthday "([^"]*)"$/) do |relation, birthday_str|
+Given(/^I sign up a new (mother|father) with birthday "([^"]*)" and password "([^"]*)"$/ ) do |relation, birthday_str, password_str|
+  logout_if_already_logged_in
+  gender = relation.include?("father") ? "M" : "F"
+  birthday = eval(birthday_str) unless birthday_str.nil?
+  password = eval(password_str) unless password_str.nil?
+  $user = User.new relation: relation.capitalize, gender: gender, birthday: birthday, password: password
+  onboard_page.signup
+end
+
+Given(/^I sign up a new (mother|father) with birthday "([^"]*)"$/ ) do |relation, birthday_str|
   logout_if_already_logged_in
   gender = relation.include?("father") ? "M" : "F"
   birthday = eval(birthday_str) unless birthday_str.nil?
@@ -35,8 +44,8 @@ Given(/^I create a new (mother|father) with (\d+) (born|upcoming) (boys?|girls?|
   $user.method("add_#{if_born}_baby").call baby
 end
 
-Given(/^I create and invite a partner as (father|mother)$/) do |role|
-  relation = role.capitalize
+Given(/^I create and invite a partner as (Father|Mother|Family Member)$/) do |role|
+  relation = role
   $partner = BabyUser.new
   $user.invite_family partner: $partner, relation: relation
 end

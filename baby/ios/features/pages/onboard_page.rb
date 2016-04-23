@@ -20,7 +20,7 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Sign me up!'"
     sleep 1
     wait_for_none_animating
-    puts "#{$user.email} has been signed up"
+    puts "#{$user.email} has been signed up!"
   end
 
   def login(email, password)
@@ -30,5 +30,34 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
     wait_touch "* marked:'Log me in!'"
+    wait_touch "* marked:'sk-cross-close'" if element_exists "* marked:'sk-cross-close'"
+  end
+
+  def click_signup
+    wait_touch "* marked:'Sign up!'"
+  end
+
+  def click_terms
+    touch :x =>100, :y =>590
+    puts "Terms clickable"
+    sleep 5
+  end
+
+  def click_privacy_policy
+    touch :x =>180, :y =>590
+    puts "Privacy Policy clickable"
+    sleep 5
+  end
+
+  def close_page
+    wait_touch "* marked:'gl foundation back'"
+  end
+
+  def go_back_onboarding
+
+  end
+
+  def close_premium_introdution
+    wait_touch "* marked:'sk-cross-close'" if element_exists "* marked:'sk-cross-close'"
   end
 end

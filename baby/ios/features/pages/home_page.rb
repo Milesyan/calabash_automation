@@ -91,9 +91,58 @@ class HomePage < Calabash::IBase
     #wait_touch "* marked:'Choose date'"
     picker_set_date_time date
     wait_touch "* marked:'Done'"
-
-    touch "* marked:'Save'"
   end
+
+  def check_first_milestone(args = {})
+    wait_touch "UILabel index:0"
+    date = (args[:date] || Time.now).to_datetime
+    wait_touch "* marked:'Today'"
+    picker_set_date_time date
+    wait_touch "* marked:'Done'"
+  end
+
+  def share_milestone_from_home_page (args = {})
+    wait_touch "* marked:'Social milestone achieved'"
+    wait_touch "* marked:'button-share'"
+    wait_touch "* marked:'Share to community'"
+    title = args[:title] || "Hello World!"
+    touch "* marked:'Topic title'"
+    keyboard_enter_text title
+    wait_touch "* marked:'Next'"
+    wait_touch "* marked:'Baby Pictures'"
+    wait_touch "* marked:'Done!'"
+    wait_touch "* marked:'icon close'"
+  end
+
+  def share_milestone_from_home_page_with_photo
+    wait_touch "UILabel index:2"
+    wait_touch "* marked:'button-share'"
+    wait_touch "* marked:'Share to community'"
+    wait_touch "* marked:'Share!'"
+    wait_touch "* marked:'icon close'"
+  end
+    
+  def add_picture_for_milestone
+    wait_touch "* id:'icon-photo'"
+    wait_touch "* marked:'Choose from library'"
+    wait_touch "* marked:'Moments'"
+    wait_touch "PUPhotosGridCell index:1"
+    wait_touch "* marked:'Save'"
+  end
+
+  def skip_share_milestone
+    wait_touch "* marked:'Skip'"
+  end
+
+  def share_milestone
+    group = query "UITableViewLabel"
+    touch group.sample
+    wait_touch "* marked:'Share!'"
+  end
+
+  def save_milestone
+    wait_touch "* marked:'Save'"
+  end  
 
   def add_feed(args = {})
     logger.add event_name: "button_click_home_log_card_feed"
