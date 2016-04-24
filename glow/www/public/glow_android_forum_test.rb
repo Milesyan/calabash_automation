@@ -27,7 +27,7 @@ module GlowForumAndroid
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category
     attr_accessor :res
-    attr_accessor :gender
+    attr_accessor :gender, :birthday
 
     def initialize(args = {})
       @first_name = (args[:first_name] || "ga") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]

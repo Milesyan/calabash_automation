@@ -28,7 +28,7 @@ module EveForumIOS
   class ForumUser < ForumApi::ForumIOS
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
-    attr_accessor :reply_content,:group_id,:all_group_ids
+    attr_accessor :reply_content,:group_id,:all_group_ids, :birthday
 
 
     def initialize(args = {})

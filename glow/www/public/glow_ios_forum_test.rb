@@ -26,7 +26,7 @@ module GlowForumIOS
     include TestHelper
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category, :vote_index
-
+    attr_accessor :birthday
 
     def initialize(args = {})  
       @first_name = (args[:first_name] || "gi") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]

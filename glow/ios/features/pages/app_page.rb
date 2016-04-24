@@ -110,7 +110,10 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
     pass_premium_promt
-    when_element_exists("NewDateButton index:2", :timeout => 10)
+    begin 
+      wait_for_element_exists "* marked:'Community'",:time_out => 3
+    rescue RuntimeError
+    end
     if element_exists "* id:'tutorial-arrow-right'"
       puts "NEED TUTORIAL IN GLOW"
       until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
@@ -179,11 +182,13 @@ class AppPage < Calabash::IBase
 
 
   def touch_terms
-    wait_touch "* marked:'Terms'", :time_out => 50
+    wait_for_elements_exist "* marked:'Terms'", :time_out => 50
+    touch "* marked:'Terms'"
   end
 
   def touch_privacy_policy
-    wait_touch "* marked:'Privacy Policy'",  :time_out => 50
+    wait_for_elements_exist "* marked:'Privacy Policy'",  :time_out => 50
+    touch "* marked:'Privacy Policy'"
   end
 
   def hint_section 
