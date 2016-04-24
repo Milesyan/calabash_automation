@@ -5,18 +5,16 @@ require 'yaml'
 require_relative "MultipartImage_IOS.rb"
 require_relative 'test_helper'
 require_relative 'ForumApi'
+require_relative 'env_config'
 
 PASSWORD = 'Glow12345'
-NEW_PASSWORD = 'Glow1234'
 GROUP_ID = 3
+TARGET_GROUP_NAME = "1st Child"
 IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
 module GlowForumIOS
   extend TestHelper 
-
-  BASE_URL = load_config["base_urls"]["Sandbox"]
-  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
 
   def forum_new_user(args={})
     ForumUser.new(args).ttc_signup.login.complete_tutorial
@@ -24,6 +22,7 @@ module GlowForumIOS
 
   class ForumUser < ForumApi::ForumIOS
     include TestHelper
+    include IOSConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category, :vote_index
     attr_accessor :birthday
@@ -88,7 +87,7 @@ module GlowForumIOS
         }
       }.merge(common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/api/v2/users/signup", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/api/v2/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       log_important email + " has been signed up"
       self
@@ -121,7 +120,7 @@ module GlowForumIOS
         }
       }.merge(common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/api/v2/users/signup", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/api/v2/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       puts @email + " has been signed up"
       self
@@ -143,7 +142,7 @@ module GlowForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/api/v2/users/push", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/api/v2/users/push", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       self
     end
@@ -156,7 +155,7 @@ module GlowForumIOS
           "password": password || @password
         }
       }.merge(common_data)
-      res = HTTParty.post("#{BASE_URL}/api/users/signin", :body => login_data.to_json,
+      res = HTTParty.post("#{base_url}/api/users/signin", :body => login_data.to_json,
         :headers => { 'Content-Type' => 'application/json' }).to_json
       @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
@@ -177,7 +176,7 @@ module GlowForumIOS
         "sign": "todos:-3985177229087007215|activity_rules:-4394188183635176431|clinics:-263395673388636808|drugs:5594482260161071637|fertile_score:-1915309563115276298|predict_rules:8588338023020872333|health_rules:3809831023003012200",
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get "#{BASE_URL}/api/v2/users/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{base_url}/api/v2/users/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
       @notifications = @res["user"]["notifications"] if @res
       # log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end

@@ -4,26 +4,24 @@ require 'net/http'
 require_relative "MultipartImage_Android.rb"
 require_relative 'test_helper'
 require_relative 'ForumApiAndroid'
+require_relative 'env_config'
 
-IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
-GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 PASSWORD = 'Glow12345'
 GROUP_ID = 3
-GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
-ANDROID_BASE_FORUM_URL = "http://titan-forum.glowing.com/android/forum"
+TARGET_GROUP_NAME = "1st Child"
+IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
+GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
+
 
 module GlowForumAndroid
   extend TestHelper
-
-  GLOW_ANDROID_BASE_URL = "http://titan-emma.glowing.com"
-  ANDROID_FORUM_BASE_URL = "http://titan-forum.glowing.com/android/forum"
-
   def forum_new_user(args = {})
     ForumUser.new(args).non_ttc_signup.login.complete_tutorial.join_group
   end
 
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
+    include AndroidConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category
     attr_accessor :res
@@ -101,7 +99,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/v2/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
@@ -136,7 +134,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/signup", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/v2/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       # json_res = eval(res.to_s)
       @ut = @res["user"]["encrypted_token"]
@@ -158,7 +156,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/v2/users/push", :body => data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
       self
     end
@@ -171,7 +169,7 @@ module GlowForumAndroid
 
       # puts "debug #{data}"
       # puts "#{@res} res"
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/signin", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/users/signin", :body => data.to_json,
         :headers => {'Content-Type' => 'application/json' })
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
       @first_name = @res["user"]["first_name"]
@@ -182,7 +180,7 @@ module GlowForumAndroid
       # @ut = nil
       # self
       data = additional_post_data
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/logout", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/users/logout", :body => data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
       self
     end
@@ -192,7 +190,7 @@ module GlowForumAndroid
         "email": email
       }.merge(additional_post_data)
 
-      @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/users/recover_password", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/a/users/recover_password", :body => data.to_json,
         :headers => {'Content-Type' => 'application/json' })
       self
     end
@@ -202,7 +200,7 @@ module GlowForumAndroid
         "ts": 0,
         "sign": "todos:|activity_rules:|clinics:|fertile_score_coef:|fertile_score:|predict_rules:|health_rules:",
       }
-      @res = HTTParty.get "#{GLOW_ANDROID_BASE_URL}/a/v2/users/pull?#{additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{base_url}/a/v2/users/pull?#{additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
       @notifications = @res["notifications"] if @res["user_id"]
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["user_id"].nil?
     end

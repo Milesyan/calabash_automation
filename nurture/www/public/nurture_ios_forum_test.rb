@@ -6,21 +6,19 @@ require 'yaml'
 require_relative 'test_helper'
 require_relative "MultipartImage_iOS.rb"
 require_relative 'ForumApi'
+require_relative 'env_config'
 
+PASSWORD = 'Glow12345'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
 IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
+GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
+
 
 
 module NurtureForumIOS
   extend TestHelper 
   extend ForumApi
-  PASSWORD = 'Glow12345'
-  BASE_URL = load_config["base_urls"]["Sandbox"]
-  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  # BASE_URL = load_config["base_urls"]["Local"]
-  # FORUM_BASE_URL = load_config["base_urls"]["LocalForum"]
-  GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
   def due_date_in_weeks(n = 40)
     Time.now.to_i + n.to_i*7*24*3600
@@ -31,6 +29,7 @@ module NurtureForumIOS
   end
 
   class ForumUser < ForumApi::ForumIOS
+    include IOSConfig
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks, :birthday
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
     attr_accessor :reply_content,:group_id,:all_group_ids
@@ -100,7 +99,7 @@ module NurtureForumIOS
           "first_name": @first_name
         }
       }.merge(common_data)
-      @res = HTTParty.post("#{BASE_URL}/ios/users/signup", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/ios/users/signup", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
@@ -126,7 +125,7 @@ module NurtureForumIOS
           password: @password
         }
       }.merge(common_data)
-      @res = HTTParty.post("#{BASE_URL}/ios/users/signin", :body => login_data.to_json,
+      @res = HTTParty.post("#{base_url}/ios/users/signin", :body => login_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
@@ -145,7 +144,7 @@ module NurtureForumIOS
         "ts": 0,
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get("#{BASE_URL}/ios/users/pull", :body => pull_data.to_json,
+      @res = HTTParty.get("#{base_url}/ios/users/pull", :body => pull_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @notifications = @res["data"]["notifications"] if @res["rc"] == 0
       if @res["rc"] != 0

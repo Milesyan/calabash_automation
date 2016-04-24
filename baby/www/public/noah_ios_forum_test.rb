@@ -7,6 +7,7 @@ require 'yaml'
 require_relative "MultipartImage_IOS.rb"
 require_relative 'test_helper'
 require_relative 'ForumApi'
+require_relative 'env_config'
 
 PASSWORD = 'Glow12345'
 GROUP_ID = 3
@@ -16,10 +17,6 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 
 module NoahForumIOS
   extend TestHelper 
-  BASE_URL = load_config["base_urls"]["Sandbox"]
-  FORUM_BASE_URL = load_config["base_urls"]["SandboxForum"]
-  # BASE_URL = load_config["base_urls"]["Local"]
-  # FORUM_BASE_URL = load_config["base_urls"]["LocalForum"]
 
 
   class Baby
@@ -56,6 +53,8 @@ module NoahForumIOS
   class ForumUser < ForumApi::ForumIOS
     include TestHelper
     include HTTParty
+    include IOSConfig
+    
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :gender,:birth_due_date, :birth_timezone
     attr_accessor :res
@@ -122,7 +121,7 @@ module NoahForumIOS
         "password": args[:password] || user.password
         },
       }.merge(common_data)
-      @res = HTTParty.post "#{BASE_URL}/ios/user/signup", options(data)
+      @res = HTTParty.post "#{base_url}/ios/user/signup", options(data)
       user.user_id = @res["data"]["user"]["user_id"]
       log_important "#{user.email} has been signed up"
       log_important "User id is >>>>#{user.user_id}<<<<"
@@ -135,7 +134,7 @@ module NoahForumIOS
         "email": email || @email,
         "password": password || @password
       }.merge(common_data)
-      @res = HTTParty.post "#{BASE_URL}/ios/user/login", options(data)
+      @res = HTTParty.post "#{base_url}/ios/user/login", options(data)
       @ut = @res["data"]["user"]["encrypted_token"]
       @user_id = @res["data"]["user"]["id"]
       @first_name = @res["data"]["user"]["first_name"]
@@ -160,7 +159,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = self.class.post "#{BASE_URL}/ios/user/pull", options(data)
+      @res = self.class.post "#{base_url}/ios/user/pull", options(data)
       @notifications = @res["data"]["user"]["Notification"]["update"] if not @res["data"]["user"]["Notification"].nil?
       log_important "No notification field in response" if @res["data"]["user"]["Notification"].nil?
     end
@@ -209,7 +208,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = self.class.post "#{BASE_URL}/ios/baby/create", options(data)
+      @res = self.class.post "#{base_url}/ios/baby/create", options(data)
 
       if @res["rc"] == 0
         @current_baby = baby
@@ -236,7 +235,7 @@ module NoahForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = self.class.post "#{BASE_URL}/ios/baby/create", options(data)
+      @res = self.class.post "#{base_url}/ios/baby/create", options(data)
 
       if @res["rc"] == 0
         @current_baby = baby
@@ -252,7 +251,7 @@ module NoahForumIOS
         "ut": @ut
       }
 
-      @res = self.class.post "#{BASE_URL}/ios/baby/remove", options(data)
+      @res = self.class.post "#{base_url}/ios/baby/remove", options(data)
 
       if @res["rc"] == 0
         @babies.delete_if {|b| b.baby_id == baby.baby_id } 

@@ -4,18 +4,17 @@ require 'active_support/all'
 require_relative 'test_helper'
 require_relative "MultipartImage_Android.rb"
 require_relative 'ForumApiAndroid.rb'
+require_relative 'env_config'
+
+PASSWORD = 'Glow12345'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
 IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
-PASSWORD = 'Glow12345'
+
 
 module NurtureForumAndroid
   extend TestHelper
-
-
-  BASE_URL = load_config["base_urls"]["Sandbox1"]
-  ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
 
   def forum_new_user(args={})
     ForumUser.new(args).signup.login
@@ -24,8 +23,8 @@ module NurtureForumAndroid
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include HTTParty
-
-    base_uri BASE_URL
+    include AndroidConfig
+    base_uri AndroidConfig.base_url
 
     attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday, :user_id,:due_date
     attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
@@ -164,7 +163,7 @@ module NurtureForumAndroid
         "support_postpartum": true,
       }
 
-      @res = HTTParty.get "#{BASE_URL}/android/users/pull?#{common_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{base_url}/android/users/pull?#{common_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
       @notifications = @res["dict"]["notifications"] if @res["rc"] == 0
       if @res["rc"] != 0
         log_important "RC IS NOT EQUAL to 0 in pull api call" 

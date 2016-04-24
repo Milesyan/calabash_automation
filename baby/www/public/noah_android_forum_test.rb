@@ -4,20 +4,16 @@ require 'active_support/all'
 require_relative 'test_helper'
 require_relative "MultipartImage_Android.rb"
 require_relative 'ForumApiAndroid'
+require_relative 'env_config'
 
+PASSWORD = 'Glow12345'
 GROUP_ID = 3
 TARGET_GROUP_NAME = "1st Child"
-PASSWORD = 'Glow12345'
 IMAGE_ROOT = File.dirname(__FILE__) + "/../../../images/"
 GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Health & Lifestyle" => 7, "Tech Support" => 5, "Eve" => 20, "Baby" => 199}
 
-
 module NoahForumAndroid
   extend TestHelper
-
-
-  BASE_URL = load_config["base_urls"]["Sandbox1"]
-  ANDROID_FORUM_BASE_URL = load_config["base_urls"]["SandboxForum1"]
 
   class Baby
     attr_accessor :first_name, :last_name, :gender
@@ -54,8 +50,8 @@ module NoahForumAndroid
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include HTTParty
-
-    base_uri BASE_URL
+    include AndroidConfig
+    base_uri AndroidConfig.base_url
 
     attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday
     attr_accessor :relation, :partners, :status

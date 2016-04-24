@@ -1,7 +1,5 @@
 GROUP_ID = 3 # local group id 
 TARGET_GROUP_NAME = "1st Child"
-BASE_URL = "http://dragon-emma.glowing.com"
-FORUM_BASE_URL = "http://dragon-forum.glowing.com"
 
 module Glow
   class User

@@ -7,6 +7,7 @@ require 'uri'
 require_relative "MultipartImage_Android.rb"
 require_relative 'test_helper'
 require_relative 'ForumApiAndroid'
+require_relative 'env_config'
 
 PASSWORD = 'Glow12345'
 GROUP_ID = 3
@@ -16,16 +17,13 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 
 module EveForumAndroid
 
-
-  EVE_ANDROID_BASE_URL = "http://titan-lexie.glowing.com"
-  ANDROID_FORUM_BASE_URL = "http://titan-forum.glowing.com/android/forum"  
-
   def forum_new_user(args = {})
     u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email.login
   end
   
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
+    include AndroidConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :tmi_flag, :group_name, :group_description, :group_category 
@@ -104,7 +102,7 @@ module EveForumAndroid
       data = {
         "guest_token": @uuid
       }.merge(additional_post_data)
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{base_url}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
       puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
@@ -144,7 +142,7 @@ module EveForumAndroid
           "notification_last_read_time": 0
         }
       }
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{base_url}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
       puts "sync success" if @res["rc"] == 0
       self
     end
@@ -172,7 +170,7 @@ module EveForumAndroid
           "notification_last_read_time": 0
         }
       }.merge(additional_post_data)
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/sync", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{base_url}/android/users/sync", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
       self
     end
 
@@ -191,7 +189,7 @@ module EveForumAndroid
         "ts": @forum_ts
       }
       url = hash_to_query data
-      @res = HTTParty.get("#{EVE_ANDROID_BASE_URL}/android/users/get_daily_gems?#{url}", :body => {}.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.get("#{base_url}/android/users/get_daily_gems?#{url}", :body => {}.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
       self
     end
 
@@ -212,7 +210,7 @@ module EveForumAndroid
         "onboarding_info":{}
       }
       puts "Signup with email:\n Email >>>#{@email}"
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post("#{base_url}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
       self
     end
 
@@ -236,7 +234,7 @@ module EveForumAndroid
           }
       }
 
-      @res = HTTParty.post("#{EVE_ANDROID_BASE_URL}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
+      @res = HTTParty.post("#{base_url}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
         :headers => {'Content-Type' => 'text/plain' })
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
@@ -255,7 +253,7 @@ module EveForumAndroid
           "time_zone": @forum_time_zone
         }
       }
-      @res = HTTParty.post "#{EVE_ANDROID_BASE_URL}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
       @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
