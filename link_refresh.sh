@@ -13,6 +13,7 @@ do
   rm -r ${APP}/www/public/ForumApi.rb
   rm -r ${APP}/www/public/ForumApiAndroid.rb
   rm -r ${APP}/www/public/test_helper.rb
+  rm -r ${APP}/www/public/env_config.rb
   rm -r ${APP}/www/public/ios_minitest.rb
   rm -r ${APP}/www/public/android_minitest.rb
   rm -r ${APP}/ios/.config/*
@@ -35,4 +36,5 @@ do
   ln common/.config/* ${APP}/android/.config/
   ln common/Gemfile* ${APP}/ios/
   ln common/Gemfile* ${APP}/android/
+  ln common/www/env_config.rb ${APP}/www/public
 done
