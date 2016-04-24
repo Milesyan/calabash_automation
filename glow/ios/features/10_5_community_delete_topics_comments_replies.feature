@@ -1,4 +1,4 @@
-@forum @forum_delete 
+@forum @forum_delete
 Feature: User create a topic and delete it.
   @delete_topic @p0 @restart
   Scenario: User create a text topic and delete it. @delete_topic 

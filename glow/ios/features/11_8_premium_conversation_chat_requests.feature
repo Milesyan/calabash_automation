@@ -1,4 +1,4 @@
-@premium @request
+@premium @request 
 Feature: Chat request -> accept/ignore.
   @accept_request @p0 @restart
   Scenario: Premium User sends chat request to no-premium user and the non-premium user accepts the request

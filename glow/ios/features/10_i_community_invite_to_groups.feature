@@ -1,4 +1,4 @@
-@forum @invite 
+@forum @invite
 Feature: legacy and new invite users to group flow
   @new_invite @p0 @restart
   Scenario: Invite other users to a group in new group banner

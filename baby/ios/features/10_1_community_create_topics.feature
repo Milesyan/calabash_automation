@@ -1,6 +1,6 @@
-@forum @create_topics @restart
+@forum @create_topics 
 Feature: User create text/poll/image/url topics 
-  @create_post @pre @p0
+  @create_post @pre @p0 @restart
   Scenario: User create a text topic
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www

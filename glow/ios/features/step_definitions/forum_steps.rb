@@ -943,11 +943,7 @@ When(/^I click the link for Terms$/) do
 end
 
 Then(/^I should see the correct website for Terms$/) do
-  begin
-    wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :time_out => 5
-  rescue RuntimeError
-    wait_for_element_exists "* marked:'Terms of Service'"
-  end
+  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :time_out => 5
   sleep 2
 end
 
@@ -956,11 +952,7 @@ When(/^I click the link for Privacy Policy$/) do
 end
 
 Then(/^I should see the correct website for Privacy Policy$/) do
-  begin
-    wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :time_out => 5
-  rescue RuntimeError
-    wait_for_element_exists "* marked:'Privacy Policy'"
-  end
+  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :time_out => 5
   sleep 2
 end
 

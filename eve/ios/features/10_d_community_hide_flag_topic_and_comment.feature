@@ -1,6 +1,6 @@
-@forum @hide_report @restart
+@forum @hide_report
 Feature: Test hide/report topic/comment.
-  @hide_topic
+  @hide_topic @restart
   Scenario: User create a topic and hide it.
     Given I create a new forum user with name "Miles"
     And another user "Charlotte" create 1 topic and 2 comments and 3 subreplies for each comment

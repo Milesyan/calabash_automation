@@ -1,6 +1,6 @@
-@forum @hide_topic/comment_by_downvote @restart
+@forum @hide_topic/comment_by_downvote
 Feature: User downvote or flag topics to make it hidden.
-  @hidden_by_downvote_topic
+  @hidden_by_downvote_topic @restart
   Scenario: User create a topic and other users downvote it to make it hidden.
     Given I create a new forum user with name "Miles"
     And "Miles" create 1 topic and 10 comments and 3 subreplies for each comment

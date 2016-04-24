@@ -24,11 +24,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def back_from_web_page
-    wait_for(:time_out => 10) do
-      element_exists("* marked:'Close'") || element_exists("* id:'gl-foundation-back'")
-    end
-    touch "* id:'gl-foundation-back'" if element_exists "* id:'gl-foundation-back'"
-    touch "* marked:'Close'" if element_exists "* marked:'Close'"
+    wait_touch "* id:'gl-foundation-back'"
   end
 
   def switch_chat_option
@@ -73,10 +69,12 @@ class PremiumPage < Calabash::IBase
   end
 
   def click_name_of_chat_requester
-    sleep 1
-    wait_touch "* marked:'New chat request.'"
-    sleep 1
-    touch "* marked:'New chat request.'" if element_exists "* marked:'New chat request.'"
+    wait_for_element_exists "* marked:'New chat request.'"
+    wait_poll(timeout: 10,
+          timeout_message: 'Unable to click chat requester',
+          until: element_does_not_exist "* marked:'New chat request.'") do
+      touch "* marked:'New chat request.'"
+    end
     sleep 1
   end
 

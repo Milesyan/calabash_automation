@@ -1,7 +1,7 @@
-@premium @chat_notification @restart
+@premium @chat_notification
 Feature: Check notifications about chat
 
-  @request_notification @p0 
+  @request_notification @p0 @restart
   Scenario: Check notification when user sends a chat request
     Given A premium user miles3 sent chat request to a new user "Albert"
     And I login as the new user

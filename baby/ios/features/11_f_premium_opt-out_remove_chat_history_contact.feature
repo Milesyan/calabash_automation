@@ -1,6 +1,6 @@
-@premium @opt-out @restart
+@premium @opt-out
 Feature: Opt-out; check remove chat history, remove contact.
-  @remove_chat_history @p0 
+  @remove_chat_history @p0 @restart
   Scenario: Remove chat history in messages page
     Given A premium user miles3 established chat relationship with a new user "Swipe"
     And I login as premium user
