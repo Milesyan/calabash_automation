@@ -1,7 +1,7 @@
 module Eve
   def wait_touch(query_str)
-    wait_for_elements_exist([query_str])
-    touch(query_str)
+    wait_for_elements_exist [query_str], :post_timeout => 0.5
+    touch query_str
     wait_for_none_animating :timeout => 30
   end
 
@@ -18,11 +18,33 @@ module Eve
     "TestGroup" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-3..-1]
   end
   
+  def already_logged_in?
+    element_exists "UITabBarButton"
+  end
+
+  def back_to_home
+    counter = 0
+    while element_exists("* marked:'Back'") || element_exists("* marked:'Done'") || element_exists("* marked:'Close'") || element_exists("* marked:'Cancel'") || element_exists("* id:'gl-foundation-popup-close'") do
+      touch "* marked:'Back'" if element_exists "* marked:'Back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
+      touch "* marked:'Done'" if element_exists "* marked:'Done'"
+      touch "* id:'gl-foundation-popup-close'" if element_exists touch "* id:'gl-foundation-popup-close'"
+      counter += 1
+      break if counter > 3
+    end
+  end
+
+  def clean_up_page
+    app_page.pass_sso
+    app_page.finish_tutorial
+    back_to_home
+  end
 
   def logout_if_already_logged_in
-    sleep 1
-    app_page.finish_tutorial
-    if element_exists "UITabBarButton"
+    sleep 0.5
+    clean_up_page
+    if already_logged_in?
       app_page.open("Me")
       app_page.logout
     end

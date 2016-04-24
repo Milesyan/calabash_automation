@@ -1,8 +1,8 @@
 module Nurture
   def wait_touch(query_str)
-    wait_for_elements_exist([query_str])
+    wait_for_elements_exist [query_str], :post_timeout => 0.3
     touch(query_str)
-    wait_for_none_animating :time_out => 20
+    wait_for_none_animating
   end
 
   def touch_if_elements_exist(query_str)
@@ -18,12 +18,32 @@ module Nurture
     "TestGroup" + ('0'..'9').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-3..-1]
   end
   
+  def already_logged_in?
+    element_exists "UITabBarButton"
+  end
 
-  def logout_if_already_logged_in
+  def back_to_home
+    counter = 0
+    while element_exists("* marked:'Back'") || element_exists("* marked:'Done'") || element_exists("* marked:'Close'") || element_exists("* marked:'Cancel'") || element_exists("* id:'gl-foundation-popup-close'") do
+      touch "* marked:'Back'" if element_exists "* marked:'Back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
+      touch "* marked:'Done'" if element_exists "* marked:'Done'"
+      touch "* id:'gl-foundation-popup-close'" if element_exists touch "* id:'gl-foundation-popup-close'"
+      counter += 1
+      break if counter > 3
+    end
+  end
+
+  def clean_up_page
     app_page.pass_sso
-    app_page.close_chat_popup
     app_page.finish_tutorial
-    if element_exists "UITabBarButton"
+    back_to_home
+  end
+  
+  def logout_if_already_logged_in
+    clean_up_page
+    if already_logged_in?
       app_page.open("Me")
       app_page.logout
     end

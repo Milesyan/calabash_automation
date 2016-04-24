@@ -115,19 +115,16 @@ class AppPage < Calabash::IBase
       puts "NEED TUTORIAL IN GLOW"
       until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
       wait_for_none_animating
-      #wait_touch "NewDateButton index:1"
       wait_touch "* marked:'Today'"
       wait_for_none_animating
       from = "NewDateButton index:2"
       to = "* marked:'Complete log!'"
       until_element_does_not_exist("* marked:'Pull down to see the full calendar view'", :action => lambda { pan from, to, duration: 1 } )  
       wait_for_none_animating
-
       from = "* marked:'WED'"
       to = "* marked:'Sex'" #if ["iui", "ivf", "med", "prep"].include? $user.type
       until_element_does_not_exist("* marked:'Pull down to see the small calendar view'", :action => lambda { pan from, to, duration: 1 })
       wait_for_none_animating
-      
       touch_later_link
       wait_for_none_animating
     end
@@ -155,8 +152,9 @@ class AppPage < Calabash::IBase
   end
   def signup_flow
     pass_sso
-    wait_touch "* marked:'Get Started'"
+    wait_touch "* marked:'Get Started!'"
     wait_touch "button index:0"
+    wait_touch "* marked:'Choose'"
     wait_touch "* marked:'Condom'"
     wait_touch "* marked:'Done'"
     wait_touch "button marked:'Weight'"
@@ -181,11 +179,11 @@ class AppPage < Calabash::IBase
 
 
   def touch_terms
-    wait_touch "* marked:'Terms'"
+    wait_touch "* marked:'Terms'", :time_out => 50
   end
 
   def touch_privacy_policy
-    wait_touch "* marked:'Privacy Policy'"
+    wait_touch "* marked:'Privacy Policy'",  :time_out => 50
   end
 
   def hint_section 

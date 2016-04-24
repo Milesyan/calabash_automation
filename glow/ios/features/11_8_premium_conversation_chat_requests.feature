@@ -1,6 +1,6 @@
-@premium @request  @restart
+@premium @request
 Feature: Chat request -> accept/ignore.
-  @accept_request @p0
+  @accept_request @p0 @restart
   Scenario: Premium User sends chat request to no-premium user and the non-premium user accepts the request
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I create another non-premium user "Charlotte" and create a topic in the test group with topic name "Test signature chat"

@@ -22,9 +22,8 @@ module Glow
   end
 
   def wait_touch(query_str)
-    sleep 1
-    wait_for_elements_exist([query_str])
-    touch(query_str)
+    wait_for_elements_exist [query_str], :post_timeout => 0.5
+    touch query_str
   end
   
   def relaunch_app

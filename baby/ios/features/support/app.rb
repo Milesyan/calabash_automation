@@ -13,9 +13,28 @@ module Baby
     element_exists "UITabBar"
   end
 
-  def logout_if_already_logged_in
-    sleep 1
+  def back_to_home
+    counter = 0
+    while element_exists("* marked:'Back'") || element_exists("* marked:'Done'") || element_exists("* marked:'Close'") || element_exists("* marked:'Cancel'") || element_exists("* id:'gl-foundation-popup-close'") do
+      touch "* marked:'Back'" if element_exists "* marked:'Back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
+      touch "* marked:'Done'" if element_exists "* marked:'Done'"
+      touch "* id:'gl-foundation-popup-close'" if element_exists touch "* id:'gl-foundation-popup-close'"
+      counter += 1
+      break if counter > 3
+    end
+  end
+
+  def clean_up_page
+    app_page.pass_sso
     app_page.finish_tutorial
+    back_to_home
+  end
+
+  def logout_if_already_logged_in
+    sleep 0.5
+    clean_up_page
     if already_logged_in?
       app_page.open("me")
       app_page.open_settings
@@ -47,7 +66,7 @@ module Baby
   end
 
   def wait_touch(query_str)
-    wait_for_elements_exist([query_str])
+    wait_for_elements_exist [query_str], :post_timeout => 0.5
     begin
       wait_for_none_animating :time_out => 3
     rescue RuntimeError
