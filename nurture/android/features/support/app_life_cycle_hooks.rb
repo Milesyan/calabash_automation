@@ -11,7 +11,7 @@ After do |scenario|
     screenshot_embed
   end
   shutdown_test_server
-  sleep 1
+  sleep 0.3
   # logger.stop
   # logger.pull_log(user:$user).pretty
   # logger.diff

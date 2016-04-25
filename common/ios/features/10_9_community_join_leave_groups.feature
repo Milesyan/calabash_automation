@@ -1,6 +1,6 @@
 @forum @group 
 Feature: create/join/leave group
-  @create_group_able @restart
+  @create_group_able
   Scenario: User create a group with more than 15+ comments
     Given I create a new forum user with name "Julie"
     Then "Julie" reply to 3 topics created by others 

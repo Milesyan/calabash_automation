@@ -1,4 +1,4 @@
-@premium @profile_chat @restart
+@premium @profile_chat
 Feature: Premium user enter a non-premium user's profile and initial a chat request 
   Scenario: Premium user check chat icon in other users profile page
     Given A premium user miles3 and a non-premium user milesn have been created for test
