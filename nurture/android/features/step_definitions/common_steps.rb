@@ -30,9 +30,9 @@ Then(/^I login as "([^"]*)"$/) do |arg1|
 end
 
 Given(/^I open "(.*?)" page$/) do |page|
-  sleep 1.5
-  app_page.open(page.downcase)
   sleep 1
+  app_page.open(page.downcase)
+  sleep 0.5
 end
 
 

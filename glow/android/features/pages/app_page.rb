@@ -20,7 +20,7 @@ class AppPage < Calabash::ABase
 
   def open(page)
     wait_for_element_exists "* id:'nav_home'"
-    sleep 1
+    sleep 0.5
     case page.downcase
     when 'home'
       touch "* id:'nav_home'"
@@ -49,7 +49,7 @@ class AppPage < Calabash::ABase
       element_exists menu_button
     end
     wait_touch menu_button
-    sleep 1
+    sleep 0.5
     wait_touch "* text:'Log out'"
   end
   

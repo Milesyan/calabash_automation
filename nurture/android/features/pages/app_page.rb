@@ -64,7 +64,7 @@ class AppPage < Calabash::ABase
 
   def open(tab_name)
     wait_for_element_exists "* id:'bottom_action_bar'"
-    sleep 1
+    sleep 0.5
     case tab_name.downcase
     when "home"
       touch "* id:'nav_home'"
@@ -87,7 +87,7 @@ class AppPage < Calabash::ABase
       element_exists "* marked:'Log out'"
     end
     touch "* marked:'Log out'"
-    sleep 2
+    sleep 0.5
   end
 
   def forum_element

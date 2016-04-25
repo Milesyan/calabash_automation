@@ -16,7 +16,7 @@ module BabyHelper
   end
 
   def logout_if_already_logged_in
-    sleep 1
+    sleep 0.5
     clean_up_page
     if element_exists "* id:'tab'"
       app_page.logout

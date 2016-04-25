@@ -24,7 +24,7 @@ class AppPage < Calabash::ABase
     touch "* id:'sign_in_button'"
     # bypass_eve
     wait_for_element_does_not_exist "* id:'sign_in_button'"
-    sleep 2
+    sleep 1
     if element_exists "* {text CONTAINS 'Did you start your new'}"
       touch "* marked:'YES'"
       touch "* marked:'Done'"
@@ -53,27 +53,7 @@ class AppPage < Calabash::ABase
   def forum_element
     wait_for_elements_exist "by"
   end
-  # def bypass_eve
-  #   wait_touch "* id:'cycleDaysQuestionButton'"
-  #   sleep 0.5
-  #   touch "* marked:'25 days'"
-  #   sleep 0.5
-  #   touch "* marked:'NEXT'"
-  #   sleep 0.5
-  #   touch "* id:'lastPeriodStartQuestionButton'"
-  #   sleep 0.3
-  #   touch "* marked:'14'"
-  #   sleep 0.5
-  #   touch "* marked:'Done'"
-  #   sleep 0.5
-  #   touch "* marked:'NEXT'"
-  #   touch "* id:'birthControlQuestionButton'"
-  #   touch "* marked:'None'"
-  #   sleep 0.5
-  #   touch "* marked:'DONE'"
-  #   sleep 0.5
-  #   touch "* contentDescription:'Navigate up'"
-  # end
+ 
   def ntf_join_group
     wait_for_element_exists "* {text CONTAINS 'Join the group!'}"
     wait_touch "* {text CONTAINS 'Check it out'}"
