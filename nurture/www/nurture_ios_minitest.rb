@@ -7,6 +7,10 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class NurtureTest < Minitest::Test
   include NurtureIOS
 
+  def assert_rc(res)
+    assert_equal 0, res["rc"]
+  end
+
   def pp(my_json)
     puts JSON.pretty_generate(my_json)
   end
@@ -21,12 +25,14 @@ class NurtureTest < Minitest::Test
   end
 
   def test_signup_user
-    create_user
+    u = create_user
+    assert_rc u.res
   end
 
   def test_add_vitamin
     u = create_user
     u.add_vitamin date: 2.days.ago
+    assert_rc u.res
   end
 
   def test_dynamic_insight
@@ -34,7 +40,7 @@ class NurtureTest < Minitest::Test
     u.complete_daily_log(date: 2.days.ago)
     u.complete_daily_log(date: 1.day.ago)
     u.complete_daily_log(date: Time.now)
-    puts u.insights
+    assert_rc u.res
   end
 
   # def _test_log_200_days
@@ -48,6 +54,7 @@ class NurtureTest < Minitest::Test
     u = create_user
     u.add_medical_log(date: 1.day.ago)
     u.add_medical_log(date: Time.now)
+    assert_rc u.res
   end
 
 end
