@@ -14,9 +14,13 @@ module Glow
     element_exists "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
   end
 
+  def clean_up_page
+    app_page.finish_tutorial
+  end
+
   def logout_if_already_logged_in
     sleep 1
-    app_page.finish_tutorial
+    clean_up_page
     wait_for_elements_do_not_exist("* id:'loading_view'", :timeout => 5)
     app_page.logout if already_logged_in?
   end

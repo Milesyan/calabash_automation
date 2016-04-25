@@ -11,9 +11,13 @@ module NurtureHelper
     Time.now
   end
 
+  def clean_up_page
+    app_page.finish_tutorial
+  end
+
   def logout_if_already_logged_in
     sleep 1
-    app_page.finish_tutorial
+    clean_up_page
     if element_exists "* id:'bottom_action_bar'"
       app_page.logout
     end

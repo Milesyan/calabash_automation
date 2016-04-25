@@ -17,6 +17,7 @@ Feature: User create text/poll/image/url topics
     And I open "community" page
     And I post a "poll" topic
     Then I should see the topic is posted successfully
+    Then I assert the www response of created topic
     And I logout
 
   @create_image 
@@ -26,6 +27,7 @@ Feature: User create text/poll/image/url topics
     And I open "community" page
     And I post a "image" topic
     Then I should see the topic is posted successfully
+    Then I assert the www response of created topic
     And I logout 
 
   # @create_link
@@ -45,5 +47,6 @@ Feature: User create text/poll/image/url topics
     And I go to the first group
     And I post a text topic with title "Post in group topic"
     Then I should see the topic is posted successfully
+    Then I assert the www response of created topic
     And I logout
 

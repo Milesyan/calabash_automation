@@ -34,7 +34,7 @@ module Glow
   end
 
   def logout_if_already_logged_in
-    sleep 1
+    sleep 0.5
     clean_up_page
     if already_logged_in?
       app_page.finish_tutorial

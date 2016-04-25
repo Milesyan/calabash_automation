@@ -43,13 +43,13 @@ class AppPage < Calabash::IBase
     pass_premium_promt
   end
 
-  def logout_if_already_logged_in
-    app_page.finish_tutorial
-    if element_does_not_exist "* marked:'LOG\u2028IN'"
-      app_page.open("me")
-      me_page.logout
-    end
-  end
+  # def logout_if_already_logged_in
+  #   app_page.finish_tutorial
+  #   if element_does_not_exist "* marked:'LOG\u2028IN'"
+  #     app_page.open("me")
+  #     me_page.logout
+  #   end
+  # end
   
   def bypass_temp
     wait_touch "* marked:'Get it, Girl'"

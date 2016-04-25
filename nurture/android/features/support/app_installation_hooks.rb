@@ -14,10 +14,6 @@ Before do |scenario|
     else
       log 'First scenario in feature - reinstalling apps'
     end
-
-    uninstall_apps
-    install_app(ENV['TEST_APP_PATH'])
-    install_app(ENV['APP_PATH'])
     FeatureMemory.feature = feature
     FeatureMemory.invocation = 1
   else
@@ -25,4 +21,9 @@ Before do |scenario|
   end
 end
 
+Before('@reinstall') do |scenario| 
+    uninstall_apps
+    install_app(ENV['TEST_APP_PATH'])
+    install_app(ENV['APP_PATH'])
+end 
 FeatureMemory = Struct.new(:feature, :invocation).new
