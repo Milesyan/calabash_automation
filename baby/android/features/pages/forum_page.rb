@@ -161,6 +161,10 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'title_editor'", @title
     enter_text "* id:'content_editor'", description
     sleep 0.5
+    if args[:anonymous] == 1
+      puts "Anonymous Mode"
+      wait_touch "* marked:'Add anonymously'"
+    end
     if element_exists "* id:'create_yes'"
       touch "* id:'create_yes'" # done button
     else 

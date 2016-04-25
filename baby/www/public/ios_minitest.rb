@@ -461,7 +461,7 @@ module Minitest_ios
     u = forum_new_user
     u.create_topic
     u.get_created
-    assert_rc u.res
+    assert u.res
   end
 
   def test_blocked

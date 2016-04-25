@@ -437,6 +437,12 @@ module Minitest_android
     assert_rc u.res
   end
 
+  def test_get_all_contacts
+    up = premium_login 
+    u = forum_new_user
+    up.establish_chat u
+    up.get_all_contacts
+  end
 end
 
 
