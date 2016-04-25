@@ -18,7 +18,7 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 module EveForumAndroid
 
   def forum_new_user(args = {})
-    u = ForumUser.new(args).signup_guest.sync_guest_info.sync_guest_info_2.get_daily_gems.signup_with_email.login
+    u = ForumUser.new(args).all_signup_flow
   end
   
   class ForumUser < ForumApiAndroid::ForumAndroid
@@ -39,7 +39,7 @@ module EveForumAndroid
       @pb = (Time.new - 10*60*60*24).strftime("%Y\/%m\/%d")
       @pe = (Time.new - 6*60*60*24).strftime("%Y\/%m\/%d")
       @next_pb = (Time.new + 12*60*60*24).strftime("%Y\/%m\/%d")
-      @birthday =  args[:birthday] || 166984446
+      @birthday =  args[:birthday] || [166984446,798798831].sample
       @forum_locale = "en_US"
       @forum_random = random_str
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
@@ -218,7 +218,6 @@ module EveForumAndroid
       signup_guest
       sync_guest_info
       sync_guest_info_2
-      # get_daily_gems
       signup_with_email
       login
       self

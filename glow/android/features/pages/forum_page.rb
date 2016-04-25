@@ -302,6 +302,7 @@ class ForumPage < Calabash::ABase
 
   def delete_topic
     wait_for_elements_exist "* id:'topic_menu'"
+    sleep 0.5
     wait_touch "* id:'topic_menu'"
     wait_touch "* marked:'Delete this post'"
     wait_for(:timeout=>3){element_exists "* {text CONTAINS 'delete this'}"}

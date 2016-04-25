@@ -944,6 +944,10 @@ end
 
 Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
   $young_user = forum_new_user :birthday => 892461217, :first_name => "Age"
+  _temp_user = ntf_user :birthday => 166984446
+  10.times do
+    _temp_user.create_topic
+  end
   assert_equal 892461217, $young_user.birthday
   $test_title = "#{$young_user.first_name}Test age filter topic"
   $young_user.create_topic :topic_title => $test_title

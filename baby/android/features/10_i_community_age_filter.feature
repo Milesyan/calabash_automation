@@ -1,6 +1,6 @@
 @forum @age_filter
 Feature: Age filter for topic and comments
-  @filter_topic
+  @filter_topic @reinstall_after
   Scenario: Test age filter for topics
     Given a forum user with the age 18 and create a topic in test group
     Given I create a new forum user with name "Miles"
@@ -12,7 +12,7 @@ Feature: Age filter for topic and comments
     And I go to test group and check the topic not exist
     And I logout
 
-  @filter_comment
+  @filter_comment @reinstall_after
   Scenario: Test age filter for comments and subreplies
     Given a forum user with the age 18 and create a topic in test group and some test comments and subreplies are created
     Given I create a new forum user with name "Miles"
