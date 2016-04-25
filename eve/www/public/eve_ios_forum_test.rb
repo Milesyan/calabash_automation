@@ -69,9 +69,9 @@ module EveForumIOS
     end
 
     def signup_guest
-      @uuid = SecureRandom.uuid.upcase
+      @guest_token = SecureRandom.uuid.upcase
       data = {
-        "guest_token": @uuid,
+        "guest_token": @guest_token,
         "install_data": nil,
         "branch_data": nil
       }.merge(common_data)
@@ -84,13 +84,27 @@ module EveForumIOS
 
     def sync1
       data = {
-        "sync_token": nil,
-        "sync_items":[{"data":{"val_int":22,"time_modified": 10.seconds.ago.to_i,"id":0,"time_created":10.seconds.ago.to_i,"tag":0,"val_str":nil,"val_text":nil,"val_float":0,"time_removed":0,"profile_key":"period_cycle"},"model":"LXHealthProfile","type":1,"uuid": @uuid}],
+        "sync_token": "0h7E0C-WpBIRj6jqyrc_uj_p8aokmDaMi0AYd3vmOYp9t9E_sGCjJ5M28NHsSuYY",
+        "sync_items":[{"data":
+          {"val_int":22,
+            "time_modified": 10.seconds.ago.to_i,
+            "id":0,
+            "time_created":10.seconds.ago.to_i,
+            "tag":0,
+            "val_str":nil,
+            "val_text":nil,
+            "val_float":0,
+            "time_removed":0,
+            "profile_key":"period_cycle"},
+            "model":"LXHealthProfile",
+            "type":1,
+            "uuid": @uuid}],
           "ut": @ut,
           "need_pull":true,
           "additional_info":{"notification_last_read_time":nil,"time_zone":"Asia\/Shanghai","device_token":nil,"syncable_attributes":{"predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}}
       }.merge(common_data)
       @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      puts @res
       self
     end
 
@@ -100,7 +114,6 @@ module EveForumIOS
         "sync_items":[{"data":{"val_int":5,"time_modified": 10.seconds.ago.to_i,
           "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,"val_text":nil,"val_float":0,"time_removed":0,"profile_key": "period_length"},
           "model":"LXHealthProfile","type":1,"uuid": @uuid}],
-          "model":"x86_64",
           "ut": @ut,
           "need_pull":true,
           "additional_info":{
@@ -108,7 +121,7 @@ module EveForumIOS
             "time_zone":"Asia\/Shanghai",
             "device_token":nil,
             "syncable_attributes":{
-              "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
+              "predict_rules": "-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
               }
       }.merge(common_data)
       @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
@@ -121,7 +134,6 @@ module EveForumIOS
         "sync_items":[{"data":{"val_int":1,"time_modified": 10.seconds.ago.to_i,
           "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,"val_text":nil,"val_float":0,"time_removed":0,"profile_key": "birth_control"},
           "model":"LXHealthProfile","type":1,"uuid": @uuid}],
-          "model":"x86_64",
           "ut": @ut,
           "need_pull":true,
           "additional_info":{
@@ -141,9 +153,8 @@ module EveForumIOS
       data = {
         "sync_token": "0h7E0C-WpBIRj6jqyrc_ug5vBcJTijql-3bNVUs_rRDabB63xqYf7FF8CJHcRR2N",
         "sync_items":[{"data":{
-          "id":0,"time_created": 10.seconds.ago.to_i,"pb": "2016\/02\/18","uuid": period_uuid,"pe": "2016\/02\/22","pb_prediction": nil,"pe_prediction": nil,"time_removed":0,"time_modified": 10.seconds.ago.to_i},
+          "id":0,"time_created": 10.seconds.ago.to_i,"pb": "2016\/04\/20","uuid": period_uuid,"pe": "2016\/04\/22","pb_prediction": nil,"pe_prediction": nil,"time_removed":0,"time_modified": 10.seconds.ago.to_i},
           "model":"LXPeriod","type":1,"uuid": @uuid}],
-          "model":"x86_64",
           "ut": @ut,
           "need_pull":true,
           "additional_info":{
@@ -156,6 +167,8 @@ module EveForumIOS
       }.merge(common_data)
       @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
       puts period_uuid
+      puts @res
+      puts "DDDDDD"
       self
     end
 
@@ -194,7 +207,7 @@ module EveForumIOS
         "onboarding_info":{},
         "guest_info":
           {
-          "guest_token": @uuid
+          "guest_token": @guest_token
           },
         "branch_data":
           {
@@ -237,14 +250,11 @@ module EveForumIOS
 
     def all_signup_flow
       signup_guest
-      # sync1
-      # sync2
-      # sync3
-      # get_daily_gems
-      # sync4
-      # get_daily_gems
+      sync1
+      sync2
+      sync3
+      sync4
       signup_with_email
-      # get_daily_gems
       login
       self
     end

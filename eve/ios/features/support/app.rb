@@ -19,7 +19,7 @@ module Eve
   end
   
   def already_logged_in?
-    element_exists "UITabBarButton"
+    element_exists "UITabBar"
   end
 
   def back_to_home

@@ -107,7 +107,7 @@ class AppPage < Calabash::IBase
 
 
   def open(tab_name)
-    wait_touch "* marked:'Me'"
+    wait_touch "* text:'Me'"
     case tab_name.downcase
     when "home"
       wait_touch "UITabBarButton marked:'Home'"
