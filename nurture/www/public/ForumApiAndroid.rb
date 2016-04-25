@@ -549,9 +549,7 @@ module ForumApiAndroid
     
     def remove_all_participants
       _participants = self.get_all_participants
-      _participants.each do |id|
-        remove_chat id
-      end
+      _participants.each {|id| remove_chat id}
       self
     end
 
@@ -565,9 +563,7 @@ module ForumApiAndroid
 
     def remove_all_contacts
       _contacts = self.get_all_contacts
-      _contacts.each do |id|
-        remove_chat id
-      end
+      _contacts.each {|id| remove_chat id}
       self
     end
 
@@ -593,9 +589,7 @@ module ForumApiAndroid
       else
         _blocked_users = self.get_all_blocked
       end
-      _blocked_users.each do |id|
-        unblock_user id
-      end
+      _blocked_users.each {|id| unblock_user id}
       self
     end
 
