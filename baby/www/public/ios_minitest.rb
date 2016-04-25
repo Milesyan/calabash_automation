@@ -453,7 +453,12 @@ module Minitest_ios
     assert_equal 1102,u.notifications[0]["type"]
   end
 
-
+  def test_created
+    u = forum_new_user
+    u.create_topic
+    u.get_created
+    assert_rc u.res
+  end
 
 end
 

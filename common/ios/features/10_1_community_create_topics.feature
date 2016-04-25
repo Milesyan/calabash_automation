@@ -7,6 +7,7 @@ Feature: User create text/poll/image/url topics
     And I open "community" page
     And I post a "text" topic
     Then I should see the topic is posted successfully
+    Then I assert the www response of created topic
     And I logout
 
   @create_poll

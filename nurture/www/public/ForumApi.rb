@@ -6,6 +6,20 @@ module ForumApi
     include TestHelper
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, :all_group_names, :notifications, :app_version
+    # --- some get functions---
+    def get_created
+      get_data = {
+        "code_name": @code_name,
+        "offset": '0',
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.get("#{forum_base_url}/topic/created", :body => get_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
+      self
+    end
+
+
     def create_topic(args = {})
       topic_data = {
         "code_name": @code_name,
