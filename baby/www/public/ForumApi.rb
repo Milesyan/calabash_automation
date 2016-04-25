@@ -388,17 +388,8 @@ module ForumApi
       @res =  HTTParty.get("#{forum_base_url}/user/#{self.user_id}/social_info", :body => group_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      @all_group_ids = []
-      @all_group_names = []
-      @res["groups"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_group_ids.push v
-          elsif k == "name"
-            @all_group_names.push v
-          end
-        end
-      end
+      @all_group_ids = @res["groups"].map { |h| h['id']}
+      @all_group_names = @res["groups"].map { |h| h['name']}
       self
     end
 
@@ -616,15 +607,7 @@ module ForumApi
       @res = HTTParty.get("#{forum_base_url}/chats_and_participants", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      @all_participants = []
-      @res["participants"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_participants.push v
-          end
-        end
-      end
-      @all_participants
+      @all_participants = @res['participants'].map {|n| n['id']}
     end
     
     def remove_all_participants
@@ -643,15 +626,7 @@ module ForumApi
       @res = HTTParty.get("#{forum_base_url}/chat/contacts", :body => chat_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      @all_contacts = []
-      @res["contacts"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_contacts.push v
-          end
-        end
-      end
-      @all_contacts
+      @all_contacts = @res['contacts'].map { |h| h['id']}
     end     
 
     def remove_all_contacts
@@ -670,15 +645,7 @@ module ForumApi
       @res = HTTParty.get("#{forum_base_url}/users/blocked", :body => blocked_data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      @all_blocked = []
-      @res["result"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_blocked.push v
-          end
-        end
-      end
-      @all_blocked
+      @all_blocked = @res['result'].map {|n| n['id']}
     end
 
     def remove_all_blocked

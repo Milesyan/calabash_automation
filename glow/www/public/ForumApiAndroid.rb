@@ -163,17 +163,8 @@ module ForumApiAndroid
       url = "#{forum_base_url}/user/0/groups?#{@additional_forum}"
       _res =  HTTParty.get(url, :body => group_data.to_json,
         :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
-      @all_group_ids = []
-      @all_group_names = []
-      _res["groups"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_group_ids.push v
-          elsif k == "name"
-            @all_group_names.push v
-          end
-        end
-      end
+      @all_group_ids = _res["groups"].map { |h| h['id']}
+      @all_group_names = _res["groups"].map { |h| h['name']}
       self
     end
 
@@ -553,15 +544,7 @@ module ForumApiAndroid
       }
       @res = HTTParty.get("#{forum_base_url}/chats_and_participants?#{@additional_forum}", :body => chat_data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
-      @all_participants = []
-      @res["participants"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_participants.push v
-          end
-        end
-      end
-      @all_participants
+      @all_participants = @res['participants'].map {|n| n['id']}
     end
     
     def remove_all_participants
@@ -577,15 +560,7 @@ module ForumApiAndroid
       }
       @res = HTTParty.get("#{forum_base_url}/chat/contacts?#{@additional_forum}", :body => chat_data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
-      @all_contacts= []
-      @res["participants"].each do |element|
-        element.each do |k,v|
-          if k == "id"
-            @all_contacts.push v
-          end
-        end
-      end
-      @all_contacts
+      @all_contacts = @res['contacts'].map { |h| h['id']}
     end     
 
     def remove_all_contacts
@@ -613,13 +588,8 @@ module ForumApiAndroid
 
     def remove_all_blocked
       if @code_name == 'noah'
-        _blocked_users =[]
         data = self.get_all_blocked
-        data.each do |element|
-          element.each do |k,v|
-              _blocked_users.push v if k == "id"
-          end
-        end
+        _blocked_users = data.map {|n| n['id']}
       else
         _blocked_users = self.get_all_blocked
       end

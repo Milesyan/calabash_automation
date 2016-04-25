@@ -358,6 +358,8 @@ module Minitest_ios
 
   def test_get_participants
     up = premium_login
+    u = forum_new_user
+    up.establish_chat u
     up.get_all_participants
     puts up.all_participants
   end
@@ -370,6 +372,8 @@ module Minitest_ios
 
   def test_remove_all_contacts
     up = premium_login
+    u = forum_new_user
+    up.establish_chat u
     up.remove_all_contacts
     puts up.res
   end
