@@ -14,8 +14,16 @@ module Nurture
     "ni#{Time.now.to_i}@g.com"
   end
 
+  def close_premium_popup_if_necessary
+    onboard_page.close_premium_popup
+  end
+
+  def finish_tutorial_if_necessary  
+    home_page.finish_tutorial if tutorial_popup?
+  end
+
   def logout_if_already_logged_in
-    sleep 2
+    sleep 1
     if element_exists "UITabBarButton"
       nav_page.open("Me")
       me_page.logout
@@ -23,6 +31,8 @@ module Nurture
   end
 
   def tutorial_popup?
-    element_exists "all * marked:'Swipe left or right to navigate through days'"
+    #element_exists "all * marked:'Swipe left or right to navigate through days'"
+    sleep 2
+    element_exists "all * marked:'Here\\'s how you use Glow Nurture!'"
   end
 end

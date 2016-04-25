@@ -10,6 +10,7 @@ Given(/^I complete the onboard steps$/) do
   onboard_page.step1
   onboard_page.step2
   onboard_page.step3
+  onboard_page.close_premium_popup
   sleep 3
 end
 

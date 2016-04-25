@@ -52,6 +52,15 @@ class OnboardPage < Calabash::IBase
     sleep 1
   end
 
+  def close_premium_popup
+    begin
+      wait_for_element_exists("* id:'sk-cross-close'", :timeout => 8)
+      touch "* id:'sk-cross-close'"
+    rescue 
+      puts "no premium popup"
+    end
+  end
+
   def choose_due_date
     wait_touch "* marked:'Do you know your due date?' sibling GLPillButton index:0" #Yes
     wait_touch "* marked:'Estimated due date' sibling GLPillButton index:0"

@@ -18,14 +18,14 @@ Given(/^I sign up as a partner$/) do
 end
 
 Given(/^I login$/) do
-  sleep 2
-  if tutorial_popup?
-    home_page.finish_tutorial
-  end
+  close_premium_popup_if_necessary
+  finish_tutorial_if_necessary
   logout_if_already_logged_in
+
   onboard_page.tap_login_link
   onboard_page.login $user.email, $user.password
-  #home_page.close_insights_popup
-  home_page.finish_tutorial
+
+  close_premium_popup_if_necessary
+  finish_tutorial_if_necessary
 end
 

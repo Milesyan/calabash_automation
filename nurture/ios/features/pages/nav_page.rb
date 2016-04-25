@@ -13,6 +13,7 @@ class NavPage < Calabash::IBase
     case tab_name
     when "Me"
       touch_if_elements_exist "* id:'gl-foundation-popup-close'"
+      touch "UITabBarButtonLabel marked:'Me'"
     end
   end
 end

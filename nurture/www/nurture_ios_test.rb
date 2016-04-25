@@ -11,16 +11,23 @@ module NurtureIOS
 
   class NurtureUser
     include NurtureTestHelper
+    include HTTParty
+
+    base_uri BASE_URL
 
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id
     attr_accessor :due_date, :due_in_weeks, :pregnancy_week
+    attr_accessor :insights
 
     def initialize(args = {})
-      @first_name = args[:first_name] || create_first_name
+      @first_name = args[:first_name] || get_first_name
+      @last_name = args[:last_name] || "Glow"
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || PASSWORD
       @due_in_weeks = args[:due_in_weeks]
+      @due_date = args[:due_date].to_i if args[:due_date]
       @pregnancy_week = args[:pregnancy_week]
+      @insights = []
     end
 
     def uuid
@@ -30,10 +37,6 @@ module NurtureIOS
     def random_str
       ('0'..'9').to_a.shuffle[0,9].join + "_" + Time.now.to_i.to_s
     end
-
-    # def date_str(n=0)
-    #   (Time.now + n*24*3600).strftime("%Y/%m/%d")
-    # end
 
     def today
       date_str Time.now
@@ -47,16 +50,39 @@ module NurtureIOS
       Time.now.to_i + (40 - n.to_i)*7*24*3600
     end
 
-    def create_first_name
+    def common_data
+      {
+        "app_version": "3.0.0",
+        "locale": "en_GB",
+        "model": "iPhone7,2",
+        "device_id": "D2CB3A14-5FDA-46C6-9A85-C79C76147E1A"
+      }
+    end
+
+    def auth_common_data
+      {
+        "app_version": "3.0.0",
+        "locale": "en_GB",
+        "model": "iPhone7,2",
+        "device_id": "D2CB3A14-5FDA-46C6-9A85-C79C76147E1A",
+        "ut": @ut
+      }
+    end
+
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
+    end
+
+    def auth_options(data)
+      { :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }}
+    end
+
+    def get_first_name
       "ni" + Time.now.to_i.to_s
     end
 
     def signup(args = {})
       data = {
-        "app_version": "2.6.0",
-        "locale": "en_GB",
-        "model": "iPhone7,2",
-        "device_id": "D2CB3A14-5FDA-46C6-9A85-C79C76147E1A",
         "onboardinginfo": {
           "pregnancy_number": 0,
           "appsflyer_install_data": {
@@ -65,26 +91,27 @@ module NurtureIOS
           },
           "weight": 67.08639,
           "how": 0,
-          "due_date": args[:due_date] || due_date_by_pregnancy_week(@pregnancy_week) || Time.now.to_i + 265*24*3600
+          "due_date": @due_date || due_date_by_pregnancy_week(@pregnancy_week) || Time.now.to_i + 265*24*3600
         },
         "userinfo": {
           "height": 170,
-          "password": "111222",
+          "password": @password,
           "tz": "Asia\/Shanghai",
-          "last_name": "G",
+          "last_name": @last_name,
           "birthday": 566452800,
           "email": @email,
           "as_partner": false,
           "first_name": @first_name
         }
-      }
+      }.merge(common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/ios/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["data"]["encrypted_token"]
-      @user_id = @res["data"]["id"]
-      @preg_id = @res["data"]["pregnancies"].first["id"]
-      puts "#{email} has signed up"
+      @res = self.class.post "/ios/users/signup", options(data)
+      if @res["rc"] == 0
+        @ut = @res["data"]["encrypted_token"]
+        @user_id = @res["data"]["id"]
+        @preg_id = @res["data"]["pregnancies"].first["id"]
+        puts "#{email} has signed up"
+      end
       self
     end
 
@@ -93,30 +120,27 @@ module NurtureIOS
     end
 
     def login
-      login_data = {
-        app_version: "2.7.0",
-        locale: "en_US",
-        model: "x86_64",
-        device_id: "C747A1F6-E63F-4D9D-8770-401E535FF3C6",
+      data = {
         userinfo: {
           email: @email,
           tz: "Asia\/Shanghai",
           password: @password
         }
-      }
-      @res = HTTParty.post("#{BASE_URL}/ios/users/signin", :body => login_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
-      @ut = @res["data"]["encrypted_token"]
-      @user_id = @res["data"]["id"]
-      @gender = @res["data"]["gender"]
-      @preg_id = @res["data"]["pregnancies"].first["id"]
+      }.merge(common_data)
+
+      @res = self.class.post "/ios/users/signin", options(data)
+      if @res["rc"] == 0
+        @ut = @res["data"]["encrypted_token"]
+        @user_id = @res["data"]["id"]
+        @gender = @res["data"]["gender"]
+        @preg_id = @res["data"]["pregnancies"].first["id"]
+      end
       self
     end
 
-    def complete_daily_log
-      today = date_str
+    def complete_daily_log(args = {})
+      date = date_str(args[:date] || Time.now)
       data = {  
-       "app_version": "2.7.0",
        "data":{  
           "breastfeeds":[],
           "miscarriages":[],
@@ -150,7 +174,7 @@ module NurtureIOS
           },
           "daily_data":[  
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":2,
@@ -158,7 +182,7 @@ module NurtureIOS
                 "data_key":"intercourse"
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":10,
@@ -167,7 +191,7 @@ module NurtureIOS
              },
              {  
                 "val_int":7,
-                "date": today,
+                "date": date,
                 "data_key":"alcohol",
                 "user_id": @user_id,
                 "val_float":0,
@@ -175,7 +199,7 @@ module NurtureIOS
                 "val_str":""
              },
              {  
-                "date":today,
+                "date":date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":1,
@@ -184,7 +208,7 @@ module NurtureIOS
              },
              {  
                 "val_int":10,
-                "date": today,
+                "date": date,
                 "data_key":"exercise",
                 "user_id": @user_id,
                 "val_float":0,
@@ -193,7 +217,7 @@ module NurtureIOS
              },
              {  
                 "val_int":0,
-                "date": today,
+                "date": date,
                 "data_key":"weight",
                 "user_id": @user_id,
                 "val_float":67.08639,
@@ -202,7 +226,7 @@ module NurtureIOS
              },
              {  
                 "val_int":2,
-                "date": today,
+                "date": date,
                 "data_key":"physicalDiscomfort",
                 "user_id": @user_id,
                 "val_float":0,
@@ -211,7 +235,7 @@ module NurtureIOS
              },
              {  
                 "val_int":2,
-                "date": today,
+                "date": date,
                 "data_key":"emotionalDiscomfort",
                 "user_id": @user_id,
                 "val_float":0,
@@ -220,7 +244,7 @@ module NurtureIOS
              },
              {  
                 "val_int":1,
-                "date": today,
+                "date": date,
                 "data_key":"pregnancyTest",
                 "user_id": @user_id,
                 "val_float":0,
@@ -228,7 +252,7 @@ module NurtureIOS
                 "val_str":"Clearblue Digital"
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":6,
@@ -236,7 +260,7 @@ module NurtureIOS
                 "data_key":"spot"
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":6,
@@ -245,7 +269,7 @@ module NurtureIOS
              },
              {  
                 "val_int":8,
-                "date": today,
+                "date": date,
                 "data_key":"sleep",
                 "user_id": @user_id,
                 "val_float":0,
@@ -253,7 +277,7 @@ module NurtureIOS
                 "val_str":""
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":3,
@@ -261,7 +285,7 @@ module NurtureIOS
                 "data_key":"ovulationTest"
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":6,
@@ -270,7 +294,7 @@ module NurtureIOS
              },
              {  
                 "val_int":8,
-                "date": today,
+                "date": date,
                 "data_key":"water",
                 "user_id": @user_id,
                 "val_float":0,
@@ -278,7 +302,7 @@ module NurtureIOS
                 "val_str":""
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":10,
@@ -287,7 +311,7 @@ module NurtureIOS
              },
              {  
                 "val_int":13,
-                "date": today,
+                "date": date,
                 "data_key":"smoke",
                 "user_id": @user_id,
                 "val_float":0,
@@ -295,7 +319,7 @@ module NurtureIOS
                 "val_str":""
              },
              {  
-                "date": today,
+                "date": date,
                 "val_float":0,
                 "user_id": @user_id,
                 "val_int":2,
@@ -307,7 +331,7 @@ module NurtureIOS
                 "user_id":2483,
                 "val_int":2,
                 "data_key":"Coriander",
-                "date": today
+                "date": date
               }
           ],
           "reminders":[  
@@ -329,21 +353,19 @@ module NurtureIOS
           "custom_symptoms":[  
 
           ]
-       },
-       "locale":"zh-Hans_GB",
-       "ut": @ut,
-       "device_id":"525474F0-57E4-4EDD-BF2A-9A79C823A671",
-       "model":"iPhone7,2"
-      }
-      @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+       }
+      }.merge(auth_common_data)
+
+      @res = self.class.post "/ios/users/push", options(data)
+      if @res["rc"] == 0
+        @insights = @res["data"]["insights"]
+      end
       self
     end
 
     def add_vitamin(args)
       date = date_str(args[:date]) || today
       data = {  
-        "app_version":"2.9.0",
         "data":{  
           "last_sync_time": 0,
           "daily_data":[  
@@ -357,22 +379,16 @@ module NurtureIOS
               "val_str":""
             }
           ]
-        },
-        "locale":"en_GB",
-        "ut": @ut,
-        "device_id":"024169A4-8F93-4D8F-8847-9207FADB21BF",
-        "model":"iPhone7,2"
-      }
+        }
+      }.merge(auth_common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = self.class.post "/ios/users/push", options(data)
       self
     end
 
-    def add_medical_log
-      today = date_str
+    def add_medical_log(args = {})
+      date = date_str(args[:date] || Time.now)
       data = {
-        "app_version":"2.7.0",
         "data":{
           "breastfeeds":[
 
@@ -410,7 +426,7 @@ module NurtureIOS
           "daily_data":[
             {
               "val_int":6,
-              "date": today,
+              "date": date,
               "data_key":"cervixState",
               "user_id": @user_id,
               "val_float":0,
@@ -419,7 +435,7 @@ module NurtureIOS
             },
             {
               "val_int":2,
-              "date": today,
+              "date": date,
               "data_key":"abdomen",
               "user_id": @user_id,
               "val_float":0,
@@ -428,7 +444,7 @@ module NurtureIOS
             },
             {
               "val_int":0,
-              "date": today,
+              "date": date,
               "data_key":"medicalWeight",
               "user_id": @user_id,
               "val_float":66.6328,
@@ -437,7 +453,7 @@ module NurtureIOS
             },
             {
               "val_int":140,
-              "date": today,
+              "date": date,
               "data_key":"babiesHeartRate",
               "user_id": @user_id,
               "val_float":0,
@@ -446,7 +462,7 @@ module NurtureIOS
             },
             {
               "val_int":80,
-              "date": today,
+              "date": date,
               "data_key":"bloodPressure",
               "user_id": @user_id,
               "val_float":0,
@@ -455,7 +471,7 @@ module NurtureIOS
             },
             {
               "val_int":90,
-              "date": today,
+              "date": date,
               "data_key":"heartRate",
               "user_id": @user_id,
               "val_float":0,
@@ -469,15 +485,10 @@ module NurtureIOS
           "custom_symptoms":[
 
           ]
-        },
-        "locale":"zh-Hans_GB",
-        "ut": @ut,
-        "device_id":"525474F0-57E4-4EDD-BF2A-9A79C823A671",
-        "model":"iPhone7,2"
-      }
+        }
+      }.merge(auth_common_data)
 
-      @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = self.class.post "/ios/users/push", options(data)
       self
     end
 
@@ -500,7 +511,6 @@ module NurtureIOS
 
     def name_baby(baby_name="Noah")
       data = {
-        "app_version":"2.7.0",
         "data":{
           "pregnancies":[
             {
@@ -516,51 +526,35 @@ module NurtureIOS
               "tag": @preg_id,
               "babies_info": [{ "baby_info_name": baby_name}]
             }
-          ],
-        },
-        "locale":"zh-Hans_GB",
-        "ut": @ut,
-        "device_id":"525474F0-57E4-4EDD-BF2A-9A79C823A671",
-        "model":"iPhone7,2"
-      }
-      @res = HTTParty.post("#{BASE_URL}/ios/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+          ]
+        }
+      }.merge(auth_common_data)
+
+      @res = self.class.post "/ios/users/push", options(data)
       self
     end
 
     def create_topic
-      topic_data = {
-        "locale": "zh-Hans_GB",
-        "app_version": "2.6.0",
+      data = {
         "group_id": 72057594037927937,
         "content": "#{Time.now.to_s}",
-        "device_id": "91C935E8-F457-416E-AA10-054394DF2E84",
         "title": "#{Time.now.to_i}",
-        "anonymous": 0,
-        "ut": @ut,
-        "model": "iPhone7,2"
-      }
+        "anonymous": 0
+      }.merge(auth_common_data)
 
-      @res =  HTTParty.post("#{BASE_URL}/ios/forum/topic/create", :body => topic_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res =  self.class.post "/ios/forum/topic/create", options(data)
       self
     end
 
     def reply_to_topic(topic_id)
-      reply_data = {
+      data = {
         "topic_id": topic_id,
-        "app_version": "2.6.0",
         "content": "Reply to topic #{Time.now}",
-        "device_id": "91C935E8-F457-416E-AA10-054394DF2E84",
-        "locale": "zh-Hans_GB",
         "anonymous": 0,
-        "reply_to": 0,
-        "ut": @ut,
-        "model": "iPhone7,2"
-      }
+        "reply_to": 0
+      }.merge(auth_common_data)
 
-      @res =  HTTParty.post("#{BASE_URL}/ios/forum/create_reply", :body => reply_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res =  self.class.post "/ios/forum/create_reply", options(data)
       self
     end
   end

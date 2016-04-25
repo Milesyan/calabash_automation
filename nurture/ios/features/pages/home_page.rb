@@ -6,16 +6,21 @@ class HomePage < Calabash::IBase
   end
 
   def finish_tutorial
-    wait_for_elements_exist("all * marked:'Swipe left or right to navigate through days'", :timeout => 20)
+    #wait_for_elements_exist("all * marked:'Swipe left or right to navigate through days'", :timeout => 20)
+    #wait_for_element_exists "all * marked:'Here\\'s how you use Glow Nurture!'", :time_out => 20
+    #wait_for_elements_exist("all * { text BEGINSWITH 'Swipe left or'}", :timeout => 20)
+    
     sleep 1
     #until_element_does_not_exist("all * marked:'Swipe left or right to navigate through days'", action: lambda {flick "UIScrollView", {x:50, y:0}; sleep 1})
-    flick "UIScrollView", {x:50, y:0}
-    sleep 1
+    #flick "UIScrollView", {x:50, y:0}
+    scroll "UIScrollView", :right
+    sleep 0.5
     swipe :down
     wait_for_elements_exist "* marked:'TODAY'", :timeout => 10
     touch "* marked:'TODAY'"
     sleep 1
     wait_for_elements_exist "GLHomeDailyLogEntryCell", :timeout => 10
+    sleep 1
     touch "GLHomeDailyLogEntryCell"
     wait_for_none_animating
     touch "* id:'back'"
