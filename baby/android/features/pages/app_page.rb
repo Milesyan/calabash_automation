@@ -103,9 +103,9 @@ class AppPage < Calabash::ABase
   end
 
   def pass_premium_promt
-    if element_exists "* marked:'Unlock now!'"
-      touch "* marked:'Continue for free'"
-      sleep 2
+    if element_exists "* marked:'Try for FREE'"
+      touch "* marked:'dismiss_button'"
+      sleep 0.5
     end
   end
 end

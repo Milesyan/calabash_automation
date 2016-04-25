@@ -315,7 +315,6 @@ module Minitest_android
     up = premium_login
     u = forum_new_user
     up.send_chat_request u.user_id
-    puts up.res
     u.ignore_chat
     assert_equal "Chat request rejected!",u.res["msg"]
   end
