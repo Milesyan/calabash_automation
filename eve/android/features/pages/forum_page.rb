@@ -86,6 +86,7 @@ class ForumPage < Calabash::ABase
 
 
   def create_post(args={})
+    sleep 0.5
     if element_exists "* id:'community_home_floating_actions_menu'"
       touch_floating_menu
       sleep 1
