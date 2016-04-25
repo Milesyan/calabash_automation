@@ -668,6 +668,7 @@ class ForumPage < Calabash::IBase
     wait_touch "label marked:'Write a caption...'"
     description = title = "Photo " + Time.now.strftime("%m%d-%H:%M:%S")
     keyboard_enter_text description
+    $user.topic_title = description
   end
   
   def create_photo_tmi

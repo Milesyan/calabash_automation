@@ -7,6 +7,32 @@ module ForumApiAndroid
     extend TestHelper 
     include AndroidConfig
     attr :code_name, :tgt_user_id, :request_id, :all_participants, :code_name, :notifications, :app_version
+
+    # --- Add get functions
+    def get_created
+      get_data = {
+        "code_name": @code_name,
+        "offset": '0',
+        "ut": @ut
+      }
+      @res =  HTTParty.get("#{forum_base_url}/topic/created?#{@additional_forum}", :body => get_data.to_json,
+        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' })
+      self
+    end
+
+    def get_blocked
+      get_data = {
+      }
+      if ['noah', 'glow'].include? @code_name
+        url = "#{forum_base_url}/user/blocked_users?#{@additional_forum}"
+      else
+        url = "#{forum_base_url}/user/blocked_user_ids?#{@additional_forum}"
+      end
+      @res =  HTTParty.get(url, :body => get_data.to_json,
+        :headers => { "Authorization" => @ut ,'Content-Type' => 'application/json' })
+      self
+    end
+
     ########## Community ###########
     def create_topic(args = {})
       data = {
@@ -127,7 +153,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/group/unsubscribe?#{@additional_forum}"
       @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
-      puts " ---#{self.user_id} left group >>>#{group_id}<<<---"
       self
     end
 

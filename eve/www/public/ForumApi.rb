@@ -19,6 +19,16 @@ module ForumApi
       self
     end
 
+    def get_blocked
+      get_data = {
+        "code_name": @code_name,
+        "ut": @ut
+      }.merge(common_data)
+      @res =  HTTParty.get("#{forum_base_url}/users/blocked", :body => get_data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      @res = @res["data"] if @code_name != 'emma'
+      self
+    end
 
     def create_topic(args = {})
       topic_data = {
@@ -33,6 +43,7 @@ module ForumApi
         :headers => { 'Content-Type' => 'application/json' })
       puts "Code name #{@code_name}"
       @res = @res["data"] if @code_name != 'emma'
+      puts @res
       @topic_id = @res["topic"]["id"]
       @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
@@ -117,9 +128,6 @@ module ForumApi
       @res =  HTTParty.post("#{forum_base_url}/group/#{group_id}/subscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      puts "     -----Should Join group #{group_id}-----    "
-      get_all_groups
-      puts "User current group : >>>#{@all_group_ids} <<<"
       self
     end
 
@@ -132,7 +140,6 @@ module ForumApi
       @res =  HTTParty.post("#{forum_base_url}/group/#{unsubscribe_groupid}/unsubscribe", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' })
       @res = @res["data"] if @code_name != 'emma'
-      puts "Leave group #{unsubscribe_groupid}"
       self
     end
 

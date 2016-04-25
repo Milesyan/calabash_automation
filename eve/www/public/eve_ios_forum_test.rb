@@ -33,7 +33,7 @@ module EveForumIOS
       @first_name = (args[:first_name] || "ei") + Time.now.to_i.to_s
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || PASSWORD
-      @birthday = args[:birthday] || 30.years.ago.to_i
+      @birthday = args[:birthday] || [30.years.ago.to_i,19.years.ago.to_i].sample
       @code_name = 'lexie'
     end
 
@@ -163,7 +163,8 @@ module EveForumIOS
               "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
               }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })      self
+      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }) 
+      self
     end
 
 

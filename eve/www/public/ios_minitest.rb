@@ -460,6 +460,13 @@ module Minitest_ios
     assert_rc u.res
   end
 
+  def test_blocked
+    u = forum_new_user
+    u1 = forum_new_user
+    u.block_user u1.user_id
+    u.get_blocked
+    puts u.res
+  end
 end
 
 

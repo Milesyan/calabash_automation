@@ -422,6 +422,21 @@ module Minitest_android
     assert_equal 1102,u.notifications[0]["type"]
   end
 
+  def test_created
+    u = forum_new_user
+    u.create_topic
+    u.get_created
+    assert_rc u.res
+  end
+
+  def test_blocked
+    u = forum_new_user
+    u1 = forum_new_user
+    u.block_user u1.user_id
+    u.get_blocked
+    assert_rc u.res
+  end
+
 end
 
 
