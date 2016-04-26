@@ -180,6 +180,7 @@ module ForumApiAndroid
 
     def leave_all_groups
       get_all_groups
+      puts "Leaving all groups ..."
       @all_group_ids.each do |group_id|
         leave_group group_id
       end
