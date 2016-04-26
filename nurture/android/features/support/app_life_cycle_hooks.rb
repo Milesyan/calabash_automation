@@ -3,6 +3,7 @@ require 'calabash-android/operations'
 
 Before do |scenario|
   # logger.start
+  sleep 0.5
   start_test_server_in_background
 end
 

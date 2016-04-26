@@ -87,14 +87,10 @@ class ForumPage < Calabash::ABase
 
   def create_post(args={})
     sleep 0.5
-    if element_exists "* id:'community_home_floating_actions_menu'"
-      touch_floating_menu
-      sleep 1
-      touch_floating_text
-    else 
-      sleep 0.5
-      touch "* id:'create_topic_btn'"
-    end
+    wait_for_element_exists "* id:'community_home_floating_actions_menu'"
+    touch_floating_menu
+    sleep 1
+    touch_floating_text
     create_post_common args
   end
 
@@ -106,7 +102,6 @@ class ForumPage < Calabash::ABase
       touch "* id:'create_photo_btn'"
       touch "* marked:'Take a photo'"    
     end
-    # create_photo_common args
   end
 
 
@@ -209,7 +204,8 @@ class ForumPage < Calabash::ABase
   def edit_topic(args1)
     sleep 0.5
     wait_touch "* marked:'#{args1}'"
-    sleep 2
+    wait_for_elements_exist "* id:'topic_menu'"
+    sleep 0.5
     wait_touch "* id:'topic_menu'"
     sleep 1
     touch "* marked:'Edit this post'"
@@ -434,7 +430,7 @@ class ForumPage < Calabash::ABase
   end 
 
   def check_search_result_comment
-    random_number = Random.rand($comment_number.to_i).to_i+1
+    random_number = [1,2,3,4,5].sample
     search_result = $search_content+' '+random_number.to_s
     puts "Search for #{search_result}"
     sleep 2
@@ -446,7 +442,7 @@ class ForumPage < Calabash::ABase
   end
 
   def check_search_result_subreply
-    random_number = Random.rand($subreply_number.to_i).to_i+1
+    random_number = [1,2,3,4,5].sample
     search_result = $search_content+' '+random_number.to_s
     puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
@@ -498,7 +494,8 @@ class ForumPage < Calabash::ABase
     x = query("* id:'#{args}'")[0]["rect"]["x"]
     y = query("* id:'#{args}'")[0]["rect"]["y"]
     width = query("* id:'#{args}'")[0]["rect"]["width"]
-    return x,y,width
+    h = query("* id:'#{args}'")[0]["rect"]["height"]
+    return x,y,width,h
   end
 
   def go_to_group_page_under_profile
@@ -798,12 +795,12 @@ class ForumPage < Calabash::ABase
 
   def touch_hidden_topic_element(args)
     sleep 1
-    x,y,width = get_element_x_y "low_ratting_mask_content"
+    x,y,width,h = get_element_x_y "low_ratting_mask_content"
     case args.downcase
     when "view rules"
-      perform_action('touch_coordinate',(x+width*0.2), y)
+      perform_action('touch_coordinate',(x+width*0.2), (y+h*0.5))
     when "show content"
-      perform_action('touch_coordinate',(x+width*0.1), y)
+      perform_action('touch_coordinate',(x+width*0.1), (y+h*0.5))
     else 
       puts "Only 'view rules' and 'show content' is accepted"
     end

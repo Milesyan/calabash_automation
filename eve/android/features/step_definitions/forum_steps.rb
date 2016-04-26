@@ -297,7 +297,7 @@ Given(/^I post a "(.*?)" topic$/) do |topic_type|
 end
 
 Then(/^I should see the topic is posted successfully$/) do
-  wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>10
+  wait_for_elements_exist "* {text CONTAINS 'is successfully posted'}", :timeout=>10, :retry_frequency => 0.1
 end
 
 Then(/^I should see the topic is edited successfully$/) do
@@ -331,7 +331,7 @@ end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
   sleep 0.5
-  wait_for_element_exists "* marked:'#{arg1}' index:0"
+  wait_for_element_exists "* marked:'#{arg1}' index:0", :time_out => 60
   sleep 1
   wait_touch "* marked:'#{arg1}' index:0"
 end

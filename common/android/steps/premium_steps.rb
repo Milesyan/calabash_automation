@@ -327,14 +327,19 @@ end
 #----CHAT WINDOW---
 Then(/^I go to the chat window for the new user$/) do
   wait_for_element_exists "* marked:'Messages'"
-  attempt = 0
-  begin 
+  # attempt = 0
+  # begin 
+  #   wait_touch "* marked:'#{$new_user.first_name}'"
+  # rescue RuntimeError
+  #   retry if attempt <4
+  #   attempt += 1
+  # end 
+  wait_poll(timeout: 10,
+      timeout_message: 'Unable to click chat requester',
+      until_exists: "* marked:'Type something'") do
     wait_touch "* marked:'#{$new_user.first_name}'"
-  rescue RuntimeError
-    retry if attempt <4
-    attempt += 1
-  end 
-  wait_for_element_exists "* marked:'Type something'"
+  end
+  # wait_for_element_exists "* marked:'Type something'"
 end
 
 Then(/^I click chat settings$/) do

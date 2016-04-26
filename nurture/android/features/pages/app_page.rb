@@ -6,6 +6,7 @@ class AppPage < Calabash::ABase
   end
 
   def tap_login
+    sleep 0.3
     pass_sso
     puts "TOUCH LOGIN HERE "
     x,y,width = forum_page.get_element_x_y "log_in"
