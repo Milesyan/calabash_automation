@@ -4,13 +4,13 @@ default_report = "./reports/output_#{date}.html"
 default_rerun = "./rerun.txt"
 %>
 
-common: NO_STOP='1'
 rerun_out: -f rerun -o <%= default_rerun %>
 html_report:  -f html -o <%= default_report %>
 p0_report: -f html -o p0.html
+not_ready: -t ~@not_ready
+common: NO_STOP='1' -p not_ready
 
-
-run:  -p common -p rerun_out -p html_report
+run:  -p common  -p rerun_out -p html_report
 runpremium: -p common -p rerun_out -p html_report -t @premium
 runforum: -p common -p rerun_out -p html_report -t @forum
 rerun:  -p common -f html -o rerun_result.html

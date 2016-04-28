@@ -11,5 +11,3 @@ Feature: User create topics with warning messages
     And I post a text topic with title "a long topic"
     Then I should see the topic is posted successfully
     And I logout
-
-

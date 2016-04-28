@@ -9,11 +9,6 @@ class NurtureTest < Minitest::Test
   include NurtureForumAndroid
   include Minitest_android
 
-  def setup
-  end
-
-
-
   def test_premium_login
     up = premium_login
     puts up.res

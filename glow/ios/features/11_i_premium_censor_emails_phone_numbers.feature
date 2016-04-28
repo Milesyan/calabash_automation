@@ -1,4 +1,4 @@
-@premium @cencor
+@premium @cencor @not_ready
 Feature: Do not let other users see the phone number and email
 
   @cencor_email
