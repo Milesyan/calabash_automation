@@ -48,7 +48,6 @@ module ForumApi
         :headers => { 'Content-Type' => 'application/json' })
       puts "Code name #{@code_name}"
       @res = @res["data"] if @code_name != 'emma'
-      puts @res
       @topic_id = @res["topic"]["id"]
       @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
