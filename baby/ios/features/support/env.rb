@@ -7,7 +7,7 @@ require 'active_support/all'
 require_relative '../../../www/public/noah_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'
-require_relative 'event_logger.rb'
+
 
 # To use Calabash without the predefined Calabash Steps, uncomment these
 # three lines and delete the require above.
@@ -26,7 +26,6 @@ NO_STOP=1
 class MinitestWorld
   extend Minitest::Assertions
   attr_accessor :assertions
-
   def initialize
     self.assertions = 0
   end
@@ -38,7 +37,6 @@ end
 
 include NoahForumIOS
 include Baby
-include GlowLogger
 include Minitest::Assertions
 
 

@@ -6,7 +6,6 @@ require 'active_support/all'
 require_relative '../../../www/public/nurture_ios_forum_test'
 require_relative 'app'
 require_relative 'pages'
-require_relative 'event_logger.rb'
 
 # To use Calabash without the predefined Calabash Steps, uncomment these
 # three lines and delete the require above.
@@ -38,7 +37,6 @@ World do
 end
 
 include NurtureForumIOS
-include GlowLogger
 include Nurture
 include Minitest::Assertions
 

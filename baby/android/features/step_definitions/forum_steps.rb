@@ -10,7 +10,6 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
     $user.create_photo :topic_title => 'create photo by www api', :group_id => GROUP_ID
   end
   puts "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
-  logout_if_already_logged_in
 end
 
 
@@ -161,7 +160,6 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
 end
 
 Given(/^I create a new forum user with name "(.*?)"$/) do |name|
-  logout_if_already_logged_in
   $user = forum_new_user(first_name: name).complete_tutorial
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}"
@@ -274,7 +272,6 @@ end
 #-----New Invite--------
 
 Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
-  logout_if_already_logged_in
   $user = forum_new_user(first_name: name).leave_all_groups.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
@@ -906,7 +903,6 @@ When(/^I wait for (\d+) second(?:s)? for the next page$/) do |time|
 end
 
 Given(/^I open the app and go to the signup page$/) do
-  logout_if_already_logged_in
   app_page.signup_flow
 end
 #---TOS----

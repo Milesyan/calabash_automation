@@ -12,7 +12,6 @@ Given(/^A premium user milesp and a non-premium user milesn have been created fo
 end
 
 Given(/^I login as(?: the)? premium user$/) do
-  logout_if_already_logged_in
   app_page.tap_login
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
@@ -21,7 +20,6 @@ end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
-  logout_if_already_logged_in
   app_page.tap_login
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
@@ -33,7 +31,6 @@ Given(/^A new user "([^"]*)" is created$/) do |name|
 end
 
 Then(/^I login as the new user$/) do
-  logout_if_already_logged_in
   sleep 1
   app_page.tap_login
   puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
@@ -42,7 +39,6 @@ Then(/^I login as the new user$/) do
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
-  logout_if_already_logged_in
   app_page.tap_login
   puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login_with($user2.email,$user2.password)
@@ -522,7 +518,6 @@ end
 
 Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
   $user.reset_all_flags
-  logout_if_already_logged_in
   app_page.tap_login
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)

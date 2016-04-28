@@ -5,6 +5,7 @@ Before do |scenario|
   # logger.start
   sleep 0.5
   start_test_server_in_background
+  logout_if_already_logged_in
 end
 
 After do |scenario|

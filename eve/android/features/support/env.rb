@@ -6,7 +6,7 @@ require 'active_support/all'
 require_relative 'app'
 require_relative 'pages'
 require_relative '../../../www/public/eve_android_forum_test'
-require_relative 'event_logger.rb'
+
 
 class MinitestWorld
   extend Minitest::Assertions
@@ -23,10 +23,8 @@ end
 
 include Glow
 include EveForumAndroid
-include GlowLogger
 include Minitest::Assertions
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 GLOW_PASSWORD = "Glow12345"
 GLOW_ENV = "dev-office"
-NO_STOP=1
