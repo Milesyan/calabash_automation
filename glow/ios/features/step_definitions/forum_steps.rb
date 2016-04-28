@@ -17,7 +17,6 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
     $user.create_photo({:topic_title => 'create photo by www api', :group_id => GROUP_ID})
   end
   puts "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
-  logout_if_already_logged_in
 end
 
 Then(/^I created another user to vote the poll$/) do
@@ -162,8 +161,6 @@ end
 
 #change
 Given(/^I create a new forum user with name "([^"]*)"$/) do |name|
-  app_page.pass_sso
-  logout_if_already_logged_in
   $user = forum_new_user(first_name: name).complete_tutorial
   puts $user.email, $user.password
   puts "Default group id is #{GROUP_ID}"
@@ -177,7 +174,6 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |
     puts "ONlY PHOTO HAS TMI MODE!!!"
   end
   puts "TMI Photo, the title is  >>>>#{$user.topic_title}<<<<"
-  logout_if_already_logged_in
 end
 
 #community v1.1 new
@@ -210,7 +206,6 @@ Given(/^"([^"]*)" create a group in category "([^"]*)" with name "([^"]*)"$/) do
 end
 
 Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
-  logout_if_already_logged_in
   $user = forum_new_user(first_name: name).complete_tutorial.leave_all_groups.join_group group
   puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
   puts "Default group id is #{GROUP_ID}, join group #{group}"
@@ -934,7 +929,6 @@ end
 
 # ----TOS ----
 Given(/^I open the app and go to the signup page$/) do
-  logout_if_already_logged_in
   app_page.signup_flow
 end
 

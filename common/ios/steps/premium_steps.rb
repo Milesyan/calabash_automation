@@ -12,20 +12,14 @@ Given(/^A premium user miles3 and a non-premium user milesn have been created fo
 end
 
 Given(/^I login as(?: the)? premium user$/) do
-  logout_if_already_logged_in
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
-  sleep 2
-  app_page.finish_tutorial 
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
-  logout_if_already_logged_in
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
-  sleep 2
-  app_page.finish_tutorial 
 end
 
 
@@ -34,19 +28,13 @@ Given(/^A new user "([^"]*)" is created$/) do |name|
 end
 
 Then(/^I login as the new user$/) do
-  logout_if_already_logged_in
   puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login($new_user.email,$new_user.password)
-  sleep 2
-  app_page.finish_tutorial 
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
-  logout_if_already_logged_in
   puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login($user2.email,$user2.password)
-  sleep 2
-  app_page.finish_tutorial 
 end
 
 Given(/^the premium user create a topic in the test group$/) do
@@ -520,7 +508,6 @@ end
 
 Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
   $user.reset_all_flags
-  logout_if_already_logged_in
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2

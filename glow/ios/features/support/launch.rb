@@ -34,6 +34,7 @@ Before do |_|
     LaunchControl.launcher.relaunch(options)
     LaunchControl.launcher.calabash_notify(self)
   end
+  logout_if_already_logged_in
 end
 
 

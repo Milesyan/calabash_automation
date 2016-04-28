@@ -133,7 +133,6 @@ class AppPage < Calabash::IBase
   end
 
   def get_started
-    logout_if_already_logged_in
     wait_touch "* marked:'Get Started!'"
   end
 
@@ -147,6 +146,8 @@ class AppPage < Calabash::IBase
     keyboard_enter_text password
     sleep 1
     touch "UINavigationButton marked:'Next'"
+    sleep 1.5
+    app_page.finish_tutorial 
   end
   
   def ntf_join_group

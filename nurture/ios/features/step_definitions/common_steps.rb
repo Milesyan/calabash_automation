@@ -9,7 +9,6 @@ end
 
 
 Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
-	logout_if_already_logged_in
 	puts "Log in using #{user1_name}'s email and password: #{$user.email}, #{$user.password}" 
 	app_page.login($user.email,$user.password)
   sleep 2
@@ -17,7 +16,6 @@ Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
 end
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
-	logout_if_already_logged_in
 	puts "Log in as #{arg1}" + $user2.email, $user2.password 
 	app_page.login($user2.email,$user2.password)	
   app_page.finish_tutorial
