@@ -1,7 +1,7 @@
 @forum @anonymous_tmi
 Feature: Create and edit anonymous topic, Check TMI photo.
 
-  @create_anonymous_topic @restart
+  @create_anonymous_topic
   Scenario: User create a text topic in group in anonymous mode.
     Given I create a new forum user with name "Miles"
     And I login as the new user "Miles" created through www

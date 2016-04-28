@@ -1,6 +1,6 @@
 @forum @profile 
 Feature: check user profile.
-	@edit_profile @restart
+	@edit_profile
 	Scenario: User edit profile info.
 		Given I create a new forum user with name "Miles"
 		And I login as the new user "Miles" created through www

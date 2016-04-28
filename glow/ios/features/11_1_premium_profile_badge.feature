@@ -1,6 +1,6 @@
 @premium @badge
 Feature: Check badge for Premium/Non-premium users
-  @self_badge @restart
+  @self_badge
   Scenario: Check badge in user's own profile page
     Given A premium user miles3 and a non-premium user milesn have been created for test
     And I login as premium user
