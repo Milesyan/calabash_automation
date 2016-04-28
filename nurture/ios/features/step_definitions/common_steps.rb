@@ -11,14 +11,11 @@ end
 Then(/^I login as the new user "([^"]*)" created through www$/) do |user1_name|
 	puts "Log in using #{user1_name}'s email and password: #{$user.email}, #{$user.password}" 
 	app_page.login($user.email,$user.password)
-  sleep 2
-  app_page.finish_tutorial	
 end
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
 	puts "Log in as #{arg1}" + $user2.email, $user2.password 
 	app_page.login($user2.email,$user2.password)	
-  app_page.finish_tutorial
 end
 
 

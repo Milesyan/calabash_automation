@@ -53,7 +53,7 @@ class AppPage < Calabash::IBase
     # touch "* marked:'Next'"
     touch "* marked:'Log me in!' index:0"
     sleep 1
-    pass_premium_promt
+    finish_tutorial
   end
 
   def open_login_link

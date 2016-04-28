@@ -510,8 +510,6 @@ Given(/^I login as(?: the)? premium user and reset all the flags under profile p
   $user.reset_all_flags
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
-  sleep 2
-  app_page.finish_tutorial 
 end
 
 

@@ -13,7 +13,7 @@ class AppPage < Calabash::IBase
     keyboard_enter_text password
     touch "* marked:'Next'"
     sleep 2
-    pass_premium_promt
+    finish_tutorial
   end
 
   def dismiss_install_message

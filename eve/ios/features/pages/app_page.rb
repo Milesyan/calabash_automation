@@ -38,7 +38,7 @@ class AppPage < Calabash::IBase
     if element_exists "* marked:'Get it, Girl'"
       bypass_temp
     end
-    pass_premium_promt
+    finish_tutorial
   end
 
   
