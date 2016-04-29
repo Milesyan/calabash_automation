@@ -129,7 +129,7 @@ Given(/^(?:the )?premium user milesp turns off signature$/) do
 end
 ##########>>>APP steps<<<##########
 Then(/^I check the badge on the profile page exists$/) do
-  # wait_for_element_exists "UILabel marked:'Glow Plus'", :time_out => 5
+  # wait_for_element_exists "UILabel marked:'Glow Plus'", :timeout  => 5
   sleep 1
   wait_for_element_exists "* marked:'Premium'"
 end
@@ -244,14 +244,14 @@ Then(/^I check the signature does not display$/) do
 end
 
 Then(/^I should see the send request dialog$/) do
-  wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 3
+  wait_for_element_exists "* {text CONTAINS 'Send request'}", :timeout  => 3
 end
 
 Then(/^I should see the prompt premium dialog$/) do
   premium_page.click_upgrade_premium
   sleep 1
   wait_touch "* marked:'OK'" 
-  # wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :time_out => 3
+  # wait_for_element_exists "* {text CONTAINS 'Upgrade to Glow Premium'}", :timeout  => 3
 end
 
 Then(/^I click send request button$/) do
@@ -386,7 +386,7 @@ end
 
 Then(/^I check the chat request is received$/) do
   wait_for_element_exists "* marked:'New Chat Request'"
-  wait_for(:time_out=>2) do
+  wait_for(:timeout =>2) do
     element_exists("* marked:'#{$user.first_name} is requesting to chat with you!'")||element_exists("* marked:'#{$user.first_name} is requesting to chat with you!\n\n'")
   end
 end
@@ -486,7 +486,7 @@ When(/^I click chat button in recommended people section$/) do
 end
 
 Then(/^I can see a chat request is sent or premium prompt dialog$/) do
-  # wait_for_element_exists "* marked:'Learn more'", :time_out => 1
+  # wait_for_element_exists "* marked:'Learn more'", :timeout  => 1
   options = {:timeout => 2,
              :retry_frequency => 0.2,
              :post_timeout => 0.1,
@@ -494,7 +494,7 @@ Then(/^I can see a chat request is sent or premium prompt dialog$/) do
   wait_for(options) do
     element_exists("* marked:'Learn more'")|| element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
   end
-  # wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 1
+  # wait_for_element_exists "* {text CONTAINS 'Send request'}", :timeout  => 1
   premium_page.close_request_dialog
 end
 

@@ -193,7 +193,7 @@ Then(/^I turn off signature in profile settings$/) do
 end
 
 Then(/^I should not see the signature in topic\/comment\/subreply$/) do
-  wait_for(:time_out=>3) do
+  wait_for(:timeout =>3) do
     element_exists("* id:'gl-community-plus-badge.png'") || element_exists("* id:'gl-community-plus-badge'")
   end
   if element_exists "* id:'gl-community-plus-badge.png' sibling *"
@@ -237,11 +237,11 @@ Then(/^I check the signature does not display$/) do
 end
 
 Then(/^I should see the send request dialog$/) do
-  wait_for_element_exists "* {text CONTAINS 'Send request'}", :time_out => 3
+  wait_for_element_exists "* {text CONTAINS 'Send request'}", :timeout  => 3
 end
 
 Then(/^I should see the prompt premium dialog$/) do
-  wait_for(:time_out => 3) do
+  wait_for(:timeout  => 3) do
     element_exists("* {text CONTAINS 'Get Glow Premium'}") || element_exists("* marked:'Try for FREE'")
   end
 end
@@ -303,7 +303,7 @@ end
 Then(/^I click done to close messages$/) do
   sleep 1
   begin
-    wait_for(:time_out=>5) do
+    wait_for(:timeout =>5) do
       element_exists "* marked:'Done'"
     end
     sleep 0.5
@@ -481,7 +481,7 @@ When(/^I click chat button in recommended people section$/) do
 end
 
 Then(/^I can see a chat request is sent or premium prompt dialog$/) do
-    wait_for(:time_out=>3) do
+    wait_for(:timeout =>3) do
       element_exists("* {text CONTAINS 'Get Glow Premium'}") || element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
     end
   premium_page.close_request_dialog
@@ -550,7 +550,7 @@ end
 
 
 Then(/^I check the accept chat request notification is received$/) do
-  wait_for(:time_out=>5) do
+  wait_for(:timeout =>5) do
     element_exists("* marked:'Chat Now!'") || element_exists("* marked:'     Chat Now!     '")
   end
 end
@@ -561,7 +561,7 @@ When(/^I click chat now button$/) do
 end
 
 Then(/^I should see the messages page$/) do
-  wait_for(:time_out=>3) do
+  wait_for(:timeout =>3) do
     element_exists("* marked:'Messages'") || element_exists("* marked:'Enter Message'")
   end
 end

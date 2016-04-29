@@ -331,7 +331,7 @@ class ForumPage < Calabash::ABase
 
   def scroll_to_see(gesture,content)
     if gesture == 'up'
-      until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_up },:time_out => 20)
+      until_element_exists("* marked:'#{content}'", :action => lambda{ scroll_up },:timeout  => 20)
     elsif  gesture == 'down'
       until element_exists "* marked:'#{content}'" do
         scroll('ListView', :down)
@@ -392,12 +392,12 @@ class ForumPage < Calabash::ABase
   def scroll_down_to_see(args)
     puts "Scroll down to see >>>* marked:'#{args}'<<<<"
     sleep 1
-    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 1
   end
 
   def scroll_up_to_see(args)
-    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_up },:time_out => 10,:interval => 1.5)    
+    until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_up },:timeout  => 10,:interval => 1.5)    
   end
 
   def click_cancel
@@ -514,7 +514,7 @@ class ForumPage < Calabash::ABase
   def go_to_group_page_under_settings
     enter_community_settings
     sleep 1
-    wait_for(:time_out=>5) do
+    wait_for(:timeout =>5) do
       element_exists("* marked:'Subscribed Groups'") || element_exists("* marked:'My Groups'")
     end
     touch "* marked:'Subscribed Groups'" if element_exists "* marked:'Subscribed Groups'"
@@ -703,7 +703,7 @@ class ForumPage < Calabash::ABase
     sleep 1
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Hide this post'"
@@ -737,7 +737,7 @@ class ForumPage < Calabash::ABase
     sleep 1 
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
-    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 1.5
     touch "* id:'topic_menu'"
     wait_touch "* marked:'Report this post'"
@@ -748,7 +748,7 @@ class ForumPage < Calabash::ABase
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
-    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     touch "* id:'reply_menu'"
     wait_touch "* marked:'Hide this reply'"
@@ -768,7 +768,7 @@ class ForumPage < Calabash::ABase
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
     puts "I can see comment #{$hidereply_content}"
-    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5)
+    until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     wait_touch "* id:'reply_menu'"
     wait_touch "* marked:'Report this reply'"

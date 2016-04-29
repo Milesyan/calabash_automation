@@ -108,7 +108,7 @@ class ForumPage < Calabash::IBase
   def click_back_button
     sleep 0.5
     begin 
-      wait_for_elements_exist "* marked:'Back'", :timeout =>2
+      wait_for_elements_exist "* marked:'Back'", :timeout  =>2
       touch "* marked:'Back'"
     rescue RuntimeError
       touch "* marked:'Close'"
@@ -167,7 +167,7 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text comment
     wait_touch "label text:'Post'"
     sleep 2
-    # wait_for(:timeout => 10, :retry_frequency => 1) do
+    # wait_for(:timeout  => 10, :retry_frequency => 1) do
     #   element_exists "* all marked:'#{comment}'"
     # end
   end
@@ -185,7 +185,7 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_touch "label text:'Post'"
     sleep 2
-    # wait_for(:timeout => 10, :retry_frequency => 1) do
+    # wait_for(:timeout  => 10, :retry_frequency => 1) do
     #   element_exists "* all marked:'#{comment}'"
     # end
   end
@@ -202,7 +202,7 @@ class ForumPage < Calabash::IBase
   end
 
   def add_reply
-    until_element_exists("* marked:'Reply'", :timeout => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
+    until_element_exists("* marked:'Reply'", :timeout  => 3 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 200} }})
     wait_touch "* marked:'Reply'"
     wait_for_none_animating
     keyboard_enter_text Time.now.to_s
@@ -240,14 +240,14 @@ class ForumPage < Calabash::IBase
   def delete_topic(args)
     wait_touch "* id:'community-dots' index:#{args}"
     wait_touch "UILabel marked:'Delete this post'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'delete this topic'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'delete this topic'}"}
     wait_touch "UILabel marked:'OK'"
   end
 
   def delete_comment(args)
     wait_touch "* id:'community-dots' index:#{args}"
     wait_touch "UILabel marked:'Delete'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'delete this'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'delete this'}"}
     wait_touch "UILabel marked:'OK'"
   end
 
@@ -258,9 +258,9 @@ class ForumPage < Calabash::IBase
 
   def scroll_to_see(gesture,content)
     if gesture == "up"
-      until_element_exists("* marked:'#{content}'", :timeout => 50 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 50 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
     elsif  gesture == "down"
-      until_element_exists("* marked:'#{content}'", :timeout => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
     else 
       puts "Gesture  Error"
     end
@@ -306,11 +306,11 @@ class ForumPage < Calabash::IBase
   end
 
   def scroll_down_to_see(args)
-    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
+    until_element_exists("* marked:'#{args}'", :timeout  => 15 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def scroll_up_to_see(args)
-    until_element_exists("* marked:'#{args}'", :timeout => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
+    until_element_exists("* marked:'#{args}'", :timeout  => 15 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 250} }})
   end
 
   def scroll_down
@@ -363,7 +363,7 @@ class ForumPage < Calabash::IBase
 
   def check_search_result_deleted(string)
     wait_touch "UILabel marked:'#{string}' index:1"
-    wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout => 3)
+    wait_for_elements_exist("* {text CONTAINS 'This post has been removed'}", :timeout  => 3)
     wait_touch "* marked:'OK'"
   end
 
@@ -577,7 +577,7 @@ class ForumPage < Calabash::IBase
     puts "I can see topic #{$user2.topic_title}"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Hide this post'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
@@ -586,12 +586,12 @@ class ForumPage < Calabash::IBase
     puts "I can see comment #{$hidereply_content}"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Hide'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
   end
 
   def confirm_hide(args = 1)
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'hide this'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
     if args ==1 
       wait_touch "UILabel marked:'Yes, hide it.'"
       puts "User hide it"
@@ -622,7 +622,7 @@ class ForumPage < Calabash::IBase
     puts "I can see topic >>>#{$user2.topic_title}<<<"
     wait_touch "* id:'community-dots' index:1"
     wait_touch "UILabel marked:'Report this post'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
   end
 
   def enter_report_comment
@@ -630,7 +630,7 @@ class ForumPage < Calabash::IBase
     puts "I can see comment >>>#{$hidereply_content}<<<"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report'"
-    wait_for(:timeout=>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
+    wait_for(:timeout =>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
   end
 
   def report_topic_check_reasons(table)

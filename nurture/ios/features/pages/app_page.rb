@@ -6,7 +6,7 @@ class AppPage < Calabash::IBase
   end
 
   def finish_tutorial
-    sleep 3
+    sleep 1
     pass_premium_promt
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
@@ -35,10 +35,10 @@ class AppPage < Calabash::IBase
     swipe :down
     sleep 0.5
     swipe :down
-    wait_for_elements_exist "* marked:'TODAY'", :timeout => 10
+    wait_for_elements_exist "* marked:'TODAY'", :timeout  => 10
     touch "* marked:'TODAY'"
     sleep 1
-    wait_for_elements_exist "GLHomeDailyLogEntryCell", :timeout => 10
+    wait_for_elements_exist "GLHomeDailyLogEntryCell", :timeout  => 10
     sleep 1.5
     touch "GLHomeDailyLogEntryCell"
     wait_for_none_animating
@@ -47,8 +47,12 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    sleep 1.2
+    begin 
+      wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+    rescue WaitError
+    end
     if element_exists "* marked:'Try for FREE'"
+      sleep 0.5
       touch "* marked:'sk cross close'"
       sleep 2
     end
@@ -56,7 +60,7 @@ class AppPage < Calabash::IBase
 
   def close_insights_popup
     sleep 1
-    wait_for(:timeout => 10, :retry_frequency => 1) do
+    wait_for(:timeout  => 10, :retry_frequency => 1) do
       element_exists "* id:'icon-cancel-shadow'"
     end
     touch "* id:'icon-cancel-shadow'"
@@ -115,12 +119,12 @@ class AppPage < Calabash::IBase
   def tap_login_link
     sleep 1
     pass_sso
-    wait_for_element_exists("* marked:'Log in with Glow account'", :timeout => 20)
+    wait_for_element_exists("* marked:'Log in with Glow account'", :timeout  => 20)
     sleep 0.5
     touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     sleep 1
     begin
-      wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout => 3
+      wait_for_element_does_not_exist "* marked:'Log in with Glow account'", :timeout  => 3
     rescue RuntimeError
       touch("* marked:'Log in with Glow account'", :offset => {:x => -50, :y => -10})
     end
@@ -160,6 +164,7 @@ class AppPage < Calabash::IBase
   def pass_sso
     if element_exists "* {text CONTAINS 'Continue as'}"
       touch "* {text CONTAINS 'Click here'}"
+      sleep 1
     end
   end
   

@@ -19,7 +19,7 @@ class PremiumPage < Calabash::IBase
   end
 
   def check_url
-    wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :time_out =>3
+    wait_for_element_exists "* {text CONTAINS '#{$random_url}'}", :timeout  =>3
     touch "* {text CONTAINS '#{$random_url}'}"
   end
 
@@ -138,13 +138,13 @@ class PremiumPage < Calabash::IBase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for(:time_out=>3) do
+      wait_for(:timeout =>3) do
         element_exists("UIButton marked:'Get Glow Premium'") || element_exists("UIButton marked:'Try for FREE'")
       end
       close_request_dialog
     when 4
       app_page.close_chat_popup
-      wait_for_element_exists "* marked:'Enter Message'", :time_out => 10
+      wait_for_element_exists "* marked:'Enter Message'", :timeout  => 10
       app_page.close_chat_popup
       forum_page.click_back_button
     when 5,6
@@ -154,7 +154,7 @@ class PremiumPage < Calabash::IBase
 
   def touch_accept_request
     begin 
-      wait_for(:time_out => 2) do
+      wait_for(:timeout  => 2) do
         element_exists("* marked:'Accept Request'") || element_exists("* {text CONTAINS 'Accept Request'}")
       end
       touch "* marked:'Accept Request'" if element_exists "* marked:'Accept Request'"

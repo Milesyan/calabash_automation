@@ -111,7 +111,7 @@ class AppPage < Calabash::IBase
   def finish_tutorial
     pass_premium_promt
     begin 
-      wait_for_element_exists "* marked:'Community'",:time_out => 3
+      wait_for_element_exists "* marked:'Community'",:timeout  => 3
     rescue RuntimeError
     end
     if element_exists "* id:'tutorial-arrow-right'"
@@ -182,12 +182,12 @@ class AppPage < Calabash::IBase
 
 
   def touch_terms
-    wait_for_elements_exist "* marked:'Terms'", :time_out => 50
+    wait_for_elements_exist "* marked:'Terms'", :timeout  => 50
     touch "* marked:'Terms'"
   end
 
   def touch_privacy_policy
-    wait_for_elements_exist "* marked:'Privacy Policy'",  :time_out => 50
+    wait_for_elements_exist "* marked:'Privacy Policy'",  :timeout  => 50
     touch "* marked:'Privacy Policy'"
   end
 

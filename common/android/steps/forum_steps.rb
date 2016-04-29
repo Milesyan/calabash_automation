@@ -328,7 +328,7 @@ end
 
 Given(/^I open the topic "(.*?)"$/) do |arg1|
   sleep 0.5
-  wait_for_element_exists "* marked:'#{arg1}' index:0", :time_out => 60
+  wait_for_element_exists "* marked:'#{arg1}' index:0", :timeout  => 60
   sleep 1
   wait_touch "* marked:'#{arg1}' index:0"
 end
@@ -678,7 +678,7 @@ Then(/^I can see the person I blocked$/) do
       name = $new_user.first_name
     end
     puts "Name is #{name}"
-    until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:time_out => 10,:interval => 1.5) 
+    until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5) 
   rescue
     puts "Name not for new user or user2"
   end
@@ -952,7 +952,7 @@ end
 
 Then(/^I go to test group and check the topic exists$/) do
   forum_page.select_target_group
-  # wait_for(:time_out=>5) {assert query("* text:'#{$test_title}'")[0]}
+  # wait_for(:timeout =>5) {assert query("* text:'#{$test_title}'")[0]}
   wait_for_elements_exist "* text:'#{$test_title}'"
   puts "Young user topic exists >>>#{$test_title}"
 end
