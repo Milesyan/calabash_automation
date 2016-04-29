@@ -37,6 +37,13 @@ class NoahTest < Minitest::Test
     assert_rc u.res
   end
   
+  def test_temp_chat
+    up = premium_login
+    up.remove_all_participants
+    u = forum_new_user
+    up.send_chat_request u.user_id
+    u.accept_chat
+  end
 end
 
 

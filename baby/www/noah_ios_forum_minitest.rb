@@ -63,6 +63,10 @@ class NoahTest < Minitest::Test
     u = ForumUser.new(:email=>"miles3@g.com", :password => "111111", :first_name=>'miles3').signup.login
     puts u.res
   end
+
+  def test_temp_chat
+    up = premium_login
+    up.send_chat_request
 end    
 
 
