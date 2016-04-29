@@ -28,5 +28,3 @@ Feature: Age filter for topic and comments
     Then I check I can not see the user's comment and subreply
     And I go back to previous page
     And I logout 
-    Then I go back to previous page 
-    Or I go back to group
