@@ -13,3 +13,13 @@ Feature: Free can post recent stickers
     And I logout
 
   Scenario: Alc or premium stickers expires and check recent stickers tab.
+    Given A premium user had posted some stickers and the premium expires
+    And I login as the premium user
+    And I open "community" page
+    And I go to the first group
+    And I click create post button and enter some text
+    When I click add sticker button
+    Then I should see the recent stickers section
+    And I click to add a sticker into the topic
+    And I go back to previous page
+    And I logout

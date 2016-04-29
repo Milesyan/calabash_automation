@@ -38,5 +38,4 @@ Feature: Users insert sticker in comments
     And I go to previous page
     And I go to previous page
     And I logout
-    
 
