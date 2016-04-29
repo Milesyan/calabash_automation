@@ -8,6 +8,10 @@ Feature: Free, alc, premium users can only post what then owned.
     And I click create post button and enter some text
     When I click add sticker button
     Then I should see I can post free stickers only
+    When I choose premium packs
+    Then I should see the premium sticker gating page
+    When I choose alc packs
+    Then I should see the alc sticker gating page
     And I click to add a sticker into the topic
     And I go back to previous page
     And I logout

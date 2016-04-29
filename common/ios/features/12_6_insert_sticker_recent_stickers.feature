@@ -11,3 +11,5 @@ Feature: Free can post recent stickers
     And I click to add a sticker into the topic
     And I go back to previous page
     And I logout
+
+  Scenario: Alc or premium stickers expires and check recent stickers tab.
