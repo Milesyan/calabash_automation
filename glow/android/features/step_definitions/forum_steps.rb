@@ -809,7 +809,7 @@ end
 Then(/^I go to "([^"]*)" category$/) do |arg1|
   if GROUP_CATEGORY.keys.include? arg1
     wait_touch "* marked:'#{arg1}'"
-    logger.add event_name: "page_impression_#{arg1}_category"
+    # logger.add event_name: "page_impression_#{arg1}_category"
   else 
     puts "GROUP CATEGORY NAME IS WRONG."
   end
@@ -831,7 +831,7 @@ end
 
 Then(/^I click see all button after "([^"]*)"$/) do |arg1|
   wait_touch "* marked:'#{arg1}' sibling *"
-  logger.add event_name: "page_impression_#{arg1}", start_version: "community v1.1"
+  # logger.add event_name: "page_impression_#{arg1}", start_version: "community v1.1"
 end
 
 Then(/^I can see many groups$/) do

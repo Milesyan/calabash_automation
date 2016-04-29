@@ -814,14 +814,14 @@ class ForumPage < Calabash::ABase
     rescue RuntimeError => e 
       touch "* id:'daimajia_slider_viewpager'"
     end  
-    logger.add event_name: "page_impression_explore", start_vesion: "community v1.1"
+    # logger.add event_name: "page_impression_explore", start_vesion: "community v1.1"
     sleep 1
   end
 
   def click_discover
     sleep 1
     wait_touch "* marked:'Discover'"
-    logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
+    # logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
     sleep 0.2
   end
 
