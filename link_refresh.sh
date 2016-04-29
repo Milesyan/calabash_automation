@@ -6,12 +6,14 @@ do
   rm -r ${APP}/ios/features/step_definitions/forum_steps.rb
   rm -r ${APP}/ios/features/step_definitions/premium_steps.rb
   rm -r ${APP}/ios/features/step_definitions/assertion_steps.rb
+  rm -r ${APP}/ios/features/step_definitions/sticker_steps.rb
   rm -r ${APP}/android/features/*.feature
   rm -r ${APP}/android/features/pages/forum_page.rb
   rm -r ${APP}/android/features/pages/premium_page.rb
   rm -r ${APP}/android/features/step_definitions/forum_steps.rb
   rm -r ${APP}/android/features/step_definitions/premium_steps.rb
   rm -r ${APP}/android/features/step_definitions/assertion_steps.rb
+  rm -r ${APP}/android/features/step_definitions/sticker_steps.rb
   rm -r ${APP}/www/public/ForumApi.rb
   rm -r ${APP}/www/public/ForumApiAndroid.rb
   rm -r ${APP}/www/public/test_helper.rb
