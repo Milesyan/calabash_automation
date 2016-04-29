@@ -2,11 +2,13 @@ require 'calabash-android/cucumber'
 require 'calabash-android/abase'
 require 'minitest/autorun'
 require 'active_support/all'
-
 require_relative 'app'
 require_relative 'pages'
 require_relative '../../../www/public/eve_android_forum_test'
 
+include Glow
+include EveForumAndroid
+include Minitest::Assertions
 
 class MinitestWorld
   extend Minitest::Assertions
@@ -21,10 +23,4 @@ World do
   MinitestWorld.new
 end
 
-include Glow
-include EveForumAndroid
-include Minitest::Assertions
-
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-GLOW_PASSWORD = "Glow12345"
-GLOW_ENV = "dev-office"
