@@ -33,4 +33,24 @@ Feature: Sticker gating when users click stickers not owned by them
     And I go back to previous page
     And I logout
 
-  
+  Scenario: Free user clicks alc and premium stickers in chat.
+    Given A premium user milesp established chat relationship with a new user "Hewitt"
+    Then I login as premium user
+    And I open "community" page
+    And I go to messages
+    And I enter the chat window and start to chat
+    And I send a premium sticker in chat
+    And I send an a la carte sticker in chat
+    And I go to previous page
+    And I click done to close messages
+    And I logout
+    And I login as the new user
+    And I open "community" page
+    And I go to messages
+    And I enter the chat window and start to chat
+    And I should see the sticker is received
+    Then I check the gating for premium sticker
+    Then I check the gating for a al carte sticker
+    And I go to previous page
+    And I click done to close messages
+    And I logout

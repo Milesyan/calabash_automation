@@ -178,3 +178,21 @@ end
 Then(/^I try to go through the ALC payment flow$/) do
   pending # Write code here that turns the phrase above into concrete actions
 end
+
+Then(/^I send a premium sticker in chat$/) do
+  # I click add sticker button
+  # I should see the select sticker page
+  # I choose a premium pack
+  # I click to add a sticker in chat
+  # I send the message
+end
+
+
+
+
+
+
+
+
+
+
