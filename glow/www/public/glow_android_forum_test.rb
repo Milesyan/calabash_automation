@@ -99,8 +99,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{base_url}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/v2/users/signup", options(data)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       log_important email + " has been signed up"
@@ -134,8 +133,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{base_url}/a/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/v2/users/signup", options(data)
       # json_res = eval(res.to_s)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
@@ -156,8 +154,7 @@ module GlowForumAndroid
         }
       }
 
-      @res = HTTParty.post("#{base_url}/a/v2/users/push", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/v2/users/push", auth_options(data)
       self
     end
 
@@ -169,8 +166,7 @@ module GlowForumAndroid
 
       # puts "debug #{data}"
       # puts "#{@res} res"
-      @res = HTTParty.post("#{base_url}/a/users/signin", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/users/signin", options(data)
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
       @first_name = @res["user"]["first_name"]
       self
@@ -180,8 +176,7 @@ module GlowForumAndroid
       # @ut = nil
       # self
       data = additional_post_data
-      @res = HTTParty.post("#{base_url}/a/users/logout", :body => data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/users/logout", auth_options(data)
       self
     end
 
@@ -190,8 +185,7 @@ module GlowForumAndroid
         "email": email
       }.merge(additional_post_data)
 
-      @res = HTTParty.post("#{base_url}/a/users/recover_password", :body => data.to_json,
-        :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/a/users/recover_password", options(data)
       self
     end
 
@@ -200,7 +194,7 @@ module GlowForumAndroid
         "ts": 0,
         "sign": "todos:|activity_rules:|clinics:|fertile_score_coef:|fertile_score:|predict_rules:|health_rules:",
       }
-      @res = HTTParty.get "#{base_url}/a/v2/users/pull?#{additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{base_url}/a/v2/users/pull?#{additional_post_data}", auth_options(data)
       @notifications = @res["notifications"] if @res["user_id"]
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["user_id"].nil?
     end

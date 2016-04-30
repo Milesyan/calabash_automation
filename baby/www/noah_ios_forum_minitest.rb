@@ -64,9 +64,6 @@ class NoahTest < Minitest::Test
     puts u.res
   end
 
-  def test_temp_chat
-    up = premium_login
-    up.send_chat_request
 end    
 
 

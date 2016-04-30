@@ -87,8 +87,7 @@ module GlowForumIOS
         }
       }.merge(common_data)
 
-      @res = HTTParty.post("#{base_url}/api/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
       log_important email + " has been signed up"
       self
     end
@@ -120,8 +119,7 @@ module GlowForumIOS
         }
       }.merge(common_data)
 
-      @res = HTTParty.post("#{base_url}/api/v2/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
       puts @email + " has been signed up"
       self
     end
@@ -142,8 +140,7 @@ module GlowForumIOS
         "ut": @ut
       }.merge(common_data)
 
-      @res = HTTParty.post("#{base_url}/api/v2/users/push", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/api/v2/users/push", options(data)
       self
     end
 
@@ -155,9 +152,8 @@ module GlowForumIOS
           "password": password || @password
         }
       }.merge(common_data)
-      res = HTTParty.post("#{base_url}/api/users/signin", :body => login_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' }).to_json
-      @res = JSON.parse(res)
+      @res = HTTParty.post "#{base_url}/api/users/signin", options(data)
+      # @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
@@ -176,7 +172,7 @@ module GlowForumIOS
         "sign": "todos:-3985177229087007215|activity_rules:-4394188183635176431|clinics:-263395673388636808|drugs:5594482260161071637|fertile_score:-1915309563115276298|predict_rules:8588338023020872333|health_rules:3809831023003012200",
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get "#{base_url}/api/v2/users/pull", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }
+      @res = HTTParty.get "#{base_url}/api/v2/users/pull", options(data)
       @notifications = @res["user"]["notifications"] if @res
       # log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end

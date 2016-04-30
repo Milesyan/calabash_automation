@@ -102,7 +102,7 @@ module EveForumAndroid
       data = {
         "guest_token": @uuid
       }.merge(additional_post_data)
-      @res = HTTParty.post("#{base_url}/android/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/android/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
       puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
@@ -142,7 +142,7 @@ module EveForumAndroid
           "notification_last_read_time": 0
         }
       }
-      @res = HTTParty.post("#{base_url}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", auth_options(data)
       puts "sync success" if @res["rc"] == 0
       self
     end
@@ -170,7 +170,7 @@ module EveForumAndroid
           "notification_last_read_time": 0
         }
       }.merge(additional_post_data)
-      @res = HTTParty.post("#{base_url}/android/users/sync", :body => data.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/android/users/sync", auth_options(data)
       self
     end
 
@@ -189,7 +189,7 @@ module EveForumAndroid
         "ts": @forum_ts
       }
       url = hash_to_query data
-      @res = HTTParty.get("#{base_url}/android/users/get_daily_gems?#{url}", :body => {}.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.get "#{base_url}/android/users/get_daily_gems?#{url}", :body => {}.to_json, :headers => {'Authorization' => @ut, 'Content-Type' => 'application/json' }
       self
     end
 
@@ -210,7 +210,7 @@ module EveForumAndroid
         "onboarding_info":{}
       }
       puts "Signup with email:\n Email >>>#{@email}"
-      @res = HTTParty.post("#{base_url}/android/users/signup_with_email?#{@additional_post_data}", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/android/users/signup_with_email?#{@additional_post_data}", options(data)
       self
     end
 
@@ -233,8 +233,8 @@ module EveForumAndroid
           }
       }
 
-      @res = HTTParty.post("#{base_url}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
-        :headers => {'Content-Type' => 'text/plain' })
+      @res = HTTParty.post "#{base_url}/android/users/login_with_email?#{@additional_post_data}", :body => data.to_json,
+        :headers => {'Content-Type' => 'text/plain' }
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
       @first_name = @res["data"]["first_name"]
@@ -252,7 +252,7 @@ module EveForumAndroid
           "time_zone": @forum_time_zone
         }
       }
-      @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }
+      @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", auth_options(data)
       @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end

@@ -91,7 +91,7 @@ module ForumApiAndroid
         }.merge(additional_forum)
       end
       @group_id = args[:group_id] || GROUP_ID
-      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      data,headers = MultipartImage::Post.prepare_query(data)
       headers = headers.merge({ "Authorization" => @ut })
       uri = URI("#{forum_base_url}/group/#{group_id}/topic")
       http = Net::HTTP.new(uri.host, uri.port)
@@ -199,7 +199,7 @@ module ForumApiAndroid
     def delete_topic(topic_id)
       data = {}
       url = "#{forum_base_url}/topic/#{topic_id}?#{@additional_forum}"
-      @res = HTTParty.delete(url, auth_options(data)
+      @res = HTTParty.delete url, auth_options(data)
       puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
     end
@@ -391,7 +391,7 @@ module ForumApiAndroid
           "image": File.new(image_pwd)
         }.merge(additional_forum)
       end
-      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      data,headers = MultipartImage::Post.prepare_query(data)
       headers = headers.merge({ "Authorization" => @ut })
       uri = URI("#{forum_base_url}/group")
       http = Net::HTTP.new(uri.host, uri.port)

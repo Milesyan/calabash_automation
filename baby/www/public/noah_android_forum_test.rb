@@ -120,13 +120,6 @@ module NoahForumAndroid
       dt.strftime("%Y/%m/%d %H:%M:%S")
     end
 
-    def options(data)
-      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
-    end
-
-    def auth_options(data)
-      { :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }}
-    end
 
     def common_data
       data = {

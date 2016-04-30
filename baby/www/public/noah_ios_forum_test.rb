@@ -88,11 +88,6 @@ module NoahForumIOS
       t.strftime("%Y/%m/%d %H:%M:%S")
     end
 
-
-    def options(data)
-      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
-    end
-
     def common_data
       {
         "app_version" => "9.0",

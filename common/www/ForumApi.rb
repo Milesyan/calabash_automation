@@ -8,7 +8,11 @@ module ForumApi
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, 
          :all_group_names, :notifications, :app_version
-         
+
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
+    end
+
     # --- some get functions---
     def get_created
       data = {
@@ -398,7 +402,7 @@ module ForumApi
         "image": File.new(image_pwd)
       }
       @group_id = args[:group_id] || GROUP_ID
-      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      data,headers = MultipartImage::Post.prepare_query(data)
       uri = URI ("#{forum_base_url}/group/#{@group_id}/create_photo")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
@@ -421,7 +425,7 @@ module ForumApi
         "image": File.new(image_pwd)
       }
 
-      data,headers = MultipartImage::Post.prepare_query(topic_data)
+      data,headers = MultipartImage::Post.prepare_query(data)
       uri = URI ("#{forum_base_url}/group/create")
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)

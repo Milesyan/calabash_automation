@@ -35,10 +35,6 @@ module NurtureForumIOS
     attr_accessor :reply_content,:group_id,:all_group_ids
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
-    def options(data)
-      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
-    end
-
     def initialize(args = {})
       @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s
       @email = args[:email] || "#{@first_name}@g.com"

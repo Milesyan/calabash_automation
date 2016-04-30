@@ -74,7 +74,7 @@ module EveForumIOS
         "install_data": nil,
         "branch_data": nil
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/signup_guest", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
       puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
@@ -102,7 +102,7 @@ module EveForumIOS
           "need_pull":true,
           "additional_info":{"notification_last_read_time":nil,"time_zone":"Asia\/Shanghai","device_token":nil,"syncable_attributes":{"predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}}
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
       self
     end
 
@@ -122,7 +122,7 @@ module EveForumIOS
               "predict_rules": "-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
               }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
       self
     end
 
@@ -142,7 +142,7 @@ module EveForumIOS
               "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
               }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
       self
     end
 
@@ -163,7 +163,7 @@ module EveForumIOS
               "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
               }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/sync", :body => data.to_json, :headers => {'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
       self
     end
 
@@ -179,7 +179,7 @@ module EveForumIOS
         "types": "5",
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get("#{base_url}/ios/users/get_daily_gems", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.get "#{base_url}/ios/users/get_daily_gems", options(data)
       puts "GET #{@res}"
       self
     end
@@ -211,7 +211,7 @@ module EveForumIOS
           }
       }.merge(common_data)
       puts "Signup with email:\n Email >>>#{@email}"
-      @res = HTTParty.post("#{base_url}/ios/users/signup_with_email", :body => data.to_json, :headers => {'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/signup_with_email", options(data)
       self
     end
 
@@ -235,8 +235,8 @@ module EveForumIOS
             "+is_first_session":false
           }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/login_with_email", :body => data.to_json,
-        :headers => {'Content-Type' => 'text/plain' })
+      @res = HTTParty.post "#{base_url}/ios/users/login_with_email", :body => data.to_json,
+        :headers => {'Content-Type' => 'text/plain' }
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
       @first_name = @res["data"]["first_name"]
