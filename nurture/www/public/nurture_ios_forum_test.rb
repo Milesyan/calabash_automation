@@ -35,6 +35,9 @@ module NurtureForumIOS
     attr_accessor :reply_content,:group_id,:all_group_ids
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
+    end
 
     def initialize(args = {})
       @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s
@@ -99,8 +102,7 @@ module NurtureForumIOS
           "first_name": @first_name
         }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/signup", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/signup", options(data)
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
       @preg_id = @res["data"]["pregnancies"].first["id"]
@@ -112,21 +114,19 @@ module NurtureForumIOS
       data = {
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get("http://dragon-bryo.glowing.com/ios/plan/fetch", :body => data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.get "http://dragon-bryo.glowing.com/ios/plan/fetch", options(data)
       self 
     end
 
     def login
-      login_data = {
+      data = {
         userinfo: {
           email: @email,
           tz: "Asia\/Shanghai",
           password: @password
         }
       }.merge(common_data)
-      @res = HTTParty.post("#{base_url}/ios/users/signin", :body => login_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{base_url}/ios/users/signin", options(data)
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
       @gender = @res["data"]["gender"]
@@ -135,7 +135,7 @@ module NurtureForumIOS
     end
 
     def pull
-      pull_data = {
+      data = {
         "article_ts": 10.days.ago.to_i,
         "checklist_ts": 0,
         "sign": "daily_log:-5297321039698049625|daily_task:-4144874413046290064|article_categories:1944778104830470978|health_rules:-4413499579029728433|appointments:-4801534297506013527|readability:571520",
@@ -144,8 +144,7 @@ module NurtureForumIOS
         "ts": 0,
         "ut": @ut
       }.merge(common_data)
-      @res = HTTParty.get("#{base_url}/ios/users/pull", :body => pull_data.to_json,
-        :headers => { 'Content-Type' => 'application/json' })
+      @res = HTTParty.get "#{base_url}/ios/users/pull", options(data)
       @notifications = @res["data"]["notifications"] if @res["rc"] == 0
       if @res["rc"] != 0
         log_important "RC IS NOT EQUAL to 0 in pull api call"

@@ -10,7 +10,7 @@ module ForumApi
          :all_group_names, :notifications, :app_version
     # --- some get functions---
     def get_created
-      get_data = {
+      data = {
         "code_name": @code_name,
         "offset": '0',
         "ut": @ut
@@ -23,7 +23,7 @@ module ForumApi
     end
 
     def get_blocked
-      get_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -35,7 +35,7 @@ module ForumApi
     end
 
     def create_topic(args = {})
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "content": "#{Time.now.strftime "%D %T"}",
         "title": args[:topic_title] || "#{@email} #{Time.now}",
@@ -57,7 +57,7 @@ module ForumApi
     end
 
     def reply_to_topic(topic_id, args = {})
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "content": args[:reply_content]||"Reply to topic #{topic_id} and time is #{Time.now.to_i}",
         "anonymous": 0,
@@ -74,7 +74,7 @@ module ForumApi
     end 
 
     def create_poll(args = {})
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "content": "#{Time.now.strftime "%D %T"}",
         "anonymous": 0,
@@ -95,7 +95,7 @@ module ForumApi
     end
 
     def vote_poll(args = {})
-      vote_data = {
+      data = {
         "code_name": @code_name,
         "vote_index": 2,
         "ut": @ut
@@ -112,7 +112,7 @@ module ForumApi
 
 
     def reply_to_comment(topic_id,reply_id,args = {})
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "content": args[:reply_content] || 
           "Reply to topic #{topic_id} and reply #{reply_id} "+Random.rand(10).to_s,
@@ -155,7 +155,7 @@ module ForumApi
     end
 
     def vote_poll(args = {})
-      vote_data = {
+      data = {
         "code_name": @code_name,
         "vote_index": 2,
         "ut": @ut
@@ -170,7 +170,7 @@ module ForumApi
     end 
 
     def delete_topic(topic_id)
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -183,7 +183,7 @@ module ForumApi
     end
 
     def follow_user(user_id)
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -196,7 +196,7 @@ module ForumApi
     end
 
     def unfollow_user(user_id)
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -209,7 +209,7 @@ module ForumApi
     end
 
     def block_user(user_id)
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -222,7 +222,7 @@ module ForumApi
     end
 
     def unblock_user(user_id)
-      reply_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -235,7 +235,7 @@ module ForumApi
     end  
 
     def bookmark_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "bookmarked": 1,
         "ut": @ut
@@ -249,7 +249,7 @@ module ForumApi
     end
 
     def unbookmark_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "bookmarked": 0,
         "ut": @ut
@@ -263,7 +263,7 @@ module ForumApi
     end
 
     def upvote_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "liked": 1,
         "ut": @ut
@@ -277,7 +277,7 @@ module ForumApi
     end
 
     def cancel_upvote_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "liked": 0,
         "ut": @ut
@@ -290,7 +290,7 @@ module ForumApi
     end
 
     def upvote_comment(topic_id, reply_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "liked": 1,
         "topic_id": topic_id,
@@ -305,7 +305,7 @@ module ForumApi
     end
 
     def cancel_upvote_comment(topic_id, reply_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "liked": 0,
         "topic_id": topic_id,
@@ -320,7 +320,7 @@ module ForumApi
     end
 
     def downvote_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "disliked": 1,
         "ut": @ut
@@ -334,7 +334,7 @@ module ForumApi
     end
 
     def downvote_comment(topic_id, reply_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "disliked": 1,
         "topic_id": topic_id,
@@ -349,7 +349,7 @@ module ForumApi
     end
 
     def cancel_downvote_topic(topic_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "disliked": 0,
         "ut": @ut
@@ -363,7 +363,7 @@ module ForumApi
     end
 
     def cancel_downvote_comment(topic_id, reply_id)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "disliked": 0,
         "topic_id": topic_id,
@@ -378,7 +378,7 @@ module ForumApi
     end
 
     def report_topic(topic_id,report_reason)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "reason": report_reason,
         "comment": "test topic",
@@ -392,7 +392,7 @@ module ForumApi
     end
 
     def report_comment(topic_id, reply_id, report_reason)
-      topic_data = {
+      data = {
         "code_name": @code_name,
         "reason": report_reason,
         "reply_id": reply_id,
@@ -408,7 +408,7 @@ module ForumApi
     end
 
     def get_all_groups
-      group_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -442,7 +442,7 @@ module ForumApi
     
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
-      topic_data = {
+      data = {
         "title": args[:topic_title] || "Baby App IMAGE" + Time.now.to_s,
         "code_name": @code_name,
         "anonymous": 0,
@@ -465,7 +465,7 @@ module ForumApi
 
     def create_group(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg|\.png/) }.sample
-      topic_data = {
+      data = {
         "ut": @ut,
         "desc": args[:group_description] || "Test group discription",
         "code_name": @code_name,
@@ -487,7 +487,7 @@ module ForumApi
     end
 
     def turn_off_chat(args={})
-      user_data = {
+      data = {
         "code_name": @code_name,
         "update_data":{"chat_off":1,"discoverable":0,"signature_on":1,"hide_posts":false},
         "ut": @ut
@@ -501,7 +501,7 @@ module ForumApi
     end
 
     def turn_on_chat(args={})
-      user_data = {
+      data = {
         "code_name": @code_name,
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false},
         "ut": @ut
@@ -515,7 +515,7 @@ module ForumApi
     end
 
     def turn_off_signature(args={})
-      user_data = {
+      data = {
         "code_name": @code_name,
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":0,"hide_posts":false},
         "ut": @ut
@@ -530,7 +530,7 @@ module ForumApi
 
 
     def turn_on_signature(args={})
-      user_data = {
+      data = {
         "code_name": @code_name,
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false},
         "ut": @ut
@@ -544,7 +544,7 @@ module ForumApi
     end
 
     def reset_all_flags(args={})
-      user_data = {
+      data = {
         "code_name": @code_name,
         "update_data":{"chat_off":0,"discoverable":1,"signature_on":1,"hide_posts":false},
         "ut": @ut
@@ -558,7 +558,7 @@ module ForumApi
     end
     
     def send_chat_request(tgt_user_id)
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "src": 2,
         "tgt_user_id": tgt_user_id,
@@ -576,7 +576,7 @@ module ForumApi
 
 
     def get_request_id
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -590,7 +590,7 @@ module ForumApi
 
     def accept_chat
       get_request_id
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "request_id": @request_id,
         "ut": @ut
@@ -610,7 +610,7 @@ module ForumApi
 
     def ignore_chat
       get_request_id
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "request_id": @request_id,
         "ut": @ut
@@ -624,7 +624,7 @@ module ForumApi
     end
 
     def remove_chat(tgt_user_id)
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "tgt_user_id": tgt_user_id,
         "ut": @ut
@@ -639,7 +639,7 @@ module ForumApi
     end
 
     def get_all_participants
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -657,7 +657,7 @@ module ForumApi
     end
     
     def get_all_contacts
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -675,7 +675,7 @@ module ForumApi
     end
 
     def get_all_blocked
-      blocked_data = {
+      data = {
         "code_name": @code_name,
         "ut": @ut
       }.merge(common_data)
@@ -693,7 +693,7 @@ module ForumApi
     end
 
     def availability(tgt_user_id)
-      chat_data = {
+      data = {
         "code_name": @code_name,
         "auto_confirm": 0,
         "counterpart_id": tgt_user_id,

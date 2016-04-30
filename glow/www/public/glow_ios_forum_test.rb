@@ -149,7 +149,7 @@ module GlowForumIOS
 
     def login(email = nil, password = nil)
       # the response of login doesn't return the rc code
-      login_data = {
+      data = {
         "userinfo": {
           "email": email || @email,
           "password": password || @password

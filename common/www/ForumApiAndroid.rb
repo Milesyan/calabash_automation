@@ -9,29 +9,34 @@ module ForumApiAndroid
     attr :code_name, :tgt_user_id, :request_id, :all_participants,
          :code_name, :notifications, :app_version
 
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
+    end
+
+    def auth_options(data)
+      { :body => data.to_json, :headers => { 'Authorization' => @ut, 'Content-Type' => 'application/json' }}
+    end
+
     # --- Add get functions
     def get_created
-      get_data = {
+      data = {
         "code_name": @code_name,
         "offset": '0',
         "ut": @ut
       }
-      @res =  HTTParty.get("#{forum_base_url}/topic/created?#{@additional_forum}", 
-              :body => get_data.to_json,
-              :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' })
+      @res =  HTTParty.get "#{forum_base_url}/topic/created?#{@additional_forum}", auth_options(data)
       self
     end
 
     def get_blocked
-      get_data = {
+      data = {
       }
       if ['noah', 'glow'].include? @code_name
         url = "#{forum_base_url}/user/blocked_users?#{@additional_forum}"
       else
         url = "#{forum_base_url}/user/blocked_user_ids?#{@additional_forum}"
       end
-      @res =  HTTParty.get(url, :body => get_data.to_json,
-        :headers => { "Authorization" => @ut ,'Content-Type' => 'application/json' })
+      @res =  HTTParty.get url, auth_options(data)
       self
     end
 
@@ -44,8 +49,7 @@ module ForumApiAndroid
       }
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{forum_base_url}/group/#{group_id}/topic?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
@@ -62,8 +66,7 @@ module ForumApiAndroid
       }
       group_id = args[:group_id]|| GROUP_ID 
       url = "#{forum_base_url}/group/#{group_id}/topic?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
@@ -73,14 +76,14 @@ module ForumApiAndroid
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       if @code_name != 'lexie'
-        topic_data = {
+      data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
           "warning": args[:tmi_flag] || 0,
           "image": File.new(image_pwd)
         }.merge(additional_post_data)
       else 
-        topic_data = {
+      data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
           "warning": args[:tmi_flag] || 0,
@@ -107,8 +110,7 @@ module ForumApiAndroid
         "vote_index": vote_index
       }
       url = "#{forum_base_url}/topic/#{topic_id}/vote?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       if @res["rc"] == 0
         puts "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
       else 
@@ -122,8 +124,7 @@ module ForumApiAndroid
         "content": args[:reply_content] || ("Example reply to topic" + Time.now.to_s)
       }
       url = "#{forum_base_url}/topic/#{topic_id}/reply?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       @reply_id = @res["result"]["id"]
       puts "reply_id is #{@reply_id}"
       self
@@ -135,8 +136,7 @@ module ForumApiAndroid
         "reply_to": reply_id
       }
       url = "#{forum_base_url}/topic/#{topic_id}/reply?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       @sub_reply_id = @res["result"]["id"]
       self
     end
@@ -148,8 +148,7 @@ module ForumApiAndroid
         "group_id": group_id
       }
       url = "#{forum_base_url}/group/subscribe?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "---#{self.user_id} joined group >>>#{group_id}<<<---"
       self
     end
@@ -160,18 +159,16 @@ module ForumApiAndroid
         "group_id": group_id
       }
       url = "#{forum_base_url}/group/unsubscribe?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       self
     end
 
 
     def get_all_groups
-      group_data = {
+      data = {
       }
       url = "#{forum_base_url}/user/0/groups?#{@additional_forum}"
-      _res =  HTTParty.get(url, :body => group_data.to_json,
-        :headers => {  "Authorization" => @ut , 'Content-Type' => 'application/json' })
+      _res =  HTTParty.get url, auth_options(data)
       @all_group_ids = _res["groups"].map { |h| h['id']}
       @all_group_names = _res["groups"].map { |h| h['name']}
       self
@@ -202,8 +199,7 @@ module ForumApiAndroid
     def delete_topic(topic_id)
       data = {}
       url = "#{forum_base_url}/topic/#{topic_id}?#{@additional_forum}"
-      @res = HTTParty.delete(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.delete(url, auth_options(data)
       puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
     end
@@ -213,8 +209,7 @@ module ForumApiAndroid
         "empty_stub": ""
       }
       url = "#{forum_base_url}/user/#{user_id}/follow?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "User #{user_id} is followed by current user #{self.user_id}"  
       self
     end
@@ -224,8 +219,7 @@ module ForumApiAndroid
         "empty_stub": ""
       }
       url = "#{forum_base_url}/user/#{user_id}/unfollow?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "User #{user_id} is unfollowed by current user #{self.user_id}"  
       self
     end
@@ -235,8 +229,7 @@ module ForumApiAndroid
         "empty_stub": ""
       }
       url = "#{forum_base_url}/user/#{user_id}/block?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "User #{user_id} is blocked by current user #{self.user_id}"  
       self
     end
@@ -246,8 +239,7 @@ module ForumApiAndroid
         "empty_stub": ""
       }
       url = "#{forum_base_url}/user/#{user_id}/unblock?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "User #{user_id} is unblocked by current user #{self.user_id}"  
       self
     end
@@ -258,8 +250,7 @@ module ForumApiAndroid
         "bookmarked": 1
       }
       url = "#{forum_base_url}/topic/#{topic_id}/bookmark?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is is bookmarked by #{self.user_id}\n\n"
       self
     end
@@ -269,8 +260,7 @@ module ForumApiAndroid
         "bookmarked": 0
       }
       url = "#{forum_base_url}/topic/#{topic_id}/bookmark?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is unbookmarked by #{self.user_id}\n\n"
       self
     end
@@ -281,8 +271,7 @@ module ForumApiAndroid
         "liked": 1
       }
       url = "#{forum_base_url}/topic/#{topic_id}/like?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is liked by #{self.user_id}\n\n"
       self
     end
@@ -292,8 +281,7 @@ module ForumApiAndroid
         "liked": 0
       }
       url = "#{forum_base_url}/topic/#{topic_id}/like?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer liked by #{self.user_id}\n\n"
       self
     end
@@ -303,8 +291,7 @@ module ForumApiAndroid
         "disliked": 1
       }
       url = "#{forum_base_url}/topic/#{topic_id}/dislike?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is disliked by #{self.user_id}\n\n"
       self
     end
@@ -314,8 +301,7 @@ module ForumApiAndroid
         "disliked": 0
       }
       url = "#{forum_base_url}/topic/#{topic_id}/dislike?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "topic id >>>>>'#{topic_id}'<<<<< is no longer disliked by #{self.user_id}\n\n"
       self
     end
@@ -326,8 +312,7 @@ module ForumApiAndroid
         "liked": 1
       }
       url = "#{forum_base_url}/reply/#{reply_id}/like?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by #{self.user_id}\n"
       self
     end
@@ -338,8 +323,7 @@ module ForumApiAndroid
         "liked": 0
       }
       url = "#{forum_base_url}/reply/#{reply_id}/like?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer upvoted by #{self.user_id}\n"
       self
     end
@@ -350,7 +334,7 @@ module ForumApiAndroid
         "disliked": 1
       }
       url = "#{forum_base_url}/reply/#{reply_id}/dislike?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is downvoted by #{self.user_id}\n"
       self
     end
@@ -361,8 +345,7 @@ module ForumApiAndroid
         "disliked": 0
       }
       url = "#{forum_base_url}/reply/#{reply_id}/dislike?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer downvoted by #{self.user_id}\n"
       self
     end
@@ -374,8 +357,7 @@ module ForumApiAndroid
         "reason_comment": "Test topic"
       }
       url = "#{forum_base_url}/topic/#{topic_id}/flag?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
@@ -387,8 +369,7 @@ module ForumApiAndroid
         "reason_comment": "Test comment"
       }
       url = "#{forum_base_url}/topic/#{topic_id}/flag?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
@@ -396,14 +377,14 @@ module ForumApiAndroid
     def create_group(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       if @code_name != "lexie"
-        topic_data = {
+      data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
           "category_id": args[:group_category] || 6,
           "image": File.new(image_pwd)
         }.merge(additional_post_data)
       else 
-        topic_data = {
+      data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
           "category_id": args[:group_category] || 6,
@@ -431,8 +412,7 @@ module ForumApiAndroid
         "signature_on":1
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "TURN OFF CHAT FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -444,8 +424,7 @@ module ForumApiAndroid
         "signature_on":1
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "TURN ON CHAT FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -457,8 +436,7 @@ module ForumApiAndroid
         "signature_on":0
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "TURN OFF SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -471,8 +449,7 @@ module ForumApiAndroid
         "signature_on":1
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "TURN ON SIGNATURE FOR #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -485,8 +462,7 @@ module ForumApiAndroid
         "discoverable":1
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "RESET flags #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -499,8 +475,7 @@ module ForumApiAndroid
         "discoverable":0
       }
       url = "#{forum_base_url}/update_basic_info?#{@additional_forum}"
-      @res = HTTParty.post(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.post url, auth_options(data)
       log_important "RESET flags #{self.user_id} >>#{self.first_name}<<"
       self
     end
@@ -509,41 +484,34 @@ module ForumApiAndroid
       data = {
       }
       url = "#{forum_base_url}/user/#{@user_id}?#{@additional_forum}"
-      @res = HTTParty.get(url, :body => data.to_json, 
-        :headers => { "Authorization" => @ut , 'Content-Type' => 'application/json' }) 
+      @res = HTTParty.get url, auth_options(data)
       self
     end
 
     def send_chat_request(tgt_user_id)
-      chat_data = {
+      data = {
         "src": 2,
         "tgt_user_id": tgt_user_id,
       }
       @tgt_user_id = tgt_user_id
-      @res = HTTParty.post("#{forum_base_url}/chat/new?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{forum_base_url}/chat/new?#{@additional_forum}", auth_options(data)
       log_important "#{self.user_id} send chat request to #{tgt_user_id}"
       self
     end
 
     def get_request_id
-      chat_data = {}
-      @res = HTTParty.get("#{forum_base_url}/chats_and_participants?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      data = {}
+      @res = HTTParty.get "#{forum_base_url}/chats_and_participants?#{@additional_forum}", auth_options(data)
       @request_id = @res["requests"][0]["id"]
       self
     end
 
     def accept_chat
       get_request_id
-      chat_data = {
+      data = {
         "request_id": @request_id,
       }
-      @res = HTTParty.post("#{forum_base_url}/chat/accept?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{forum_base_url}/chat/accept?#{@additional_forum}", auth_options(data)
       puts "#{self.user_id} accepts chat request id >>>#{@request_id}<<<"
       self
     end
@@ -555,34 +523,28 @@ module ForumApiAndroid
 
     def ignore_chat
       get_request_id
-      chat_data = {
+      data = {
         "request_id": @request_id,
       }
-      @res = HTTParty.post("#{forum_base_url}/chat/reject?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{forum_base_url}/chat/reject?#{@additional_forum}", auth_options(data)
       puts "#{self.user_id} rejects chat request id >>>#{@request_id}<<<"
       self
     end
 
     def remove_chat(tgt_user_id)
-      chat_data = {
+      data = {
         "contact_uid": tgt_user_id,
       }
       @tgt_user_id = tgt_user_id
-      @res = HTTParty.post("#{forum_base_url}/chat/contact/remove?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.post "#{forum_base_url}/chat/contact/remove?#{@additional_forum}", auth_options(data)
       puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
       self
     end
 
     def get_all_participants
-      chat_data = {
+      data = {
       }
-      @res = HTTParty.get("#{forum_base_url}/chats_and_participants?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.get "#{forum_base_url}/chats_and_participants?#{@additional_forum}", auth_options(data)
       @all_participants = @res['participants'].map {|n| n['id']}
     end
     
@@ -593,11 +555,9 @@ module ForumApiAndroid
     end
 
     def get_all_contacts
-      chat_data = {
+      data = {
       }
-      @res = HTTParty.get("#{forum_base_url}/chat/contacts?#{@additional_forum}", 
-        :body => chat_data.to_json,
-        :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.get "#{forum_base_url}/chat/contacts?#{@additional_forum}", auth_options(data)
       @all_contacts = @res['participants'].map { |h| h['id']}
     end     
 
@@ -608,7 +568,7 @@ module ForumApiAndroid
     end
 
     def get_all_blocked
-      blocked_data= {
+      data = {
       }
       if ['noah', 'glow'].include? @code_name
         url = "#{forum_base_url}/user/blocked_users?#{@additional_forum}"
@@ -616,8 +576,7 @@ module ForumApiAndroid
         url = "#{forum_base_url}/user/blocked_user_ids?#{@additional_forum}"
       end
       url
-      @res = HTTParty.get( url, :body => blocked_data.to_json,
-          :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      @res = HTTParty.get url, auth_options(data)
       @all_blocked= @res["data"]
       @all_blocked
     end     

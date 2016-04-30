@@ -11,7 +11,7 @@ module ForumApiAndroid
 
     # --- Add get functions
     def get_created
-      get_data = {
+      data = {
         "code_name": @code_name,
         "offset": '0',
         "ut": @ut
@@ -23,7 +23,7 @@ module ForumApiAndroid
     end
 
     def get_blocked
-      get_data = {
+      data = {
       }
       if ['noah', 'glow'].include? @code_name
         url = "#{forum_base_url}/user/blocked_users?#{@additional_forum}"
@@ -73,14 +73,14 @@ module ForumApiAndroid
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       if @code_name != 'lexie'
-        topic_data = {
+      data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
           "warning": args[:tmi_flag] || 0,
           "image": File.new(image_pwd)
         }.merge(additional_post_data)
       else 
-        topic_data = {
+      data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
           "warning": args[:tmi_flag] || 0,
@@ -167,7 +167,7 @@ module ForumApiAndroid
 
 
     def get_all_groups
-      group_data = {
+      data = {
       }
       url = "#{forum_base_url}/user/0/groups?#{@additional_forum}"
       _res =  HTTParty.get(url, :body => group_data.to_json,
@@ -396,14 +396,14 @@ module ForumApiAndroid
     def create_group(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
       if @code_name != "lexie"
-        topic_data = {
+      data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
           "category_id": args[:group_category] || 6,
           "image": File.new(image_pwd)
         }.merge(additional_post_data)
       else 
-        topic_data = {
+      data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
           "category_id": args[:group_category] || 6,
@@ -515,7 +515,7 @@ module ForumApiAndroid
     end
 
     def send_chat_request(tgt_user_id)
-      chat_data = {
+      data = {
         "src": 2,
         "tgt_user_id": tgt_user_id,
       }
@@ -528,7 +528,7 @@ module ForumApiAndroid
     end
 
     def get_request_id
-      chat_data = {}
+      data = {}
       @res = HTTParty.get("#{forum_base_url}/chats_and_participants?#{@additional_forum}", 
         :body => chat_data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
@@ -538,7 +538,7 @@ module ForumApiAndroid
 
     def accept_chat
       get_request_id
-      chat_data = {
+      data = {
         "request_id": @request_id,
       }
       @res = HTTParty.post("#{forum_base_url}/chat/accept?#{@additional_forum}", 
@@ -555,7 +555,7 @@ module ForumApiAndroid
 
     def ignore_chat
       get_request_id
-      chat_data = {
+      data = {
         "request_id": @request_id,
       }
       @res = HTTParty.post("#{forum_base_url}/chat/reject?#{@additional_forum}", 
@@ -566,7 +566,7 @@ module ForumApiAndroid
     end
 
     def remove_chat(tgt_user_id)
-      chat_data = {
+      data = {
         "contact_uid": tgt_user_id,
       }
       @tgt_user_id = tgt_user_id
@@ -578,7 +578,7 @@ module ForumApiAndroid
     end
 
     def get_all_participants
-      chat_data = {
+      data = {
       }
       @res = HTTParty.get("#{forum_base_url}/chats_and_participants?#{@additional_forum}", 
         :body => chat_data.to_json,
@@ -593,7 +593,7 @@ module ForumApiAndroid
     end
 
     def get_all_contacts
-      chat_data = {
+      data = {
       }
       @res = HTTParty.get("#{forum_base_url}/chat/contacts?#{@additional_forum}", 
         :body => chat_data.to_json,
@@ -608,7 +608,7 @@ module ForumApiAndroid
     end
 
     def get_all_blocked
-      blocked_data= {
+      data = {
       }
       if ['noah', 'glow'].include? @code_name
         url = "#{forum_base_url}/user/blocked_users?#{@additional_forum}"
