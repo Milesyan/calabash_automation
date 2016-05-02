@@ -1,4 +1,3 @@
-# Requiring this file will import Calabash and the Calabash predefined Steps.
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'

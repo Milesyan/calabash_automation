@@ -14,4 +14,5 @@ Feature: A la carte purchase flow.
     Then I check the price on sticker gating dialog
     Then I try to go through the ALC payment flow
     And I go back to previous page
-    And I logout
+    And I logout 
+    

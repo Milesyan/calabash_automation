@@ -24,6 +24,7 @@ module Minitest_ios
     assert_contains 's3.amazonaws.com', u.res["result"]["content"], 'Does not contains image url'
   end
 
+
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
     u1 = forum_new_user
