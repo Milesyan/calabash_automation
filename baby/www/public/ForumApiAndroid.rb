@@ -537,7 +537,7 @@ module ForumApiAndroid
       }
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/contact/remove?#{@additional_forum}", auth_options(data)
-      puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
+      # puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
       self
     end
 
@@ -551,6 +551,7 @@ module ForumApiAndroid
     def remove_all_participants
       _participants = self.get_all_participants
       _participants.each {|id| remove_chat id}
+      puts "All participants removed"
       self
     end
 
@@ -564,6 +565,7 @@ module ForumApiAndroid
     def remove_all_contacts
       _contacts = self.get_all_contacts
       _contacts.each {|id| remove_chat id}
+      puts "All contacts removed"
       self
     end
 

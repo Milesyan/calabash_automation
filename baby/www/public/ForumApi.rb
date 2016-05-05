@@ -565,7 +565,7 @@ module ForumApi
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/remove_by_user", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
+      # puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
       self
     end
 
@@ -582,6 +582,7 @@ module ForumApi
     def remove_all_participants
       _participants = self.get_all_participants
       _participants.each {|id| remove_chat id}
+      puts "All participants removed"
       self
     end
     
@@ -598,6 +599,7 @@ module ForumApi
     def remove_all_contacts
       _contacts = self.get_all_contacts
       _contacts.each {|id| remove_chat id}
+      puts "All contacts removed"
       self
     end
 

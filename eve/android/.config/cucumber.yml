@@ -9,6 +9,7 @@ html_report:  -f html -o <%= default_report %>
 p0_report: -f html -o p0.html
 not_ready: -t ~@not_ready
 common: NO_STOP='1' -p not_ready
+default: NO_STOP='1'
 
 run:  -p common  -p rerun_out -p html_report
 runpremium: -p common -p rerun_out -p html_report -t @premium
