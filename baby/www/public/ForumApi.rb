@@ -45,13 +45,12 @@ module ForumApi
       }.merge(common_data)  # random_str isn't needed
       @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post "#{forum_base_url}/group/#{@group_id}/create_topic", options(data)
-      puts "Code name #{@code_name}"
       @res = @res["data"] if @code_name != 'emma'
       @topic_id = @res["topic"]["id"]
       @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
       @topic_title = title
-      puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
+      # puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
     end
 
@@ -66,7 +65,7 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
       @res = @res["data"] if @code_name != 'emma'
       @reply_id = @res["result"]["id"]
-      puts "Reply to topic >>>>>#{topic_id}<<<<<"
+      # puts "Reply to topic >>>>>#{topic_id}<<<<<"
       self
     end 
 
@@ -115,7 +114,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
+      # puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
       self
     end
 

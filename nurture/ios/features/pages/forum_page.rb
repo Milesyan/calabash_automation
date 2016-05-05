@@ -4,13 +4,6 @@ class ForumPage < Calabash::IBase
   def trait
     '*'
   end
-
-  def pass_premium_promt
-    if element_exists "* marked:'Unlock now!'"
-      touch "* marked:'Continue for free'"
-    end
-  end
-  
   def create_poll(anonymous=false)
     wait_touch "label text:'Poll'"
     title = "Your favorite drink? " + Time.now.strftime("%m%d-%H:%M:%S")
@@ -562,7 +555,11 @@ class ForumPage < Calabash::IBase
   def hide_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic #{$user2.topic_title}"
-    wait_touch "* id:'community-dots' index:1"
+    if element_exists "* id:'community-dots' index:1"
+      wait_touch "* id:'community-dots' index:1"
+    else 
+      wait_touch "* id:'community-dots'"
+    end
     wait_touch "UILabel marked:'Hide this post'"
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
     wait_touch "UILabel marked:'Yes, hide it.'"  
@@ -607,7 +604,11 @@ class ForumPage < Calabash::IBase
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
     puts "I can see topic >>>#{$user2.topic_title}<<<"
-    wait_touch "* id:'community-dots' index:1"
+    if element_exists "* id:'community-dots' index:1"
+      wait_touch "* id:'community-dots' index:1"
+    else 
+      wait_touch "* id:'community-dots'"
+    end
     wait_touch "UILabel marked:'Report this post'"
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
   end

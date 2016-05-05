@@ -54,9 +54,13 @@ class AppPage < Calabash::IBase
 
 
   def logout
+    close_chat_popup
     scroll_to_row_with_mark "Logout"
+    close_chat_popup
     wait_touch "* marked:'Logout'"
+    close_chat_popup
     touch "* marked:'Logout'" # for some reason, have to touch Logout button twice since 5.2
+    close_chat_popup
     wait_touch "* marked:'Yes, log out'"
     wait_for_none_animating
     sleep 1
@@ -70,10 +74,9 @@ class AppPage < Calabash::IBase
       wait_touch "* marked:'Home'"
     when "community"
       wait_touch "* marked:'Community'"
-      sleep 1
-      if element_exists  "* id:'gl-foundation-popup-close'"
-        touch "* id:'gl-foundation-popup-close'"
-      end
+      wait_for_none_animating
+      sleep 0.5
+      close_chat_popup
       wait_for_element_exists "* marked:'Community'"
       sleep 0.5
       if element_does_not_exist "* marked:'New'"
@@ -84,12 +87,14 @@ class AppPage < Calabash::IBase
     when "alert"
       wait_touch "* marked:'Alert'"
     when "me"
+      close_chat_popup
       wait_touch "* marked:'Me'"
       sleep 1
       if element_exists "* marked:'gl foundation popup close'"
         touch "* marked:'gl foundation popup close'"
       end
     end
+    close_chat_popup
   end
 
   def ntf_join_group
@@ -100,11 +105,16 @@ class AppPage < Calabash::IBase
   end
 
   def close_chat_popup
-    if element_exists  "* id:'gl-foundation-popup-close'"
-      touch "* id:'gl-foundation-popup-close'"
-    end
-    if element_exists "* marked:'Messages'"
-      wait_touch "* marked:'Done'"
+    # if element_exists  "* id:'gl-foundation-popup-close'"
+    #   touch "* id:'gl-foundation-popup-close'"
+    # end
+    # if element_exists "* marked:'Messages'"
+    #   wait_touch "* marked:'Done'"
+    # end
+    until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
+      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
+      touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
+      sleep 0.3
     end
   end
 
@@ -131,6 +141,7 @@ class AppPage < Calabash::IBase
       touch_later_link
       wait_for_none_animating
     end
+    close_chat_popup
   end
 
   def pass_premium_promt

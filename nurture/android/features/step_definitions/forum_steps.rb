@@ -33,7 +33,6 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
     puts "Nurture User #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "Nurture User #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -67,9 +66,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
     $user.reply_to_topic $user.topic_id, reply_content: "#{$random_prefix} comment #{comment_number+1}"
     if comment_number == 0
       $first_comment_id = $user.reply_id
-      puts "first reply id is #{$first_comment_id}"
     end
-    puts "Nurture User reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end

@@ -52,7 +52,7 @@ module ForumApiAndroid
       @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
+      # puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
@@ -69,7 +69,7 @@ module ForumApiAndroid
       @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
+      # puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 

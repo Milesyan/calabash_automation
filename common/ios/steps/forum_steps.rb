@@ -34,7 +34,6 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
     puts "ForumUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
-      puts "ForumUser #{user2_name} sub reply ++; subreply number is #{subreply_number+1}"
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
   end
@@ -299,14 +298,16 @@ end
 
 Then(/^I should see the topic is posted successfully$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
+    swipe :up
+    wait_for_element_exists "* marked:'Upvote'"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
 
 Then(/^I should see the topic cannot be voted$/) do
     sleep 1
-    wait_for_elements_exist "* {text CONTAINS 'Upvote'}"
+    swipe :up
+    wait_for_element_exists "* marked:'Upvote'"
     wait_touch "* marked:'Back'"
     wait_for_none_animating
 end
