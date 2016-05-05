@@ -51,7 +51,7 @@ class AppPage < Calabash::IBase
       wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
     rescue WaitError
     end
-    if element_exists "* marked:'Try for FREE'"
+    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
       sleep 0.5
       touch "* marked:'sk cross close'"
       sleep 2
