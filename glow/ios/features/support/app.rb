@@ -22,7 +22,7 @@ module Glow
       touch "* marked:'Close'" if element_exists "* marked:'Close'"
       touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
       touch "* marked:'Done'" if element_exists "* marked:'Done'"
-      touch "* id:'gl-foundation-popup-close'" if element_exists touch "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
       counter += 1
       break if counter > 3
     end

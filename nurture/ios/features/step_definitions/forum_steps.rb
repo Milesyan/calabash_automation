@@ -937,7 +937,7 @@ When(/^I click the link for Terms$/) do
 end
 
 Then(/^I should see the correct website for Terms$/) do
-  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :timeout  => 5
+  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :timeout  => 30
   sleep 2
 end
 
@@ -946,7 +946,7 @@ When(/^I click the link for Privacy Policy$/) do
 end
 
 Then(/^I should see the correct website for Privacy Policy$/) do
-  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :timeout  => 5
+  wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :timeout  => 30
   sleep 2
 end
 

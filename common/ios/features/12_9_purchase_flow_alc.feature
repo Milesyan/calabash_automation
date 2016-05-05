@@ -15,4 +15,3 @@ Feature: A la carte purchase flow.
     Then I try to go through the ALC payment flow
     And I go back to previous page
     And I logout 
-    

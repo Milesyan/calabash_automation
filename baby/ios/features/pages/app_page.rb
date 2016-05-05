@@ -15,12 +15,15 @@ class AppPage < Calabash::IBase
 
 
   def open(tab_name)
+    wait_for_none_animating
     wait_for_element_exists "UITabBar"
     case tab_name.downcase
     when "home"
       wait_touch "UITabBarButtonLabel marked:'Home'"
     when "community"
       wait_for_element_exists "UITabBarButtonLabel marked:'Community'"
+      wait_for_none_animating
+      sleep 0.5
       touch "UITabBarButtonLabel marked:'Community'"
       sleep 1
       get_started_popup = "* id:'gl-foundation-popup-close'"
@@ -71,6 +74,7 @@ class AppPage < Calabash::IBase
       app_page.open "me"
       element_exists "* marked:'Tell friends about Glow Baby'"
     end
+    scroll_to_row_with_mark "Account settings"
     wait_touch "* marked:'Account settings'"
   end
   
