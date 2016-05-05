@@ -90,12 +90,7 @@ class ForumPage < Calabash::IBase
       wait_touch "* id:'gl-community-anonymous-uncheck.png'"
     end
     wait_touch "label text:'Post'"
-    sleep 1
-    # select the first group
-    # wait_touch "UITableViewCellContentView child label index:0"
-    # wait_touch "* marked:'Done!'"
-    sleep 1
-    #check_element_exists "* marked:'#{title}'"
+    sleep 2
     $user.topic_title = title
     @topic_title = title
   end
@@ -106,13 +101,11 @@ class ForumPage < Calabash::IBase
   end  
 
   def click_back_button
-    sleep 0.5
-    begin 
-      wait_for_elements_exist "* marked:'Back'", :timeout  =>2
-      touch "* marked:'Back'"
-    rescue RuntimeError
-      touch "* marked:'Close'"
+    wait_for(:timeout => 5) do
+      element_exists("* marked:'Back'") || element_exists("* marked:'Close'")
     end
+    touch "* marked:'Back'" if element_exists "* marked:'Back'"
+    touch "* marked:'Close'" if element_exists "* marked:'Close'"
   end  
 
   def edit_topic_voted (args1)
@@ -167,9 +160,6 @@ class ForumPage < Calabash::IBase
     keyboard_enter_text comment
     wait_touch "label text:'Post'"
     sleep 2
-    # wait_for(:timeout  => 10, :retry_frequency => 1) do
-    #   element_exists "* all marked:'#{comment}'"
-    # end
   end
 
   def add_image_comment
@@ -185,9 +175,6 @@ class ForumPage < Calabash::IBase
     wait_for_none_animating
     wait_touch "label text:'Post'"
     sleep 2
-    # wait_for(:timeout  => 10, :retry_frequency => 1) do
-    #   element_exists "* all marked:'#{comment}'"
-    # end
   end
 
   def add_comments(n)

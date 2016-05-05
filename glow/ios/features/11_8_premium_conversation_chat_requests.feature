@@ -26,17 +26,7 @@ Feature: Chat request -> accept/ignore.
 
   @ignore_chat_request
   Scenario: Premium User sends chat request to no-premium user and the non-premium user ignores the request
-    Given A premium user miles3 and a non-premium user milesn have been created for test
-    And I create another non-premium user "Zed" and create a topic in the test group with topic name "Test signature chat"
-    And I login as premium user
-    And I open "community" page
-    And I go to the first group
-    And I open the topic "Test signature chat"
-    When I click the chat icon and see the chat window
-    Then I should see the send request dialog
-    And I click send request button
-    And I go back to previous page
-    And I logout
+    Given A premium user miles3 sent chat request to a new user "Zed"
     And I login as the new user
     And I open "community" page
     And I go to messages 
@@ -48,17 +38,7 @@ Feature: Chat request -> accept/ignore.
 
   @block_chat_request @p0
   Scenario: Premium User sends chat request to no-premium user and the non-premium user blocks the request
-    Given A premium user miles3 and a non-premium user milesn have been created for test
-    And I create another non-premium user "Troll" and create a topic in the test group with topic name "Test chat block"
-    And I login as premium user
-    And I open "community" page
-    And I go to the first group
-    And I open the topic "Test chat block"
-    When I click the chat icon and see the chat window
-    Then I should see the send request dialog
-    And I click send request button
-    And I go back to previous page
-    And I logout
+    Given A premium user miles3 sent chat request to a new user "Troller"
     And I login as the new user
     And I open "community" page
     And I go to messages 
