@@ -271,9 +271,13 @@ When(/^I ignore the chat request$/) do
 end
 
 When(/^I block the chat request$/) do
-  wait_touch "* marked:'Block'"
-  wait_for_none_animating
-  touch "* marked:'Block'" if element_exists "* marked:'Block'"
+  until element_does_not_exist "* marked:'Block'"
+    wait_touch "* marked:'Cancel' parent * sibling * index:0"
+    sleep 1
+  end
+  # wait_touch "* marked:'Block'"
+  # wait_for_none_animating
+  # touch "* marked:'Block'" if element_exists "* marked:'Block'"
 end
 
 

@@ -70,11 +70,6 @@ class PremiumPage < Calabash::IBase
 
   def click_name_of_chat_requester
     wait_for_element_exists "* text:'New chat request.'"
-    # wait_poll(:timeout => 10,
-    #       :timeout_message => 'Unable to click chat requester',
-    #       :until => element_does_not_exist("* text:'New chat request.'")) do
-    #   touch "* marked:'New chat request.'"
-    # end
     sleep 1
     until element_does_not_exist("* text:'New chat request.'") do
       touch "* text:'New chat request.'"
