@@ -330,9 +330,9 @@ Then(/^I go to the chat window for the new user$/) do
   #   retry if attempt <4
   #   attempt += 1
   # end 
-  wait_poll(timeout: 10,
-      timeout_message: 'Unable to click chat requester',
-      until_exists: "* marked:'Type something'") do
+  wait_poll(:timeout => 10,
+      :timeout_message => 'Unable to click chat requester',
+      :until_exists => "* marked:'Type something'") do
     wait_touch "* marked:'#{$new_user.first_name}'"
   end
   # wait_for_element_exists "* marked:'Type something'"
