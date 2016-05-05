@@ -71,13 +71,16 @@ class AppPage < Calabash::IBase
 
 
   def logout
+    close_chat_popup
     wait_touch "* marked:'Settings'"
+    close_chat_popup
     scroll_to_row_with_mark "Logout"
     wait_for_none_animating
+    close_chat_popup
     wait_touch "* marked:'Logout'"
     sleep 0.5
-    if element_does_not_exist "* marked:'Get it, Girl'"
-      wait_for_element_exists "* {text contains 'Continue as'}"
+    wait_for(:timeout => 5) do
+      element_exists("* marked:'Get it, Girl'") || element_exists("* {text contains 'Continue as'}")
     end
   end
 
@@ -88,11 +91,10 @@ class AppPage < Calabash::IBase
   end
 
   def close_chat_popup
-    if element_exists  "* id:'gl-foundation-popup-close'"
-      touch "* id:'gl-foundation-popup-close'"
-    end
-    if element_exists "* marked:'Messages'"
-      wait_touch "* marked:'Done'"
+    until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
+      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
+      touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
+      sleep 0.3
     end
   end
 
@@ -109,7 +111,7 @@ class AppPage < Calabash::IBase
         wait_touch "UITabBarButtonLabel marked:'Community'"
       end
       sleep 1
-      close_community_popup
+      close_chat_popup
     when "alert"
       wait_touch "UITabBarButtonLabel marked:'Alert'"
       if element_does_not_exist "* marked:'Notifications'"
@@ -118,6 +120,7 @@ class AppPage < Calabash::IBase
     when "me"
       wait_touch "UITabBarButton marked:'Me'"
     end
+    close_chat_popup
   end
 
   def finish_tutorial

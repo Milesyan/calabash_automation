@@ -18,11 +18,10 @@ class AppPage < Calabash::IBase
   end
 
   def close_chat_popup
-    if element_exists  "* id:'gl-foundation-popup-close'"
-      touch "* id:'gl-foundation-popup-close'"
-    end
-    if element_exists "* marked:'Messages'"
-      wait_touch "* marked:'Done'"
+    until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
+      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
+      touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
+      sleep 0.3
     end
   end
 
