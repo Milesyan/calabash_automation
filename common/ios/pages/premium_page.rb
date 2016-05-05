@@ -24,7 +24,11 @@ class PremiumPage < Calabash::IBase
   end
 
   def back_from_web_page
-    wait_touch "* id:'gl-foundation-back'"
+    wait_for(:timeout => 5) do
+      element_exists("* id:'gl-foundation-back'") || element_exists("* marked:'Close'")
+      touch "* id:'gl-foundation-back'" if element_exists "* id:'gl-foundation-back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+    end
   end
 
   def switch_chat_option

@@ -134,11 +134,17 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    if element_exists "* marked:'Unlock now!'"
-      touch "* marked:'Continue for free'"
+    begin 
+      wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+    rescue WaitError
+    end
+    if element_exists "* marked:'Try for FREE'"
+      sleep 0.5
+      touch "* marked:'sk cross close'"
       sleep 2
     end
   end
+
 
   def touch_later_link
     begin
@@ -195,4 +201,7 @@ class AppPage < Calabash::IBase
     wait_for_elements_exist "* marked:'Terms", "* marked:'Privacy Policy'"
   end
 
+  def check_TOS_website
+    wait_for_elements_exist "* marked:'Close'", :timeout  => 30
+  end
 end

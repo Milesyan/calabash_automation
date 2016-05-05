@@ -208,4 +208,8 @@ class AppPage < Calabash::IBase
   def hint_section 
     wait_for_element_exists "* {text CONTAINS 'you agree to our Terms and Privacy Policy'}"
   end
+
+  def check_TOS_website
+    wait_for_elements_exist ["* id:'gl-foundation-browser-send'", "* id:'gl-foundation-browser-reload'"], :timeout  => 30
+  end
 end
