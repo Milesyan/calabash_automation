@@ -21,12 +21,6 @@ Before do |_|
   launcher = LaunchControl.launcher
 
   options = {
-    # Physical devices: default is :host
-    # Xcode < 7.0:      default is :prefences
-    # Xcode >= 7.0:     default is :host
-    # :uia_strategy => :shared_element,
-    # :uia_strategy => :preferences,
-    # :uia_strategy => :host
     :relaunch_simulator => false,
     :uia_strategy => :preferences
   }

@@ -46,14 +46,22 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    begin 
-      wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
-    rescue WaitError
-    end
-    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
-      sleep 0.5
-      touch "* marked:'sk cross close'"
-      sleep 2
+    if $login_acc.nil?
+      puts "No user login yet"
+    elsif $login_acc != premium_email
+      begin
+        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+      rescue RuntimeError
+        log_msg "Time out wait for Try for FREE"
+      end
+      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
+        sleep 0.5
+        puts "PREMIUM PROMT"
+        touch "* marked:'sk cross close'"
+        sleep 2
+      end
+    elsif $login_acc = premium_email
+      check_element_does_not_exist "* marked:'Try for FREE'"
     end
   end
 
@@ -89,6 +97,7 @@ class AppPage < Calabash::IBase
     sleep 1
     close_chat_popup
     touch "* marked:'Yes, log out'"
+    $login_acc = nil
     wait_for_element_does_not_exist "* marked:'Yes, log out'"
     sleep 0.5
   end
@@ -141,6 +150,7 @@ class AppPage < Calabash::IBase
 
 
   def login(email, password)
+    $login_acc = email
     tap_login_link
     wait_for_none_animating
     wait_touch "* marked:'Email'"

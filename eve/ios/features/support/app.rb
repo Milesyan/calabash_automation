@@ -29,6 +29,7 @@ module Eve
       element_exists("* marked:'Close'") ||
       element_exists("* marked:'Cancel'") ||
       element_exists("* id:'gl-foundation-popup-close'")||
+      element_exists("* marked:'sk cross close'")||
       element_exists("* id:'gl-community-back.png'")||
       element_exists("* marked:'OK'") do
       touch "* marked:'Back'" if element_exists "* marked:'Back'"
@@ -38,6 +39,7 @@ module Eve
       touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
       touch "* id:'gl-community-back.png'" if element_exists "* id:'gl-community-back.png'"
       touch "* marked:'OK'" if element_exists "* marked:'OK'"
+      touch "* marked:'sk cross close'" if element_exists "* marked:'sk cross close'"
       counter += 1
       break if counter > 3
     end

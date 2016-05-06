@@ -32,6 +32,7 @@ class AppPage < Calabash::IBase
   # end
 
   def login(email, password)
+    $login_acc = email
     open_login_link
     wait_touch "* marked:'Email'"
     keyboard_enter_text email
@@ -90,6 +91,7 @@ class AppPage < Calabash::IBase
     touch "* marked:'Logout'" # for some reason, have to touch Logout button twice since 5.2
     close_chat_popup
     wait_touch "* marked:'Yes, log out'"
+    $login_acc = nil
     wait_for_none_animating
     wait_for(:timeout => 5) do
       element_exists("* marked:'Log in'") || element_exists("* {text CONTAINS 'Continue as'}")
@@ -171,9 +173,9 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    if $user.nil?
-      puts "$user not exist."
-    elsif $user.email != premium_email
+    if $login_acc.nil?
+      puts "No user login yet"
+    elsif $login_acc != premium_email
       begin
         wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
       rescue RuntimeError
@@ -181,9 +183,12 @@ class AppPage < Calabash::IBase
       end
       if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
         sleep 0.5
+        puts "PREMIUM PROMT"
         touch "* marked:'sk cross close'"
         sleep 2
       end
+    elsif $login_acc = premium_email
+      check_element_does_not_exist "* marked:'Try for FREE'"
     end
   end
 

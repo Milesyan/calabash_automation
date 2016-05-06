@@ -26,6 +26,7 @@ class AppPage < Calabash::IBase
   end
 
   def login(email, password)
+    $login_acc = email
     tap_login_link
     wait_for_none_animating
     wait_touch "* marked:'Email'"
@@ -78,6 +79,7 @@ class AppPage < Calabash::IBase
     wait_for_none_animating
     close_chat_popup
     wait_touch "* marked:'Logout'"
+    $login_acc = nil
     sleep 0.5
     wait_for(:timeout => 5) do
       element_exists("* marked:'Get it, Girl'") || element_exists("* {text contains 'Continue as'}")
@@ -144,9 +146,9 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    if $user.nil?
-      puts "$user not exist."
-    elsif $user.email != premium_email
+    if $login_acc.nil?
+      puts "No user login yet"
+    elsif $login_acc != premium_email
       begin
         wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
       rescue RuntimeError
@@ -158,6 +160,8 @@ class AppPage < Calabash::IBase
         touch "* marked:'sk cross close'"
         sleep 2
       end
+    elsif $login_acc = premium_email
+      check_element_does_not_exist "* marked:'Try for FREE'"
     end
   end
 

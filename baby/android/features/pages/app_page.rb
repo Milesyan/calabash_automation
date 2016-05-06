@@ -20,6 +20,7 @@ class AppPage < Calabash::ABase
   end
 
   def login_with(email, password)
+    $login_acc = email
     pass_sso
     touch "* marked:'Log in'"
     enter_text "* id:'email'", email
@@ -62,6 +63,7 @@ class AppPage < Calabash::ABase
       element_exists "* marked:'Log out'"
     end
     touch "* marked:'Log out'"
+    $login_acc = nil
     wait_for do
       element_exists("* {text CONTAINS 'Log in'}") || element_exists("* marked:'Sign up with another account'")
     end
@@ -103,9 +105,19 @@ class AppPage < Calabash::ABase
   end
 
   def pass_premium_promt
-    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
-      touch "* marked:'dismiss_button'"
-      sleep 0.5
+    if $login_acc.nil?
+      puts "User not login yet"
+    elsif $login_acc != premium_email
+      begin 
+        wait_for_element_exists "* marked:'top_part'", :timeout => 3
+      rescue RuntimeError
+      end
+      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
+        touch "* marked:'dismiss_button'"
+        sleep 0.5
+      end
+    elsif $login_acc = premium_email
+      check_element_does_not_exist "* marked:'Try for FREE'"
     end
   end
 end
