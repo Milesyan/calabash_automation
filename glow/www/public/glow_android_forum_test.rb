@@ -165,10 +165,9 @@ module GlowForumAndroid
         "password": password || @password
       }.merge(additional_post_data)
 
-      # puts "debug #{data}"
-      # puts "#{@res} res"
       @res = HTTParty.post "#{base_url}/a/users/signin", options(data)
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
+      @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
       self
     end

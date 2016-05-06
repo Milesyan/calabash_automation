@@ -5,6 +5,26 @@ class ForumPage < Calabash::ABase
     '*'
   end
 
+  def back_to_home
+    counter = 0
+    while element_exists("* marked:'Back'") ||
+      element_exists("* marked:'Done'") ||
+      element_exists("* marked:'Close'") ||
+      element_exists("* marked:'Cancel'") ||
+      element_exists("* marked:'Save'")||
+      element_exists("* marked:'OK'") do
+      touch "* marked:'Back'" if element_exists "* marked:'Back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
+      touch "* marked:'Done'" if element_exists "* marked:'Done'"
+      touch "* marked:'OK'" if element_exists "* marked:'OK'"
+      touch "* marked:'Save'" if element_exists "* marked:'Save'"
+      counter += 1
+      break if counter > 3
+    end
+    sleep 1
+  end
+
 #--------New create topic flow itmes----
   def touch_floating_menu
     wait_for_elements_exist "* id:'fab_expand_menu_button'"
@@ -205,7 +225,7 @@ class ForumPage < Calabash::ABase
     sleep 0.5
     wait_touch "* marked:'#{args1}'"
     wait_for_elements_exist "* id:'topic_menu'"
-    sleep 0.5
+    sleep 1.5
     wait_touch "* id:'topic_menu'"
     sleep 1
     touch "* marked:'Edit this post'"

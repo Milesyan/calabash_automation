@@ -585,7 +585,7 @@ end
 
 Then(/^I scroll down to see "([^"]*)"$/) do |arg1|
   forum_page.scroll_down_to_see arg1
-  scroll_down
+  # scroll_down
 end
 
 Then(/^I scroll down the screen$/) do

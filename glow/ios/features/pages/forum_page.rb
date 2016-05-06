@@ -6,6 +6,33 @@ class ForumPage < Calabash::IBase
   def trait
     '*'
   end
+
+  def back_to_home
+    counter = 0
+    while element_exists("* marked:'Back'") ||
+      element_exists("* marked:'Done'") ||
+      element_exists("* marked:'Close'") ||
+      element_exists("* marked:'Cancel'") ||
+      element_exists("* id:'gl-foundation-popup-close'")||
+      element_exists("* marked:'sk cross close'")||
+      element_exists("* id:'gl-community-back.png'")||
+      element_exists("* marked:'Save'")||
+      element_exists("* marked:'OK'") do
+      touch "* marked:'Back'" if element_exists "* marked:'Back'"
+      touch "* marked:'Close'" if element_exists "* marked:'Close'"
+      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
+      touch "* marked:'Done'" if element_exists "* marked:'Done'"
+      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
+      touch "* id:'gl-community-back.png'" if element_exists "* id:'gl-community-back.png'"
+      touch "* marked:'OK'" if element_exists "* marked:'OK'"
+      touch "* marked:'sk cross close'" if element_exists "* marked:'sk cross close'"
+      touch "* marked:'Save'" if element_exists "* marked:'Save'"
+      counter += 1
+      break if counter > 3
+    end
+    sleep 1
+  end
+
   def create_poll(anonymous=false)
     wait_touch "label text:'Poll'"
     title = "Your favorite drink? " + Time.now.strftime("%m%d-%H:%M:%S")

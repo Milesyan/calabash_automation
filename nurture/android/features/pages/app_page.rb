@@ -51,29 +51,12 @@ class AppPage < Calabash::ABase
   end
 
   def finish_tutorial
-    pass_premium_promt
+    premium_page.pass_premium_promt
     if element_exists "* id:'blockingView'"
       bypass_nurture_tutorial
     end
   end
-
-  def pass_premium_promt
-    if $login_acc.nil?
-      puts "User not login yet"
-    elsif $login_acc != premium_email
-      begin 
-        wait_for_element_exists "* marked:'top_part'", :timeout => 3
-      rescue RuntimeError
-      end
-      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
-        touch "* marked:'dismiss_button'"
-        sleep 0.5
-      end
-    elsif $login_acc = premium_email
-      check_element_does_not_exist "* marked:'Try for FREE'"
-    end
-  end
-
+  
   def open(tab_name)
     wait_for_element_exists "* id:'bottom_action_bar'"
     sleep 0.5

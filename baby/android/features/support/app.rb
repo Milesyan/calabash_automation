@@ -12,6 +12,7 @@ module BabyHelper
   end
 
   def clean_up_page
+    forum_page.back_to_home
     app_page.finish_tutorial
   end
 

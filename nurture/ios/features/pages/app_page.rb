@@ -7,7 +7,7 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
     sleep 1
-    pass_premium_promt
+    premium_page.pass_premium_promt
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
     else 
@@ -43,26 +43,6 @@ class AppPage < Calabash::IBase
     wait_for_none_animating
     touch "* id:'back'"
     sleep 1
-  end
-
-  def pass_premium_promt
-    if $login_acc.nil?
-      puts "No user login yet"
-    elsif $login_acc != premium_email
-      begin
-        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
-      rescue RuntimeError
-        log_msg "Time out wait for Try for FREE"
-      end
-      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
-        sleep 0.5
-        puts "PREMIUM PROMT"
-        touch "* marked:'sk cross close'"
-        sleep 2
-      end
-    elsif $login_acc = premium_email
-      check_element_does_not_exist "* marked:'Try for FREE'"
-    end
   end
 
   def close_insights_popup
@@ -138,7 +118,7 @@ class AppPage < Calabash::IBase
     end
     begin
       sleep 1
-      pass_premium_promt
+      premium_page.pass_premium_promt
     rescue RuntimeError
       puts "PASS PREMIUM PROMT FAIL!!!"
     end
