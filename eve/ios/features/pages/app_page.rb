@@ -33,7 +33,6 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
     touch "UINavigationButton marked:'Next'"
-    wait_for_none_animating
     sleep 1
     if element_exists "* marked:'Get it, Girl'"
       bypass_temp
@@ -72,7 +71,8 @@ class AppPage < Calabash::IBase
 
   def logout
     close_chat_popup
-    wait_touch "* marked:'Settings'"
+    scroll_to_row_with_mark 'Account settings'
+    wait_touch "* marked:'Account settings'"
     close_chat_popup
     scroll_to_row_with_mark "Logout"
     wait_for_none_animating
@@ -125,6 +125,22 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
     pass_premium_promt
+    tutorial_steps
+  end
+
+  def tutorial_steps
+    temp = 1 if element_exists("* marked:'Got it'") || element_exists("* id:'close-btn'")
+    until element_does_not_exist("* marked:'Got it'") && element_does_not_exist("* id:'close-btn'")
+      touch "* marked:'Got it'" if element_exists "* marked:'Got it'"
+      touch "* id:'close-btn'" if element_exists "* id:'close-btn'"
+    end
+    wait_for_element_exists "* marked:'Community'" if temp == 1
+    temp = 0 
+    sleep 0.5
+    if element_exists "* text:'Did you start your new period? '"
+      touch "* marked:'No'"
+      wait_touch "* marked:'10 days'"
+    end
   end
 
   def pass_premium_promt
