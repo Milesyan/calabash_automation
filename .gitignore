@@ -2,6 +2,7 @@
 .irb-history
 .gitignore
 .idea
+*.app
 glow/android/builds/
 glow/android/test_servers
 glow/android/features/*.png
