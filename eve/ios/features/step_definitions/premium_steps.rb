@@ -354,7 +354,6 @@ end
 
 Given(/^I click "([^"]*)" in chat options$/) do |arg1|
   wait_for_element_exists "* marked:'Chat options'"
-  wait_for_none_animating
   sleep 0.5
   wait_touch "* marked:'#{arg1}'"
 end

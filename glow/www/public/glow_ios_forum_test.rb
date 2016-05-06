@@ -65,7 +65,7 @@ module GlowForumIOS
           "gender": "F",
           "password": @password,
           "last_name": "Glow",
-          "birthday": (Time.now - age*365.25*24*3600).to_f,
+          "birthday": @birthday || (Time.now - age*365.25*24*3600).to_f,
           "email": @email,
           "timezone": "Asia\/Shanghai",
           "settings": {
@@ -98,7 +98,7 @@ module GlowForumIOS
           "gender": "F",
           "password": @password,
           "last_name": @last_name,
-          "birthday": 502788390.87319,
+          "birthday": @birthday || 502788390.87319,
           "email": @email,
           "timezone": "Asia\/Shanghai",
           "settings": {
@@ -145,7 +145,6 @@ module GlowForumIOS
     end
 
     def login(email = nil, password = nil)
-      # the response of login doesn't return the rc code
       data = {
         "userinfo": {
           "email": email || @email,
@@ -153,7 +152,6 @@ module GlowForumIOS
         }
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/api/users/signin", options(data)
-      # @res = JSON.parse(res)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
@@ -174,7 +172,6 @@ module GlowForumIOS
       }.merge(common_data)
       @res = HTTParty.get "#{base_url}/api/v2/users/pull", options(data)
       @notifications = @res["user"]["notifications"] if @res
-      # log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
     end
     
   end

@@ -39,8 +39,8 @@ module Glow
   end
 
   def clean_up_page
-    app_page.pass_sso
     back_to_home
+    app_page.pass_sso
   end
 
   def logout_if_already_logged_in

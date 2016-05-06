@@ -1,6 +1,8 @@
 require 'calabash-android/abase'
 
 class PremiumPage < Calabash::ABase
+  include Calabash::Cucumber::Operations
+  
   def trait
     '*'
   end

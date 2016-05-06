@@ -1,6 +1,8 @@
 require 'calabash-cucumber/ibase'
 
 class AppPage < Calabash::IBase
+  include Calabash::Cucumber::Operations
+  
   def trait
     "*"
   end
@@ -76,11 +78,9 @@ class AppPage < Calabash::IBase
       wait_touch "* marked:'Home'"
     when "community"
       wait_touch "* marked:'Community'"
-      wait_for_none_animating
-      sleep 0.5
+      wait_for_none_animating :post_timeout => 0.8
       close_chat_popup
-      wait_for_element_exists "* marked:'Community'"
-      sleep 0.5
+      wait_for_element_exists "* marked:'Community'", :post_timeout => 0.5
       if element_does_not_exist "* marked:'New'"
         touch "* marked:'Community'"
       end
@@ -107,10 +107,12 @@ class AppPage < Calabash::IBase
   end
 
   def close_chat_popup
-    until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
-      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
-      touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
-      sleep 0.3
+    2.times do
+      until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
+        touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
+        touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
+        sleep 0.5
+      end
     end
   end
 
@@ -141,9 +143,10 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    begin 
+    begin
       wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
-    rescue WaitError
+    rescue RuntimeError
+      log_msg "Time out wait for Try for FREE"
     end
     if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
       sleep 0.5

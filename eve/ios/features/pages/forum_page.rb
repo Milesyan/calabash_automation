@@ -1,6 +1,8 @@
 require 'calabash-cucumber/ibase'
 
 class ForumPage < Calabash::IBase
+  include Calabash::Cucumber::Operations
+  
   def trait
     '*'
   end

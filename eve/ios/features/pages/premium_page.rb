@@ -1,7 +1,7 @@
 require 'calabash-cucumber/ibase'
 
 class PremiumPage < Calabash::IBase
-
+  include Calabash::Cucumber::Operations
   def trait
     "*"
   end

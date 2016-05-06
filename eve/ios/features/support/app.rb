@@ -46,9 +46,9 @@ module Eve
   end
 
   def clean_up_page
+    back_to_home
     app_page.pass_sso
     app_page.finish_tutorial
-    back_to_home
   end
 
   def logout_if_already_logged_in
