@@ -13,7 +13,6 @@ end
 
 
 Given(/^I logout$/) do
-  app_page.open "me"
   app_page.logout
 end
 

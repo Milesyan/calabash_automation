@@ -1,5 +1,5 @@
 def premium_user(args={})
-  ForumUser.new(args).login.pull.leave_all_groups.join_group
+  ForumUser.new(args).login.complete_tutorial.pull.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
 Given(/^A premium user and a non-premium user have been created for test$/) do
@@ -9,6 +9,12 @@ Given(/^A premium user and a non-premium user have been created for test$/) do
   $user2 = premium_user :email => non_premium_email, :password => "111111"
   $user2.turn_on_chat.remove_all_participants.remove_all_contacts.remove_all_blocked
   puts "$user2 user id = 8492"
+end
+
+Given(/^A premium user has been created for test$/) do
+  $user = premium_user :email => premium_email, :password => "111111"
+  $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
+  puts "$user user id = 72057594037936244"
 end
 
 Given(/^I login as(?: the)? premium user$/) do

@@ -103,7 +103,7 @@ class AppPage < Calabash::ABase
   end
 
   def pass_premium_promt
-    if element_exists "* marked:'Try for FREE'"
+    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
       touch "* marked:'dismiss_button'"
       sleep 0.5
     end

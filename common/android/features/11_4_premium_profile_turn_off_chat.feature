@@ -18,7 +18,7 @@ Feature: Turn off chat and check chat icons and chat section.
 
   @others_turn_off_chat @p0
   Scenario: Other users turn off chat and I cannot see the Chat icon.
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     Then I create another non-premium user "Bigbang" and create a topic in the test group with topic name "Test chat off" and the user turns chat off
     And I login as premium user
     And I open "community" page
@@ -33,7 +33,7 @@ Feature: Turn off chat and check chat icons and chat section.
 
   @chat_off_p2np
   Scenario: Check premium see non-premium user's topic with chat off
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     And a new user "FreeUser" creates 1 topic with name "chat off p2np" and 1 comment and 1 subreply for each comment with chat off
     And I login as the premium user
     And I open "community" page

@@ -1,7 +1,7 @@
 @not_ready
 Feature: Sticker gating when users click stickers not owned by them
   Scenario: Free user clicks premium stickers in topics
-    Given A premium user milesp and a non-premium user have been created for test
+    Given A premium user and a non-premium user have been created for test
     And premium user create a topic and a comment with premium stickers
     And I login as the non-premium user
     And I open "community" page
@@ -34,7 +34,7 @@ Feature: Sticker gating when users click stickers not owned by them
     And I logout
 
   Scenario: Free user clicks alc and premium stickers in chat.
-    Given A premium user milesp established chat relationship with a new user "Hewitt"
+    Given A premium user established chat relationship with a new user "Hewitt"
     Then I login as premium user
     And I open "community" page
     And I go to messages

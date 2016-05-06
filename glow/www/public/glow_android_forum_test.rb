@@ -198,6 +198,7 @@ module GlowForumAndroid
       @res = HTTParty.get "#{base_url}/a/v2/users/pull?#{additional_post_data}", auth_options(data)
       @notifications = @res["notifications"] if @res["user_id"]
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["user_id"].nil?
+      self
     end
     
   end

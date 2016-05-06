@@ -30,7 +30,7 @@ Feature: Free, alc, premium users can only post what then owned.
     And I logout
 
   Scenario: Premium users can post any stickers
-    Given A premium user milesp and a non-premium user have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as the premium user
     And I login as the premium user
     And I open "community" page

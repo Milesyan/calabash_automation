@@ -43,6 +43,7 @@ class AppPage < Calabash::ABase
   end
 
   def logout
+    open 'me'
     wait_for_element_exists "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
     menu_button = "android.support.v7.widget.ActionMenuPresenter$OverflowMenuButton"
     wait_for(:timeout => 10, :regry_frequency => 2) do
@@ -51,6 +52,9 @@ class AppPage < Calabash::ABase
     wait_touch menu_button
     sleep 0.5
     wait_touch "* text:'Log out'"
+    wait_for(:timeout=> 5) do
+      element_exists("* id:'log_in'") || element_exists("* marked:'Sign up with another account'")
+    end
   end
   
   def forum_element
@@ -116,7 +120,7 @@ class AppPage < Calabash::ABase
   end
 
   def pass_premium_promt
-    if element_exists "* marked:'Try for FREE'"
+    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
       touch "* marked:'dismiss_button'"
       sleep 0.5
     end

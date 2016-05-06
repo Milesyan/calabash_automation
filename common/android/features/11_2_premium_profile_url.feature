@@ -2,7 +2,7 @@
 Feature: Check url field for Premium/Non-premium users
   @self_url @p0 @restart_after
   Scenario: Check url in user's own profile page
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     And I login as premium user
     And I open "community" page
     Then I go to community profile page

@@ -2,7 +2,7 @@
 Feature: Check chat relationship and forum relationship.
   @request_follow
   Scenario: Send a chat request will automatically follow the user
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     And I create another non-premium user "Charlotte" and create a topic in the test group with topic name "Test request chat auto follow"
     And I login as premium user
     And I open "community" page

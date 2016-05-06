@@ -97,6 +97,7 @@ class AppPage < Calabash::IBase
   end
   
   def open(tab_name)
+    close_chat_popup
     wait_for_element_exists "UITabBar"
     sleep 1
     case tab_name.downcase
@@ -173,15 +174,19 @@ class AppPage < Calabash::IBase
   end
 
   def pass_premium_promt
-    begin
-      wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
-    rescue RuntimeError
-      log_msg "Time out wait for Try for FREE"
-    end
-    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
-      sleep 0.5
-      touch "* marked:'sk cross close'"
-      sleep 2
+    if $user.nil?
+      puts "$user not exist."
+    elsif $user.email != premium_email
+      begin
+        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+      rescue RuntimeError
+        log_msg "Time out wait for Try for FREE"
+      end
+      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
+        sleep 0.5
+        touch "* marked:'sk cross close'"
+        sleep 2
+      end
     end
   end
 

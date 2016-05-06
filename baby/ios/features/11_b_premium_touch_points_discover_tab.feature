@@ -11,7 +11,7 @@ Feature: Check touch points in discover tab.
 
   @discover_chat_elements_premium
   Scenario: Check touch points elements under discover tab for premium users.
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     And I login as premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab
@@ -33,7 +33,7 @@ Feature: Check touch points in discover tab.
 
   @discover_chat_see_all @p0
   Scenario: Check recommended people see all list.
-    Given A premium user and a non-premium user have been created for test
+    Given A premium user has been created for test
     And I login as premium user
     And I open "community" page 
     When I click the DISCOVER button in community tab

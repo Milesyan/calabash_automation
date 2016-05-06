@@ -11,6 +11,12 @@ Given(/^A premium user and a non-premium user have been created for test$/) do
   puts "$user2 user id = 6502"
 end
 
+Given(/^A premium user has been created for test$/) do
+  $user = premium_user :email => premium_email, :password => "111111"
+  $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
+  puts "$user user id = 8830"
+end
+
 Given(/^I login as(?: the)? premium user$/) do
   puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
@@ -305,16 +311,15 @@ end
 
 Then(/^I click done to close messages$/) do
   sleep 1
-  begin
-    wait_for(:timeout =>5) do
-      element_exists "* marked:'Done'"
-    end
-    sleep 0.5
+  wait_for(:timeout => 5) do
+    element_exists("* marked:'Done'") || element_exists("* {text CONTAINS 'Accept Request'}")
+  end
+  sleep 0.5
+  if element_exists "* marked:'Done'"
     touch "* marked:'Done'"
-  rescue RuntimeError
-    touch "* {text CONTAINS 'Accept Request'}" if element_exists "* {text CONTAINS 'Accept Request'}"
+  else
     forum_page.click_back_button
-  end 
+  end
 end
 
 Then(/^I cannot see a url field in edit profile page$/) do

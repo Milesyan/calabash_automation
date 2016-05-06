@@ -1,7 +1,7 @@
 @not_ready
 Feature: User inserts sticker into chat window.
   Scenario: User send stickers in chat
-    Given A premium user milesp established chat relationship with a new user "Buddy"
+    Given A premium user established chat relationship with a new user "Buddy"
     Then I login as premium user
     And I open "community" page
     And I go to messages

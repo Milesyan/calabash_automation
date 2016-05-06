@@ -18,7 +18,7 @@ Feature: Free user inserts stickers into topics.
     And I logout 
 
   Scenario: Premium user inserts stickers into post topic.
-    Given A premium user milesp and a non-premium user have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as premium user
     And I open "community" page
     And I go to the first group 
@@ -35,7 +35,7 @@ Feature: Free user inserts stickers into topics.
     And I logout 
 
   Scenario: Premium user inserts stickers into photo topic.
-    Given A premium user milesp and a non-premium user have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as premium user 
     And I open "community" page
     And I go to the first group
