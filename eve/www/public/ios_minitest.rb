@@ -1,6 +1,12 @@
 module Minitest_ios
   include TestHelper
   
+  def test_new_user_with_birthday
+    u = forum_new_user :birthday => (Time.now - 30*365.25*24*3600).to_i
+    puts u.birthday
+    assert u.birthday
+    assert_operator u.birthday, :>, 0
+  end
   #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic

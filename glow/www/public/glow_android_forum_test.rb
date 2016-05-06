@@ -36,6 +36,7 @@ module GlowForumAndroid
       @partner_first_name = "p#{@first_name}"
       @gender = args[:gender] || "female"
       @type = args[:type]
+      @birthday = args[:birthday]
       @forum_hl = "en_US"
       @forum_fc = 1
       @forum_random = random_str
@@ -77,7 +78,7 @@ module GlowForumAndroid
       data = {
         "user": {
           "android_version": "3.8.0-play-beta",
-          "birthday": (Time.now.to_i - age*365*24*3600),
+          "birthday": @birthday || (Time.now.to_i - age*365*24*3600),
           "first_name": @first_name,
           "timezone": "China Standard Time",
           "email": @email,
@@ -111,7 +112,7 @@ module GlowForumAndroid
       data = {
         "user": {
           "android_version": "3.8.0-play-beta",
-          "birthday": 427048062,
+          "birthday": @birthday || 427048062,
           "first_name": @first_name,
           "timezone": "China Standard Time",
           "email": @email,

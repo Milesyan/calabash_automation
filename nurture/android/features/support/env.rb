@@ -8,7 +8,16 @@ require_relative '../../../www/public/nurture_android_forum_test'
 include NurtureForumAndroid
 include NurtureHelper
 
-module MiniTestAssertions
+module Pre_config_users
+  def premium_email() "milesp@g.com" end
+  def non_premium_email() "milesn@g.com" end
+  def premium_name() "milesp" end
+  def non_premium_name() "milesn" end
+  module_function :premium_email, :non_premium_email, :premium_name, :non_premium_name
+end
+
+module Myownworld
+  include Pre_config_users
   def self.extended(base)
     base.extend(MiniTest::Assertions)
     base.assertions = 0
@@ -16,6 +25,6 @@ module MiniTestAssertions
 
   attr_accessor :assertions
 end
-World(MiniTestAssertions)
+World(Myownworld)
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

@@ -10,17 +10,23 @@ include Glow
 include EveForumAndroid
 include Minitest::Assertions
 
-class MinitestWorld
-  extend Minitest::Assertions
-  attr_accessor :assertions
+module Pre_config_users
+  def premium_email() "milesp@g.com" end
+  def non_premium_email() "milesn@g.com" end
+  def premium_name() "milesp" end
+  def non_premium_name() "milesn" end
+  module_function :premium_email, :non_premium_email, :premium_name, :non_premium_name
+end
 
-  def initialize
-    self.assertions = 0
+module Myownworld
+  include Pre_config_users
+  def self.extended(base)
+    base.extend(MiniTest::Assertions)
+    base.assertions = 0
   end
-end
 
-World do
-  MinitestWorld.new
+  attr_accessor :assertions
 end
+World(Myownworld)
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

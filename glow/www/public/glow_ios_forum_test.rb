@@ -37,6 +37,7 @@ module GlowForumIOS
       @gender = args[:gender] || "female"
       @type = args[:type]
       @code_name = 'emma'
+      @birthday = args[:birthday]
     end
 
     def random_str
@@ -60,12 +61,14 @@ module GlowForumIOS
     
     def ttc_signup(args = {})
       age = args[:age] || 30
+      puts @birthday.to_f
       data = {
         "onboardinginfo": {
           "gender": "F",
           "password": @password,
           "last_name": "Glow",
-          "birthday": @birthday || (Time.now - age*365.25*24*3600).to_f,
+          "birthday": @birthday.to_f || (Time.now - age*365.25*24*3600).to_f,
+          # "birthday": (Time.now - age*365.25*24*3600).to_f,
           "email": @email,
           "timezone": "Asia\/Shanghai",
           "settings": {
@@ -86,8 +89,8 @@ module GlowForumIOS
           "first_name": @first_name
         }
       }.merge(common_data)
-
       @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
+      @birthday = @res['user']['birthday']
       log_important email + " has been signed up"
       self
     end

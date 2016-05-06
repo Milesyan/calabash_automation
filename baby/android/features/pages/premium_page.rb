@@ -1,7 +1,6 @@
 require 'calabash-android/abase'
 
 class PremiumPage < Calabash::ABase
-  include Calabash::Cucumber::Operations
   
   def trait
     '*'
@@ -45,14 +44,14 @@ class PremiumPage < Calabash::ABase
   end
 
   def enter_premium_profile
-    wait_for_element_exists "* marked:'milesp'"
+    wait_for_element_exists "* marked:'#{premium_name}'"
     sleep 1
-    wait_touch "* marked:'milesp'"
+    wait_touch "* marked:'#{premium_name}'"
   end
 
   def enter_non_premium_profile
     sleep 1
-    wait_touch "* marked:'milesn'"
+    wait_touch "* marked:'#{non_premium_name}'"
   end
 
   def click_send_request

@@ -2,7 +2,7 @@
 Feature: Check chat icon for users.
   @self_chat_icon
   Scenario: Check chat icon in user's own profile page
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as premium user
     And I open "community" page
     And I go to community profile page
@@ -12,7 +12,7 @@ Feature: Check chat icon for users.
 
   @p_others_chat_icon @unstable
   Scenario: Premium user check chat icon in other users profile page
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     Then the non-premium user create a topic in the test group
     And I login as the premium user
     And I open "community" page
@@ -29,7 +29,7 @@ Feature: Check chat icon for users.
 
   @np_others_chat_icon
   Scenario: Non-premium User check chat icon in other users profile page
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     Then I create another non-premium user "Snoopy" and create a topic in the test group with topic name "Test upgrade dialog"
     And I login as the non-premium user
     And I open "community" page

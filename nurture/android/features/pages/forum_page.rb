@@ -1,8 +1,6 @@
 require 'calabash-android/abase'
 
-class ForumPage < Calabash::ABase
-  include Calabash::Cucumber::Operations
-  
+class ForumPage < Calabash::ABase  
   def trait
     '*'
   end

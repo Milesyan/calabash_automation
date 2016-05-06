@@ -1,8 +1,8 @@
 @premium @url
 Feature: Check url field for Premium/Non-premium users
-  @self_url @p0
+  @self_url @p0 @restart_after
   Scenario: Check url in user's own profile page
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as premium user
     And I open "community" page
     Then I go to community profile page
@@ -21,9 +21,9 @@ Feature: Check url field for Premium/Non-premium users
     And I go back to forum page from forum profile page
     And I logout
        
-  @others_url
+  @others_url @restart_after
   Scenario: Check url not exist in non-premium users profile
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as non-premium user
     And I open "community" page
     Then I go to community profile page
