@@ -61,14 +61,12 @@ module GlowForumIOS
     
     def ttc_signup(args = {})
       age = args[:age] || 30
-      puts @birthday.to_f
       data = {
         "onboardinginfo": {
           "gender": "F",
           "password": @password,
           "last_name": "Glow",
           "birthday": @birthday.to_f || (Time.now - age*365.25*24*3600).to_f,
-          # "birthday": (Time.now - age*365.25*24*3600).to_f,
           "email": @email,
           "timezone": "Asia\/Shanghai",
           "settings": {
