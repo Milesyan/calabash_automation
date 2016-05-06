@@ -41,7 +41,6 @@ module Nurture
       counter += 1
       break if counter > 3
     end
-    wait_for_none_animating
     sleep 1
   end
 

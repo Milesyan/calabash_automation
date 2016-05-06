@@ -2,11 +2,11 @@ def premium_user(args={})
   ForumUser.new(args).login.leave_all_groups.join_group
 end
 ##########>>>WWW layer steps<<<##########
-Given(/^A premium user miles3 and a non-premium user milesn have been created for test$/) do
-  $user = premium_user :email => "miles3@g.com", :password => "111111"
+Given(/^A premium user and a non-premium user have been created for test$/) do
+  $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
   puts "$user user id = 8830"
-  $user2 = premium_user :email => "milesn@g.com", :password => "111111"
+  $user2 = premium_user :email => non_premium_email, :password => "111111"
   $user2.turn_on_chat.remove_all_participants.remove_all_contacts.remove_all_blocked
   puts "$user2 user id = 6502"
 end
@@ -46,8 +46,8 @@ Given(/^the non\-premium user create a topic in the test group$/) do
   $user2.create_topic({:topic_title => "Test premium", :group_id => GROUP_ID})
 end
 
-Given(/^A premium user miles3 established chat relationship with a new user "([^"]*)"$/) do |name|
-  $user = premium_user :email => "miles3@g.com", :password => "111111"
+Given(/^A premium user established chat relationship with a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat
   $user.remove_all_participants.remove_all_contacts.remove_all_blocked
   $new_user = forum_new_user(first_name: name)
@@ -58,15 +58,15 @@ Given(/^A premium user miles3 established chat relationship with a new user "([^
   end
 end
 
-Given(/^premium user miles3 established chat relationship with the new user$/) do
+Given(/^premium user established chat relationship with the new user$/) do
   $user.establish_chat $new_user
   if $user.res["rc"] == 0 
     puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
-Given(/^A premium user miles3 sent chat request to a new user "([^"]*)"$/) do |name|
-  $user = premium_user :email => "miles3@g.com", :password => "111111"
+Given(/^A premium user sent chat request to a new user "([^"]*)"$/) do |name|
+  $user = premium_user :email => premium_email, :password => "111111"
   $user.login.turn_on_chat
   $user.remove_all_participants.remove_all_contacts
   $new_user = forum_new_user(first_name: name)
@@ -110,14 +110,14 @@ Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment a
   $new_user.reply_to_comment $new_user.topic_id, $new_user.reply_id, reply_content: "new_user premium test subreply"
 end
 
-Given(/^the premium user miles3 creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
+Given(/^the premium user creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |topic_name|
   $user.create_topic :topic_title => topic_name
   $user.reply_to_topic $user.topic_id, reply_content: "premium user test comment"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "premium user test subreply"
 end
 
 
-Given(/^(?:the )?premium user miles3 turns off signature$/) do
+Given(/^(?:the )?premium user turns off signature$/) do
   $user.turn_off_signature
 end
 
@@ -286,7 +286,7 @@ Then(/^I enter the chat window and start to chat$/) do
     wait_touch "* marked:'Start chatting now.'"
   else 
     puts "HERE IS A BUG!!!"
-    wait_touch "* marked:'miles3'"
+    wait_touch "* marked:'#{premium_name}'"
   end
   wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
 end

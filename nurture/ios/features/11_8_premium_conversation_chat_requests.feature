@@ -2,7 +2,7 @@
 Feature: Chat request -> accept/ignore.
   @accept_request @p0 @restart
   Scenario: Premium User sends chat request to no-premium user and the non-premium user accepts the request
-    Given A premium user miles3 and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I create another non-premium user "Charlotte" and create a topic in the test group with topic name "Test signature chat"
     And I login as premium user
     And I open "community" page
@@ -26,7 +26,7 @@ Feature: Chat request -> accept/ignore.
 
   @ignore_chat_request
   Scenario: Premium User sends chat request to no-premium user and the non-premium user ignores the request
-    Given A premium user miles3 sent chat request to a new user "Zed"
+    Given A premium user sent chat request to a new user "Zed"
     And I login as the new user
     And I open "community" page
     And I go to messages 
@@ -38,7 +38,7 @@ Feature: Chat request -> accept/ignore.
 
   @block_chat_request @p0
   Scenario: Premium User sends chat request to no-premium user and the non-premium user blocks the request
-    Given A premium user miles3 sent chat request to a new user "Troller"
+    Given A premium user sent chat request to a new user "Troller"
     And I login as the new user
     And I open "community" page
     And I go to messages 

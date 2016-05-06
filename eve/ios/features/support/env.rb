@@ -10,8 +10,17 @@ include EveForumIOS
 include Eve
 include Minitest::Assertions
 
-class MinitestWorld
+module Pre_config_users
+  def premium_email() "miles3@g.com" end
+  def non_premium_email() "milesn@g.com" end
+  def premium_name() "miles3" end
+  def non_premium_name() "milesn" end
+  module_function :premium_email, :non_premium_email, :premium_name, :non_premium_name
+end
+
+class Myownworld
   extend Minitest::Assertions
+  include Pre_config_users
   attr_accessor :assertions
 
   def initialize
@@ -19,8 +28,9 @@ class MinitestWorld
   end
 end
 
+
 World do
-  MinitestWorld.new
+  Myownworld.new
 end
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

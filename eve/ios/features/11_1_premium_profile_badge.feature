@@ -2,7 +2,7 @@
 Feature: Check badge for Premium/Non-premium users
   @self_badge
   Scenario: Check badge in user's own profile page
-    Given A premium user miles3 and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And I login as premium user
     And I open "community" page
     When I go to community profile page
@@ -12,7 +12,7 @@ Feature: Check badge for Premium/Non-premium users
 
   @others_badge
   Scenario: Check badge in other users profile page
-    Given A premium user miles3 and a non-premium user milesn have been created for test
+    Given A premium user and a non-premium user have been created for test
     And the premium user create a topic in the test group
     And I login as the non-premium user
     And I open "community" page

@@ -3,7 +3,7 @@ Feature: Check notifications about chat
 
   @request_notification @p0 @restart
   Scenario: Check notification when user sends a chat request
-    Given A premium user miles3 sent chat request to a new user "Albert"
+    Given A premium user sent chat request to a new user "Albert"
     And I login as the new user
     When I open "alert" page
     Then I check the chat request is received 
@@ -16,7 +16,7 @@ Feature: Check notifications about chat
 
   @accept_notification @p0
   Scenario: Check notification when user accepts a chat request
-    Given A premium user miles3 established chat relationship with a new user "BabySong"
+    Given A premium user established chat relationship with a new user "BabySong"
     And I login as the new user
     When I open "alert" page
     Then I check the accept chat request notification is received

@@ -1,7 +1,7 @@
 @not_ready
 Feature: Sticker gating when users click stickers not owned by them
   Scenario: Free user clicks premium stickers in topics
-    Given A premium user milesp and a non-premium user milesn have been created for test
+    Given A premium user milesp and a non-premium user have been created for test
     And premium user create a topic and a comment with premium stickers
     And I login as the non-premium user
     And I open "community" page
