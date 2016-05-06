@@ -34,7 +34,6 @@ module Glow
       counter += 1
       break if counter > 3
     end
-    wait_for_none_animating
     sleep 1
   end
 
@@ -45,6 +44,7 @@ module Glow
 
   def logout_if_already_logged_in
     sleep 0.5
+    app_page.just_tutorial
     clean_up_page
     if already_logged_in?
       app_page.open("me")

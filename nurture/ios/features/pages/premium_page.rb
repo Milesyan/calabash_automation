@@ -16,6 +16,7 @@ class PremiumPage < Calabash::IBase
     clear_text "* marked:'Link' sibling * index:0"
     wait_touch "* marked:'Link' sibling * index:0"
     keyboard_enter_text $random_url
+    puts "Random URL is #{$random_url}"
   end
 
   def check_url
@@ -26,9 +27,9 @@ class PremiumPage < Calabash::IBase
   def back_from_web_page
     wait_for(:timeout => 5) do
       element_exists("* id:'gl-foundation-back'") || element_exists("* marked:'Close'")
-      touch "* id:'gl-foundation-back'" if element_exists "* id:'gl-foundation-back'"
-      touch "* marked:'Close'" if element_exists "* marked:'Close'"
     end
+    touch "* id:'gl-foundation-back'" if element_exists "* id:'gl-foundation-back'"
+    touch "* marked:'Close'" if element_exists "* marked:'Close'"
   end
 
   def switch_chat_option

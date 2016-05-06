@@ -6,6 +6,30 @@ class AppPage < Calabash::IBase
   def trait
     "*"
   end
+  # def scroll_to_row_with_mark(mark, options={:query => 'tableView',
+  #                                            :scroll_position => :middle,
+  #                                            :animate => true})
+  #   if mark.nil?
+  #     screenshot_and_raise 'mark argument cannot be nil'
+  #   end
+
+  #   uiquery = options[:query] || 'tableView'
+
+  #   args = []
+  #   if options.has_key?(:scroll_position)
+  #     args << options[:scroll_position]
+  #   else
+  #     args << 'middle'
+  #   end
+  #   if options.has_key?(:animate)
+  #     args << options[:animate]
+  #   end
+
+  #   views_touched=map(uiquery, :scrollToRowWithMark, mark, *args)
+  #   msg = options[:failed_message] || "Unable to scroll: '#{uiquery}' to: #{options}"
+  #   assert_map_results(views_touched, msg)
+  #   views_touched
+  # end
 
   def login(email, password)
     open_login_link
@@ -39,7 +63,8 @@ class AppPage < Calabash::IBase
 
 
   def open_settings
-    scroll_to_row_with_mark "Settings"
+    forum_page.scroll_down_to_see 'Settings'
+    scroll_to_row_with_mark 'Settings'
     sleep 1
     wait_touch "label marked:'Settings'"
   end
@@ -57,7 +82,8 @@ class AppPage < Calabash::IBase
 
   def logout
     close_chat_popup
-    scroll_to_row_with_mark "Logout"
+    # forum_page.scroll_down_to_see 'Logout'
+    scroll_to_row_with_mark 'Logout'
     close_chat_popup
     wait_touch "* marked:'Logout'"
     close_chat_popup
@@ -110,7 +136,7 @@ class AppPage < Calabash::IBase
     2.times do
       until element_does_not_exist("* id:'gl-foundation-popup-close'") && element_does_not_exist("* marked:'Messages'")
         touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
-        touch  "* marked:'Done'" if element_exists "* marked:'Messages'"
+        touch "* marked:'Done'" if element_exists "* marked:'Messages'"
         sleep 0.5
       end
     end
@@ -122,6 +148,11 @@ class AppPage < Calabash::IBase
       wait_for_element_exists "* marked:'Community'",:timeout  => 3
     rescue RuntimeError
     end
+    just_tutorial
+    close_chat_popup
+  end
+
+  def just_tutorial
     if element_exists "* id:'tutorial-arrow-right'"
       puts "NEED TUTORIAL IN GLOW"
       until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
@@ -139,7 +170,6 @@ class AppPage < Calabash::IBase
       touch_later_link
       wait_for_none_animating
     end
-    close_chat_popup
   end
 
   def pass_premium_promt
