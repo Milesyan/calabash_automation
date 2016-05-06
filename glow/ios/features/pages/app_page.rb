@@ -145,10 +145,7 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
     pass_premium_promt
-    begin 
-      wait_for_element_exists "* marked:'Community'",:timeout  => 3
-    rescue RuntimeError
-    end
+    sleep 0.5
     just_tutorial
     close_chat_popup
   end

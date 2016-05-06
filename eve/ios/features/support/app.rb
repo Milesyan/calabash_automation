@@ -41,7 +41,6 @@ module Eve
       counter += 1
       break if counter > 3
     end
-    wait_for_none_animating
     sleep 1
   end
 
@@ -52,7 +51,6 @@ module Eve
   end
 
   def logout_if_already_logged_in
-    sleep 0.5
     clean_up_page
     if already_logged_in?
       app_page.open("Me")

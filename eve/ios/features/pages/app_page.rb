@@ -34,9 +34,9 @@ class AppPage < Calabash::IBase
     keyboard_enter_text password
     touch "UINavigationButton marked:'Next'"
     sleep 1
-    if element_exists "* marked:'Get it, Girl'"
-      bypass_temp
-    end
+    # if element_exists "* marked:'Get it, Girl'"
+    #   bypass_temp
+    # end
     finish_tutorial
   end
 
@@ -138,20 +138,26 @@ class AppPage < Calabash::IBase
     temp = 0 
     sleep 0.5
     if element_exists "* text:'Did you start your new period? '"
-      touch "* marked:'No'"
+      wait_touch "* marked:'No'"
       wait_touch "* marked:'10 days'"
     end
   end
 
   def pass_premium_promt
-    begin 
-      wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
-    rescue WaitError
-    end
-    if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
-      sleep 0.5
-      touch "* marked:'sk cross close'"
-      sleep 2
+    if $user.nil?
+      puts "$user not exist."
+    elsif $user.email != premium_email
+      begin
+        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+      rescue RuntimeError
+        log_msg "Time out wait for Try for FREE"
+      end
+      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
+        sleep 0.5
+        puts "PREMIUM PROMT"
+        touch "* marked:'sk cross close'"
+        sleep 2
+      end
     end
   end
 
