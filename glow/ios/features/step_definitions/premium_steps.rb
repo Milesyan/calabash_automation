@@ -312,11 +312,15 @@ end
 Then(/^I click done to close messages$/) do
   sleep 1
   wait_for(:timeout => 5) do
-    element_exists("* marked:'Done'") || element_exists("* {text CONTAINS 'Accept Request'}")
+    element_exists("* marked:'Done'") ||
+    element_exists("* {text CONTAINS 'Accept Request'}") ||
+    element_exists("* marked:'Close'")
   end
   sleep 0.5
   if element_exists "* marked:'Done'"
     touch "* marked:'Done'"
+  elsif element_exists "* marked:'Close'"
+    touch "* marked:'Close'"
   else
     forum_page.click_back_button
   end
@@ -387,9 +391,9 @@ end
 
 Then(/^I should see the image I sent$/) do
   wait_for_element_exists "MWTapDetectingView"
-  touch "* marked:'Back'"
-  if element_exists "* marked:'Back'"
-    touch "* marked:'Back'"
+  until element_does_not_exist "* marked:'Back'"
+    wait_touch "* marked:'Back'"
+    sleep 0.5
   end
 end
 
@@ -400,7 +404,9 @@ Then(/^I choose one of the reasons as report reason$/) do
 end
 
 Then(/^I check the chat request is received$/) do
-  wait_for_element_exists "* marked:'New Chat Request'"
+  wait_for(:timeout => 5) do
+    element_exists("* marked:'New Chat Request'") || element_exists("* {text CONTAINS 'New Chat Request'}")
+  end
   wait_for_element_exists "* {text contains '#{$user.first_name}'}"
 end
 
