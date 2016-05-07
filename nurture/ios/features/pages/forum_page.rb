@@ -7,6 +7,10 @@ class ForumPage < Calabash::IBase
     '*'
   end
 
+  def click_if_element_exists(args)
+    touch args if element_exists args
+  end
+  
   def back_to_home
     counter = 0
     while element_exists("* marked:'Back'") ||
@@ -17,16 +21,18 @@ class ForumPage < Calabash::IBase
       element_exists("* marked:'sk cross close'")||
       element_exists("* id:'gl-community-back.png'")||
       element_exists("* marked:'Save'")||
+      element_exists("* marked:'Replies' sibling UINavigationButton")||
       element_exists("* marked:'OK'") do
-      touch "* marked:'Back'" if element_exists "* marked:'Back'"
-      touch "* marked:'Close'" if element_exists "* marked:'Close'"
-      touch "* marked:'Cancel'" if element_exists "* marked:'Cancel'"
-      touch "* marked:'Done'" if element_exists "* marked:'Done'"
-      touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
-      touch "* id:'gl-community-back.png'" if element_exists "* id:'gl-community-back.png'"
-      touch "* marked:'OK'" if element_exists "* marked:'OK'"
-      touch "* marked:'sk cross close'" if element_exists "* marked:'sk cross close'"
-      touch "* marked:'Save'" if element_exists "* marked:'Save'"
+      click_if_element_exists "* marked:'Back'"
+      click_if_element_exists "* marked:'Close'"
+      click_if_element_exists "* marked:'Cancel'"
+      click_if_element_exists "* marked:'Done'"
+      click_if_element_exists "* id:'gl-foundation-popup-close'"
+      click_if_element_exists "* id:'gl-community-back.png'"
+      click_if_element_exists "* marked:'OK'"
+      click_if_element_exists "* marked:'sk cross close'"
+      click_if_element_exists "* marked:'Save'"
+      click_if_element_exists "* marked:'Replies' sibling UINavigationButton"
       counter += 1
       break if counter > 3
     end
