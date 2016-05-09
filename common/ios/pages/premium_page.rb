@@ -151,8 +151,10 @@ class PremiumPage < Calabash::IBase
     wait_touch "* marked:'Chat'" if [0,1,2,3,4].include? args
     _touch_points_reaction args
     forum_page.click_back_button
+    sleep 0.5
     wait_touch "UIButton marked:'Chat' index:0" if [0,1,2,3,4].include? args
     _touch_points_reaction args
+    sleep 0.5
     wait_touch "UIButton marked:'Chat' index:1" if [0,1,2,3,4].include? args
     _touch_points_reaction args
   end

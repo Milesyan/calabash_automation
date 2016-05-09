@@ -36,6 +36,9 @@ class ForumPage < Calabash::IBase
       counter += 1
       break if counter > 3
     end
+    if element_exists "UIButtonLabel marked:'Edit profile'"
+      forum_page.exit_profile_page forum_page.get_UIButton_number-1
+    end
     sleep 1
   end
 
@@ -130,10 +133,11 @@ class ForumPage < Calabash::IBase
 
   def click_back_button
     wait_for(:timeout => 5) do
-      element_exists("* marked:'Back'") || element_exists("* marked:'Close'")
+      element_exists("* marked:'Back'") || element_exists("* marked:'Close'") || element_exists("* id:'gl-community-back.png'")
     end
     touch "* marked:'Back'" if element_exists "* marked:'Back'"
     touch "* marked:'Close'" if element_exists "* marked:'Close'"
+    touch "* id:'gl-community-back.png'" if element_exists "* id:'gl-community-back.png'"
   end  
 
   def edit_topic_voted (args1)
