@@ -5,7 +5,6 @@ require 'active_support/all'
 require_relative 'glow_test_helper'
 
 module GlowIOS
-  
 
   PASSWORD = 'Glow12345'
   NEW_PASSWORD = 'Glow1234'
@@ -18,15 +17,17 @@ module GlowIOS
 
   class GlowUser
     include GlowTestHelper
+    include HTTParty
+    base_uri BASE_URL
 
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
     attr_accessor :gender
-    attr_accessor :cycle_length, :first_pb
+    attr_accessor :cycle_length, :first_pb, :period_length
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || "gi" + Time.now.to_i.to_s
+      @first_name = args[:first_name] || get_first_name
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD
@@ -36,14 +37,27 @@ module GlowIOS
       @type = args[:type]
       @first_pb = date_str(args[:first_pb] || 14.days.ago)
       @cycle_length = args[:cycle_length] || 28
+      @period_length = args[:period_length] || 3
     end
 
-    def random_str
+    def get_first_name
+      "gi" + Time.now.to_i.to_s[2..-1] + random_str(2)
+    end
+
+    def random_num
       ('0'..'9').to_a.shuffle[0,9].join + "_" + Time.now.to_i.to_s
+    end
+
+    def random_str(n)
+      (10...36).map{ |i| i.to_s 36}.shuffle[0,n.to_i].join
     end
 
     def uuid
       SecureRandom.uuid
+    end
+
+    def options(data)
+      { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' } }
     end
 
     def common_data
@@ -52,7 +66,7 @@ module GlowIOS
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290BA690C71C",
         "model" => "iPhone7,2",
-        "random" => random_str
+        "random" => random_num
       }
     end
 
@@ -71,6 +85,21 @@ module GlowIOS
       data = {
         "force_regenerate": false,
         "date": Time.now.strftime("%Y/%m/%d"),
+        "ut": @ut,
+        "model": "x86_64"
+      }.merge(common_data)
+
+      @res = HTTParty.post("#{BASE_URL}/api/users/daily_content", :body => data.to_json,
+        :headers => { 'Content-Type' => 'application/json' })
+      self
+    end
+
+    def get_articles(args = {})
+      date = args[:date] || Time.now
+      puts date_str(date)
+      data = {
+        "force_regenerate": false,
+        "date": date_str(date),
         "ut": @ut,
         "model": "x86_64"
       }.merge(common_data)
@@ -103,7 +132,7 @@ module GlowIOS
             "first_pb_date": @first_pb,
             "ttc_start": 1431964800,
             "children_number": 3,
-            "period_length": 3,
+            "period_length": @period_length,
             "period_cycle": @cycle_length
           },
           "first_name": @first_name
@@ -137,7 +166,7 @@ module GlowIOS
               "af_message": "organic install"
             },
             "period_cycle": 29,
-            "period_length": 3
+            "period_length": @period_length
           },
           "first_name": @first_name
         }
@@ -291,6 +320,177 @@ module GlowIOS
       }.merge(common_data)
       @res = HTTParty.post("#{BASE_URL}/api/users/recover_password", :body => data.to_json,
         :headers => { 'Content-Type' => 'application/json' }).to_json
+      self
+    end
+
+    def add_sex(args = {})
+      date = date_str(args[:date] || Time.now)
+      sex = args[:sex] || 258 
+            # Did you have sex? Yes + On bottom
+            # 8194 Yes + Condom
+            # 1 No
+
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "intercourse": sex,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+
+    def add_period_flow(args = {})
+      date = date_str(args[:date] || Time.now)
+      period_flow = args[:period_flow] || 18
+      # 18 Yes + Light
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "cervical_mucus": 0,
+            "period_flow": period_flow,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_cm(args = {})
+      date = date_str(args[:date] || Time.now)
+      cm = args[:cm] || 2570
+      # 2570 dry + light
+
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "cervical_mucus": cm,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+
+    end
+
+    def add_physical_discomfort(args = {})
+      date = date_str(args[:date] || Time.now)
+      physical_symptom_1 = 137438962176
+      physical_symptom_2 = 0
+      physical_discomfort = args[:physical_discomfort] || 2
+      symptoms = args[:symptoms] || {
+                    "physical_symptom_1": physical_symptom_1,
+                    "physical_symptom_2": physical_symptom_2
+                  }
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "date": date,
+            "physical_discomfort": physical_discomfort,
+            "user_id": @user_id,
+            "meds": "",
+          }.merge(symptoms)],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+
+    end
+
+    def add_mood(args = {})
+      date = date_str(args[:date] || Time.now)
+      moods = args[:moods] || 2
+      emotional_symptoms = args[:emotional_symptoms] || {
+        "emotional_symptom_1": 35184372097058,
+        "emotional_symptom_2": 0
+      }
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "moods": moods,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }.merge(emotional_symptoms)],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_stress(args = {})
+      date = date_str(args[:date] || Time.now)
+      stress_level = args[:stress_level] || 48
+      data = {
+        "data": {
+          "reminders": [],
+          "daily_data": [{
+            "stress_level": stress_level,
+            "user_id": @user_id,
+            "date": date,
+            "meds": ""
+          }],
+          "last_sync_time": 0,
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }
+
+      @res = self.class.post '/api/v2/users/push', options(data)
       self
     end
 
@@ -908,6 +1108,17 @@ module GlowIOS
         :headers => { 'Content-Type' => 'application/json' })
       self
     end
+
+    def set_premium
+      data = {
+        "action": "extend_premium",
+        "days": 365
+      }
+      @res = HTTParty.post "http://dragon-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvlQ.igccdfhP-REqCyOmNlDjD9bqW3A', 'Content-Type' => 'application/json'}
+      puts "#{@email} is set to premium" if res["code"] == 200
+      self
+    end
+
   end
 end
 
