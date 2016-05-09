@@ -6,8 +6,6 @@ Then(/^I create another forum user "([^"]*)" and create a topic in the test grou
 end
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, topic_type|
-  puts "New Forum User '#{user_name}' created: #{$user.email}, #{$user.password}"
-  puts "GROUP id = #{GROUP_ID}"
   case topic_type.downcase
   when "text"
     $user.create_topic({:topic_title => 'create topic by www api', :group_id => GROUP_ID})
@@ -32,7 +30,6 @@ Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|i
   puts "#{user2_name} user id is: #{$user2.user_id},  email is: #{$user2.email}"
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
-    puts "ForumUser #{user1_name} reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user2.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "subreply number #{subreply_number+1}"
     end
@@ -65,9 +62,7 @@ Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subr
     $user.reply_to_topic $user.topic_id, reply_content: "#{$random_prefix} comment #{comment_number+1}"
     if comment_number == 0
       $first_comment_id = $user.reply_id
-      puts "first reply id is #{$first_comment_id}"
     end
-    puts "ForumUser reply_id is #{$user.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_prefix} sub-reply #{subreply_number+1}"
     end
@@ -84,7 +79,6 @@ Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? a
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    puts "ForumUser2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
@@ -97,9 +91,7 @@ Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |na
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
-  puts "ForumUser #{name} reply_id is #{$user.reply_id}, reply_content = #{$random_str1}"
   $user.reply_to_comment $user.topic_id, $user.reply_id, reply_content: "#{$random_str2}"
-  puts "ForumUser #{name} subreply content is #{$random_str2}"
   $user.delete_topic $user.topic_id
 end
 

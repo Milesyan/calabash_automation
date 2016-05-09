@@ -24,7 +24,6 @@ Then(/^I wait until I see "(.*?)"$/) do |text|
 end
 
 
-
 Given(/^I relaunch the app$/) do
   relaunch_app
 end

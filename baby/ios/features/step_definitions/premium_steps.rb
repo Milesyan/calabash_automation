@@ -5,16 +5,13 @@ end
 Given(/^A premium user and a non-premium user have been created for test$/) do
   $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user user id = 8830"
   $user2 = premium_user :email => non_premium_email, :password => "111111"
   $user2.turn_on_chat.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user2 user id = 6502"
 end
 
 Given(/^A premium user has been created for test$/) do
   $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user user id = 8830"
 end
 
 Given(/^I login as(?: the)? premium user$/) do

@@ -5,16 +5,13 @@ end
 Given(/^A premium user and a non-premium user have been created for test$/) do
   $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user user id = 72057594037936244"
   $user2 = premium_user :email => non_premium_email, :password => "111111"
   $user2.turn_on_chat.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user2 user id = 8492"
 end
 
 Given(/^A premium user has been created for test$/) do
   $user = premium_user :email => premium_email, :password => "111111"
   $user.turn_on_chat.turn_on_signature.remove_all_participants.remove_all_contacts.remove_all_blocked
-  puts "$user user id = 72057594037936244"
 end
 
 Given(/^I login as(?: the)? premium user$/) do
@@ -93,12 +90,12 @@ end
 
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)"$/) do |user_name, topic_name|
-  $new_user = forum_new_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name)
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
 end
 
 Given(/^I create another non\-premium user "([^"]*)" and create a topic in the test group with topic name "([^"]*)" and the user turns chat off$/) do |user_name, topic_name|
-  $new_user = forum_new_user(first_name: user_name).join_group
+  $new_user = forum_new_user(first_name: user_name)
   $new_user.create_topic({:topic_title => topic_name, :group_id => GROUP_ID})
   $new_user.turn_off_chat
 end

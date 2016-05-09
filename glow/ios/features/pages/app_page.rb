@@ -6,30 +6,6 @@ class AppPage < Calabash::IBase
   def trait
     "*"
   end
-  # def scroll_to_row_with_mark(mark, options={:query => 'tableView',
-  #                                            :scroll_position => :middle,
-  #                                            :animate => true})
-  #   if mark.nil?
-  #     screenshot_and_raise 'mark argument cannot be nil'
-  #   end
-
-  #   uiquery = options[:query] || 'tableView'
-
-  #   args = []
-  #   if options.has_key?(:scroll_position)
-  #     args << options[:scroll_position]
-  #   else
-  #     args << 'middle'
-  #   end
-  #   if options.has_key?(:animate)
-  #     args << options[:animate]
-  #   end
-
-  #   views_touched=map(uiquery, :scrollToRowWithMark, mark, *args)
-  #   msg = options[:failed_message] || "Unable to scroll: '#{uiquery}' to: #{options}"
-  #   assert_map_results(views_touched, msg)
-  #   views_touched
-  # end
 
   def login(email, password)
     $login_acc = email
