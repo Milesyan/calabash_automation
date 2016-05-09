@@ -455,7 +455,7 @@ class ForumPage < Calabash::IBase
     sleep 1
     check_element_exists "* marked:'#{$user.topic_title}'"
     touch "* marked:'#{$user.topic_title}'"
-    check_element_exists "* marked:'Show entire discussion'"
+    wait_for_element_exists "* marked:'Show entire discussion'"
   end
 
   def check_created

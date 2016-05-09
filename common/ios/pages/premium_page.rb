@@ -11,10 +11,11 @@ class PremiumPage < Calabash::IBase
       puts "No user login yet"
     elsif $login_acc != premium_email
       begin
-        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3
+        wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3.5
       rescue RuntimeError
         log_msg "Time out wait for Try for FREE"
       end
+      sleep 0.5
       if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
         sleep 0.5
         puts "PREMIUM PROMT"

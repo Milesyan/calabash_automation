@@ -123,9 +123,9 @@ module EveForumAndroid
         }, {
           "Period": {
             "create": [{
-              "pb": "2016/01/14",
-              "pe": "2016/01/18",
-              "pe_prediction": "2016/01/18",
+              "pb": @pb,
+              "pe": @pe,
+              "pe_prediction": @pe,
               "uuid": @uuid
             }]
           }
@@ -255,6 +255,7 @@ module EveForumAndroid
       @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", auth_options(data)
       @notifications = @res["data"]["Notification"]["update"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      self
     end
     
   end

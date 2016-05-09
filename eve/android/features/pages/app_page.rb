@@ -6,6 +6,7 @@ class AppPage < Calabash::ABase
   end
 
   def tap_login
+    pass_sso
     puts "TOUCH LOGIN HERE "
     touch "* id:'login'"
   end
@@ -26,10 +27,7 @@ class AppPage < Calabash::ABase
     # bypass_eve
     wait_for_element_does_not_exist "* id:'sign_in_button'"
     sleep 1
-    if element_exists "* {text CONTAINS 'Did you start your new'}"
-      touch "* marked:'YES'"
-      touch "* marked:'Done'"
-    end
+    finish_tutorial
   end
 
   def open(tab_name)
@@ -48,7 +46,9 @@ class AppPage < Calabash::ABase
     sleep 0.5
     touch "* text:'Log out'"
     $login_acc = nil
-    wait_for_element_exists "* id:'login'"
+    wait_for(:timeout=>5) do
+      element_exists("* id:'login'") || element_exists("* marked:' CLICK HERE TO SWITCH USER '")
+    end
     sleep 0.5
   end
   
@@ -65,7 +65,7 @@ class AppPage < Calabash::ABase
 
   def pass_sso
     if element_exists "* {text CONTAINS 'Continue as'}"
-      touch "* marked:'Sign up with another account'"
+      touch "* marked:' CLICK HERE TO SWITCH USER '"
     end
   end
 
@@ -89,6 +89,15 @@ class AppPage < Calabash::ABase
   
   def finish_tutorial
     premium_page.pass_premium_promt
+    sleep 0.5
+    pass_eve_question
+  end
+
+  def pass_eve_question
+    if element_exists "* text:'Did you start your new period?'"
+      wait_touch "* marked:'NO'"
+      wait_touch "* marked:'10 days'"
+    end
   end
   
 end
