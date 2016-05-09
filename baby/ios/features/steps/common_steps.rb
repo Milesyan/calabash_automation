@@ -11,6 +11,11 @@ Given(/^I login(| as partner)$/) do |role|
   end
 end
 
+Given(/^I login with no baby$/) do
+  logout_if_already_logged_in
+  onboard_page.login_with_no_baby($user.email, $user.password)
+end
+
 And(/^I logout$/) do
   nav_page.open("more")
   me_page.logout

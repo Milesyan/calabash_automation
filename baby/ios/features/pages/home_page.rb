@@ -25,7 +25,6 @@ class HomePage < Calabash::IBase
     wait_touch "* marked:'Done'"
     wait_touch "* marked:'Start using Glow Baby!'"
     sleep 1
-    wait_for_none_animating
   end
 
   def add_upcoming_nurture_baby
@@ -36,7 +35,7 @@ class HomePage < Calabash::IBase
     wait_touch "* marked:'Done'"
     wait_touch "* marked:'Start using Glow Baby!'"
     sleep 1
-    wait_for_none_animating
+    #wait_for_none_animating
   end
 
   def add_upcoming_baby(baby)
@@ -52,7 +51,7 @@ class HomePage < Calabash::IBase
     wait_touch "* marked:'Done'"
     wait_touch "* marked:'Start using Glow Baby!'"
     sleep 1
-    wait_for_none_animating
+    #wait_for_none_animating
   end
 
   def open_milestones

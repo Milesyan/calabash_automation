@@ -30,7 +30,16 @@ class OnboardPage < Calabash::IBase
     wait_touch "* marked:'Password'"
     keyboard_enter_text password
     wait_touch "* marked:'Log me in!'"
-    wait_touch "* marked:'sk-cross-close'" if element_exists "* marked:'sk-cross-close'"
+    wait_touch "* id:'sk-cross-close'"
+  end
+
+  def login_with_no_baby(email, password)
+    wait_touch "* marked:'Log in'"
+    wait_touch "* marked:'Email'"
+    keyboard_enter_text email
+    wait_touch "* marked:'Password'"
+    keyboard_enter_text password
+    wait_touch "* marked:'Log me in!'"
   end
 
   def click_signup
@@ -58,6 +67,7 @@ class OnboardPage < Calabash::IBase
   end
 
   def close_premium_introdution
-    wait_touch "* marked:'sk-cross-close'" if element_exists "* marked:'sk-cross-close'"
+    sleep 2
+    wait_touch "* id:'sk-cross-close'"
   end
 end

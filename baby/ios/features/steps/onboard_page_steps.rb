@@ -18,3 +18,6 @@ end
 Given(/^I close the page$/) do
   onboard_page.close_page
 end
+
+
+
