@@ -138,7 +138,7 @@ class AppPage < Calabash::IBase
     end
     wait_for_element_exists "* marked:'Community'" if temp == 1
     temp = 0 
-    sleep 0.5
+    sleep 1
     if element_exists "* text:'Did you start your new period? '"
       wait_touch "* marked:'No'"
       wait_touch "* marked:'10 days'"

@@ -314,7 +314,8 @@ Then(/^I click done to close messages$/) do
   wait_for(:timeout => 5) do
     element_exists("* marked:'Done'") ||
     element_exists("* {text CONTAINS 'Accept Request'}") ||
-    element_exists("* marked:'Close'")
+    element_exists("* marked:'Close'") ||
+    element_exists("* marked:'Back'")
   end
   sleep 0.5
   if element_exists "* marked:'Done'"
@@ -392,7 +393,7 @@ end
 Then(/^I should see the image I sent$/) do
   wait_for_element_exists "MWTapDetectingView"
   until element_does_not_exist "* marked:'Back'"
-    wait_touch "* marked:'Back'"
+    touch "* marked:'Back'"
     sleep 0.5
   end
 end
@@ -413,6 +414,8 @@ end
 Then(/^I click accept request button$/) do
   premium_page.touch_accept_request
   wait_touch "* marked:'Confirm'"
+  wait_for_element_exists "* marked:'Enter Message'"
+  sleep 0.5
 end
 
 Then(/^I go back to previous page from chat request page$/) do
