@@ -197,6 +197,8 @@ class ForumPage < Calabash::ABase
   def select_target_group
     sleep 1
     wait_touch "* marked:'#{TARGET_GROUP_NAME}'"
+    sleep 0.2 
+    touch "* marked:'#{TARGET_GROUP_NAME}'"
   end
     
   def discard_topic
@@ -824,21 +826,22 @@ class ForumPage < Calabash::ABase
   end
 
   def click_explore
-    begin
-      wait_for_element_exists "* marked:'Explore'",:timeout => 2
-      touch "* marked:'Explore'"
-    rescue RuntimeError => e 
-      touch "* id:'daimajia_slider_viewpager'"
-    end  
+    wait_for(:timeout => 3) do
+      element_exists("* marked:'Explore'") || element_exists("* id:'daimajia_slider_viewpager'")
+    end
+    touch "* id:'daimajia_slider_viewpager'" if element_exists "* id:'daimajia_slider_viewpager'"
+    touch "* marked:'Explore'" if element_exists "* marked:'Explore'"
     # logger.add event_name: "page_impression_explore", start_vesion: "community v1.1"
     sleep 1
   end
 
   def click_discover
-    sleep 1
+    sleep 2
+    puts "TOUCH Discover"
     wait_touch "* marked:'Discover'"
     # logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
     sleep 0.2
+    touch "* marked:'Discover'"
   end
 
 

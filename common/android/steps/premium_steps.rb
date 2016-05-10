@@ -366,7 +366,7 @@ end
 Then(/^I should see the chat history has been deleted$/) do
   sleep 0.5
   touch "* marked:'Delete'" if element_exists "* marked:'Delete'"
-  sleep 2
+  sleep 3
   check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
 
@@ -569,7 +569,7 @@ Then(/^I click the requestor's profile photo to see the profile page$/) do
 end
 
 Then(/^I check the accept chat request notification is received$/) do
-  if $new_user.code_name != 'noah'
+  if $new_user.code_name != 'noah' && $new_user.code_name != 'lexie'
     wait_for_element_exists "* marked:'Chat Now!'"
   else 
     wait_for_element_exists "* marked:'Check it out'"

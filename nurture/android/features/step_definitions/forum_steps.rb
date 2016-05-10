@@ -981,7 +981,7 @@ end
 
 Then(/^I check I can see the user's comment and subreply$/) do
   wait_for_elements_exist "* marked:'Upvote'"
-  sleep 0.5
+  sleep 1
   touch "* marked:'Show entire discussion'" if element_exists "* marked:'Show entire discussion'" 
   sleep 1
   scroll_down
@@ -990,7 +990,7 @@ end
 
 Then(/^I check I can not see the user's comment and subreply$/) do
   wait_for_elements_exist "* marked:'Upvote'"
-  sleep 0.5
+  sleep 1
   wait_touch "* marked:'Show entire discussion'" if element_exists "* marked:'Show entire discussion'"
   sleep 1
   scroll_down
