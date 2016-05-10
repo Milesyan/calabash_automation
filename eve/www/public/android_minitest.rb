@@ -253,6 +253,7 @@ module Minitest_android
     u = forum_new_user
     u.turn_off_chat
     assert_rc u.res
+    u.turn_on_chat
   end
 
   def test_turn_on_chat
@@ -281,9 +282,6 @@ module Minitest_android
   end
 
  
-
-
-
   def test_send_chat_request
     u1 = forum_new_user
     u2 = forum_new_user

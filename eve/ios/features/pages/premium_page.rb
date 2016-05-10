@@ -13,9 +13,9 @@ class PremiumPage < Calabash::IBase
       begin
         wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3.5
       rescue RuntimeError
-        log_msg "Time out wait for Try for FREE"
+        log_msg "Time out waiting for Try for FREE"
       end
-      sleep 0.5
+      sleep 0.8
       if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
         sleep 0.5
         puts "PREMIUM PROMT"

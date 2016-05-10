@@ -670,7 +670,10 @@ Then(/^I can see the person I blocked$/) do
       name = $new_user.first_name
     end
     puts "Name is #{name}"
-    until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5) 
+    # until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5) 
+    wait_for(:timeout =>3) do
+      element_exists("* {text CONTAINS '#{name}'}") || element_exists("* {text CONTAINS '#{premium_name}'}")
+    end
   rescue
     puts "Name not for new user or user2"
   end

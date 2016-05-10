@@ -27,7 +27,7 @@ class GlowTest < Minitest::Test
   end
 
   def premium_login
-    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login
+    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
     premium
   end
 

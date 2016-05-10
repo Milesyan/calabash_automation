@@ -569,7 +569,7 @@ Then(/^I click the requestor's profile photo to see the profile page$/) do
 end
 
 Then(/^I check the accept chat request notification is received$/) do
-  if $new_user.code_name != 'noah' && $new_user.code_name != 'lexie'
+  if $new_user.code_name == 'kaylee' 
     wait_for_element_exists "* marked:'Chat Now!'"
   else 
     wait_for_element_exists "* marked:'Check it out'"
