@@ -145,7 +145,7 @@ module GlowIOS
       self
     end
 
-    def non_ttc_signup
+    def non_ttc_signup(args = {})
       data = {
         "onboardinginfo": {
           "gender": "F",
@@ -159,13 +159,13 @@ module GlowIOS
             "height": 182.88,
             "current_status": 1,
             "birth_control": 1,
-            "first_pb_date": (Time.now).strftime("%Y/%m/%d"),
+            "first_pb_date": @first_pb,
             "addsflyer_install_data": {
               "appsflyer_uid": "1449524733000-6694994",
               "af_status": "Organic",
               "af_message": "organic install"
             },
-            "period_cycle": 29,
+            "period_cycle": @cycle_length,
             "period_length": @period_length
           },
           "first_name": @first_name
@@ -180,6 +180,8 @@ module GlowIOS
 
     def ft_signup(args = {})
       treatment_type = TREATMENT_TYPES[(args[:type]).downcase.to_sym]
+      ft_startdate = args[:ft_startdate] || Time.now
+      first_pb = ft_startdate
 
       data = {
         "onboardinginfo": {
@@ -191,9 +193,9 @@ module GlowIOS
           "timezone": "Asia\/Shanghai",
           "settings": {
             "current_status": 4, # ft
-            "treatment_startdate": Time.now.strftime("%Y/%m/%d"),
-            "first_pb_date": Time.now.strftime("%Y/%m/%d"),
-            "treatment_enddate": (Time.now + 30*24*3600).strftime("%Y/%m/%d"),
+            "treatment_startdate": date_str(ft_startdate),
+            "first_pb_date": date_str(first_pb),
+            "treatment_enddate": date_str(ft_startdate + 40*24*3600),
             "addsflyer_install_data": {
               "appsflyer_uid": "1449530832000-1814215",
               "af_status": "Organic",
@@ -201,9 +203,9 @@ module GlowIOS
             },
             "ttc_start": 1433692800,
             "children_number": 3,
-            "period_length": 3,
+            "period_length": @period_length,
             "fertility_treatment": treatment_type,
-            "period_cycle": 28
+            "period_cycle": @cycle_length
           },
           "first_name": @first_name
         }
@@ -408,6 +410,32 @@ module GlowIOS
 
     end
 
+    def add_exercise(args = {})
+      date = date_str(args[:date] || Time.now)
+      exercise = args[:exercise] || 10
+      # 10: 30 - 60 mins
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "user_id": @user_id,
+            "meds": "",
+            "exercise": exercise,
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
     def add_physical_discomfort(args = {})
       date = date_str(args[:date] || Time.now)
       physical_symptom_1 = 137438962176
@@ -488,7 +516,135 @@ module GlowIOS
           "notifications": []
         },
         "ut": @ut
-      }
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_sleep(args = {})
+      date = date_str(args[:date] || Time.now)
+      sleep = args[:sleep] || 3600 * 5
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "user_id": @user_id,
+            "meds": "",
+            "sleep": 18000,
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_ovulation_test(args = {})
+      date = date_str(args[:date] || Time.now)
+      ovulation_test = args[:ovulation_test] || 11
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "user_id": @user_id,
+            "ovulation_test": ovulation_test,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_pregnancy_test(args = {})
+      date = date_str(args[:date] || Time.now)
+      pregnancy_test = args[:pregnancy_test] || 11
+
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "pregnancy_test": pregnancy_test,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_smoke(args = {})
+      date = date_str(args[:date] || Time.now)
+      smoke = args[:smoke] || 12
+
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "smoke": smoke,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post '/api/v2/users/push', options(data)
+      self
+    end
+
+    def add_drink(args = {})
+      date = date_str(args[:date] || Time.now)
+      drink = args[:drink] || 12
+      # classes drunk = drink - 2
+      data = {
+        "data": {
+          "reminders": [],
+          "last_sync_time": 0,
+          "daily_data": [{
+            "alcohol": drink,
+            "user_id": @user_id,
+            "meds": "",
+            "date": date
+          }],
+          "daily_checks": [],
+          "medical_logs": [],
+          "settings": {},
+          "notifications": []
+        },
+        "ut": @ut
+      }.merge(common_data)
 
       @res = self.class.post '/api/v2/users/push', options(data)
       self
