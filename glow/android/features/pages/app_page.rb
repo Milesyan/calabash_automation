@@ -17,6 +17,7 @@ class AppPage < Calabash::ABase
     enter_text "* id:'password'", password
     sleep 1
     wait_touch "* id:'sign_in_button'"
+    finish_tutorial
   end
 
   def open(page)
@@ -119,6 +120,13 @@ class AppPage < Calabash::ABase
 
   def finish_tutorial
     premium_page.pass_premium_promt
+    pass_insight
   end
 
+  def pass_insight
+    sleep 0.5
+    while element_exists "* id:'more_insights_button'"
+      system("adb shell input keyevent KEYCODE_BACK")
+    end
+  end
 end

@@ -40,10 +40,10 @@ class AppPage < Calabash::IBase
 
 
   def open_settings
-    forum_page.scroll_down_to_see 'Settings'
-    scroll_to_row_with_mark 'Settings'
+    forum_page.scroll_down_to_see 'Account settings'
+    scroll_to_row_with_mark 'Account settings'
     sleep 1
-    wait_touch "label marked:'Settings'"
+    wait_touch "label marked:'Account settings'"
   end
 
 

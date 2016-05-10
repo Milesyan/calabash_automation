@@ -117,6 +117,7 @@ class PremiumPage < Calabash::ABase
   end
 
   def send_text_in_chat(args)
+    wait_for_element_exists "* marked:'Type something'", :post_timeout => 0.5
     enter_text "* marked:'Type something'", args
     sleep 1
     touch "* id:'send'"
