@@ -33,6 +33,6 @@ World do
 end
 
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
-ENV["APP_BUNDLE_PATH"] = File.dirname(__FILE__) + "/../../../../../test_builds/emma_beta_5.5.app"
+ENV["APP_BUNDLE_PATH"] = File.dirname(__FILE__) + "/../../../../../test_builds/emma_v5.5-3.app"
 # ENV["DEVICE_TARGET"] = ["97A373AC-E811-473A-A14D-127B4B2EA78A", "BB34C63B-2740-40E7-9889-C8D40D7CB1BB"].sample
 ENV["DEVICE_TARGET"] = "BB34C63B-2740-40E7-9889-C8D40D7CB1BB"
