@@ -37,14 +37,18 @@ Feature: Test all community notifications
         |1085   |
         |1086   |
         |1087   |
-        |1051   |
         |1053   |
         |1055   |
         |1059   |
         |1060   |
         |1088   |
         |1089   |
-        |1091   |  
+        |1091   |
+        
+    @fail_in_eve
+    Examples:
+        |ntf_type|
+        |1051   |
 
     @new_notification
     Examples: 

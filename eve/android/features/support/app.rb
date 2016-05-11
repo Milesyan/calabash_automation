@@ -3,7 +3,7 @@ require 'yaml'
 module Glow
 
   def already_logged_in?
-    element_exists "android.support.design.widget.by"
+    element_exists "android.support.design.widget.ci"
   end
 
   def clean_up_page
@@ -21,6 +21,10 @@ module Glow
   def wait_touch(query_str)
     wait_for_elements_exist [query_str], :post_timeout => 0.5
     touch query_str
+  end
+
+  def touch_if_element_exist(args)
+    touch args if element_exists args
   end
   
   def relaunch_app

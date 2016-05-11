@@ -127,14 +127,19 @@ class AppPage < Calabash::IBase
 
   def finish_tutorial
     premium_page.pass_premium_promt
+    sleep 0.5
     tutorial_steps
   end
 
   def tutorial_steps
-    temp = 1 if element_exists("* marked:'Got it'") || element_exists("* id:'close-btn'")
+    if element_exists("* marked:'Got it'") || element_exists("* id:'close-btn'")
+      puts "Eve period cycle tutorial."
+      temp = 1
+    end
     until element_does_not_exist("* marked:'Got it'") && element_does_not_exist("* id:'close-btn'")
       touch "* marked:'Got it'" if element_exists "* marked:'Got it'"
       touch "* id:'close-btn'" if element_exists "* id:'close-btn'"
+      sleep 0.3
     end
     wait_for_element_exists "* marked:'Community'" if temp == 1
     temp = 0 

@@ -366,8 +366,8 @@ end
 Then(/^I should see the chat history has been deleted$/) do
   sleep 0.5
   touch "* marked:'Delete'" if element_exists "* marked:'Delete'"
-  sleep 3
-  check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
+  sleep 1
+  wait_for_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
 
 Then(/^I send a message with last image$/) do
@@ -495,7 +495,10 @@ Then(/^I can see a chat request is sent or premium prompt dialog$/) do
              :post_timeout => 0.1,
              :timeout_message => "Time out for chat or premium prompt"}
   wait_for(options) do
-    element_exists("* marked:'Learn more'")|| element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
+    element_exists("* marked:'Learn more'") ||
+    element_exists("* marked:'Try for FREE'") ||
+    element_exists("* {text CONTAINS 'Send request'}") ||
+    element_exists("* marked:'Go Premium'")
   end
   # wait_for_element_exists "* {text CONTAINS 'Send request'}", :timeout  => 1
   premium_page.close_request_dialog

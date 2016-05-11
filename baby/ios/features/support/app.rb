@@ -19,6 +19,10 @@ module Baby
     app_page.finish_tutorial
   end
 
+  def touch_if_element_exist(args)
+    touch args if element_exists args
+  end
+  
   def logout_if_already_logged_in
     sleep 0.5
     clean_up_page

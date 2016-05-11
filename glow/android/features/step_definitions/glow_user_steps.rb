@@ -1,9 +1,9 @@
 def forum_new_user(args = {})
-  ForumUser.new(args).ttc_signup.login.complete_tutorial.leave_all_groups.join_group
+  ForumUser.new(args).non_ttc_signup.login.complete_tutorial.leave_all_groups.join_group
 end
 
 def ntf_user(args = {})
-  ForumUser.new(args).ttc_signup.login
+  ForumUser.new(args).non_ttc_signup.login
 end
 
 #community notification test

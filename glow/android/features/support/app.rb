@@ -30,6 +30,10 @@ module Glow
     wait_for_elements_exist [query_str], :post_timeout => 0.5
     touch query_str
   end
+
+  def touch_if_element_exist(args)
+    touch args if element_exists args
+  end
   
   def relaunch_app
     launcher = Calabash::Cucumber::Launcher.new

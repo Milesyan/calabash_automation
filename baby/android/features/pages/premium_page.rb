@@ -14,12 +14,13 @@ class PremiumPage < Calabash::ABase
         wait_for_element_exists "* marked:'top_part'", :timeout => 3
       rescue RuntimeError
       end
-      if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'top_part'")
+      if (element_exists("* marked:'Try for FREE'") || element_exists("* marked:'Go Premium'")) && element_exists("* marked:'top_part'")
         touch "* marked:'dismiss_button'"
         sleep 0.5
       end
     elsif $login_acc = premium_email
       check_element_does_not_exist "* marked:'Try for FREE'"
+      check_element_does_not_exist "* marked:'Go Premium'"
     end
   end
 
@@ -79,10 +80,13 @@ class PremiumPage < Calabash::ABase
   def click_upgrade_premium
     sleep 1
     wait_for(:timeout =>5) do
-      element_exists("* marked:'Learn more'") || element_exists("* marked:'Try for FREE'")    
+      element_exists("* marked:'Learn more'") ||
+      element_exists("* marked:'Try for FREE'") ||
+      element_exists("* marked:'Go Premium'") 
     end
-    touch "* marked:'Learn more'" if element_exists "* marked:'Learn more'"
-    touch "* marked:'Try for FREE'" if element_exists "* marked:'Try for FREE'"
+    touch_if_element_exists "* marked:'Learn more'"
+    touch_if_element_exists "* marked:'Try for FREE'"
+    touch_if_element_exists "* marked:'Go Premium'"
   end
 
   def enter_messages
@@ -158,7 +162,11 @@ class PremiumPage < Calabash::ABase
       wait_for_element_exists "* marked:'Send request'"
       close_request_dialog
     when 2
-      wait_for_element_exists "* marked:'Try for FREE'"
+      # wait_for_element_exists "* marked:'Try for FREE'"
+      wait_for(:timeout => 3) do
+        element_exists("* marked:'Try for FREE'") ||
+        element_exists("* marked:'Go Premium'")
+      end
       close_request_dialog
     when 4
       wait_for_element_exists "* marked:'Type something'"

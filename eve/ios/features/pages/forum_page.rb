@@ -17,11 +17,12 @@ class ForumPage < Calabash::IBase
       element_exists("* marked:'Done'") ||
       element_exists("* marked:'Close'") ||
       element_exists("* marked:'Cancel'") ||
-      element_exists("* id:'gl-foundation-popup-close'")||
-      element_exists("* marked:'sk cross close'")||
-      element_exists("* id:'gl-community-back.png'")||
-      element_exists("* marked:'Save'")||
-      element_exists("* marked:'Replies' sibling UINavigationButton")||
+      element_exists("* id:'gl-foundation-popup-close'") ||
+      element_exists("* marked:'sk cross close'") ||
+      element_exists("* id:'gl-community-back.png'") ||
+      element_exists("* marked:'Save'") ||
+      element_exists("* marked:'Replies' sibling UINavigationButton") ||
+      element_exists("* marked:'Add a comment'") ||
       element_exists("* marked:'OK'") do
       click_if_element_exists "* marked:'Back'"
       click_if_element_exists "* marked:'Close'"
@@ -32,6 +33,7 @@ class ForumPage < Calabash::IBase
       click_if_element_exists "* marked:'OK'"
       click_if_element_exists "* marked:'sk cross close'"
       click_if_element_exists "* marked:'Save'"
+      touch "UINavigationButton" if element_exists "* marked:'Add a comment'"
       click_if_element_exists "* marked:'Replies' sibling UINavigationButton"
       counter += 1
       break if counter > 3
@@ -257,7 +259,11 @@ class ForumPage < Calabash::IBase
   end
  
   def delete_topic(args)
-    wait_touch "* id:'community-dots' index:#{args}"
+    if element_exists "* id:'community-dots' index:#{args}"
+      touch "* id:'community-dots' index:#{args}"
+    else 
+      touch_if_element_exists "* id:'community-dots'"
+    end
     wait_touch "UILabel marked:'Delete this post'"
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'delete this topic'}"}
     wait_touch "UILabel marked:'OK'"
@@ -277,9 +283,9 @@ class ForumPage < Calabash::IBase
 
   def scroll_to_see(gesture,content)
     if gesture == "up"
-      until_element_exists("* marked:'#{content}'", :timeout  => 50 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 50 , :action => lambda {swipe :down, :query => "UITableViewWrapperView", :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368},  }})
     elsif  gesture == "down"
-      until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :query => "UITableViewWrapperView", :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
     else 
       puts "Gesture  Error"
     end

@@ -29,6 +29,10 @@ module NurtureHelper
     touch query_str
   end
   
+  def touch_if_element_exist(args)
+    touch args if element_exists args
+  end
+
   def random_str(len = 8)
     ('a'..'z').to_a.shuffle[0,len].join
   end

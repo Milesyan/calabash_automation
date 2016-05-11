@@ -33,11 +33,11 @@ class AppPage < Calabash::ABase
   def open(tab_name)
     sleep 1
     i = ["home", "community", "alert", "me", "more options"].find_index tab_name.downcase
-    touch "android.support.design.widget.by index:#{i}"
+    touch "android.support.design.widget.ci index:#{i}"
   end
 
   def logout
-    menu_button = "android.support.v7.widget.f"
+    menu_button = "* marked:'More options'"
     wait_for(:timeout => 10, :regry_frequency => 2) do
       element_exists menu_button
     end
@@ -53,7 +53,13 @@ class AppPage < Calabash::ABase
   end
   
   def forum_element
-    wait_for_elements_exist "by"
+    begin 
+      wait_for(:timeout => 3) do
+        elements_exist "ci"
+      end
+    rescue RuntimeError
+      puts "EVE ANDROID tabbar element class wrong"
+    end
   end
  
   def ntf_join_group

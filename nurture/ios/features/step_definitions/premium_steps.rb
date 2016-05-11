@@ -575,7 +575,7 @@ When(/^I click chat now button$/) do
 end
 
 Then(/^I should see the messages page$/) do
-  wait_for(:timeout =>3) do
+  wait_for(:timeout =>8) do
     element_exists("* marked:'Messages'") || element_exists("* marked:'Enter Message'")
   end
 end
