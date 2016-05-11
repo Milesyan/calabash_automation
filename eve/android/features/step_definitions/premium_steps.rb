@@ -366,8 +366,8 @@ end
 Then(/^I should see the chat history has been deleted$/) do
   sleep 0.5
   touch "* marked:'Delete'" if element_exists "* marked:'Delete'"
-  sleep 3
-  check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
+  sleep 1
+  wait_for_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
 
 Then(/^I send a message with last image$/) do

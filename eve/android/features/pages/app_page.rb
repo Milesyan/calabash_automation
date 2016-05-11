@@ -55,7 +55,7 @@ class AppPage < Calabash::ABase
   def forum_element
     begin 
       wait_for(:timeout => 3) do
-        elements_exist "ci"
+        element_exists "ci"
       end
     rescue RuntimeError
       puts "EVE ANDROID tabbar element class wrong"

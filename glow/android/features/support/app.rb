@@ -31,7 +31,7 @@ module Glow
     touch query_str
   end
 
-  def touch_if_element_exist(args)
+  def touch_if_element_exists(args)
     touch args if element_exists args
   end
   

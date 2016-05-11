@@ -717,6 +717,8 @@ class ForumPage < Calabash::ABase
   end
 
   def click_hyperlink_comments
+    wait_for_element_exists "* marked:'Upvote'"
+    sleep 2
     wait_touch "* id:'topic_statistics'"  
   end
 

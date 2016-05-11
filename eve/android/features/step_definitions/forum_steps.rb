@@ -701,9 +701,8 @@ Then(/^I hide the topic$/) do
 end
 
 Then(/^I should not see the topic hidden by me$/) do 
-  sleep 1.5
-  app_page.forum_element
-  check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
+  sleep 1
+  wait_for_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
   puts "I cannot see topic #{$user2.topic_title}"
 end
 
@@ -762,10 +761,7 @@ Then(/^I type in report reason and click flag$/) do
   wait_for_element_exists "* {text CONTAINS 'flagging this'}"
   enter_text "* id:'custom'", "Miles test flag"
   wait_touch "* marked:'flag'"
-  begin 
-    wait_for_element_exists "* marked:'OK'"
-  rescue RuntimeError
-  end
+  sleep 1
 end
 
 Then(/^I touch "(.*?)" in auto\-hidden topic$/) do |arg1|

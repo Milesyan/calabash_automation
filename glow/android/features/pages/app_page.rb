@@ -130,7 +130,7 @@ class AppPage < Calabash::ABase
       end
     rescue RuntimeError
     end
-    sleep 2
+    sleep 0.5
     while element_exists "* id:'more_insights_button'"
       system("adb shell input keyevent KEYCODE_BACK")
       puts "Touch System Back button"

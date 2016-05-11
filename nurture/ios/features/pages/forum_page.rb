@@ -283,9 +283,9 @@ class ForumPage < Calabash::IBase
 
   def scroll_to_see(gesture,content)
     if gesture == "up"
-      until_element_exists("* marked:'#{content}'", :timeout  => 50 , :action => lambda {swipe :down, :query => "UITableViewWrapperView", :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368},  }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 50 , :action => lambda {swipe :down, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300},  }})
     elsif  gesture == "down"
-      until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :query => "UITableViewWrapperView", :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 368} }})
+      until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
     else 
       puts "Gesture  Error"
     end

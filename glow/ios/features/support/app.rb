@@ -14,7 +14,7 @@ module Glow
     element_exists "UITabBar"
   end
 
-  def touch_if_element_exist(args)
+  def touch_if_element_exists(args)
     touch args if element_exists args
   end
 

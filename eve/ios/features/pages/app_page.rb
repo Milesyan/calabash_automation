@@ -108,9 +108,10 @@ class AppPage < Calabash::IBase
       wait_touch "UITabBarButton marked:'Home'"
     when "community"
       wait_touch "UITabBarButtonLabel marked:'Community'"
-      close_community_popup
+      close_chat_popup
       if element_does_not_exist "* marked:'New'"
-        wait_touch "UITabBarButtonLabel marked:'Community'"
+        close_chat_popup
+        touch_if_element_exists "UITabBarButtonLabel marked:'Community'"
       end
       sleep 1
       close_chat_popup
