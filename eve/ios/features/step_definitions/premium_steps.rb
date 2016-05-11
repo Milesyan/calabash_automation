@@ -299,11 +299,11 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat requst is ignored$/) do
-  puts "NEED TO CONFIRM THE TEXT HERE"
+  wait_for_element_does_not_exist "* text:'New chat request.'"
 end
 
 Then(/^I should see the chat requst is blocked$/) do
-  puts "NEED TO CONFIRM THE TEXT HERE"
+  wait_for_element_does_not_exist "* text:'New chat request.'"
 end
 
 Then(/^I click done to close messages$/) do
