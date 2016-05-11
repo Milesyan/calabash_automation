@@ -2,6 +2,10 @@ require 'yaml'
 
 module Glow
 
+  def embed(x,y=nil,z=nil)
+    puts "Screenshot at #{x}"
+  end
+  
   def already_logged_in?
     element_exists "android.support.design.widget.ci"
   end

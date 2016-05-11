@@ -2,6 +2,10 @@ require 'yaml'
 
 module Glow
 
+  def embed(x,y=nil,z=nil)
+    puts "Screenshot at #{x}"
+  end
+  
   def get_email
     "a#{Time.now.to_i}@g.com"
   end

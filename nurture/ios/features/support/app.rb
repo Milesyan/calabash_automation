@@ -1,4 +1,8 @@
 module Nurture
+  def embed(x,y=nil,z=nil)
+    puts "Screenshot at #{x}"
+  end
+
   def wait_touch(query_str)
     wait_for_elements_exist [query_str], :post_timeout => 0.3
     touch(query_str)
