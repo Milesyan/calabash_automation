@@ -124,12 +124,6 @@ class AppPage < Calabash::ABase
   end
 
   def pass_insight
-    begin
-      wait_for(:timeout => 3) do
-        element_exists("* id:'more_insights_button'") || element_exists("* marked:'Community'")
-      end
-    rescue RuntimeError
-    end
     sleep 0.5
     while element_exists "* id:'more_insights_button'"
       system("adb shell input keyevent KEYCODE_BACK")

@@ -1,5 +1,5 @@
 @forum @hide_report
-Feature: Test hide/report topic/comment (4m40.131s 4 scenarios 38 steps)
+Feature: Test hide/report topic/comment.
   @hide_topic
   Scenario: User create a topic and hide it.
     Given another user "Charlotte" create 1 topic and 2 comments and 3 subreplies for each comment

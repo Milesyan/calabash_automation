@@ -103,6 +103,7 @@ end
 
 When(/^I enter new user's profile$/) do
   wait_touch "* {text CONTAINS '#{$new_user.first_name}'}"
+  sleep 3
 end
 
 Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |user_name,topic_name|

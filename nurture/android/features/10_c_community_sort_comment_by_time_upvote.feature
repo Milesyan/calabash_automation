@@ -1,5 +1,5 @@
 @forum @order_by
-Feature: Test order by time and order by upvote (1m40.347s 1 scenario 21 steps)
+Feature: Test order by time and order by upvote.
   Scenario: User create a topic and switch between order by time and upvote.
     Given I create a new forum user with name "Miles"
     And "Miles" create 1 topic and 10 comments and 3 subreplies for each comment

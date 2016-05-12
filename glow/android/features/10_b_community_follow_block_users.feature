@@ -1,5 +1,5 @@
 @forum @follow_block_user
-Feature: user checks follow, unfollow, block and unblock. (6m4.146s 4 scenarios 62 steps)
+Feature: user checks follow, unfollow, block and unblock. 
   @follow_user
   Scenario: User follow another user.
     Given an existing Forum user "Charlotte" has created a topic in the test group

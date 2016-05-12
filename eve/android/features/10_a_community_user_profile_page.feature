@@ -1,5 +1,5 @@
 @forum @profile
-Feature: check user profile (4m8.459s 3 scenarios 30 steps)
+Feature: check user profile.
   @edit_profile
   Scenario: User edit profile info.
     Given I create a new forum user with name "Miles"
