@@ -1,6 +1,8 @@
 require 'httparty'
 require 'json'
-require 'net/http'
+# require 'net/http'
+require 'active_support/all'
+
 require_relative "MultipartImage_Android.rb"
 require_relative 'test_helper'
 require_relative 'ForumApiAndroid'
@@ -24,7 +26,7 @@ module GlowForumAndroid
     include AndroidConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name, :tmi_flag, :group_name, :group_description, :group_category
-    attr_accessor :res
+    attr_accessor :res, :vc, :android_version
     attr_accessor :gender, :birthday
 
     def initialize(args = {})
@@ -32,8 +34,6 @@ module GlowForumAndroid
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD
-      @partner_email = "p#{@email}"
-      @partner_first_name = "p#{@first_name}"
       @gender = args[:gender] || "female"
       @type = args[:type]
       @birthday = args[:birthday]
@@ -41,11 +41,11 @@ module GlowForumAndroid
       @forum_fc = 1
       @forum_random = random_str
       @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "39300"
-      @forum_vc = 393
+      @forum_android_version = args[:android_version] || "3.9.9-play-beta"
+      @forum_vc = args[:vc] || 399
       @forum_time_zone = "Asia\/Shanghai"
       @code_name = "emma"
-      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@code_name}"
+      @additional_forum = additional_post_data.to_param
     end
 
     def random_str
@@ -62,14 +62,14 @@ module GlowForumAndroid
 
     def additional_post_data
       {
-        "code_name": "emma",
-        "time_zone": "Asia\/Shanghai",
-        "vc": 393,
-        "android_version": "3.8.0-play-beta",
-        "device_id": "be3ca737160d9da3",
-        "random": random_str,
-        "fc": 1,
-        "hl": "en_US"
+        "hl": @forum_hl,
+        "fc": @forum_fc,
+        "random": @forum_random,
+        "device_id": @forum_device_id,
+        "android_version": @forum_android_version,
+        "vc": @forum_vc,
+        "time_zone": @forum_time_zone,
+        "code_name": @code_name 
       }
     end
 

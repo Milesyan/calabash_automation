@@ -1,9 +1,10 @@
 require 'httparty'
 require 'json'
-require 'net/http'
+# require 'net/http'
 require 'securerandom'
 require 'uri'
-# require 'active_support/all'
+require 'active_support/all'
+
 require_relative "MultipartImage_Android.rb"
 require_relative 'test_helper'
 require_relative 'ForumApiAndroid'
@@ -27,7 +28,7 @@ module EveForumAndroid
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :tmi_flag, :group_name, :group_description, :group_category 
-    attr_accessor :res
+    attr_accessor :res, :android_version, :app_version
     attr_accessor :birthday
 
     def initialize(args = {})  
@@ -43,13 +44,13 @@ module EveForumAndroid
       @forum_locale = "en_US"
       @forum_random = random_str
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "30000"
-      @forum_app_version = "30000"
+      @forum_android_version = args[:android_version] || "10200"
+      @forum_app_version = args[:app_version] || "1.2.0-milestestapi"
       @forum_time_zone = "Asia\/Shanghai"
       @code_name = "lexie"
       @forum_ts = Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,3].join
-      @additional_forum = "device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}&is_guest=0&code_name=#{@code_name}"
-      data = "device_id=#{@forum_device_id}&app_version=#{@forum_android_version}&locale=#{@forum_locale}&tz=#{@forum_time_zone}&random=#{@forum_random}&ts=#{@forum_ts}"
+      @additional_forum = additional_forum.to_param
+      @additional_post_data = additional_post_data.to_param
     end
 
 
@@ -84,6 +85,7 @@ module EveForumAndroid
       {
         "device_id": @forum_device_id,
         "android_version": @forum_android_version,
+        "app_version": @forum_app_version,
         "locale": @forum_locale,
         "tz": @forum_time_zone,
         "random": @forum_random,

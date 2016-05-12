@@ -1,6 +1,7 @@
 require 'httparty'
 require 'faker'
 require 'active_support/all'
+
 require_relative 'test_helper'
 require_relative "MultipartImage_Android.rb"
 require_relative 'ForumApiAndroid.rb'
@@ -28,7 +29,7 @@ module NurtureForumAndroid
 
     attr_accessor :email, :password, :first_name, :last_name, :gender, :birthday, :user_id,:due_date
     attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
-    attr_accessor :tmi_flag, :group_name, :group_description, :group_category
+    attr_accessor :tmi_flag, :group_name, :group_description, :group_category, :android_version
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
     def initialize(args = {})
@@ -42,13 +43,13 @@ module NurtureForumAndroid
       @forum_hl = "en_GB"
       @forum_random = rand.to_s[2..16]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "20000"
+      @forum_android_version = args[:android_version] || "20100"
       @forum_time_zone = "American\/New_York"
       @code_name = "kaylee"
-      @additional_forum = "hl=#{@forum_hl}&android_version=#{@forum_android_version}&random=#{@forum_random}&device_id=#{@forum_device_id}&code_name=#{@code_name}"
+      @additional_forum = additional_forum.to_param
     end
 
-    def additional_post_data
+    def additional_forum
       {
         "hl": @forum_hl,
         "android_version": @forum_android_version,
@@ -57,7 +58,7 @@ module NurtureForumAndroid
         "code_name": @code_name
       }
     end
-    
+
     def get_first_name
       "ba" + Time.now.to_i.to_s[2..-1] + random_str_b(2)
     end

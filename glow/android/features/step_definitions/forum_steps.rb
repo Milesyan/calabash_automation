@@ -617,6 +617,7 @@ end
 Then(/^I go back to forum page from forum profile page$/) do
   sleep 1
   forum_page.click_back_button
+  sleep 0.5
 end
 
 Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|

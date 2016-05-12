@@ -1,6 +1,7 @@
 require 'httparty'
 require 'faker'
 require 'active_support/all'
+
 require_relative 'test_helper'
 require_relative "MultipartImage_Android.rb"
 require_relative 'ForumApiAndroid'
@@ -58,7 +59,7 @@ module NoahForumAndroid
     attr_accessor :babies, :current_baby, :user_id, :current_baby_id
 
     attr_accessor :res, :ut, :topic_id, :reply_id, :topic_title, :reply_content, :group_id, :all_group_ids
-    attr_accessor :tmi_flag, :group_name, :group_description, :group_category
+    attr_accessor :tmi_flag, :group_name, :group_description, :group_category, :android_version, :vc
     attr_accessor :tgt_user_id, :request_id, :all_participants
 
 
@@ -74,23 +75,38 @@ module NoahForumAndroid
       @forum_hl = "en_US"
       @forum_random = rand.to_s[2..15]
       @forum_device_id = "f1506217d3d7" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = "10200"
+      @forum_android_version = args[:android_version] || "1.1.99-milestestapi"
+      @forum_vc = args[:vc] || 10199
       @forum_time_zone = "American%2FNew_York"
       @code_name = "noah"
-      @additional_forum = "hl=#{@forum_hl}&random=#{@forum_random}&device_id=#{@forum_device_id}&android_version=#{@forum_android_version}&tz=#{@forum_time_zone}&code_name=#{@code_name}"
+      @additional_forum = additional_forum.to_param
     end
 
-    def additional_post_data
+    def additional_forum
       {
         "hl": @forum_hl,
         "random": @forum_random,
         "device_id": @forum_device_id,
         "android_version": @forum_android_version,
-        "time_zone": @forum_time_zone,
+        "vc": @forum_vc,
+        "tz": @forum_time_zone,
         "code_name": @code_name
       }
     end
-    
+
+    def common_data
+      data = {
+        "hl": "en_US",
+        "random": @forum_random,
+        "device_id": @forum_device_id,
+        "android_version": @forum_android_version,
+        "vc": @forum_vc,
+        "tz": @forum_time_zone,
+        "code_name": "noah",
+      }.to_param
+    end
+
+
     def get_first_name
       "ba" + Time.now.to_i.to_s[2..-1] + random_str_b(2)
     end
@@ -121,17 +137,6 @@ module NoahForumAndroid
     end
 
 
-    def common_data
-      data = {
-        "hl": "en_US",
-        "random": random_num,
-        "device_id": "be3ca737160d9da3",
-        "android_version": "1.0-beta",
-        "vc": 50000,
-        "time_zone": "Asia Shanghai",
-        "code_name": "noah",
-      }.to_param
-    end
 
     def complete_tutorial
       self
