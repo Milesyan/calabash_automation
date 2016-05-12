@@ -75,21 +75,12 @@ module ForumApiAndroid
 
     def create_photo(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
-      if @code_name != 'lexie'
-      data = {
-          "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
-          "anonymous": args[:anonymous]|| 0,
-          "warning": args[:tmi_flag] || 0,
-          "image": File.new(image_pwd)
-        }.merge(additional_post_data)
-      else 
       data = {
           "title": args[:topic_title] || ("Test Post Photo " + Time.now.to_s),
           "anonymous": args[:anonymous]|| 0,
           "warning": args[:tmi_flag] || 0,
           "image": File.new(image_pwd)
         }.merge(additional_forum)
-      end
       @group_id = args[:group_id] || GROUP_ID
       data,headers = MultipartImage::Post.prepare_query(data)
       headers = headers.merge({ "Authorization" => @ut })
@@ -376,21 +367,12 @@ module ForumApiAndroid
 
     def create_group(args={})
       image_pwd = IMAGE_ROOT + Dir.new(IMAGE_ROOT).to_a.select{|f|    f.downcase.match(/\.jpg|\.jpeg/) }.sample
-      if @code_name != "lexie"
-      data = {
-          "name": args[:group_name] || ("Test Create Group"),
-          "desc": args[:group_description]|| "Test Create Group Description",
-          "category_id": args[:group_category] || 6,
-          "image": File.new(image_pwd)
-        }.merge(additional_post_data)
-      else 
       data = {
           "name": args[:group_name] || ("Test Create Group"),
           "desc": args[:group_description]|| "Test Create Group Description",
           "category_id": args[:group_category] || 6,
           "image": File.new(image_pwd)
         }.merge(additional_forum)
-      end
       data,headers = MultipartImage::Post.prepare_query(data)
       headers = headers.merge({ "Authorization" => @ut })
       uri = URI("#{forum_base_url}/group")
