@@ -245,8 +245,11 @@ class ForumPage < Calabash::ABase
 
   def add_comment
     wait_for_element_exists "* id:'add_reply_btn'"
-    sleep 2
-    touch "* id:'add_reply_btn'"
+    sleep 1
+    until element_does_not_exist "* id:'add_reply_btn'"
+      touch "* id:'add_reply_btn'"
+      sleep 0.3
+    end
     sleep 1
     wait_touch "* id:'reply_text'"
     comment = 'comment ' + Time.now.to_s
@@ -714,6 +717,8 @@ class ForumPage < Calabash::ABase
   end
 
   def click_hyperlink_comments
+    wait_for_element_exists "* marked:'Upvote'"
+    sleep 2
     wait_touch "* id:'topic_statistics'"  
   end
 

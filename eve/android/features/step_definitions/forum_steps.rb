@@ -617,6 +617,7 @@ end
 Then(/^I go back to forum page from forum profile page$/) do
   sleep 1
   forum_page.click_back_button
+  sleep 0.5
 end
 
 Then(/^I check "([^"]*)" under forum profile page and exit the page$/) do |arg1|
@@ -670,7 +671,9 @@ Then(/^I can see the person I blocked$/) do
       name = $new_user.first_name
     end
     puts "Name is #{name}"
-    until_element_exists("* {text CONTAINS '#{name}'}", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5) 
+    wait_for(:timeout =>3) do
+      element_exists("* {text CONTAINS '#{name}'}") || element_exists("* {text CONTAINS '#{premium_name}'}")
+    end
   rescue
     puts "Name not for new user or user2"
   end
@@ -701,8 +704,8 @@ Then(/^I hide the topic$/) do
 end
 
 Then(/^I should not see the topic hidden by me$/) do 
-  sleep 1
-  wait_for_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
+  sleep 1.5
+  check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
   puts "I cannot see topic #{$user2.topic_title}"
 end
 

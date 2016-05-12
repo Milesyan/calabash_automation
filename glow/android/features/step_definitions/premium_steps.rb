@@ -299,8 +299,7 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat request is ignored$/) do
-  sleep 2
-  check_element_does_not_exist "* marked:'#{premium_name}'"
+  wait_for_element_does_not_exist "* marked:'#{premium_name}'"
 end
 
 Then(/^I click done to close messages$/) do
@@ -601,6 +600,6 @@ When(/^I block the chat request$/) do
 end
 
 Then(/^I should see the chat requst is blocked$/) do
-  puts "NEED TO CONFIRM THE TEXT HERE"
+  wait_for_element_does_not_exist "* marked:'#{premium_name}'"
 end
 

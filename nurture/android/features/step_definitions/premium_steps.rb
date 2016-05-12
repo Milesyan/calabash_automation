@@ -103,6 +103,7 @@ end
 
 When(/^I enter new user's profile$/) do
   wait_touch "* {text CONTAINS '#{$new_user.first_name}'}"
+  sleep 3
 end
 
 Given(/^a new user "([^"]*)" creates 1 topic with name "([^"]*)" and 1 comment and 1 subreply for each comment$/) do |user_name,topic_name|
@@ -298,8 +299,7 @@ Then(/^I click the name of the new user and enter the user's profile page$/) do
 end
 
 Then(/^I should see the chat request is ignored$/) do
-  sleep 2
-  check_element_does_not_exist "* marked:'#{premium_name}'"
+  wait_for_element_does_not_exist "* marked:'#{premium_name}'"
 end
 
 Then(/^I click done to close messages$/) do
@@ -366,8 +366,8 @@ end
 Then(/^I should see the chat history has been deleted$/) do
   sleep 0.5
   touch "* marked:'Delete'" if element_exists "* marked:'Delete'"
-  sleep 3
-  check_element_does_not_exist "* {text CONTAINS 'test delete history'}"
+  sleep 1
+  wait_for_element_does_not_exist "* {text CONTAINS 'test delete history'}"
 end
 
 Then(/^I send a message with last image$/) do
@@ -495,7 +495,10 @@ Then(/^I can see a chat request is sent or premium prompt dialog$/) do
              :post_timeout => 0.1,
              :timeout_message => "Time out for chat or premium prompt"}
   wait_for(options) do
-    element_exists("* marked:'Learn more'")|| element_exists("* marked:'Try for FREE'")|| element_exists("* {text CONTAINS 'Send request'}")
+    element_exists("* marked:'Learn more'") ||
+    element_exists("* marked:'Try for FREE'") ||
+    element_exists("* {text CONTAINS 'Send request'}") ||
+    element_exists("* marked:'Go Premium'")
   end
   # wait_for_element_exists "* {text CONTAINS 'Send request'}", :timeout  => 1
   premium_page.close_request_dialog
@@ -569,7 +572,7 @@ Then(/^I click the requestor's profile photo to see the profile page$/) do
 end
 
 Then(/^I check the accept chat request notification is received$/) do
-  if $new_user.code_name != 'noah' && $new_user.code_name != 'lexie'
+  if $new_user.code_name == 'kaylee' 
     wait_for_element_exists "* marked:'Chat Now!'"
   else 
     wait_for_element_exists "* marked:'Check it out'"
@@ -597,6 +600,6 @@ When(/^I block the chat request$/) do
 end
 
 Then(/^I should see the chat requst is blocked$/) do
-  puts "NEED TO CONFIRM THE TEXT HERE"
+  wait_for_element_does_not_exist "* marked:'#{premium_name}'"
 end
 
