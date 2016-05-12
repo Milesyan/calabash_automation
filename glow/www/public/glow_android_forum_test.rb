@@ -67,6 +67,10 @@ module GlowForumAndroid
       (Time.now + n*24*3600).strftime("%Y/%m/%d")
     end
 
+    def additional_forum
+      additional_post_data
+    end    
+
     def additional_post_data
       {
         "hl": @forum_hl,
