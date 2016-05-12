@@ -19,9 +19,15 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 module EveForumAndroid
 
   def forum_new_user(args = {})
-    u = ForumUser.new(args).all_signup_flow
+    ForumUser.new(args).all_signup_flow
   end
   
+  def old_version_user(args = {})
+    android_version = args[:android_version] || 10100
+    app_version = args[:app_version] || "1.1.0-milestestapi"
+    ForumUser.new(:android_version => android_version, :app_version => app_version).all_signup_flow
+  end
+
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include AndroidConfig

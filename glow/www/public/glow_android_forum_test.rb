@@ -17,8 +17,15 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 
 module GlowForumAndroid
   extend TestHelper
+
   def forum_new_user(args = {})
-    ForumUser.new(args).non_ttc_signup.login.complete_tutorial.join_group
+    ForumUser.new(args).non_ttc_signup.login.complete_tutorial
+  end
+
+  def old_version_user(args = {})
+    android_version = args[:android_version] || "3.8.0-milestestapi"
+    vc = args[:vc] || 380
+    ForumUser.new(:android_version => android_version, :vc => vc).non_ttc_signup.login.complete_tutorial
   end
 
   class ForumUser < ForumApiAndroid::ForumAndroid
@@ -41,8 +48,8 @@ module GlowForumAndroid
       @forum_fc = 1
       @forum_random = random_str
       @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = args[:android_version] || "3.9.9-play-beta"
-      @forum_vc = args[:vc] || 399
+      @forum_android_version = args[:android_version] || "4.0.0-milestestapi"
+      @forum_vc = args[:vc] || 400
       @forum_time_zone = "Asia\/Shanghai"
       @code_name = "emma"
       @additional_forum = additional_post_data.to_param

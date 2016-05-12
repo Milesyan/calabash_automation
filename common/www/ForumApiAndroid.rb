@@ -582,6 +582,13 @@ module ForumApiAndroid
       puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications  
     end    
 
+    #For old version api www tests
+    def discover
+      data = {}
+      url = "#{forum_base_url}/group/discover?#{@additional_forum}"
+      @res = HTTParty.get url, auth_options(data)
+      self
+    end
   end
 end
 

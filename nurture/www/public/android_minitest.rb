@@ -441,7 +441,22 @@ module Minitest_android
     up.establish_chat u
     up.get_all_contacts
   end
+
+  def test_old_client_no_recommended_people
+    u_new = forum_new_user
+    u_old = old_version_user
+    u_new.discover
+    assert u_new.res['recommended_people']
+    u_old.discover
+    assert_empty u_old.res['recommended_people']
+  end
+
 end
+
+
+
+
+
 
 
   # def test_create_new_badge

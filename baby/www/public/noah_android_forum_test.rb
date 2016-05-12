@@ -16,38 +16,16 @@ GROUP_CATEGORY = {"Glow" => 1, "Nurture" => 3, "Sex & Relationships" => 6, "Heal
 module NoahForumAndroid
   extend TestHelper
 
-  class Baby
-    attr_accessor :first_name, :last_name, :gender
-    attr_accessor :birthday, :birth_due_date, :birth_timezone
-    attr_accessor :baby_id
-    attr_accessor :relation
-    attr_accessor :weight_all, :height_all, :headcirc_all
-    attr_accessor :birth_weight, :birth_height, :birth_headcirc, :ethnicity
-
-    def initialize(args)
-      @first_name = args[:first_name]
-      @last_name = args[:last_name]
-      @gender = args[:gender]
-      @relation = args[:relation]
-      @birthday = args[:birthday]
-      @birth_due_date = args[:birth_due_date]
-      @birth_timezone = args[:birth_timezone]
-      @baby_id = args[:baby_id]
-      @weight_all = []
-      @height_all = []
-      @birth_weight = args[:birth_weight]
-      @birth_height = args[:birth_height]
-      @birth_headcirc = args[:birth_headcirc] || args[:birth_head]
-      @headcirc_all = []
-      @ethnicity = [1]
-      @code_name = 'noah'
-    end
-  end
-
   def forum_new_user(args={})
-    ForumUser.new(args).signup.login.join_group
+    ForumUser.new(args).signup.login
   end
-    
+  
+  def old_version_user(args = {})
+    android_version = args[:android_version] || "1.0.0-milestestapi"
+    vc = args[:vc] || 10000
+    ForumUser.new(:android_version => android_version, :vc => vc).signup.login
+  end
+
   class ForumUser < ForumApiAndroid::ForumAndroid
     include TestHelper
     include HTTParty
@@ -204,75 +182,5 @@ module NoahForumAndroid
       @res = self.class.get "/android/user/daily_content?#{common_data}"
       self
     end
-
-    def nurture_baby
-      @res = self.class.get "/android/user/nurture_baby?#{common_data}"
-      self
-    end
-
-    def new_born_baby(args = {})
-      name = Faker::Name.name.split(" ")
-      params = {
-        first_name: args[:first_name] || name.first,
-        last_name: args[:last_name] || name.last,
-        relation: args[:relation] || "Mother",
-        gender: args[:gender] || "M",
-        birth_due_date: args[:birth_due_date] || date_str(10.days.ago),
-        birthday: args[:birthday] || date_str(10.days.ago),
-        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
-      }
-      Baby.new(params)
-    end
-
-    def new_upcoming_baby(args = {})
-      name = Faker::Name.name.split(" ")
-      params = {
-        first_name: args[:first_name] || name.first,
-        last_name: args[:last_name] || name.last,
-        relation: args[:relation] || "Mother",
-        birth_due_date: args[:birth_due_date] || date_str(10.days.ago),
-      }
-      Baby.new(params)
-    end
-
-    def add_born_baby(baby)
-      data = {
-        "first_name": baby.first_name,
-        "last_name": baby.last_name,
-        "gender": baby.gender,
-        "birthday": baby.birthday,
-        "due_date": baby.birth_due_date,
-        "relation": baby.relation.capitalize
-      }
-
-      @res = self.class.post "/android/baby?#{common_data}", auth_options(data)
-      if @res["rc"] == 0
-        @current_baby = baby
-        @current_baby.baby_id = @res["data"]["baby_id"]
-        @babies << @current_baby
-        puts "Baby #{baby.first_name} is added [baby_id: #{@current_baby.baby_id}]"
-      end
-      self
-    end
-
-    def add_upcoming_baby(baby)
-      data = {
-        "first_name": baby.first_name,
-        "last_name": baby.last_name,
-        "gender": "",
-        "birthday": "",
-        "due_date": baby.birth_due_date,
-        "relation": baby.relation.capitalize
-      }
-
-      @res = self.class.post "/android/baby?#{common_data}", auth_options(data)
-      if @res["rc"] == 0
-        @current_baby = baby
-        @current_baby.baby_id = @res["data"]["baby_id"]
-        @babies << @current_baby
-        puts "Baby #{baby.first_name} is added [baby_id: #{@current_baby.baby_id}]"
-      end
-      self
-    end    
   end
 end
