@@ -478,6 +478,17 @@ module Minitest_ios
     u.get_blocked
     puts u.res
   end
+
+
+  def test_old_client_no_recommended_people
+    u_new = forum_new_user
+    u_old = old_version_user
+    u_new.discover
+    assert u_new.res['people']
+    u_old.discover
+    assert_empty u_old.res['people']
+  end
+
 end
 
 

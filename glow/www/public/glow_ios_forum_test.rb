@@ -20,12 +20,17 @@ module GlowForumIOS
     ForumUser.new(args).ttc_signup.login.complete_tutorial
   end
 
+  def old_version_user(args = {})
+    app_version = args[:app_version] || "5.4.0"
+    ForumUser.new(:app_version => app_version).ttc_signup.login.complete_tutorial
+  end
+
   class ForumUser < ForumApi::ForumIOS
     include TestHelper
     include IOSConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id, :topic_title, :reply_content,:group_id,:all_group_ids
     attr_accessor :first_name, :last_name, :type, :res, :gender, :group_name, :group_description, :group_category, :vote_index
-    attr_accessor :birthday
+    attr_accessor :birthday, :app_version
 
     def initialize(args = {})  
       @first_name = (args[:first_name] || "gi") + ('0'..'3').to_a.shuffle[0,3].join + Time.now.to_i.to_s[-4..-1]
@@ -38,6 +43,7 @@ module GlowForumIOS
       @type = args[:type]
       @code_name = 'emma'
       @birthday = args[:birthday]
+      @app_version = args[:app_version] || "5.5.0"
     end
 
     def random_str
@@ -51,7 +57,7 @@ module GlowForumIOS
 
     def common_data
       {
-        "app_version" => "5.5.0",
+        "app_version" => @app_version,
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "model" => "iPhone7,1",

@@ -28,12 +28,17 @@ module NurtureForumIOS
     ForumUser.new(args).signup.login
   end
 
+  def old_version_user(args = {})
+    app_version = args[:app_version] || '2.8'
+    ForumUser.new(:app_version => app_version).signup.login
+  end
+
   class ForumUser < ForumApi::ForumIOS
     include IOSConfig
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks, :birthday
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
     attr_accessor :reply_content,:group_id,:all_group_ids
-    attr_accessor :tgt_user_id, :request_id, :all_participants
+    attr_accessor :tgt_user_id, :request_id, :all_participants, :app_version
 
     def initialize(args = {})
       @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s
@@ -42,6 +47,7 @@ module NurtureForumIOS
       @due_in_weeks = args[:due_in_weeks]
       @code_name = 'kaylee'
       @birthday = args[:birthday] || 566452800
+      @app_version = args[:app_version] || "3.0.0"
     end
 
     def uuid
@@ -62,10 +68,8 @@ module NurtureForumIOS
 
     def common_data
       {
-        "app_version" => "3.0.0",
+        "app_version" => @app_version,
         "locale" => "en_US",
-        # "time_zone"=> "Asia\/Shanghai",
-        # "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "device_id" => "VpqHBZ32za3BmwWj9DzKy4Hv-TPf1AaKNi89OZhCpRqc4K6YE6Zan-y8"+('A'..'Z').to_a.shuffle[0,9].join,
         "model" => "x86_64",
       }

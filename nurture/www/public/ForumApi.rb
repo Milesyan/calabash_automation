@@ -636,6 +636,18 @@ module ForumApi
       puts "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
       puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications 
     end  
+
+    #For old version api www tests
+    def discover
+      data = {
+        "code_name": @code_name,
+        "ut": @ut
+        }.merge(common_data)
+      @res = HTTParty.get "#{forum_base_url}/group/discover", options(data)
+      @res = @res["data"] if @code_name != 'emma'
+      self
+    end
+    
   end
 
 end

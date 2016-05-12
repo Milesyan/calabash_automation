@@ -21,12 +21,17 @@ module EveForumIOS
     ForumUser.new(args).all_signup_flow
   end
 
+  def old_version_user(args = {})
+    app_version = args[:app_version] || '1.5.0'
+    ForumUser.new(:app_version => app_version).all_signup_flow
+  end
+
   class ForumUser < ForumApi::ForumIOS
     include TestHelper
     include IOSConfig
     attr_accessor :email, :password, :ut, :res, :user_id, :preg_id,:due_date, :due_in_weeks
     attr_accessor :first_name, :last_name, :gender, :topic_id, :reply_id, :topic_title
-    attr_accessor :reply_content,:group_id,:all_group_ids, :birthday
+    attr_accessor :reply_content,:group_id,:all_group_ids, :birthday, :app_version
 
 
     def initialize(args = {})
@@ -35,6 +40,7 @@ module EveForumIOS
       @password = args[:password] || PASSWORD
       @birthday = args[:birthday] || [30.years.ago.to_i,19.years.ago.to_i].sample
       @code_name = 'lexie'
+      @app_version = args[:app_version] || '1.6.0'
     end
 
     def uuid
@@ -55,7 +61,7 @@ module EveForumIOS
 
     def common_data
       {
-        "app_version" => "3.0.0",
+        "app_version" => @app_version,
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290" + random_str,
         "model" => "iPhone7,1",
