@@ -6,7 +6,7 @@ default_rerun = "./rerun.txt"
 
 rerun_out: -f rerun -o <%= default_rerun %>
 html_report:  -f html -o <%= default_report %>
-p0_report: -f html -o p0.html
+p0_report: -f html -o p0.html -p rerun_out
 not_ready: -t ~@not_ready
 common: NO_STOP='1' -p not_ready
 default: NO_STOP='1'

@@ -82,6 +82,7 @@ class AppPage < Calabash::IBase
     wait_touch "* marked:'Account settings'"
     sleep 0.5
     close_chat_popup
+    sleep 0.5
     scroll_to_row_with_mark "Logout"
     close_chat_popup
     wait_touch "* marked:'Logout'"

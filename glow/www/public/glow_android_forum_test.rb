@@ -48,8 +48,8 @@ module GlowForumAndroid
       @forum_fc = 1
       @forum_random = random_str
       @forum_device_id = "be3ca737160d" + ('0'..'9').to_a.shuffle[0,4].join
-      @forum_android_version = args[:android_version] || "4.0.0-milestestapi"
-      @forum_vc = args[:vc] || 400
+      @forum_android_version = args[:android_version] || "3.9.9-milestestapi"
+      @forum_vc = args[:vc] || 399
       @forum_time_zone = "Asia\/Shanghai"
       @code_name = "emma"
       @additional_forum = additional_post_data.to_param

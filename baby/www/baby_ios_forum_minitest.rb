@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'public/noah_ios_forum_test'
+require_relative 'public/baby_ios_forum_test'
 require_relative 'public/ios_minitest'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
