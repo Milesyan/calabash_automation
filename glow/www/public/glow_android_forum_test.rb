@@ -114,8 +114,7 @@ module GlowForumAndroid
       @res = HTTParty.post "#{base_url}/a/v2/users/signup", options(data)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      log_important email + " has been signed up"
-      puts "User id is #{@user_id}"
+      log_important @email + " has been signed up\nUser id is #{@user_id}"
       self
     end
 
@@ -149,7 +148,7 @@ module GlowForumAndroid
       # json_res = eval(res.to_s)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      puts @email + " has been signed up"
+      log_msg @email + " has been signed up\nUser id is #{@user_id}"
       self
     end
 

@@ -7,7 +7,6 @@ class AppPage < Calabash::ABase
 
   def tap_login
     pass_sso
-    puts "TOUCH LOGIN HERE "
     touch "* id:'login'"
   end
 
@@ -58,7 +57,7 @@ class AppPage < Calabash::ABase
         element_exists "ci"
       end
     rescue RuntimeError
-      puts "EVE ANDROID tabbar element class wrong"
+      log_error "EVE ANDROID tabbar element class wrong"
     end
   end
  

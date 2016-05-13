@@ -106,7 +106,7 @@ module NurtureForumIOS
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
       @preg_id = @res["data"]["pregnancies"].first["id"]
-      puts "#{email} has signed up"
+      log_important "#{email} has signed up\nUser id is #{@user_id}"
       self
     end
 
@@ -148,7 +148,6 @@ module NurtureForumIOS
       @notifications = @res["data"]["notifications"] if @res["rc"] == 0
       if @res["rc"] != 0
         log_important "RC IS NOT EQUAL to 0 in pull api call"
-        puts "Debug #{@res}"
       end
       self
     end   

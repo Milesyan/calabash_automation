@@ -83,7 +83,7 @@ module EveForumIOS
       @res = HTTParty.post "#{base_url}/ios/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
-      puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
+      log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
       self
     end
 
@@ -186,7 +186,6 @@ module EveForumIOS
         "ut": @ut
       }.merge(common_data)
       @res = HTTParty.get "#{base_url}/ios/users/get_daily_gems", options(data)
-      puts "GET #{@res}"
       self
     end
 
@@ -216,7 +215,7 @@ module EveForumIOS
           "+is_first_session":false
           }
       }.merge(common_data)
-      puts "Signup with email:\n Email >>>#{@email}"
+      log_msg "Signup with email:\n Email >>>#{@email}"
       @res = HTTParty.post "#{base_url}/ios/users/signup_with_email", options(data)
       self
     end

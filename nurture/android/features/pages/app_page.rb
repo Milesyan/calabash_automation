@@ -8,7 +8,6 @@ class AppPage < Calabash::ABase
   def tap_login
     sleep 0.3
     pass_sso
-    puts "TOUCH LOGIN HERE "
     x,y,width = forum_page.get_element_x_y "log_in"
     perform_action('touch_coordinate',(x+width*0.3), y)
   end

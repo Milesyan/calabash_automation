@@ -15,7 +15,7 @@ class EveTest < Minitest::Test
 
   def test_forum_new_user
     u = forum_new_user
-    puts u.first_name
+    assert u.first_name
   end
 
   def assert_rc(res)
@@ -43,11 +43,6 @@ class EveTest < Minitest::Test
   def test_premium
     up = premium_login
   end
-  
-  # def test_sign_up
-  #   u = ForumUser.new(:email=>"miles3@g.com", :password => "111111", :first_name=>'miles3').signup.login
-  #   puts u.res
-  # end
 end
 
 

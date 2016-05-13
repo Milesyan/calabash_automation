@@ -127,7 +127,7 @@ module GlowForumIOS
       }.merge(common_data)
 
       @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
-      puts @email + " has been signed up"
+      log_msg @email + " has been signed up"
       self
     end
 
@@ -162,7 +162,6 @@ module GlowForumIOS
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
-      puts "Login User id is #{@user_id}"
       self
     end
 

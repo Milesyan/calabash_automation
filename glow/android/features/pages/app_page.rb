@@ -40,7 +40,6 @@ class AppPage < Calabash::ABase
 
   def tap_login
     sleep 1
-    puts "TOUCH LOGIN HERE "
     wait_touch "* id:'log_in'"
   end
 
@@ -127,7 +126,6 @@ class AppPage < Calabash::ABase
     sleep 0.5
     while element_exists "* id:'more_insights_button'"
       system("adb shell input keyevent KEYCODE_BACK")
-      puts "Touch System Back button"
     end
   end
 

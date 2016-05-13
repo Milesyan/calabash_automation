@@ -136,7 +136,7 @@ class AppPage < Calabash::IBase
 
   def tutorial_steps
     if element_exists("* marked:'Got it'") || element_exists("* id:'close-btn'")
-      puts "Eve period cycle tutorial."
+      log_msg "Eve period cycle tutorial."
       temp = 1
     end
     until element_does_not_exist("* marked:'Got it'") && element_does_not_exist("* id:'close-btn'")

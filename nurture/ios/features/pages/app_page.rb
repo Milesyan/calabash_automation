@@ -10,8 +10,6 @@ class AppPage < Calabash::IBase
     premium_page.pass_premium_promt
     if element_exists "all * marked:'Swipe left or right to navigate through days'"
       tutorial_steps
-    else 
-      puts "Do not need tutorial steps >_<###"
     end
     sleep 1
     close_chat_popup
@@ -120,7 +118,7 @@ class AppPage < Calabash::IBase
       sleep 1
       premium_page.pass_premium_promt
     rescue RuntimeError
-      puts "PASS PREMIUM PROMT FAIL!!!"
+      log_error "PASS PREMIUM PROMT FAIL!!!"
     end
   end
 

@@ -113,12 +113,11 @@ module EveForumAndroid
       @res = HTTParty.post "#{base_url}/android/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
-      puts "guest signup >>>#{@user_id} success" if @res["rc"] == 0
+      log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
       self
     end
 
     def sync_guest_info
-      puts "#{@user_id}<<<<<<<<<<"
       data = {
         "user_id": -1,
         "sync_items": [{
@@ -151,7 +150,6 @@ module EveForumAndroid
         }
       }
       @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", auth_options(data)
-      puts "sync success" if @res["rc"] == 0
       self
     end
 
@@ -217,7 +215,7 @@ module EveForumAndroid
         },
         "onboarding_info":{}
       }
-      puts "Signup with email:\n Email >>>#{@email}"
+      log_msg "Signup with email:\n Email >>>#{@email}"
       @res = HTTParty.post "#{base_url}/android/users/signup_with_email?#{@additional_post_data}", options(data)
       self
     end

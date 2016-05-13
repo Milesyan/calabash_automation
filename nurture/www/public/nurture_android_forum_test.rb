@@ -165,7 +165,6 @@ module NurtureForumAndroid
       @notifications = @res["dict"]["notifications"] if @res["rc"] == 0
       if @res["rc"] != 0
         log_important "RC IS NOT EQUAL to 0 in pull api call" 
-        puts "Debug #{@res}"
       end
       self
     end

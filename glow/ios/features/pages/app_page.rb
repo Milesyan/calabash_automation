@@ -19,12 +19,6 @@ class AppPage < Calabash::IBase
     finish_tutorial
   end
 
-  def dismiss_install_message
-    if element_exists "* {text CONTAINS 'Congrats'}"
-      puts "Add dismiss install"
-    end
-  end 
-
   def open_login_link 
     sleep 1
     pass_sso
@@ -45,17 +39,6 @@ class AppPage < Calabash::IBase
     sleep 1
     wait_touch "label marked:'Account settings'"
   end
-
-
-
-  def close_invite_partner_popup
-    begin
-      when_element_exists("* id:'gl-foundation-popup-close'", :timeout => 2)
-    rescue Calabash::Cucumber::WaitHelpers::WaitError
-      #puts "no invite partner popup"
-    end
-  end
-
 
   def logout
     close_chat_popup
@@ -130,7 +113,7 @@ class AppPage < Calabash::IBase
 
   def just_tutorial
     if element_exists "* id:'tutorial-arrow-right'"
-      puts "NEED TUTORIAL IN GLOW"
+      log_msg "Glow Tutorial"
       until_element_does_not_exist("* id:'tutorial-arrow-right'", :action => lambda {swipe :left, :query => "NewDateButton index:2"})
       wait_for_none_animating
       wait_touch "* marked:'Today'"
