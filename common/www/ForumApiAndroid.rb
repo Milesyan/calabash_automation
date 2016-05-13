@@ -6,7 +6,8 @@ module ForumApiAndroid
   class ForumAndroid
     extend TestHelper 
     include AndroidConfig
-    attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version, :all_contacts
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version, :all_contacts, :anonymous,
+         :all_group_names, :tmi_flag
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}

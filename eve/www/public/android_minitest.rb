@@ -33,8 +33,14 @@ module Minitest_android
 
   def test_community_create_anonymous_topic
     u = forum_new_user
-    u.create_topic :group_id => GROUP_ID, :anonymous => 1
-    assert_rc u.res
+    u.create_topic  :anonymous => 1
+    assert_equal 1, u.res['result']['flags']
+  end
+
+  def test_photo_TMI_anonymous
+    u = forum_new_user
+    u.create_photo :anonymous => 1, :tmi_flag => 1
+    assert_equal 25, u.res['result']['flags']
   end
 
   def test_community_create_topic_with_title_and_content
@@ -185,7 +191,7 @@ module Minitest_android
     u.delete_topic u.topic_id
     u.upvote_topic u.topic_id
     assert_rc u.res
-    assert_equal 1, u.res["result"]
+
   end
 
   def test_downvote_topic
@@ -214,7 +220,7 @@ module Minitest_android
     u.create_topic.reply_to_topic u.topic_id, :reply_content => "Test Upvote"
     u.delete_topic u.topic_id
     u.downvote_comment u.topic_id, u.reply_id
-    assert_equal 6003, u.res["rc"]
+    assert_equal 0, u.res["rc"]
   end
 
   def test_report_topic

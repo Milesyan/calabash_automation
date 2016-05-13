@@ -7,7 +7,8 @@ module ForumApi
     include TestHelper
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, 
-         :all_group_names, :notifications, :app_version,  :all_contacts
+         :all_group_names, :notifications, :app_version,  :all_contacts, :anonymous,
+         :topic_content,:tmi_flag
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -38,9 +39,9 @@ module ForumApi
     def create_topic(args = {})
       data = {
         "code_name": @code_name,
-        "content": "#{Time.now.strftime "%D %T"}",
+        "content": args[:topic_content] || "#{Time.now.strftime "%D %T"}",
         "title": args[:topic_title] || "#{@email} #{Time.now}",
-        "anonymous": 0,
+        "anonymous": args[:anonymous]|| 0,
         "ut": @ut
       }.merge(common_data)  # random_str isn't needed
       @group_id = args[:group_id] || GROUP_ID
@@ -373,7 +374,7 @@ module ForumApi
       data = {
         "title": args[:topic_title] || "Baby App IMAGE" + Time.now.to_s,
         "code_name": @code_name,
-        "anonymous": 0,
+        "anonymous": args[:anonymous]|| 0,
         "ut": @ut,
         "warning": args[:tmi_flag] || 0,
         "image": File.new(image_pwd)

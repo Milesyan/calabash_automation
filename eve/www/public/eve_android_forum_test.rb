@@ -33,7 +33,7 @@ module EveForumAndroid
     include AndroidConfig
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :topic_title, :reply_content,:group_id,:all_group_ids
-    attr_accessor :first_name, :last_name, :type, :tmi_flag, :group_name, :group_description, :group_category 
+    attr_accessor :first_name, :last_name, :type, :group_name, :group_description, :group_category 
     attr_accessor :res, :android_version, :app_version
     attr_accessor :birthday
 

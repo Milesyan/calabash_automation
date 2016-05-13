@@ -33,14 +33,20 @@ module Minitest_ios
 
   def test_community_create_anonymous_topic
     u = forum_new_user
-    u.create_topic :group_id => GROUP_ID, :anonymous => 1
-    assert_rc u.res
+    u.create_topic :anonymous => 1
+    assert_equal 1, u.res['topic']['flags']
+  end
+
+  def test_photo_TMI_anonymous
+    u = forum_new_user
+    u.create_photo :anonymous => 1, :tmi_flag => 1
+    assert_equal 25, u.res['result']['flags']
   end
 
   def test_community_create_topic_with_title_and_content
     u = forum_new_user
     u.create_topic :topic_title => "hahahaha",:topic_content => "Test for www"
-    assert_equal u.res["result"]["content"], "Test for www"
+    assert_equal u.res["topic"]["content"], "Test for www"
   end
 
   def test_community_vote_poll
