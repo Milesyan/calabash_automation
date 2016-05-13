@@ -8,7 +8,7 @@ class PremiumPage < Calabash::ABase
 
   def pass_premium_promt
     if $login_acc.nil?
-      puts "User not login yet"
+      log_important "User not login yet"
     elsif $login_acc != premium_email
       begin
         wait_for(:timeout => 3.5) do
@@ -176,7 +176,7 @@ class PremiumPage < Calabash::ABase
     when 5,6
       check_element_does_not_exist "* marked:'Chat'"
       else
-        puts 'Wrong index number.'
+        log_error 'Wrong index number.'
     end
   end
 end

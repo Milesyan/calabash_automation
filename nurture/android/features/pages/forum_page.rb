@@ -178,7 +178,6 @@ class ForumPage < Calabash::ABase
     enter_text "* id:'content_editor'", description
     sleep 0.5
     if args[:anonymous] == 1
-      puts "Anonymous Mode"
       wait_touch "* marked:'Add anonymously'"
     end
     if element_exists "* id:'create_yes'"
@@ -270,7 +269,6 @@ class ForumPage < Calabash::ABase
     wait_touch "* id:'insert_image_button'"
     sleep 0.5
     touch "* marked:'Gallery'"
-    puts "Cannot add image in android\n"
     sleep 3
     keyboard_enter_text comment
     if element_exists "* id:'add_reply_yes'"
@@ -358,7 +356,7 @@ class ForumPage < Calabash::ABase
         scroll('ListView', :down)
       end
     else 
-      puts 'Gesture  Error'
+      log_error 'Gesture  Error'
     end
   end 
 
@@ -382,7 +380,6 @@ class ForumPage < Calabash::ABase
 
   def search_topics(args)
     wait_touch "* id:'tab_title' marked:'TOPICS'"
-    puts "Search for topic: #{args}"
     enter_text "* id:'menu_search'", args
     tap_keyboard_search
   end 
@@ -390,14 +387,12 @@ class ForumPage < Calabash::ABase
   def search_comments
     wait_touch "* id:'tab_title' marked:'COMMENTS'"
     $search_content  = "#{$random_prefix} comment"
-    puts "Search for comment: >>>>#{$search_content}<<<<"
     enter_text "* id:'menu_search'", $search_content
     tap_keyboard_search
   end
 
   def search_deleted_comments(args)
     wait_touch "* id:'tab_title' marked:'COMMENTS'"
-    puts "Search for deleted comment: #{args}"
     enter_text "* id:'menu_search'", args
     tap_keyboard_search
   end
@@ -405,13 +400,11 @@ class ForumPage < Calabash::ABase
   def search_subreplies
     wait_touch "* id:'tab_title' marked:'COMMENTS'"
     $search_content  = "#{$random_prefix} sub-reply"
-    puts "Search for subreply: >>>>#{$search_content}<<<<"
     enter_text "* id:'menu_search'", $search_content
     tap_keyboard_search
   end
 
   def scroll_down_to_see(args)
-    puts "Scroll down to see >>>* marked:'#{args}'<<<<"
     sleep 1
     until_element_exists("* marked:'#{args}'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 1
@@ -453,24 +446,20 @@ class ForumPage < Calabash::ABase
   def check_search_result_comment
     random_number = [1,2,3,4,5].sample
     search_result = $search_content+' '+random_number.to_s
-    puts "Search for #{search_result}"
     sleep 2
     scroll_down_to_see search_result
     touch_search_result search_result,0
     wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
-    puts "See element '#{search_result}'"
   end
 
   def check_search_result_subreply
     random_number = [1,2,3,4,5].sample
     search_result = $search_content+' '+random_number.to_s
-    puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
     forum_page.show_entire_discussion
     forum_page.view_all_replies
-    puts "Finding element '#{search_result}'"
     forum_page.scroll_down_to_see search_result
   end
 
@@ -482,7 +471,7 @@ class ForumPage < Calabash::ABase
   end
 
   def long_press(args)
-    puts 'NO long press in android'
+    log_error 'NO long press in android'
   end
 
   def join_group(args)
@@ -493,7 +482,7 @@ class ForumPage < Calabash::ABase
   def leave_group
     pan("* id:'title' index:0", :right)
     $group_name = query("* id:'title' index:0")[0]["text"]
-    puts $group_name.to_s + '<<<<<<Group name lefted.'
+    log_error $group_name.to_s + '<<<<<<Group name lefted.'
     wait_touch "* marked:'Leave'"
   end
 
@@ -528,7 +517,7 @@ class ForumPage < Calabash::ABase
       perform_action('touch_coordinate',(x+width*0.1), y)
       sleep 1
     else
-      puts "Group text does not exist on screen."
+      log_error "Group text does not exist on screen."
     end
   end
 
@@ -557,10 +546,9 @@ class ForumPage < Calabash::ABase
       perform_action('touch_coordinate',(x+width*0.5), y)
       sleep 1
     else
-      puts "Follower text does not exist on screen."
+      log_error "Follower text does not exist on screen."
     end
     wait_for_elements_exist "* marked:'#{$user2.first_name}'"
-    puts "I can see follower #{$user2.first_name}"
   end
 
   def check_following
@@ -569,11 +557,10 @@ class ForumPage < Calabash::ABase
       perform_action('touch_coordinate',(x+width*0.2), y)
       sleep 1
     else
-      puts "Following text does not exist on screen."
+      log_error "Following text does not exist on screen."
     end
     wait_for_elements_exist "* marked:'#{$user2.first_name}'"
     wait_for_elements_exist "* marked:'Following'"
-    puts "I can see I'm following #{$user2.first_name}"
   end
 
   def check_following_not_exist
@@ -582,11 +569,10 @@ class ForumPage < Calabash::ABase
       perform_action('touch_coordinate',(x+width*0.2), y)
       sleep 1
     else
-      puts "Following text does not exist on screen."
+      log_error "Following text does not exist on screen."
     end
     sleep 0.5
     wait_for_elements_do_not_exist "* marked:'#{$user2.first_name}'"
-    puts "I can NOT see I'm following #{$user2.first_name}"
   end
 
   def check_participated
@@ -636,13 +622,11 @@ class ForumPage < Calabash::ABase
     when "bookmarked"
       check_bookmarked
     else 
-      puts "Input argument is wrong."
+      log_error "Input argument is wrong."
     end
-    puts "#{args} is checked"
   end
 
   def touch_creator_name(args)
-    puts "Touch name of #{args}."
     begin 
       wait_for_element_exists "* {text CONTAINS '#{args}'}", :timeout =>1
       touch "* {text CONTAINS '#{args}'}"
@@ -654,10 +638,9 @@ class ForumPage < Calabash::ABase
 
   def action_to_other_user(action)
     if element_exists "* marked:'Edit profile'"
-      puts "The profile is yours"
+      log_important "The profile is yours"
     else
       sleep 0.5
-      puts "The action is #{action}"
       case action.downcase
       when "follow", "followed"
         wait_for_element_exists "* marked:'Follow'"
@@ -694,7 +677,7 @@ class ForumPage < Calabash::ABase
         sleep 0.5
         wait_for_element_does_not_exist "* marked:'Blocked'"
       else
-        puts "Action error"
+        log_error "Action error"
       end
     end
   end
@@ -725,7 +708,6 @@ class ForumPage < Calabash::ABase
   def hide_topic
     sleep 1
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     touch "* id:'topic_menu'"
@@ -759,7 +741,6 @@ class ForumPage < Calabash::ABase
   def enter_report_topic
     sleep 1 
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic >>>#{$user2.topic_title}<<<"
     until_element_exists("* id:'topic_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 1.5
     touch "* id:'topic_menu'"
@@ -770,7 +751,6 @@ class ForumPage < Calabash::ABase
 
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
     until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     touch "* id:'reply_menu'"
@@ -790,7 +770,6 @@ class ForumPage < Calabash::ABase
 
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
     until_element_exists("* id:'reply_menu'", :action => lambda{ scroll_down },:timeout  => 10,:interval => 1.5)
     sleep 0.5
     wait_touch "* id:'reply_menu'"
@@ -803,7 +782,6 @@ class ForumPage < Calabash::ABase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       wait_for_element_exists "* marked:'#{tmp}'"
-      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -812,7 +790,6 @@ class ForumPage < Calabash::ABase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       wait_for_element_exists "* marked:'#{tmp}'"
-      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -825,7 +802,7 @@ class ForumPage < Calabash::ABase
     when "show content"
       perform_action('touch_coordinate',(x+width*0.1), (y+h*0.5))
     else 
-      puts "Only 'view rules' and 'show content' is accepted"
+      log_error "Only 'view rules' and 'show content' is accepted"
     end
     sleep 1
   end
@@ -842,7 +819,6 @@ class ForumPage < Calabash::ABase
 
   def click_discover
     sleep 2
-    puts "TOUCH Discover"
     wait_touch "* marked:'Discover'"
     # logger.add event_name: "page_impression_discover", start_vesion: "community v1.1"
     sleep 0.2
@@ -857,7 +833,6 @@ class ForumPage < Calabash::ABase
 
   def search_groups(args)
     wait_touch "* id:'tab_title' marked:'GROUPS'"
-    puts "Search for group: #{args}"
     enter_text "* id:'menu_search'", args
     tap_keyboard_search
   end 

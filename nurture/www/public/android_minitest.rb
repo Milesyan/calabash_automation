@@ -226,12 +226,12 @@ module Minitest_android
 
   def test_get_all_group_names
     u = forum_new_user
-    puts u.get_all_group_names
+    assert u.get_all_group_names
   end
   
   def test_get_all_group_ids
     u = forum_new_user
-    puts u.get_all_group_ids
+    assert u.get_all_group_ids
   end
 
   def test_reply_to_topic
@@ -286,7 +286,6 @@ module Minitest_android
     u1 = forum_new_user
     u2 = forum_new_user
     u1.send_chat_request u2.user_id
-    puts u1.res
     assert_equal u1.res["rc"], 8003
   end
 
@@ -294,11 +293,9 @@ module Minitest_android
     up = premium_login
     u = forum_new_user
     up.send_chat_request u.user_id
-    puts up.res
     assert_rc up.res
     u.get_request_id
-    puts "REQUEST ID"
-    puts u.res["requests"][0]["id"]
+    assert u.res["requests"][0]["id"]
   end
 
   def test_accept_chat_request
@@ -321,7 +318,7 @@ module Minitest_android
     up = premium_login
     u = forum_new_user
     up.remove_chat u.user_id
-    puts up.res
+    assert_rc up.res
   end
 
   def test_remove_chat_true
@@ -330,7 +327,7 @@ module Minitest_android
     up.send_chat_request u.user_id
     u.accept_chat
     up.remove_chat u.user_id
-    puts up.res
+    assert_rc up.res
   end
 
   def test_get_participants
@@ -338,28 +335,28 @@ module Minitest_android
     u = forum_new_user
     up.follow_user u.user_id
     up.get_all_participants
-    puts up.all_participants
+    assert_rc up.all_participants
   end
 
   def test_remove_all_participants
     up = premium_login
     up.remove_all_participants
-    puts up.res
+    assert_rc up.res
     up.get_all_participants
   end
 
   def test_remove_all_contacts
     up = premium_login
     up.remove_all_contacts
-    puts up.res
+    assert_rc up.res
   end
   
   def test_establish_chat
     up = premium_login
     u = forum_new_user
     up.establish_chat u
-    puts up.res
-    puts u.res
+    assert_rc up.res
+    assert_rc u.res
   end
   
   def test_remove_all_blocked
@@ -367,7 +364,6 @@ module Minitest_android
     u = forum_new_user
     up.block_user u.user_id
     up.remove_all_blocked
-    puts up.res
     assert_rc up.res
   end
 
@@ -378,7 +374,6 @@ module Minitest_android
     res = u.res["data"]
     all_flags = [res["chat_off"], res["discoverable"],res["hide_posts"],res["signature_on"]]
     assert_equal [1,0,1,0], all_flags
-    puts all_flags
   end
 
   def test_notification
@@ -395,7 +390,7 @@ module Minitest_android
 
   def print_notification(user=self)
     user.pull
-    puts user.notifications
+    assert user.notifications
   end  
 
   def test_chat_request_notification
@@ -403,7 +398,6 @@ module Minitest_android
     u = forum_new_user
     u.get_notification
     up.send_chat_request u.user_id
-    puts up.res
     puts "-------"
     u.get_notification
     print_notification u
@@ -452,28 +446,6 @@ module Minitest_android
   end
 
 end
-
-
-
-
-
-
-
-  # def test_create_new_badge
-  #   u1 = forum_new_user :first_name=>"premium", :email => "premium@g.com", :password => '111111'
-  #   puts "premium acc >>#{u1.user_id }"   
-  #   u2 = forum_new_user :first_name=>"admin", :email => "admin@g.com", :password => '111111'
-  #   puts "admin acc >>#{u2.user_id }"
-  #   u3 = forum_new_user :first_name=>"expert", :email => "expert@g.com", :password => '111111'
-  #   puts "expert acc >>#{u3.user_id }"
-  #   u4 = forum_new_user :first_name=>"verified", :email => "verified@g.com", :password => '111111'
-  #   puts "verifed acc >>#{u4.user_id }"
-  #   u5 = forum_new_user :first_name=>"staff", :email => "staff@g.com", :password => '111111'
-  #   puts "staff acc >>#{u5.user_id }"
-  #   u6 = forum_new_user :first_name=>"forumadmin", :email => "forumadmin@g.com", :password => '111111'
-  #   puts "forumadmin acc >>#{u6.user_id }"
-  # end
-
 
 
 

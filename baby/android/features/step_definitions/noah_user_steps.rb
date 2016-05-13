@@ -11,13 +11,10 @@ end
 Then(/^I check the text and click the buttons for this type of notification$/) do
   case $ntf_type
   when "1050","1085","1086","1087","1051","1053", "1059", "1060", "1088", "1089"
-    puts "Touch Check it out"
     wait_touch "* marked:'Check it out'"
   when "1055"
-    puts "Touch Take a look"
     wait_touch "* marked:'Check it out'"
   when ""
-    puts "Touch Checkout out the results"
     wait_touch "* marked:'Check out the results'"
   when "1091"
     wait_touch "* marked:'Follow Back'"

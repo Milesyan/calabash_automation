@@ -129,17 +129,18 @@ module NoahForumIOS
       self
     end
 
-    def login(email = nil, password = nil)
+    def login(em = nil, password = nil)
       # the response of login doesn't return the rc code
+      email = em || @email
       data = {
-        "email": email || @email,
+        "email": email,
         "password": password || @password
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/ios/user/login", options(data)
       @ut = @res["data"]["user"]["encrypted_token"]
       @user_id = @res["data"]["user"]["id"]
       @first_name = @res["data"]["user"]["first_name"]
-      puts "Login User id is #{@user_id}"
+      log_important email + " just logged in. [user_id: #{@user_id}]"
       self
     end
 

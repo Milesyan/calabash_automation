@@ -50,7 +50,6 @@ module ForumApi
       @group_id = @res["topic"]["group_id"]
       title = @res["topic"]["title"]
       @topic_title = title
-      # puts "topic >>>>>'#{title}'<<<<< created，topic id is #{topic_id}"
       self
     end
 
@@ -65,7 +64,6 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
       @res = @res["data"] if @code_name != 'emma'
       @reply_id = @res["result"]["id"]
-      # puts "Reply to topic >>>>>#{topic_id}<<<<<"
       self
     end 
 
@@ -84,7 +82,6 @@ module ForumApi
       @topic_id = @res["result"]["id"]
       title = @res["result"]["title"]
       @topic_title = title
-      puts "Poll >>>>>'#{title}'<<<<< created, topic id is #{topic_id}"
       self
     end
 
@@ -97,11 +94,8 @@ module ForumApi
       topic_id = args[:topic_id]
       @res = HTTParty.post "#{forum_base_url}/topic/#{topic_id}/vote", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Topic #{topic_id} is voted"
       self
     end 
-
-
 
     def reply_to_comment(topic_id,reply_id,args = {})
       data = {
@@ -114,7 +108,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      # puts "Reply to comment >>>>>#{reply_id}<<<<< under >>>>#{topic_id}<<<<"
       self
     end
 
@@ -149,7 +142,6 @@ module ForumApi
       topic_id = args[:topic_id]
       @res = HTTParty.post "#{forum_base_url}/topic/#{topic_id}/vote", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Topic #{topic_id} is voted"
       self
     end 
 
@@ -161,7 +153,7 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/remove",  options(data)
       @res = @res["data"] if @code_name != 'emma'
       self
-      puts "#{topic_id} deleted"
+      log_msg "#{topic_id} deleted"
     end
 
     def follow_user(user_id)
@@ -172,7 +164,7 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/follow",  options(data)
       @res = @res["data"] if @code_name != 'emma'
       self
-      puts "#{user_id} is followed by user #{self.user_id}"
+      log_msg "#{user_id} is followed by user #{self.user_id}"
     end
 
     def unfollow_user(user_id)
@@ -183,7 +175,6 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/unfollow",  options(data)
       @res = @res["data"] if @code_name != 'emma'
       self
-      puts "#{user_id} is unfollowed by user #{self.user_id}"
     end
 
     def block_user(user_id)
@@ -194,7 +185,6 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/block",  options(data)
       @res = @res["data"] if @code_name != 'emma'
       self
-      puts "#{user_id} is blocked by user #{self.user_id}"
     end
 
     def unblock_user(user_id)
@@ -205,7 +195,6 @@ module ForumApi
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/unblock", options(data)
       @res = @res["data"] if @code_name != 'emma'
       self
-      puts "#{user_id} is unblocked by user #{self.user_id}"
     end  
 
     def bookmark_topic(topic_id)
@@ -216,7 +205,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/bookmark", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is bookmarked by #{self.user_id}"
+      log_msg "topic #{topic_id} is bookmarked by #{self.user_id}"
       self
     end
 
@@ -228,7 +217,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/bookmark", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is unbookmarked by #{self.user_id}"
       self
     end
 
@@ -240,7 +228,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/like", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is upvoted by #{self.user_id}"
       self
     end
 
@@ -252,7 +239,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/like", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is no longer upvoted by #{self.user_id}"
       self
     end
 
@@ -265,7 +251,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/like", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by >>#{self.user_id}<<"
       self
     end
 
@@ -278,7 +263,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/like", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Comment #{reply_id} under topic #{topic_id}is no longer upvoted by #{self.user_id}"
       self
     end
 
@@ -290,7 +274,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/dislike", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is downvoted by #{self.user_id}"
       self
     end
 
@@ -303,7 +286,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/dislike", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Comment #{reply_id} under topic #{topic_id}is downvoted by #{self.user_id}"
       self
     end
 
@@ -315,7 +297,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/dislike", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is no longer downvoted by #{self.user_id}"
       self
     end
 
@@ -328,7 +309,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/dislike", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "Comment #{reply_id} under topic #{topic_id}is no longer downvoted by #{self.user_id}"
       self
     end
 
@@ -341,7 +321,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/flag", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "topic #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
 
@@ -355,7 +334,6 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/flag", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "comment #{reply_id} under #{topic_id} is flagged for reason #{report_reason} by #{self.user_id}"
       self
     end
 
@@ -373,7 +351,7 @@ module ForumApi
 
     def leave_all_groups
       get_all_groups
-      puts "Leaving all groups ..."
+      log_important "Leaving all groups ..."
       all_group_ids.each do |group_id|
         leave_group group_id
       end
@@ -409,7 +387,6 @@ module ForumApi
       @res = @res["data"] if @code_name != 'emma'
       @topic_title =  @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end
 
@@ -432,7 +409,6 @@ module ForumApi
       @res = @res["data"] if @code_name != 'emma'
       @group_id = @res["group"]["id"]
       @group_name = @res["group"]["name"]
-      puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end
 
@@ -444,7 +420,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "TURN OFF CHAT FOR #{self.user_id}"
+      log_important "TURN OFF CHAT FOR #{self.user_id}"
       self
     end
 
@@ -456,7 +432,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "TURN ON CHAT FOR #{self.user_id}"
+      log_important "TURN ON CHAT FOR #{self.user_id}"
       self
     end
 
@@ -468,7 +444,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "TURN OFF Signature FOR #{self.user_id}"
+      log_important "TURN OFF Signature FOR #{self.user_id}"
       self
     end
 
@@ -481,7 +457,7 @@ module ForumApi
       }.merge(common_data)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "TURN ON Signature FOR #{self.user_id}"
+      log_important "TURN ON Signature FOR #{self.user_id}"
       self
     end
 
@@ -507,7 +483,7 @@ module ForumApi
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/new", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "#{self.user_id} send chat request to #{tgt_user_id}"
+      log_important "#{self.user_id} send chat request to #{tgt_user_id}"
       self
     end
 
@@ -533,7 +509,7 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.post "#{forum_base_url}/chat/accept", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "#{self.user_id} accepts chat request id >>>#{request_id}<<<"
+      log_important "#{self.user_id} accepts chat request id >>>#{request_id}<<<"
       self
     end
 
@@ -551,7 +527,6 @@ module ForumApi
       }.merge(common_data)
       @res = HTTParty.post "#{forum_base_url}/chat/reject", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      puts "#{self.user_id} rejects chat request id >>>#{request_id}<<<"
       self
     end
 
@@ -564,7 +539,6 @@ module ForumApi
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/remove_by_user", options(data)
       @res = @res["data"] if @code_name != 'emma'
-      # puts "#{self.user_id} remove chat relationship with #{tgt_user_id}"
       self
     end
 
@@ -581,7 +555,7 @@ module ForumApi
     def remove_all_participants
       _participants = self.get_all_participants
       _participants.each {|id| remove_chat id}
-      puts "All participants removed"
+      log_msg "All participants removed"
       self
     end
     
@@ -598,7 +572,7 @@ module ForumApi
     def remove_all_contacts
       _contacts = self.get_all_contacts
       _contacts.each {|id| remove_chat id}
-      puts "All contacts removed"
+      log_msg "All contacts removed"
       self
     end
 
@@ -633,8 +607,8 @@ module ForumApi
 
     def get_notification(user=self)
       user.pull
-      puts "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
-      puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications 
+      log_important "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
+      log_important "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications 
     end  
 
     #For old version api www tests

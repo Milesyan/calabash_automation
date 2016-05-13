@@ -8,7 +8,6 @@ class AppPage < Calabash::ABase
 
   def tap_login
     pass_sso
-    puts "TOUCH LOGIN HERE "
     touch "* marked:'Log in'"
   end
 
@@ -41,7 +40,6 @@ class AppPage < Calabash::ABase
     sleep 1.5
     i = ["home", "community", "alert", "me", "more options"].find_index tab_name.downcase
     if i ==4
-      puts "i == 4"
       touch "* marked:'More options'"
     else 
       wait_touch "android.support.design.widget.TabLayout$TabView index:#{i}"

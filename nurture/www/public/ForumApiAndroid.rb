@@ -6,8 +6,7 @@ module ForumApiAndroid
   class ForumAndroid
     extend TestHelper 
     include AndroidConfig
-    attr :code_name, :tgt_user_id, :request_id, :all_participants,
-         :code_name, :notifications, :app_version
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -52,7 +51,6 @@ module ForumApiAndroid
       @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      # puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
@@ -69,7 +67,6 @@ module ForumApiAndroid
       @res = HTTParty.post url, auth_options(data)
       @topic_title = @res["result"]["title"]
       @topic_id = @res["result"]["id"]
-      # puts "topic >>>>>'#{@topic_title}'<<<<< created，\ntopic id is >>>>#{@topic_id}<<<<, \ngroup_id is >>>>#{group_id}<<<<\n\n"
       self
     end
 
@@ -90,7 +87,6 @@ module ForumApiAndroid
       @res = JSON.parse _res.body
       @topic_title = @res["result"]["title"] 
       @topic_id = @res["result"]["id"]
-      puts "Photo created >>>>>>>>>>#{@topic_title}<<<<<<<"
       self
     end
 
@@ -103,9 +99,9 @@ module ForumApiAndroid
       url = "#{forum_base_url}/topic/#{topic_id}/vote?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
       if @res["rc"] == 0
-        puts "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
+        log_msg "#{topic_id} is voted by vote_index #{vote_index} and user #{self.user_id}"
       else 
-        puts "#{@res}<<<  Expected repeated vote"
+        log_error "#{@res}<<<  Expected repeated vote"
       end
       self
     end
@@ -117,7 +113,6 @@ module ForumApiAndroid
       url = "#{forum_base_url}/topic/#{topic_id}/reply?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
       @reply_id = @res["result"]["id"]
-      puts "reply_id is #{@reply_id}"
       self
     end
 
@@ -140,7 +135,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/group/subscribe?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "---#{self.user_id} joined group >>>#{group_id}<<<---"
       self
     end
 
@@ -168,7 +162,7 @@ module ForumApiAndroid
 
     def leave_all_groups
       get_all_groups
-      puts "Leaving all groups ..."
+      log_msg "Leaving all groups ..."
       @all_group_ids.each do |group_id|
         leave_group group_id
       end
@@ -191,7 +185,6 @@ module ForumApiAndroid
       data = {}
       url = "#{forum_base_url}/topic/#{topic_id}?#{@additional_forum}"
       @res = HTTParty.delete url, auth_options(data)
-      puts "topic >>>>>'#{@topic_title}'<<<<< deleted\ntopic id is >>>>#{topic_id}<<<<\n\n"
       self
     end
 
@@ -201,7 +194,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/user/#{user_id}/follow?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "User #{user_id} is followed by current user #{self.user_id}"  
       self
     end
 
@@ -211,7 +203,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/user/#{user_id}/unfollow?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "User #{user_id} is unfollowed by current user #{self.user_id}"  
       self
     end
 
@@ -221,7 +212,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/user/#{user_id}/block?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "User #{user_id} is blocked by current user #{self.user_id}"  
       self
     end
 
@@ -231,7 +221,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/user/#{user_id}/unblock?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "User #{user_id} is unblocked by current user #{self.user_id}"  
       self
     end
 
@@ -242,7 +231,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/bookmark?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is is bookmarked by #{self.user_id}\n\n"
       self
     end
 
@@ -252,7 +240,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/bookmark?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is unbookmarked by #{self.user_id}\n\n"
       self
     end
 
@@ -263,7 +250,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/like?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is liked by #{self.user_id}\n\n"
       self
     end
 
@@ -273,7 +259,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/like?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is no longer liked by #{self.user_id}\n\n"
       self
     end
 
@@ -283,7 +268,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/dislike?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is disliked by #{self.user_id}\n\n"
       self
     end
 
@@ -293,7 +277,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/dislike?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "topic id >>>>>'#{topic_id}'<<<<< is no longer disliked by #{self.user_id}\n\n"
       self
     end
 
@@ -304,7 +287,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/reply/#{reply_id}/like?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is upvoted by #{self.user_id}\n"
       self
     end
 
@@ -315,7 +297,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/reply/#{reply_id}/like?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer upvoted by #{self.user_id}\n"
       self
     end
 
@@ -326,7 +307,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/reply/#{reply_id}/dislike?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is downvoted by #{self.user_id}\n"
       self
     end
 
@@ -337,7 +317,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/reply/#{reply_id}/dislike?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Comment >>#{reply_id}<< under topic >>#{topic_id}<< is no longer downvoted by #{self.user_id}\n"
       self
     end
 
@@ -349,7 +328,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/flag?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Topic >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
 
@@ -361,7 +339,6 @@ module ForumApiAndroid
       }
       url = "#{forum_base_url}/topic/#{topic_id}/flag?#{@additional_forum}"
       @res = HTTParty.post url, auth_options(data)
-      puts "Comment >>>#{reply_id}<<< under >>#{topic_id}<< is reported for reason >>>#{report_reason}<<< by >>>#{self.user_id}<<<\n"
       self
     end
 
@@ -381,7 +358,6 @@ module ForumApiAndroid
       @res = JSON.parse _res.body
       @group_id = @res["group"]["id"]
       @group_name = @res["group"]["name"]
-      puts "Group created >>>>>>>>>>#{@group_id}<<<<<<<\r\n Group name  >>>>>>>>>#{@group_name}<<<<<<<<<<"
       self
     end  
 
@@ -494,7 +470,7 @@ module ForumApiAndroid
         "request_id": @request_id,
       }
       @res = HTTParty.post "#{forum_base_url}/chat/accept?#{@additional_forum}", auth_options(data)
-      puts "#{self.user_id} accepts chat request id >>>#{@request_id}<<<"
+      log_msg "#{self.user_id} accepts chat request id >>>#{@request_id}<<<"
       self
     end
 
@@ -509,7 +485,7 @@ module ForumApiAndroid
         "request_id": @request_id,
       }
       @res = HTTParty.post "#{forum_base_url}/chat/reject?#{@additional_forum}", auth_options(data)
-      puts "#{self.user_id} rejects chat request id >>>#{@request_id}<<<"
+      log_msg "#{self.user_id} rejects chat request id >>>#{@request_id}<<<"
       self
     end
 
@@ -519,7 +495,6 @@ module ForumApiAndroid
       }
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/contact/remove?#{@additional_forum}", auth_options(data)
-      # puts "#{self.user_id} remove chat relationship with #{tgt_user_id}" if @res["rc"] ==0
       self
     end
 
@@ -533,7 +508,7 @@ module ForumApiAndroid
     def remove_all_participants
       _participants = self.get_all_participants
       _participants.each {|id| remove_chat id}
-      puts "All participants removed"
+      log_msg "All participants removed"
       self
     end
 
@@ -547,7 +522,7 @@ module ForumApiAndroid
     def remove_all_contacts
       _contacts = self.get_all_contacts
       _contacts.each {|id| remove_chat id}
-      puts "All contacts removed"
+      log_msg "All contacts removed"
       self
     end
 
@@ -578,8 +553,8 @@ module ForumApiAndroid
 
     def get_notification(user=self)
       user.pull
-      puts "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
-      puts "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications  
+      log_important "Notification Title >>>#{user.notifications[0]["title"]}\nNotification Type >>>#{user.notifications[0]["type"]}" if user.notifications
+      log_important "Notification Text >>>#{user.notifications[0]["text"]}" if user.notifications  
     end    
 
     #For old version api www tests

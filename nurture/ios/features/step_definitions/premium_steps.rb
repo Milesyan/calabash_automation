@@ -15,13 +15,13 @@ Given(/^A premium user has been created for test$/) do
 end
 
 Given(/^I login as(?: the)? premium user$/) do
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
 end
 
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
 end
 
@@ -31,12 +31,12 @@ Given(/^A new user "([^"]*)" is created$/) do |name|
 end
 
 Then(/^I login as the new user$/) do
-  puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
+  log_important "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login($new_user.email,$new_user.password)
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
-  puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
+  log_important "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login($user2.email,$user2.password)
 end
 
@@ -57,14 +57,14 @@ Given(/^A premium user established chat relationship with a new user "([^"]*)"$/
   $new_user.pull
   $new_user.establish_chat $user
   if $new_user.res["rc"] == 0 
-    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+    log_msg "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
 Given(/^premium user established chat relationship with the new user$/) do
   $user.establish_chat $new_user
   if $user.res["rc"] == 0 
-    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+    log_msg "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
@@ -77,7 +77,7 @@ Given(/^A premium user sent chat request to a new user "([^"]*)"$/) do |name|
   $user.availability $new_user.user_id
   $user.send_chat_request $new_user.user_id
   if $user.res["rc"] == 0 
-    puts "CHAT REQUEST SENT SUCCESSFULLY"
+    log_msg "CHAT REQUEST SENT SUCCESSFULLY"
   end
 end
 
@@ -201,13 +201,11 @@ Then(/^I should not see the signature in topic\/comment\/subreply$/) do
   end
   if element_exists "* id:'gl-community-plus-badge.png' sibling *"
     unless (query("* id:'gl-community-plus-badge.png' index:0 sibling *").size== 2) && (query("* id:'gl-community-plus-badge' index:0 sibling *").size == 7)
-      puts query("* id:'gl-community-plus-badge.png' index:0 sibling *").size
-      # screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+      screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
     end
   else 
     unless query("* id:'gl-community-plus-badge' index:0 sibling *").size == 7
-      puts query("* id:'gl-community-plus-badge' index:0 sibling *").size
-      # screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
+      screenshot_and_raise(msg='The number of elements for signature-off user is incorrect!') 
     end
   end
 end
@@ -288,7 +286,6 @@ Then(/^I enter the chat window and start to chat$/) do
   if element_exists "* marked:'Start chatting now.'"
     wait_touch "* marked:'Start chatting now.'"
   else 
-    puts "HERE IS A BUG!!!"
     wait_touch "* marked:'#{premium_name}'"
   end
   wait_for_element_exists "* {text CONTAINS 'Enter Message'}"
@@ -480,7 +477,7 @@ Then(/^I checked all the touch points for "([^"]*)"$/) do |arg1|
   if strategy.include? arg1
     premium_page.check_touch_points_in_topic strategy_index
   else
-    puts "Input is wrong for touch points strategy."
+    log_error "Input is wrong for touch points strategy."
     # screenshot_and_raise(msg='The input for strategy is incorrect.')
   end
 end
@@ -517,13 +514,12 @@ end
 Then(/^I check the premium banner under discover tab$/) do
   check_element_exists "ForumDiscoverBanner"
   flick "ForumDiscoverBanner", {x:-100,y:0}
-  puts "No way to check the image now."
 end
 
 
 Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
   $user.reset_all_flags
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login($user.email,$user.password)
   sleep 2
 end

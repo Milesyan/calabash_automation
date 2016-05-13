@@ -16,7 +16,7 @@ end
 
 Given(/^I login as(?: the)? premium user$/) do
   app_page.tap_login
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end
@@ -24,7 +24,7 @@ end
 Given(/^I login as(?: the)? premium user and turn off chat$/) do
   $user.turn_off_chat
   app_page.tap_login
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end
@@ -36,14 +36,14 @@ end
 Then(/^I login as the new user$/) do
   sleep 1
   app_page.tap_login
-  puts "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
+  log_important "Log in #{$new_user.user_id} using email and password: #{$new_user.email}, #{$new_user.password}" 
   app_page.login_with($new_user.email,$new_user.password)
   sleep 2
 end
 
 Given(/^I login as (?:the )?non\-premium user$/) do
   app_page.tap_login
-  puts "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
+  log_important "Log in #{$user2.user_id} using email and password: #{$user2.email}, #{$user2.password}" 
   app_page.login_with($user2.email,$user2.password)
   sleep 2 
 end
@@ -64,14 +64,14 @@ Given(/^A premium user established chat relationship with a new user "([^"]*)"$/
   $new_user = forum_new_user(first_name: name)
   $new_user.establish_chat $user
   if $user.res["rc"] == 0 
-    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+    log_msg "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
 Given(/^premium user established chat relationship with the new user$/) do
   $user.establish_chat $new_user
   if $user.res["rc"] == 0 
-    puts "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
+    log_msg "CHAT RELATIONSHIP CREATED SUCCESSFULLY"
   end
 end
 
@@ -83,7 +83,7 @@ Given(/^A premium user sent chat request to a new user "([^"]*)"$/) do |name|
   $new_user = forum_new_user(first_name: name)
   $user.send_chat_request $new_user.user_id
   if $user.res["rc"] == 0 
-    puts "CHAT REQUEST SENT SUCCESSFULLY"
+    log_msg "CHAT REQUEST SENT SUCCESSFULLY"
   end
 end
 
@@ -165,7 +165,7 @@ Then(/^I go back to previous page from the pop-up web page$/) do
     system("adb shell input keyevent KEYCODE_BACK")
     sleep 3
     if element_does_not_exist "*"
-      puts "CLICK AGAIN!"
+      log_error "CLICK AGAIN!"
       system("adb shell input keyevent KEYCODE_BACK")
     end
 end
@@ -284,12 +284,10 @@ Then(/^I enter the chat window and start to chat$/) do
   if element_exists "* marked:'I accepted your chat request.'"
     touch "* marked:'I accepted your chat request.'"
   else 
-    puts "HERE IS A BUG!!!"
     wait_touch "* marked:'#{premium_name}'"
   end
   if element_does_not_exist "* marked:'Type something'"
     touch "* marked:'I accepted your chat request.'"
-    puts "TOUCH AGAIN!"
   end
   premium_page.send_text_in_chat "Send text"
 end
@@ -525,7 +523,7 @@ end
 Given(/^I login as(?: the)? premium user and reset all the flags under profile page$/) do
   $user.reset_all_flags
   app_page.tap_login
-  puts "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
+  log_important "Log in #{$user.user_id} using email and password: #{$user.email}, #{$user.password}" 
   app_page.login_with($user.email,$user.password)
   sleep 2
 end

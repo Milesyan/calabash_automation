@@ -14,14 +14,11 @@ end
 Then(/^I check the text and click the buttons for this type of notification$/) do
   case $ntf_type
   when "1050","1085","1086","1087","1051","1053", "1059", "1088", "1089"
-    puts "Touch Check it out"
     sleep 1
     wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
   when "1055"
-    puts "Touch Take a look"
     wait_touch "UIButtonLabel {text CONTAINS 'Check it out!'}"
   when "1060"
-    puts "Touch Checkout out the results"
     wait_touch "* {text CONTAINS'Check out the results'}"
   when "1091"
     wait_touch "UIButtonLabel {text CONTAINS 'Follow back'}"
@@ -30,9 +27,8 @@ Then(/^I check the text and click the buttons for this type of notification$/) d
     wait_touch "* {text CONTAINS 'Check it out'}"
   when "1092"
     sleep 3
-    puts "1092"
   else 
-    puts "WRONG NTF TYPE"
+    log_error "WRONG NTF TYPE"
   end
 end
 

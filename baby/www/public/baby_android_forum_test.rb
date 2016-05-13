@@ -137,7 +137,7 @@ module NoahForumAndroid
       if user.res["rc"] == 0
         user.ut = user.res["data"]["user"]["encrypted_token"]
         user.user_id = user.res["data"]["user"]["id"]
-        puts user.email + " has been signed up. [user_id: #{@user_id}]"
+        log_important user.email + " has been signed up. [user_id: #{@user_id}]"
       end
       self
     end
@@ -155,7 +155,7 @@ module NoahForumAndroid
         @user_id = @res["data"]["user"]["id"]
         @current_baby_id = @res["data"]["user"]["current_baby_id"]
         @first_name = @res["data"]["user"]["first_name"]
-        puts email + " just logged in. [user_id: #{@user_id}]"
+        log_important email + " just logged in. [user_id: #{@user_id}]"
         if @res["data"]["babies"].size > 0
           current_baby = @res["data"]["babies"].detect {|b| b["Baby"]["baby_id"] == @current_baby_id }
           @current_baby = Baby.new current_baby["Baby"].symbolize_keys

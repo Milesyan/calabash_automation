@@ -19,7 +19,7 @@ class NoahTest < Minitest::Test
 
   def test_forum_new_user
     u = forum_new_user
-    puts u.first_name
+    assert u.first_name
   end
 
   def assert_rc(res)

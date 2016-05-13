@@ -8,7 +8,7 @@ Given(/^"([^"]*)" create a "([^"]*)" topic in the test group$/) do |user_name, t
   when "image", "photo"
     $user.create_photo :topic_title => 'create photo by www api', :group_id => GROUP_ID
   end
-  puts "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
+  log_important "Topic created, the title is  >>>>#{$user.topic_title}<<<<"
 end
 
 
@@ -20,12 +20,11 @@ end
 Then(/^I created another user to vote the poll$/) do
   $user2 = forum_new_user
   $user2.vote_poll  topic_id: $user.topic_id
-  puts "#{$user2.email} voted on #{$user.email}'s topic, #{$user.topic_id}"
 end
 
 
 Then(/^"([^"]*)" add (\d+) comment(?:s)? and "([^"]*)" added (\d+) subrepl(?:y|ies) to each comment\.$/) do |user1_name, comment_number, user2_name, subreply_number|
-  puts "Glow User #{user1_name} topic_id is #{$user.topic_id}"
+  log_important "Glow User #{user1_name} topic_id is #{$user.topic_id}"
   $user2 = forum_new_user(first_name: user2_name)
   comment_number.to_i.times do |comment_number|
     $user.reply_to_topic $user.topic_id, reply_content: "content number #{comment_number+1}"
@@ -55,7 +54,7 @@ end
 
 Then(/^"([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |user_name, arg1, comment_number, subreply_number|
   $user.create_topic
-  puts "Nurture User #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  log_important "Forum User #{user_name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $comment_number = comment_number
   $subreply_number = subreply_number
   $random_prefix = ('a'..'z').to_a.shuffle[0,5].join
@@ -73,13 +72,12 @@ end
 Then(/^another user "([^"]*)" create (\d+) topic(?:s)? and (\d+) comment(?:s)? and (\d+) subrepl(?:y|ies) for each comment$/) do |name, arg1, comment_number, subreply_number|
   $user2 = forum_new_user(first_name: name)
   $user2.create_topic :topic_title => "Test hide/flag #{$user2.random_str}"
-  puts "Glow User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
+  log_important "Glow User #{name} topic_id is #{$user2.topic_id}, topic title is #{$user2.topic_title}"
   $comment_number2 = comment_number
   $subreply_number2 = subreply_number
   comment_number.to_i.times do |comment_number|
     $user2.reply_to_topic $user2.topic_id, reply_content: "Test hide/report comment #{comment_number+1}"
     $hidereply_content = "Test hide/report comment #{comment_number+1}"
-    # puts "Nurture User2 reply_id is #{$user2.reply_id}"
     subreply_number.to_i.times do |subreply_number|
       $user2.reply_to_comment $user2.topic_id, $user2.reply_id, reply_content: "Test hide/report sub-reply #{subreply_number+1}"
     end
@@ -88,7 +86,7 @@ end
 
 Then(/^"([^"]*)" create topics and comments and replies for delete use$/) do |name|
   $user.create_topic
-  puts "Nurture User #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
+  log_important "Forum User #{name} topic_id is #{$user.topic_id}, topic title is #{$user.topic_title}"
   $random_str1 = $user.random_str
   $random_str2 = $user.random_str
   $user.reply_to_topic $user.topic_id, reply_content: "#{$random_str1}"
@@ -115,22 +113,18 @@ end
 Given(/^(\d+) other users upvote the topic and (\d+) other users downvote the topic$/) do |arg1, arg2|
   arg1.to_i.times do
     new_user = ntf_user.upvote_topic $user.topic_id
-    puts "#{new_user.first_name} upvoted #{$user.topic_id}  >> #{$user.topic_title} << "
   end
   arg2.to_i.times do
     new_user = ntf_user.downvote_topic $user.topic_id
-    puts "#{new_user.first_name} downvoted #{$user.topic_id} >> #{$user.topic_title} << "
   end
 end
 
 Given(/^(\d+) other users upvote the comment and (\d+) other users downvote the comment$/) do |arg1, arg2|
   arg1.to_i.times do
     new_user = ntf_user.upvote_comment $user.topic_id, $first_comment_id
-    puts "#{new_user.first_name} upvoted comment #{$first_comment_id} under #{$user.topic_id}  >> #{$user.topic_title} << "
   end
   arg2.to_i.times do
     new_user = ntf_user.downvote_comment $user.topic_id, $first_comment_id
-    puts "#{new_user.first_name} downvoted comment #{$first_comment_id} under #{$user.topic_id} >> #{$user.topic_title} << "
   end
 end
 
@@ -138,7 +132,6 @@ Given(/^(\d+) other users reported the topic$/) do |arg1|
   reason_poll = ["Wrong group", "Rude", "Obscene", "Spam", "Solicitation"]
   arg1.to_i.times do
     new_user = ntf_user.report_topic $user.topic_id, reason_poll.sample
-    puts "#{new_user.first_name} reported #{$user.topic_id}"
   end
 end
 
@@ -147,14 +140,13 @@ Given(/^(\d+) other users reported the comment$/) do |arg1|
   reason_poll = ["Rude", "Obscene", "Spam", "Solicitation"]
   arg1.to_i.times do
     new_user = ntf_user.report_comment $user.topic_id, $first_comment_id, reason_poll.sample
-    puts "#{new_user.first_name} reported #{$user.topic_id}"
+    log_important "#{new_user.first_name} reported #{$user.topic_id}"
   end
 end
 
 Given(/^I create a new forum user with name "(.*?)"$/) do |name|
   $user = forum_new_user(first_name: name).complete_tutorial
-  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
-  puts "Default group id is #{GROUP_ID}"
+  log_important "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
 end
 
 Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
@@ -162,7 +154,6 @@ Then(/^"(.*?)" reply to (\d+) topics created by others$/) do |name, number|
     new_user = ntf_user.create_topic
     $user.reply_to_topic new_user.topic_id
   end
-  puts "#{name} replied to #{number} topics. "
 end
 
 Given(/^a user created a group in "(.*?)" category$/) do |arg1|
@@ -180,14 +171,13 @@ Given(/^"([^"]*)" create a group in category "([^"]*)" using www api$/) do |arg1
   $group_name = random_group_name
   group_category_id =  GROUP_CATEGORY[arg2]
   $user.create_group :group_category => group_category_id, :group_name => $group_name
-  puts "Group >>#{$group_name}<< created in category #{arg2}, category id >>>#{group_category_id}"
 end
 
 
 Given(/^"([^"]*)" create a group in category "([^"]*)" with name "([^"]*)"$/) do |arg1, arg2,arg3|
   group_category_id =  GROUP_CATEGORY[arg2]
   $user.create_group :group_category => group_category_id, :group_name => arg3
-  puts "Group >>#{arg3}<< created in category #{arg2}, category id >>>#{group_category_id}"
+  log_msg "Group >>#{arg3}<< created in category #{arg2}, category id >>>#{group_category_id}"
 end
 
 
@@ -195,50 +185,42 @@ end
 #community notification test
 Given(/^the notification test data for type (\d+) has been prepared through www$/) do |arg1|
   $ntf_type = arg1.to_s
-  puts $ntf_type
   case $ntf_type
   when "1050","1085","1086","1087"
     n = {"1050"=>1, "1085"=>6, "1086"=>16,"1087"=>50}
-    puts "The reply for a topic."
     $user.create_topic :topic_title => "notification_#{$ntf_type}"
     other_user = ntf_user
     n[$ntf_type].times do
       other_user.reply_to_topic $user.topic_id
     end
   when "1051"
-    puts "Participant commenter"
     other_user = ntf_user
     other_user.create_topic :topic_title => "notification_1051"
     $user.reply_to_topic other_user.topic_id
     ntf_user.reply_to_topic other_user.topic_id
   when "1053"
-    puts "Subreply notification"
     $user.create_topic :topic_title => "notification_1053"
     $user.reply_to_topic $user.topic_id
     other_user = ntf_user :first_name => "Replier"
     other_user.reply_to_comment $user.topic_id, $user.reply_id, :reply_content => "Reply_1053"
   when "1055"
-    puts "5+ like for topic"
     $user.create_topic :topic_title => "notification_1055"
     5.times do 
       ntf_user.upvote_topic $user.topic_id
     end
   when "1059"
-    puts "3 like for comment"
     $user.create_topic :topic_title => "notification_1059"
     $user.reply_to_topic $user.topic_id, :reply_content => "Reply_1059"
     4.times do
       ntf_user.upvote_comment $user.topic_id,$user.reply_id
     end
   when "1060"
-    puts "3 more votes for a poll"
     $user.create_poll :topic_title => "notification_1060"
     3.times do
       ntf_user.vote_poll :topic_id => $user.topic_id, :vote_index => [1,2,3].sample
     end
   when "1088", "1089"
     n = {"1088"=>1, "1089"=>6}
-    puts "The reply for a photo."
     $user.create_photo :topic_title => "notification_#{$ntf_type}"
     other_user = ntf_user
     n[$ntf_type].times do
@@ -246,12 +228,10 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
     end
   when "1091","1092"
     n = {"1091"=>1, "1092"=>6}
-    puts "Test follower"
     n[$ntf_type].times do
       ntf_user.follow_user $user.user_id
     end
   when "1056"
-    puts "Subreply Participant"
     temp_user1 = ntf_user
     temp_user1.create_topic :topic_title=>"notification_1056"
     temp_user1.reply_to_topic temp_user1.topic_id, :reply_content=>"commentAAA"
@@ -265,8 +245,7 @@ end
 
 Given(/^I create a new forum user with name "([^"]*)" and join group (\d+)$/) do |name, group|
   $user = forum_new_user(first_name: name).leave_all_groups.join_group group
-  puts "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
-  puts "Default group id is #{GROUP_ID}, join group #{group}"
+  log_important "Email:>> #{$user.email}\nPwd:>>#{$user.password}"
 end
 
 #NON_WWW STEPS
@@ -434,8 +413,6 @@ Then(/^I click view all replies$/) do
 end
 
 Then(/^I scroll "([^"]*)" to see "([^"]*)"$/) do |action,content|
-  puts "the gesture is #{action}"
-  puts "the target content is * marked:#{content}"
   forum_page.scroll_to_see action, content
 end
 
@@ -454,7 +431,6 @@ end
 
 
 Then(/^I should see the search result for topic$/) do
-  puts "search for #{$search_content}"
   forum_page.scroll_down_to_see $search_content
   forum_page.touch_search_result $search_content
 end
@@ -504,7 +480,6 @@ Then(/^I check the search result for deleted "([^"]*)"$/) do |arg1|
   when "reply"
     string = $random_str2
   end
-  puts "Search for #{string}"
   forum_page.scroll_down_to_see string if element_does_not_exist "* marked:'#{string}'"
   forum_page.check_search_result_deleted string
 end
@@ -525,7 +500,6 @@ Then(/^I should see the last comment$/) do
     scroll_down 
   end
   wait_for_elements_exist "* {text CONTAINS 'comment #{$comment_number}'}"
-  puts "check element: * with text 'comment #{$comment_number}'"
 end
 
 
@@ -558,7 +532,7 @@ Then(/^I check the floating button menu$/) do
   if element_does_not_exist "* marked:'Post'"
     wait_for_element_exists "* id:'topic_create_fab_menu'"
   else
-    puts "OLD VERSION!!!"
+    log_msg "OLD VERSION!!!"
   end
 end
 
@@ -574,7 +548,6 @@ end
 
 Then(/^I should not see the group which I left$/) do
   wait_for_element_exists "* marked:'Top'"
-  puts "I cannot see the group #{$group_name} anymore"
   check_element_does_not_exist "* marked:'$group_name'"
 end
 
@@ -611,7 +584,6 @@ Then(/^I go back to user profile page and check the changes in profile page$/) d
   wait_for_elements_exist "* marked:'Add Bio info'"
   wait_for_elements_exist "* {text CONTAINS 'Testname'}"
   wait_for_elements_exist "* marked:'New York'"
-  puts "Checked profile page"
 end
 
 Then(/^I go back to forum page from forum profile page$/) do
@@ -670,12 +642,11 @@ Then(/^I can see the person I blocked$/) do
     else 
       name = $new_user.first_name
     end
-    puts "Name is #{name}"
     wait_for(:timeout =>3) do
       element_exists("* {text CONTAINS '#{name}'}") || element_exists("* {text CONTAINS '#{premium_name}'}")
     end
   rescue
-    puts "Name not for new user or user2"
+    log_error "Name not for new user or user2"
   end
   wait_for_element_exists "* marked:'Blocked'"
 end
@@ -705,8 +676,7 @@ end
 
 Then(/^I should not see the topic hidden by me$/) do 
   sleep 1.5
-  check_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
-  puts "I cannot see topic #{$user2.topic_title}"
+  wait_for_element_does_not_exist  "* marked:'#{$user2.topic_title}'"
 end
 
 Then(/^I report the topic by reason "([^"]*)"$/) do |report_reason|
@@ -720,7 +690,6 @@ end
 Then(/^I should not see the comment hidden by me$/) do 
   sleep 1.5
   wait_for_element_does_not_exist  "* marked:'#{$hidereply_content}'"
-  puts "I cannot see comment #{$hidereply_content}"
 end
 
 Then(/^I report the comment by reason "([^"]*)"$/) do |report_reason|
@@ -739,13 +708,11 @@ end
 
 Then(/^I should still see the comment$/) do
   wait_for_element_exists "* marked:'#{$hidereply_content}'"
-  puts "I can still see comment #{$hidereply_content}"
 end
 
 Then(/^I should still see the topic$/) do
   sleep 2
   check_element_exists "* marked:'#{$user2.topic_title}'"
-  puts "I can still see topic #{$user2.topic_title}"
 end
 
 
@@ -756,7 +723,7 @@ Then(/^I click to report the "([^"]*)" and check the reasons:$/) do |arg1,table|
   when "comment"
     forum_page.report_comment_check_reasons table
   else
-    puts "Wrong input"
+    log_error "Wrong input"
   end
 end
 
@@ -802,7 +769,7 @@ Then(/^I go to "([^"]*)" category$/) do |arg1|
     wait_touch "* marked:'#{arg1}'"
     # logger.add event_name: "page_impression_#{arg1}_category"
   else 
-    puts "GROUP CATEGORY NAME IS WRONG."
+    log_error "GROUP CATEGORY NAME IS WRONG."
   end
 end
 
@@ -826,13 +793,7 @@ Then(/^I click see all button after "([^"]*)"$/) do |arg1|
 end
 
 Then(/^I can see many groups$/) do
-  # if query("* {text contains 'Creator'}").count < 5
-  #   raise "Cannot see more than 5 groups here"
-  # else
-  #   puts "Can see >= 5 groups."
-  # end
   sleep 3
-  puts "NO GROUPS in www1"
 end
 
 
@@ -855,7 +816,7 @@ Then(/^I invite the user to this group$/) do
 end
 
 Then(/^I should see the user is already in this group$/) do
-  puts "not useful in Android"
+  log_msg "not useful in Android"
 end
 
 Then(/^I go to the second group$/) do
@@ -903,7 +864,7 @@ When(/^I click the link for Terms$/) do
 end
 
 Then(/^I should see the correct website for Terms$/) do
-  puts "No way to check it on Android"
+  log_msg "No way to check it on Android"
   sleep 3
 end
 
@@ -913,7 +874,7 @@ When(/^I click the link for Privacy Policy$/) do
 end
 
 Then(/^I should see the correct website for Privacy Policy$/) do
-  puts "No way to check it on Android"
+  log_msg "No way to check it on Android"
   sleep 3
 end
 
@@ -923,10 +884,6 @@ end
 
 #----AGE FILTER----
 Then(/^I scroll up the screen with strong force$/) do
-  # 3.times do 
-  #   swipe :down, force: :strong
-  # end
-  puts "wait"
 end
 
 Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |arg1|
@@ -938,14 +895,14 @@ Given(/^a forum user with the age (\d+) and create a topic in test group$/) do |
   assert_equal 892461217, $young_user.birthday
   $test_title = "#{$young_user.first_name}Test age filter topic"
   $young_user.create_topic :topic_title => $test_title
-  puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
+  log_important "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
 end
 
 Then(/^I go to test group and check the topic exists$/) do
   forum_page.select_target_group
   # wait_for(:timeout =>5) {assert query("* text:'#{$test_title}'")[0]}
   wait_for_elements_exist "* text:'#{$test_title}'"
-  puts "Young user topic exists >>>#{$test_title}"
+  log_important "Young user topic exists >>>#{$test_title}"
 end
 
 
@@ -963,8 +920,6 @@ Then(/^I go to test group and check the topic not exist$/) do
   forum_page.select_target_group
   sleep 1
   assert_nil query("* text:'#{$test_title}'")[0]
-  # check_element_does_not_exist "* text:'#{$test_title}'"
-  puts "Yound user topic not exist >>>#{$test_title}"
 end
 
 Given(/^a forum user with the age (\d+) and create a topic in test group and some test comments and subreplies are created$/) do |arg1|
@@ -975,7 +930,7 @@ Given(/^a forum user with the age (\d+) and create a topic in test group and som
   $young_user.reply_to_topic temp_user.topic_id, :reply_content => "Filter comment"
   $young_user.reply_to_comment temp_user.topic_id, temp_user.reply_id, :reply_content => "Filter subreply"
   temp_user.reply_to_topic temp_user.topic_id
-  puts "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
+  log_important "Age filter test user #{$young_user.user_id}, birthday #{$young_user.birthday}"
 end
 
 Then(/^I check I can see the user's comment and subreply$/) do

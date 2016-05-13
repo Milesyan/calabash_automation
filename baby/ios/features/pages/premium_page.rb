@@ -8,7 +8,7 @@ class PremiumPage < Calabash::IBase
 
   def pass_premium_promt
     if $login_acc.nil?
-      puts "No user login yet"
+      log_msg "No user login yet"
     elsif $login_acc != premium_email
       begin
         wait_for_element_exists "* marked:'Try for FREE'",:timeout  => 3.5
@@ -18,7 +18,6 @@ class PremiumPage < Calabash::IBase
       sleep 0.8
       if element_exists("* marked:'Try for FREE'") && element_exists("* marked:'sk premium onboarding diamond'")
         sleep 0.5
-        puts "PREMIUM PROMT"
         touch "* marked:'sk cross close'"
         sleep 2
       end
@@ -37,7 +36,7 @@ class PremiumPage < Calabash::IBase
     clear_text "* marked:'Link' sibling * index:0"
     wait_touch "* marked:'Link' sibling * index:0"
     keyboard_enter_text $random_url
-    puts "Random URL is #{$random_url}"
+    log_important "Random URL is #{$random_url}"
   end
 
   def check_url

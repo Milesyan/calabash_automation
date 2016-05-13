@@ -119,7 +119,7 @@ class ForumPage < Calabash::IBase
     wait_touch "* marked:'Write a description!'"
     keyboard_enter_text args[:text] ||"Test post topic"+Time.now.to_s
     if args[:anonymous] == 1
-      puts "Anonymous Mode"
+      log_msg "Anonymous Mode"
       wait_touch "* id:'gl-community-anonymous-uncheck.png'"
     end
     wait_touch "label text:'Post'"
@@ -287,7 +287,7 @@ class ForumPage < Calabash::IBase
     elsif  gesture == "down"
       until_element_exists("* marked:'#{content}'", :timeout  => 30 , :action => lambda {swipe :up, :"swipe-delta" =>{:vertical => {:dx=> 0, :dy=> 300} }})
     else 
-      puts "Gesture  Error"
+      log_error "Gesture  Error"
     end
   end 
 #---premium---
@@ -302,7 +302,6 @@ class ForumPage < Calabash::IBase
 
   def search_topics(args)
     wait_touch "UISegment marked:'Topics'"
-    puts "Search for topic: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
   end
@@ -310,7 +309,6 @@ class ForumPage < Calabash::IBase
   def search_subreplies
     wait_touch "UISegment marked:'Comments'"
     $search_content  = "#{$random_prefix} sub-reply"
-    puts "Search for subreply: #{$search_content}"
     keyboard_enter_text $search_content
     tap_keyboard_action_key
   end
@@ -318,14 +316,12 @@ class ForumPage < Calabash::IBase
   def search_comments
     wait_touch "UISegment marked:'Comments'"
     $search_content  = "#{$random_prefix} comment"
-    puts "Search for comment: #{$search_content}"
     keyboard_enter_text $search_content
     tap_keyboard_action_key
   end
 
   def search_deleted_comments(args)
     touch "UISegment marked:'Comments'"
-    puts "Search for deleted comment: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
   end
@@ -366,23 +362,19 @@ class ForumPage < Calabash::IBase
   def check_search_result_comment
     random_number = Random.rand($comment_number.to_i).to_i+1
     search_result = $search_content+" "+random_number.to_s
-    puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
     wait_for_elements_exist "* marked:'#{search_result}'"
     forum_page.show_entire_discussion
-    puts "See element '#{search_result}'"
   end
 
   def check_search_result_subreply
     random_number = Random.rand($comment_number.to_i).to_i+1
     search_result = $search_content+" "+random_number.to_s
-    puts "Search for #{search_result}"
     forum_page.scroll_down_to_see search_result
     forum_page.touch_search_result search_result,0
     forum_page.show_entire_discussion
     forum_page.view_all_replies
-    puts "Finding element '#{search_result}'"
     forum_page.scroll_up_to_see search_result
   end
 
@@ -408,7 +400,6 @@ class ForumPage < Calabash::IBase
   def leave_group
     wait_touch "UIImageView index:0"
     wait_touch "UIButtonLabel marked:'Leave'"
-    puts "Left group"
     wait_touch "* marked:'Save'"
   end
 
@@ -437,27 +428,23 @@ class ForumPage < Calabash::IBase
   def check_groups
     wait_touch "UIButton index:0"
     check_element_exists "* marked:'#{TARGET_GROUP_NAME}'"
-    puts "I can see target group #{TARGET_GROUP_NAME }"
   end
 
   def check_followers
     wait_touch "UIButton index:1"
     check_element_exists "* marked:'#{$user2.first_name}'"
     check_element_exists "* marked:'Following'"
-    puts "I can see follower #{$user2.first_name}"
   end
 
   def check_following
     wait_touch "UIButton index:2"
     check_element_exists "* marked:'#{$user2.first_name}'"
     check_element_exists "* marked:'Following'"
-    puts "I can see I'm following #{$user2.first_name}"
   end
 
   def check_following_not_exist
     wait_touch "UIButton index:2"
     check_element_does_not_exist "* marked:'#{$user2.first_name}'"
-    puts "I can NOT see I'm following #{$user2.first_name}"
   end
 
   def check_participated
@@ -499,9 +486,8 @@ class ForumPage < Calabash::IBase
     when "bookmarked"
       check_bookmarked
     else 
-      puts "Input argument is wrong."
+      log_error "Input argument is wrong."
     end
-    puts "#{args} is checked"
   end
 
   def back_to_profile_page
@@ -527,9 +513,8 @@ class ForumPage < Calabash::IBase
 
   def action_to_other_user(action)
     if element_exists "* marked:'Edit profile'"
-      puts "The profile is yours"
+      log_msg "The profile is yours"
     end
-    puts "The action is #{action}"
     case action.downcase
     when "follow", "followed"
       check_element_exists "* marked:'Follow'"
@@ -551,7 +536,7 @@ class ForumPage < Calabash::IBase
       touch "UIButton marked:'Blocked'"
       check_element_does_not_exist "* marked:'Blocked'"
     else
-      puts "Action error"
+      log_error "Action error"
     end
   end
 
@@ -580,14 +565,14 @@ class ForumPage < Calabash::IBase
     elsif element_exists "UINavigationBar child UIButton"
       touch "UINavigationBar child UIButton index:0"
     else 
-      puts "TOP NAV BUTTON NOT EXIST"
+      log_error "TOP NAV BUTTON NOT EXIST"
     end
   end
 
 
   def click_bookmark_icon
     if element_does_not_exist "UINavigationBar child UIButton index:1"
-      puts "BOOKMAKR ICON NOT EXISTS."
+      log_error "BOOKMAKR ICON NOT EXISTS."
     else
       wait_touch "UINavigationBar child UIButton index:1"
     end
@@ -599,7 +584,6 @@ class ForumPage < Calabash::IBase
 
   def hide_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic #{$user2.topic_title}"
     if element_exists "* id:'community-dots' index:1"
       wait_touch "* id:'community-dots' index:1"
     else 
@@ -612,7 +596,6 @@ class ForumPage < Calabash::IBase
 
   def hide_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment #{$hidereply_content}"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Hide'"
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
@@ -623,10 +606,8 @@ class ForumPage < Calabash::IBase
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'hide this'}"}
     if args ==1 
       wait_touch "UILabel marked:'Yes, hide it.'"
-      puts "User hide it"
     else 
       wait_touch "UILabel marked:'No'"
-      puts "User not hide it"
     end
   end
 
@@ -648,7 +629,6 @@ class ForumPage < Calabash::IBase
   
   def enter_report_topic
     wait_for_elements_exist "* marked:'#{$user2.topic_title}'"
-    puts "I can see topic >>>#{$user2.topic_title}<<<"
     if element_exists "* id:'community-dots' index:1"
       wait_touch "* id:'community-dots' index:1"
     else 
@@ -660,7 +640,6 @@ class ForumPage < Calabash::IBase
 
   def enter_report_comment
     wait_for_elements_exist "* marked:'#{$hidereply_content}'"
-    puts "I can see comment >>>#{$hidereply_content}<<<"
     wait_touch "* id:'community-dots' index:0"
     wait_touch "UILabel marked:'Report'"
     wait_for(:timeout =>3){element_exists "label {text CONTAINS 'Please select the reason why you are flagging this post.'}"}
@@ -671,7 +650,6 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -680,7 +658,6 @@ class ForumPage < Calabash::IBase
     table.rows.each do |row|
       tmp = escape_quotes(row[0].to_s)
       check_element_exists "* marked:'#{tmp}'"
-      puts "check >>'#{tmp}'<< pass"
     end
   end
 
@@ -763,7 +740,6 @@ class ForumPage < Calabash::IBase
 
   def search_groups(args)
     wait_touch "UISegment marked:'Groups'"
-    puts "Search for group: #{args}"
     keyboard_enter_text args
     tap_keyboard_action_key
   end 
@@ -791,12 +767,12 @@ class ForumPage < Calabash::IBase
     y = query("* {text contains '#{args}'}")[0]["rect"]["y"]
     w = query("* {text contains '#{args}'}")[0]["rect"]["width"]
     h = query("* {text contains '#{args}'}")[0]["rect"]["height"]
-    puts "coordinate of item is x => #{x}, y => #{y}, width => #{w}, height => #{h}"
+    log_important "coordinate of item is x => #{x}, y => #{y}, width => #{w}, height => #{h}"
     return x,y,w,h
   end
 
   def touch_coordinate(x,y)
-    puts "TOUCH x = #{x}, y = #{y}"
+    log_important "TOUCH x = #{x}, y = #{y}"
     touch :x => x, :y => y
   end
 end
