@@ -6,7 +6,7 @@ module ForumApiAndroid
   class ForumAndroid
     extend TestHelper 
     include AndroidConfig
-    attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version
+    attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version, :all_contacts
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -561,6 +561,15 @@ module ForumApiAndroid
     def discover
       data = {}
       url = "#{forum_base_url}/group/discover?#{@additional_forum}"
+      @res = HTTParty.get url, auth_options(data)
+      self
+    end
+
+    def availability(tgt_user_id)
+      data = {
+        "counterpart_id": tgt_user_id
+      }
+      url = "#{forum_base_url}/chat/availability?#{@additional_forum}"
       @res = HTTParty.get url, auth_options(data)
       self
     end

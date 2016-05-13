@@ -7,7 +7,7 @@ module ForumApi
     include TestHelper
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, 
-         :all_group_names, :notifications, :app_version
+         :all_group_names, :notifications, :app_version,  :all_contacts
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}

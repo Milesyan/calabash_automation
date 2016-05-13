@@ -31,6 +31,33 @@ module Minitest_ios
     assert_contains 's3.amazonaws.com', u.res["result"]["content"], 'Does not contains image url'
   end
 
+  def test_community_create_anonymous_topic
+    u = forum_new_user
+    u.create_topic :group_id => GROUP_ID, :anonymous => 1
+    assert_rc u.res
+  end
+
+  def test_community_create_topic_with_title_and_content
+    u = forum_new_user
+    u.create_topic :topic_title => "hahahaha",:topic_content => "Test for www"
+    assert_equal u.res["result"]["content"], "Test for www"
+  end
+
+  def test_community_vote_poll
+    u = forum_new_user.create_poll :group_id => 1,:topic_title => "Test vote poll"
+    u.vote_poll :topic_id => u.topic_id, :vote_index => 3 
+    assert_rc u.res
+  end
+
+  def test_community_vote_poll_repeatedly
+    u = forum_new_user.create_poll :topic_title => "Test vote poll"
+    u.vote_poll :topic_id => u.topic_id, :vote_index => 3
+    assert_rc u.res
+    u2 = forum_new_user.vote_poll :topic_id => u.topic_id, :vote_index => 2
+    assert_rc u2.res
+    u2.vote_poll :topic_id => u.topic_id, :vote_index => 3
+    assert_equal u2.res["msg"], "Already voted the poll"
+  end
 
   # --- Add comments to a topic
   def test_add_two_comments_to_a_topic
@@ -75,8 +102,8 @@ module Minitest_ios
     assert_equal "Post deletion failed. Please try again later.", u1.res["msg"]
     assert_equal 1, u1.res["rc"]
   end
-  #----- follow/unfollow/block/unblock users
 
+  #----- follow/unfollow/block/unblock users
   def test_follow_user
     u = forum_new_user
     sleep 1
@@ -91,15 +118,6 @@ module Minitest_ios
     sleep 1
     u2 = forum_new_user
     u.follow_user u2.user_id
-    u.unfollow_user u2.user_id
-    assert_rc u.res
-    assert_equal 1, u.res["result"]
-  end
-
-  def test_unfollow_user_fail
-    u = forum_new_user
-    sleep 1
-    u2 = forum_new_user
     u.unfollow_user u2.user_id
     assert_rc u.res
     assert_equal 1, u.res["result"]
@@ -121,15 +139,6 @@ module Minitest_ios
     u.block_user u2.user_id
     assert_rc u.res
     assert_equal 1, u.res["result"]
-    u.unblock_user u2.user_id
-    assert_rc u.res
-    assert_equal 1, u.res["result"]
-  end
-
-  def test_unblock_user_fail
-    u = forum_new_user
-    sleep 1
-    u2 = forum_new_user
     u.unblock_user u2.user_id
     assert_rc u.res
     assert_equal 1, u.res["result"]
@@ -161,15 +170,7 @@ module Minitest_ios
     assert_rc u.res
   end
 
-  def test_unbookmark_fail
-    u = forum_new_user
-    u.create_topic
-    u.unbookmark_topic u.topic_id
-    assert_equal 1, u.res["result"]
-    assert_rc u.res
-  end
   #------------Up/Downvote topic/comment--------
-  
   def test_upvote_topic
     u = forum_new_user
     u.create_topic
@@ -186,7 +187,6 @@ module Minitest_ios
     assert_rc u.res
     assert_equal 1, u.res["result"]
   end
-
 
   def test_downvote_topic
     u = forum_new_user
@@ -239,6 +239,22 @@ module Minitest_ios
     end
   end
 
+  def test_cancel_downvote_topic
+    u = forum_new_user.create_topic
+    u.downvote_topic u.topic_id
+    u.cancel_downvote_topic u.topic_id
+    assert_rc u.res
+  end
+
+  def test_cancel_upvote_comment
+    u = forum_new_user.create_topic
+    u.reply_to_topic u.topic_id
+    u.downvote_comment u.topic_id, u.reply_id
+    u.cancel_downvote_comment u.topic_id, u.reply_id
+    assert_rc u.res
+  end
+
+  #---------LEAVE GROUPS----------
   def test_leave_group
     u = forum_new_user
     u.leave_group 1
@@ -261,7 +277,6 @@ module Minitest_ios
     end
   end
 
-
   def test_quit_all_groups_method
     u = forum_new_user.leave_all_groups
     assert_equal nil, u.res["subscribed"]
@@ -276,19 +291,22 @@ module Minitest_ios
     assert_equal u.first_name, u.res["group"]["creator_name"]
   end
 
-  def test_add_followings
+  def test_get_all_group_names
     u = forum_new_user
-    u2 = forum_new_user
-    u.follow_user u2.user_id
-    assert_rc u.res
-    u.follow_user u2.user_id
-    assert_rc u.res
+    assert u.get_all_group_names
+  end
+  
+  def test_get_all_group_ids
+    u = forum_new_user
+    assert u.get_all_group_ids
   end
 
+  #---premium---
   def test_turn_off_chat
     u = forum_new_user
     u.turn_off_chat
     assert_rc u.res
+    u.turn_on_chat
   end
 
   def test_turn_on_chat
@@ -310,7 +328,6 @@ module Minitest_ios
     u.turn_on_signature
     assert_rc u.res
   end
-
 
   def test_send_chat_request
     u1 = forum_new_user
@@ -371,6 +388,7 @@ module Minitest_ios
   def test_remove_all_participants
     up = premium_login
     up.remove_all_participants
+    assert_empty up.res['participants']
     up.get_all_participants
   end
 
@@ -384,10 +402,11 @@ module Minitest_ios
 
   def test_remove_all_blocked
     up = premium_login
+    u = forum_new_user
+    up.block_user u.user_id
     up.remove_all_blocked
     assert_rc up.res
   end
-
 
   def test_establish_chat
     up = premium_login
@@ -403,6 +422,10 @@ module Minitest_ios
     assert_equal "Updated", up.res["msg"]
   end
 
+
+
+
+  #-----CHAT-----
   def test_premium_login
     up = premium_login
     assert_rc up.res
@@ -429,7 +452,6 @@ module Minitest_ios
     u.create_topic
     u2 = forum_new_user
     u2.reply_to_topic u.topic_id
-    sleep 1
     u.pull
     assert_equal 8, u.notifications[0]["button"]
     assert_equal 1050,u.notifications[0]["type"]
@@ -473,6 +495,13 @@ module Minitest_ios
     assert_rc u.res
   end
 
+  def test_get_all_contacts
+    up = premium_login 
+    u = forum_new_user
+    up.establish_chat u
+    up.get_all_contacts
+    assert_contains u.user_id,up.all_contacts
+  end
 
   def test_old_client_no_recommended_people
     u_new = forum_new_user
