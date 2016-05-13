@@ -13,7 +13,7 @@ Feature: Milestones
     And I close the insight popup 
     And I logout
 
-  @milestone_4m @regression
+  @milestone_4m
     Scenario: check the first milestone with photo by month 4 and go share
     Given I create a new mother with 1 born boy whose birthday is "2.months.ago"
     And I login

@@ -14,7 +14,6 @@ class MePage < Calabash::IBase
 
   def logout
     close_invite_partner_popup
-    close_premium_multiple_caregivers_popup
     until_element_exists "* marked:'Account settings'", action: lambda { scroll "scrollView", :down }
     wait_touch "* marked:'Account settings'"
     until_element_exists "* marked:'Logout'", action: lambda { scroll "scrollView", :down }
@@ -27,13 +26,18 @@ class MePage < Calabash::IBase
     touch "* id:'gl-foundation-popup-close'" if element_exists "* id:'gl-foundation-popup-close'"
   end
 
-  def close_premium_multiple_caregivers_popup
-    sleep 2
-    touch "UIImageView marked:'cross-close'" if element_exists "UIImageView marked:'cross-close'"
-  end
 
   def close_baby_profile
     wait_touch "* marked:'icon-close'"
+  end
+
+  def sync_with_server
+    close_invite_partner_popup
+    until_element_exists "* marked:'Account settings'", action: lambda { scroll "scrollView", :down }
+    wait_touch "* marked:'Account settings'"
+    until_element_exists "* marked:'Sync with server'", action: lambda { scroll "scrollView", :down }
+    wait_touch "* marked:'Sync with server'"
+    wait_touch "* marked:'Logout'"
   end
 
 end

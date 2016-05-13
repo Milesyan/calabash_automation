@@ -74,6 +74,30 @@ Given(/^I log a (poo|pee) with start time "([^"]*)"$/) do |type, start_time_str|
   home_page.add_diaper(type: type, start_time: start_time)
 end
 
+# More log
+Given(/^I scroll to more logs$/) do
+  home_page.scroll_to_more_logs
+end
+
+Given(/^I log a symptom of "([^"]*)" with start time "([^"]*)"$/) do |symptom, start_time_str|
+  start_time = eval(start_time_str)
+  home_page.add_symptom(symptom: symptom, start_time: start_time)
+end
+
+Given(/^I log a temperature with "([^"]*)" with start time "([^"]*)"$/) do |temperature, start_time_str|
+  start_time = eval(start_time_str)
+  home_page.add_temperature(temperature: temperature, start_time: start_time)
+end
+
+Given(/^I log a medication of "([^"]*)" with start time "([^"]*)"$/) do |medication, start_time_str|
+  start_time = eval(start_time_str)
+  home_page.add_medication(medication: medication, start_time: start_time)
+end
+
+Given(/^I log a notes with "([^"]*)"$/) do |notes|
+  home_page.add_notes(notes: notes)
+end
+
 # Growth Chart
 Given(/^I scroll to growth chart$/) do
   home_page.scroll_to_growth_chart
@@ -90,11 +114,12 @@ Given(/^I log height "([^"]*)" on "([^"]*)"$/) do |height, date_str|
   #close_popup_if_needed
 end
 
-# Given(/^I log head circ "([^"]*)" on "([^"]*)"$/) do |head_circ, date_str|
-#   date = eval(date_str)
-#   home_page.add_head_circ(date: date, head_circ: head_circ)
-#   #close_popup_if_needed
-# end
+Given(/^I log head circ "([^"]*)" on "([^"]*)"$/) do |head_circ, date_str|
+  date = eval(date_str)
+  home_page.add_head_circ(date: date, head_circ: head_circ)
+  #close_popup_if_needed
+end
+
 
 Given(/^I close the insight popup$/) do
   close_popup_if_needed

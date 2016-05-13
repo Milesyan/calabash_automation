@@ -49,13 +49,13 @@ class OnboardPage < Calabash::IBase
   def click_terms
     touch :x =>100, :y =>590
     puts "Terms clickable"
-    sleep 5
+    sleep 10
   end
 
   def click_privacy_policy
     touch :x =>180, :y =>590
     puts "Privacy Policy clickable"
-    sleep 5
+    sleep 10
   end
 
   def close_page

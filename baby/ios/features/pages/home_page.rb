@@ -262,8 +262,6 @@ class HomePage < Calabash::IBase
     sleep 1
     picker_set_date_time date
     wait_touch "* marked:'Done'"
-
-    logger.add event_name: "button_click_growth_data_add"
     touch "* marked:'Weight' sibling UITableViewLabel"
     wait_for_none_animating
     touch "* marked:'#{unit.upcase}'"
@@ -271,9 +269,7 @@ class HomePage < Calabash::IBase
     uia str
     wait_for_none_animating
     wait_touch "* marked:'Done'"
-    logger.add event_name: "button_click_growth_data_save"
     wait_touch "* marked:'Save'"
-    logger.add event_name: "page_impression_dialog_growth_data"
     touch "* id:'icon-close'"
     sleep 1
   end
@@ -290,7 +286,6 @@ class HomePage < Calabash::IBase
     picker_set_date_time date
     wait_touch "* marked:'Done'"
 
-    logger.add event_name: "button_click_growth_data_add"
     touch "* marked:'Height' sibling UITableViewLabel"
     sleep 1
     touch "* marked:'#{unit.upcase}'"
@@ -300,11 +295,82 @@ class HomePage < Calabash::IBase
     uia str
     wait_for_none_animating
     wait_touch "* marked:'Done'"
-    logger.add event_name: "button_click_growth_data_save"
     wait_touch "* marked:'Save'"
-    logger.add event_name: "page_impression_dialog_growth_data"
     touch "* id:'icon-close'"
     sleep 1
+  end
+
+   def add_head_circ(args)
+    open_growth_chart
+    date = args[:date].to_datetime
+    h_c, unit = args[:head_circ].split(/^(\d+)/)[1..-1]
+    unit.strip!
+
+    wait_touch "* id:'button-plus'"
+    touch "* marked:'Date' sibling UITableViewLabel"
+    sleep 1
+    picker_set_date_time date
+    wait_touch "* marked:'Done'"
+
+    touch "* marked:'Head Circ.' sibling UITableViewLabel"
+    sleep 1
+    touch "* marked:'#{unit.upcase}'"
+    #height = %Q[{0 "#{h} #{unit.downcase}"}]
+    head_circ = %Q[{0 "#{h_c}"}]
+    str = %Q[uia.selectPickerValues('#{head_circ}')]
+    uia str
+    wait_for_none_animating
+    wait_touch "* marked:'Done'"
+    wait_touch "* marked:'Save'"
+    touch "* id:'icon-close'"
+    sleep 1
+  end
+
+  def scroll_to_more_logs
+    sleep 1
+    wait_for_element_exists "* marked:'FEED'", time_out: 15
+    until_element_exists "* marked: 'View all history'", action: lambda { scroll "scrollView index:0", :down }
+  end
+
+  def add_symptom(args = {})
+    start_time = args[:start_time].to_datetime
+    wait_touch "* marked:'MORE'"
+    wait_touch "* marked:'Symptom'"
+    symptom = args[:symptom]
+    wait_touch "* marked:'#{symptom}'"
+    wait_touch "* marked:'Save'"
+    picker_set_date_time start_time
+    wait_touch "* marked:'Done'"
+  end
+
+   def add_temperature(args = {})
+    start_time = args[:start_time].to_datetime
+    wait_touch "* marked:'MORE'"
+    wait_touch "* marked:'Temperature'"
+    temperature= args[:temperature]
+    until_element_exists "* marked:'106.0 ℉'", action: lambda { scroll "scrollView index:0", :up }
+    wait_touch "* marked:'Save'"
+    picker_set_date_time start_time
+    wait_touch "* marked:'Done'"
+  end
+
+  def add_medication(args = {})
+    start_time = args[:start_time].to_datetime
+    wait_touch "* marked:'MORE'"
+    wait_touch "* marked:'Medication'"
+    medication = args[:medication]
+    until_element_exists "* marked:'#{medication}'", action: lambda { scroll "scrollView index:0", :down }
+    wait_touch "* marked:'#{medication}'" 
+    picker_set_date_time start_time
+    wait_touch "* marked:'Done'"
+  end
+
+  def add_notes(args = {})
+    wait_touch "* marked:'MORE'"
+    wait_touch "* marked:'Notes'"
+    notes = args[:notes]
+    keyboard_enter_text notes
+    touch "* marked:'Done'"
   end
 
 end
