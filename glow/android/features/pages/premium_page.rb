@@ -10,8 +10,10 @@ class PremiumPage < Calabash::ABase
     if $login_acc.nil?
       puts "User not login yet"
     elsif $login_acc != premium_email
-      begin 
-        wait_for_element_exists "* marked:'top_part'", :timeout => 3
+      begin
+        wait_for(:timeout => 3.5) do
+          element_exists("* marked:'top_part'") || element_exists("* marked:'Community'")
+        end
       rescue RuntimeError
       end
       if (element_exists("* marked:'Try for FREE'") || element_exists("* marked:'Go Premium'")) && element_exists("* marked:'top_part'")

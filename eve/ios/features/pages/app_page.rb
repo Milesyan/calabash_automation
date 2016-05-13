@@ -2,11 +2,6 @@ require 'calabash-cucumber/ibase'
 
 class AppPage < Calabash::IBase
 
-
-  def embed(x,y=nil,z=nil)
-    puts "Screenshot at #{x}"
-  end
-  
   def trait
     "*"
   end

@@ -1,6 +1,5 @@
 module Nurture
   def embed(x,y=nil,z=nil)
-    puts "Screenshot at #{x}"
   end
 
   def wait_touch(query_str)

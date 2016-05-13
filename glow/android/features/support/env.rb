@@ -29,4 +29,4 @@ module Myownworld
 end
 World(Myownworld)
 
-ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
+ENV['SCREENSHOT_PATH'] = "./reports/"
