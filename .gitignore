@@ -1,5 +1,6 @@
 .DS_Store
 .irb-history
+.html
 glow/android/builds/
 glow/android/test_servers
 glow/android/features/*.png
@@ -12,3 +13,5 @@ glow/android/features/support/env.rb
 glow/ios
 glow/www/test
 test_servers
+baby/
+nurture/

@@ -266,7 +266,7 @@ class GlowTest < Minitest::Test
     u = new_ttc_user
     u.forgot_password("email_unregistered@abc.com")
     assert_equal 3021, u.res["rc"]
-    assert_equal "Email hasn't been registered.", u.res["msg"]
+    assert_equal "This email address has not been registered. Please sign up with Glow with this email address.", u.res["msg"]
     u.forgot_password(u.email)
     assert_equal u.email, u.res["email"]
   end
@@ -364,22 +364,24 @@ class GlowTest < Minitest::Test
   def test_ttc_user_insights
     u = new_ttc_user
     u.pull_content
-    insights = []
-    u.res["insights"].each do |insight|
-      insights << insight["id"]
+    insight_ids = []
+    insights = u.res["insights"]
+    insights.each do |insight|
+      insight_ids << insight["reference_id"]
     end
+
     # "vast majority of couples who diligently engage in ovulation tracking are able to achieve pregnancy within one year."
-    assert_equal [5304].sort, insights.sort
+    assert_equal [5304].sort, insight_ids.sort
   end
 
   def test_non_ttc_user_insights
     u = new_non_ttc_user
     u.pull_content
-    insights = []
+    insight_ids = []
     u.res["insights"].each do |insight|
-      insights << insight["id"]
+      insight_ids << insight["reference_id"]
     end
-    assert_equal [15001].sort, insights.sort
+    assert_equal [15001].sort, insight_ids.sort
   end
 
   def test_ft_iui_user_insights
@@ -388,7 +390,7 @@ class GlowTest < Minitest::Test
     u.pull_content
     insights = []
     u.res["insights"].each do |insight|
-      insights << insight["id"]
+      insights << insight["reference_id"]
     end
     assert_equal [27310,27322,27324,27326,27331,27332,27334,27338,27342].sort, insights.sort
   end

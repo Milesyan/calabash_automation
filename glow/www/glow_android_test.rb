@@ -1,5 +1,6 @@
 require 'httparty'
 require 'json'
+require 'active_support/all'
 
 module GlowAndroid
 
@@ -13,13 +14,16 @@ module GlowAndroid
   #FORUM_BASE_URL = "http://titan-forum.glowing.com"
 
   class GlowUser
+    include HTTParty
+    base_uri GLOW_ANDROID_BASE_URL
+
     attr_accessor :email, :password, :ut, :user_id, :topic_id, :reply_id
     attr_accessor :first_name, :last_name, :type, :partner_email, :partner_first_name
     attr_accessor :res
-    attr_accessor :gender
+    attr_accessor :gender, :first_pb, :period_length, :cycle_length
 
     def initialize(args = {})  
-      @first_name = args[:first_name] || "ga" + Time.now.to_i.to_s
+      @first_name = args[:first_name] || get_first_name
       @email = args[:email] || "#{@first_name}@g.com"
       @last_name = "Glow"
       @password = args[:password] || PASSWORD
@@ -27,18 +31,41 @@ module GlowAndroid
       @partner_first_name = "p#{@first_name}"
       @gender = args[:gender] || "female"
       @type = args[:type]
+      @first_pb = date_str(args[:first_pb] || 14.days.ago)
+      @cycle_length = args[:cycle_length] || 28
+      @period_length = args[:period_length] || 3
     end
 
-    def random_str
+    def android_version
+      "3.9.9-play-beta"
+    end
+
+    def random_num
       Time.now.to_i.to_s + ('0'..'9').to_a.shuffle[0,4].join
+    end
+
+    def random_str(n)
+      (10...36).map{ |i| i.to_s 36}.shuffle[0,n.to_i].join
+    end
+
+    def get_first_name
+      "ga" + Time.now.to_i.to_s[2..-1] + random_str(2)
     end
 
     def assert_rc(res)
       assert_equal 0, res["rc"]
     end
 
-    def date_str(n=0)
+    def date_str(t)
+      t.strftime("%Y/%m/%d")
+    end
+
+    def old_date_str(n=0)
       (Time.now + n*24*3600).strftime("%Y/%m/%d")
+    end
+
+    def auth_options(data)
+      { :body => data.to_json, :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' } }
     end
 
     def live_periods(n = 3, period_length = 5, cycle_length = 30, day_offset = -25)
@@ -57,9 +84,9 @@ module GlowAndroid
         "code_name": "emma",
         "time_zone": "Asia Shanghai",
         "vc": 380,
-        "android_version": "3.8.0-play-beta",
+        "android_version": android_version,
         "device_id": "be3ca737160d9da3",
-        "random": random_str,
+        "random": random_num,
         "fc": 1,
         "hl": "en_US"
       }
@@ -69,7 +96,7 @@ module GlowAndroid
       age = args[:age] || 25
       data = {
         "user": {
-          "android_version": "3.8.0-play-beta",
+          "android_version": android_version,
           "birthday": (Time.now.to_i - age*365*24*3600),
           "first_name": @first_name,
           "timezone": "China Standard Time",
@@ -78,10 +105,10 @@ module GlowAndroid
             "time_zone": 8,
             "height": 185.4199981689453,
             "weight": 68.03880310058594,
-            "first_pb_date": (Time.now - 14*24*3600).strftime("%Y/%m/%d"),
+            "first_pb_date": @first_pb,
             "ttc_start": 1433853037,
-            "period_cycle": 28,
-            "period_length": 3,
+            "period_cycle": @cycle_length,
+            "period_length": @period_length,
             "current_status": 0,
             "children_number": 2
           },
@@ -103,7 +130,7 @@ module GlowAndroid
     def non_ttc_signup
       data = {
         "user": {
-          "android_version": "3.8.0-play-beta",
+          "android_version": android_version,
           "birthday": 427048062,
           "first_name": @first_name,
           "timezone": "China Standard Time",
@@ -113,10 +140,10 @@ module GlowAndroid
             "birth_control": 1,
             "height": 198.1199951171875,
             "weight": 65.31724548339844,
-            "first_pb_date": (Time.now).strftime("%Y/%m/%d"),
+            "first_pb_date": @first_pb,
             "ttc_start": 0,
-            "period_cycle": 29,
-            "period_length": 4,
+            "period_cycle": @cycle_length,
+            "period_length": @period_length,
             "current_status": 3
           },
           "last_name": "Glow",
@@ -137,21 +164,25 @@ module GlowAndroid
 
     def ft_signup(args = {})
       treatment_type = TREATMENT_TYPES[(args[:type]).downcase.to_sym]
-      treatment_startdate = first_pb_date = date_str(-20) # the treatment cycle started 20 days ago
-      treatment_enddate = date_str(10)
+      # treatment_startdate = first_pb_date = old_date_str(-20) # the treatment cycle started 20 days ago
+      # treatment_enddate = old_date_str(10)
+
+      ft_startdate = args[:ft_startdate] || Time.now
+      first_pb = ft_startdate
+
       data = {
         "user": {
           "notifications_read": false,
           "settings": {
-            "first_pb_date": first_pb_date, 
-            "period_cycle": 30,
-            "period_length": 4,
+            "first_pb_date": date_str(first_pb), 
+            "period_cycle": @cycle_length,
+            "period_length": @period_length,
             "children_number": 2,
             "ttc_start": 1433849314,
             "current_status": 4,
             "fertility_treatment": treatment_type,
-            "treatment_startdate": treatment_startdate,
-            "treatment_enddate": treatment_enddate,
+            "treatment_startdate": date_str(ft_startdate),
+            "treatment_enddate": date_str(ft_startdate + 40*24*3600),
             "time_zone": 8
           },
           "first_name": @first_name,
@@ -161,7 +192,7 @@ module GlowAndroid
           "email": @email,
           "password": @password,
           "timezone": "China Standard Time",
-          "android_version": "3.8.0-play-beta",
+          "android_version": android_version,
           "fertility_test": {
             "fertility_clinic": 4
           }
@@ -193,7 +224,7 @@ module GlowAndroid
           "email": @email,
           "password": @password,
           "timezone": "China Standard Time",
-          "android_version": "3.8.0-play-beta"
+          "android_version": android_version
         }
       }
 
@@ -281,6 +312,224 @@ module GlowAndroid
     end
 
     ######## Home #######
+
+    def add_sex(args = {})
+      date = date_str(args[:date] || Time.now)
+      sex = args[:sex] || 258
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "intercourse": sex
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_period_flow(args = {})
+      date = date_str(args[:date] || Time.now)
+      period_flow = args[:period_flow] || 66 # medium
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "period_flow": period_flow
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_cm(args = {})
+      date = date_str(args[:date] || Time.now)
+      cm = args[:cm] || 1360 # Eggwhite
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "cervical_mucus": cm
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_exercise(args = {})
+      date = date_str(args[:date] || Time.now)
+      exercise = args[:exercise] || 10
+      # 10: 30 - 60 mins
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "exercise": exercise
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_mood(args = {})
+      date = date_str(args[:date] || Time.now)
+      moods = args[:moods] || 2
+      emotional_symptoms = args[:emotional_symptoms] || {
+        "emotional_symptom_1": 35184372097058,
+        "emotional_symptom_2": 0
+      }
+
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "moods": moods
+          }.merge(emotional_symptoms)],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_stress(args = {})
+      date = date_str(args[:date] || Time.now)
+      stress_level = args[:stress_level] || 48
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "stress_level": stress_level
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_sleep(args = {})
+      date = date_str(args[:date] || Time.now)
+      sleep = args[:sleep] || 3600 * 5
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "sleep": sleep
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_physical_discomfort(args = {})
+      date = date_str(args[:date] || Time.now)
+      physical_symptom_1 = 137438962176
+      physical_symptom_2 = 0
+      physical_discomfort = args[:physical_discomfort] || 2
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "physical_symptom_1": physical_symptom_1,
+            "physical_symptom_2": physical_symptom_2,
+            "physical_discomfort": physical_discomfort
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_ovulation_test(args = {})
+      date = date_str(args[:date] || Time.now)
+      ovulation_test = args[:ovulation_test] || 11
+
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "ovulation_test": ovulation_test
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_pregnancy_test(args = {})
+      date = date_str(args[:date] || Time.now)
+      pregnancy_test = args[:pregnancy_test] || 11
+
+      data = {
+        "data": {
+          "last_seen": 0,
+          "daily_data": [{
+            "date": date,
+            "pregnancy_test": pregnancy_test
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_smoke(args = {})
+      date = date_str(args[:date] || Time.now)
+      smoke = args[:smoke] || 12
+
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "smoke": smoke
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
+    def add_drink(args = {})
+      date = date_str(args[:date] || Time.now)
+      drink = args[:drink] || 12
+
+      data = {
+        "data": {
+          "daily_data": [{
+            "date": date,
+            "alcohol": drink
+          }],
+          "last_sync_time": 0
+        }
+      }.merge(additional_post_data)
+
+      @res = self.class.post "/a/v2/users/push", auth_options(data)
+      self
+    end
+
     def ttc_female_complete_daily_log(args = {})
       data = {
         "data": {
@@ -383,7 +632,7 @@ module GlowAndroid
 
     def ft_complete_daily_log(args = {})
 
-      date = args[:date] || date_str(0)
+      date = args[:date] || old_date_str(0)
       data = {
         "data": {
           "reminders": [],
@@ -528,29 +777,29 @@ module GlowAndroid
 
     def add_non_ttc_daily_log(num_of_days = 1)
       (0...num_of_days).each do |n|
-        non_ttc_female_complete_daily_log(date: date_str(-n))
+        non_ttc_female_complete_daily_log(date: old_date_str(-n))
       end
       self
     end
 
     def add_ttc_daily_log(num_of_days = 1)
       (0...num_of_days).each do |n|
-        ttc_female_complete_daily_log(date: date_str(-n))
+        ttc_female_complete_daily_log(date: old_date_str(-n))
       end
       self
     end
 
     def add_ft_daily_log(num_of_days = 1)
       (0...num_of_days).each do |n|
-        ft_complete_daily_log(date: date_str(-n))
+        ft_complete_daily_log(date: old_date_str(-n))
       end
       self
     end
 
     def get_daily_tasks
-      date = date_str
+      date = old_date_str
       #params = "&ut=#{@ut.gsub("=","%3D")}"
-      params = "date=" + date_str.gsub('/', '%2F')
+      params = "date=" + old_date_str.gsub('/', '%2F')
       additional_post_data.each do |key, value|
         params += "&"
         params += key.to_s
@@ -598,7 +847,7 @@ module GlowAndroid
     end
 
     def add_fertility_tests
-      date = date_str
+      date = old_date_str
       data = {
         "data": [{
           "test_key": "papsmear",
@@ -786,6 +1035,16 @@ module GlowAndroid
 
       @res = HTTParty.post("#{GLOW_ANDROID_BASE_URL}/a/v2/users/push", :body => data.to_json,
         :headers => { "Authorization" => @ut, 'Content-Type' => 'application/json' })
+      self
+    end
+
+    def set_premium
+      data = {
+        "action": "extend_premium",
+        "days": 365
+      }
+      @res = HTTParty.post "http://titan-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvlQ.igccdfhP-REqCyOmNlDjD9bqW3A', 'Content-Type' => 'application/json'}
+      puts "#{@email} is set to premium" if res["code"] == 200
       self
     end
 
