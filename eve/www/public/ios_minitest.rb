@@ -446,7 +446,7 @@ module Minitest_ios
     u.get_notification
     assert_equal 1100,u.notifications[0]["type"]
   end
-  
+
   def test_accept_chat_notification
     u = forum_new_user
     u.get_notification
