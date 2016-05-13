@@ -22,7 +22,7 @@ module NurtureForumAndroid
   end
 
   def old_version_user(args ={})
-    android_version = args[:android_version] || 10800
+    android_version = args[:android_version] || '10800'
     ForumUser.new(:android_version => android_version).signup.login
   end
 

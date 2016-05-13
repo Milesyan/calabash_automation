@@ -23,7 +23,7 @@ module EveForumAndroid
   end
   
   def old_version_user(args = {})
-    android_version = args[:android_version] || 10100
+    android_version = args[:android_version] || '10100'
     app_version = args[:app_version] || "1.1.0-milestestapi"
     ForumUser.new(:android_version => android_version, :app_version => app_version).all_signup_flow
   end
