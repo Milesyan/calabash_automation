@@ -1,6 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
-require_relative 'public/noah_android_forum_test'
+require_relative 'public/baby_android_forum_test'
 require_relative 'public/android_minitest'
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 

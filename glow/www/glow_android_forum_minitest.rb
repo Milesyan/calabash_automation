@@ -12,17 +12,12 @@ class GlowTest < Minitest::Test
   def setup
   end
 
-
-
-
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
 
   def test_non_ttc_user_signup
-    u = forum_new_user
-    assert_rc u.res
-    u.login
+    u = ForumUser.new.non_ttc_signup.login
     assert_equal 3, u.res["user"]["settings"]["current_status"]
   end
 

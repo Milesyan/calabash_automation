@@ -215,8 +215,10 @@ module EveForumAndroid
         },
         "onboarding_info":{}
       }
-      log_msg "Signup with email:\n Email >>>#{@email}"
       @res = HTTParty.post "#{base_url}/android/users/signup_with_email?#{@additional_post_data}", options(data)
+      @user_id = @res["data"]["user_id"]
+      @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -229,10 +231,10 @@ module EveForumAndroid
       self
     end
 
-    def login(email = nil, password = nil)
+    def login
       data = {
-        "email": email || @email,
-        "password": password || @password,
+        "email":  @email,
+        "password": @password,
         "guest_info": 
           {
             "guest_token": "E8E8E7D6-89EB-4157-A20C-35E23D05D884",
@@ -244,6 +246,7 @@ module EveForumAndroid
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
       @first_name = @res["data"]["first_name"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
       self
     end
 

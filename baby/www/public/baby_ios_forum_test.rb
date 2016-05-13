@@ -108,24 +108,22 @@ module NoahForumIOS
       self
     end
     
-    def signup(args = {})
-      user = args[:user] || self
+    def signup
       data = {
         "onboarding_info": {
-        "birthday": user.birthday,
-        "first_name": user.first_name,
+        "birthday": @birthday,
+        "first_name": @first_name,
         "appsflyer_install_data":{
             "af_message": "organic install",
             "af_status": "Organic"
         },
-        "email": args[:email] || user.email,
-        "password": args[:password] || user.password
+        "email": @email,
+        "password": @password
         },
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/ios/user/signup", options(data)
-      user.user_id = @res["data"]["user"]["user_id"]
-      log_important "#{user.email} has been signed up"
-      log_important "User id is >>>>#{user.user_id}<<<<"
+      @user_id = @res["data"]["user"]["user_id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

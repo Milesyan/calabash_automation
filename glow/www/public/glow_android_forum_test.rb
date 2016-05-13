@@ -88,7 +88,6 @@ module GlowForumAndroid
       age = args[:age] || 30
       data = {
         "user": {
-          "android_version": "3.8.0-play-beta",
           "birthday": @birthday || (Time.now.to_i - age*365*24*3600),
           "first_name": @first_name,
           "timezone": "China Standard Time",
@@ -114,14 +113,13 @@ module GlowForumAndroid
       @res = HTTParty.post "#{base_url}/a/v2/users/signup", options(data)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      log_important @email + " has been signed up\nUser id is #{@user_id}"
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
     def non_ttc_signup
       data = {
         "user": {
-          "android_version": "3.8.0-play-beta",
           "birthday": @birthday || 427048062,
           "first_name": @first_name,
           "timezone": "China Standard Time",
@@ -148,7 +146,7 @@ module GlowForumAndroid
       # json_res = eval(res.to_s)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      log_msg @email + " has been signed up\nUser id is #{@user_id}"
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -164,27 +162,25 @@ module GlowForumAndroid
           "notifications_read": false
         }
       }
-
       @res = HTTParty.post "#{base_url}/a/v2/users/push", auth_options(data)
       self
     end
 
-    def login(email = nil, password = nil)
+    def login
       data = {
-        "email": email || @email,
-        "password": password || @password
+        "email": @email,
+        "password": @password
       }.merge(additional_post_data)
 
       @res = HTTParty.post "#{base_url}/a/users/signin", options(data)
       @ut = @res["user"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
       self
     end
 
     def logout
-      # @ut = nil
-      # self
       data = additional_post_data
       @res = HTTParty.post "#{base_url}/a/users/logout", auth_options(data)
       self

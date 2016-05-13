@@ -1,6 +1,13 @@
 module Minitest_android
   include TestHelper
   
+  def test_new_user_with_birthday
+    u = forum_new_user :birthday => (Time.now - 30*365.25*24*3600).to_i
+    log_msg u.birthday
+    assert u.birthday
+    assert_operator u.birthday, :>, 0
+  end
+
     #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
@@ -335,13 +342,14 @@ module Minitest_android
     u = forum_new_user
     up.follow_user u.user_id
     up.get_all_participants
-    assert_rc up.all_participants
+    assert up.all_participants
   end
 
   def test_remove_all_participants
     up = premium_login
     up.remove_all_participants
-    assert_rc up.res
+    puts up.res
+    assert_empty up.res['participants']
     up.get_all_participants
   end
 

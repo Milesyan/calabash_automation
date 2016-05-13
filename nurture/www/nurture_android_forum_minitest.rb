@@ -11,12 +11,12 @@ class NurtureTest < Minitest::Test
 
   def test_premium_login
     up = premium_login
-    puts up.res
+    assert_rc up.res
   end
 
   def test_forum_new_user
     u = forum_new_user
-    puts u.first_name
+    assert u.first_name
   end
 
   def assert_rc(res)
@@ -25,7 +25,7 @@ class NurtureTest < Minitest::Test
 
   def test_nurture_signup
     u = forum_new_user
-    puts u.res
+    assert_rc u.res
   end
 
   def test_nurture_login

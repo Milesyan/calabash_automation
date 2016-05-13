@@ -125,30 +125,24 @@ module NurtureForumAndroid
         }
       }
       @res = self.class.post "/android/users/signup?#{common_data}", options(data)
-      if @res["rc"] == 0
-        @ut = @res["dict"]["encrypted_token"]
-        @user_id = @res["dict"]["user_id"]
-        # log_msg @email + " has been signed up. [user_id: #{@user_id}]"
-      end
+      @ut = @res["dict"]["encrypted_token"]
+      @user_id = @res["dict"]["user_id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
-    def login(args = {})
-      email = args[:email] || @email
-      password = args[:password] || @password
+    def login
       data = {
         userinfo: {
-          email: email,
-          password: password
+          email: @email,
+          password: @password
         }
       }
       @res = self.class.post "/android/users/signin?#{common_data}", options(data)
-      if @res["rc"] == 0
-        @ut = @res["dict"]["encrypted_token"]
-        @user_id = @res["dict"]["user_id"]
-        log_msg email + " just logged in. [user_id: #{@user_id}]"
-        @first_name = @res["dict"]["first_name"]
-      end
+      @ut = @res["dict"]["encrypted_token"]
+      @user_id = @res["dict"]["user_id"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
+      @first_name = @res["dict"]["first_name"]
       self
     end
 

@@ -106,7 +106,7 @@ module NurtureForumIOS
       @ut = @res["data"]["encrypted_token"]
       @user_id = @res["data"]["id"]
       @preg_id = @res["data"]["pregnancies"].first["id"]
-      log_important "#{email} has signed up\nUser id is #{@user_id}"
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -131,6 +131,7 @@ module NurtureForumIOS
       @user_id = @res["data"]["id"]
       @gender = @res["data"]["gender"]
       @first_name = @res["data"]["first_name"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
       self
     end
 

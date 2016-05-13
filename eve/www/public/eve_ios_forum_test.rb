@@ -215,16 +215,18 @@ module EveForumIOS
           "+is_first_session":false
           }
       }.merge(common_data)
-      log_msg "Signup with email:\n Email >>>#{@email}"
       @res = HTTParty.post "#{base_url}/ios/users/signup_with_email", options(data)
+      @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
+      @user_id = @res["data"]["user_id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
     
-    def login(email = nil, password = nil)
+    def login
       data = {
-        "email": email || @email,
-        "password": password || @password,
+        "email": @email,
+        "password": @password,
         "guest_info": 
           {
             "guest_token": @uuid,
@@ -245,6 +247,7 @@ module EveForumIOS
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
       @first_name = @res["data"]["first_name"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
       self
     end
 

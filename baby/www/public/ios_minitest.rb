@@ -7,6 +7,7 @@ module Minitest_ios
     assert u.birthday
     assert_operator u.birthday, :>, 0
   end
+  
   #--- Community ---
   # --- Create a text/poll/photo/link topic ---
   def test_create_text_topic
@@ -265,7 +266,7 @@ module Minitest_ios
     u = forum_new_user.leave_all_groups
     assert_equal nil, u.res["subscribed"]
     u.leave_all_groups
-    assert_rc u.res
+    assert_empty u.res['groups']
   end
 
   def test_create_group 
@@ -364,7 +365,7 @@ module Minitest_ios
     u = forum_new_user
     up.establish_chat u
     up.get_all_participants
-    assert_rc up.all_participants
+    assert up.all_participants
   end
 
   def test_remove_all_participants
@@ -445,6 +446,7 @@ module Minitest_ios
     u.get_notification
     assert_equal 1100,u.notifications[0]["type"]
   end
+  
   def test_accept_chat_notification
     u = forum_new_user
     u.get_notification

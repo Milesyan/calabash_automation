@@ -95,7 +95,9 @@ module GlowForumIOS
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
       @birthday = @res['user']['birthday']
-      log_important email + " has been signed up"
+      @ut = @res["user"]["encrypted_token"]
+      @user_id = @res["user"]["id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -127,7 +129,9 @@ module GlowForumIOS
       }.merge(common_data)
 
       @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
-      log_msg @email + " has been signed up"
+      @ut = @res["user"]["encrypted_token"]
+      @user_id = @res["user"]["id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -146,22 +150,22 @@ module GlowForumIOS
         },
         "ut": @ut
       }.merge(common_data)
-
       @res = HTTParty.post "#{base_url}/api/v2/users/push", options(data)
       self
     end
 
-    def login(email = nil, password = nil)
+    def login
       data = {
         "userinfo": {
-          "email": email || @email,
-          "password": password || @password
+          "email":  @email,
+          "password": @password
         }
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/api/users/signin", options(data)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
       @first_name = @res["user"]["first_name"]
+      log_important "#{@email} just logged in. [user_id: #{@user_id}]"
       self
     end
 

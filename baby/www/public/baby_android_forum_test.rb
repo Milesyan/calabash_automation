@@ -133,12 +133,9 @@ module NoahForumAndroid
         }
       }
       user.res = self.class.post "/android/user/sign_up?#{common_data}", options(data)
-
-      if user.res["rc"] == 0
-        user.ut = user.res["data"]["user"]["encrypted_token"]
-        user.user_id = user.res["data"]["user"]["id"]
-        log_important user.email + " has been signed up. [user_id: #{@user_id}]"
-      end
+      user.ut = user.res["data"]["user"]["encrypted_token"]
+      user.user_id = user.res["data"]["user"]["id"]
+      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -156,11 +153,6 @@ module NoahForumAndroid
         @current_baby_id = @res["data"]["user"]["current_baby_id"]
         @first_name = @res["data"]["user"]["first_name"]
         log_important email + " just logged in. [user_id: #{@user_id}]"
-        if @res["data"]["babies"].size > 0
-          current_baby = @res["data"]["babies"].detect {|b| b["Baby"]["baby_id"] == @current_baby_id }
-          @current_baby = Baby.new current_baby["Baby"].symbolize_keys
-          log_msg "current baby is: #{@current_baby.first_name} [baby_id: #{@current_baby.baby_id}]"
-        end
       end
       self
     end
