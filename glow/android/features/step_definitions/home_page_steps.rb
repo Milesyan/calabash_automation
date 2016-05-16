@@ -1,3 +1,12 @@
+Given(/^I close the premium popup$/) do
+  close_premium_popup
+end
+
+Given(/^I close insights popup$/) do
+  wait_for_element_exists "* id:'more_insights_button'"
+  press_back_button
+end
+
 Given(/^I finish the tutorial$/) do
   home_page.finish_tutorial
 end

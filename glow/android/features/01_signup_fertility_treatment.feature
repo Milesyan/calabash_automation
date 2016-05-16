@@ -9,6 +9,7 @@ Feature: Fertility Treatment users sign up
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -22,6 +23,8 @@ Feature: Fertility Treatment users sign up
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -35,6 +38,8 @@ Feature: Fertility Treatment users sign up
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -48,6 +53,8 @@ Feature: Fertility Treatment users sign up
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout

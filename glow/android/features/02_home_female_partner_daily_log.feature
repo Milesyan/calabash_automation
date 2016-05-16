@@ -4,6 +4,7 @@ Feature: Female partners complete daily log
   Scenario: Non-TTC female partner completes daily log
     Given I create a new "Non-TTC" "Female" glow partner user
     And I login
+    And I close the premium popup
     And I complete daily log for female partner
     And I logout
 
@@ -11,6 +12,7 @@ Feature: Female partners complete daily log
   Scenario: TTC female partner completes daily log
     Given I create a new "TTC" "Female" glow partner user
     And I login
+    And I close the premium popup
     And I complete daily log for female partner
     And I logout
 
@@ -18,6 +20,7 @@ Feature: Female partners complete daily log
   Scenario: Prep female partner completes daily log
     Given I create a new "Prep" "Female" glow partner user
     And I login
+    And I close the premium popup
     And I complete daily log for female partner
     And I logout
 
@@ -25,6 +28,7 @@ Feature: Female partners complete daily log
   Scenario: IVF female partner completes daily log
     Given I create a new "IVF" "Female" glow partner user
     And I login
+    And I close the premium popup
     And I complete daily log for female partner
     And I logout
 

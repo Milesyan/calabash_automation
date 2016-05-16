@@ -9,6 +9,7 @@ Feature: Fertility Treatments user signup
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I open "Me" page
@@ -16,6 +17,7 @@ Feature: Fertility Treatments user signup
     And I logout
 
     And I login as the partner
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -29,6 +31,8 @@ Feature: Fertility Treatments user signup
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I open "Me" page
@@ -36,6 +40,7 @@ Feature: Fertility Treatments user signup
     And I logout
 
     And I login as the partner
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -49,6 +54,8 @@ Feature: Fertility Treatments user signup
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I open "Me" page
@@ -56,6 +63,7 @@ Feature: Fertility Treatments user signup
     And I logout
 
     And I login as the partner
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout
@@ -70,6 +78,8 @@ Feature: Fertility Treatments user signup
     And I complete Fertility Treatment onboarding step 1
     And I complete Fertility Treatment onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
+    And I close insights popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I open "Me" page
@@ -77,6 +87,7 @@ Feature: Fertility Treatments user signup
     And I logout
 
     And I login as the partner
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout

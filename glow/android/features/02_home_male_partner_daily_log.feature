@@ -4,6 +4,7 @@ Feature: Male partners complete daily log
   Scenario: Non-TTC male partner completes daily log
     Given I create a new "Non-TTC" "Male" glow partner user
     And I login
+    And I close the premium popup
     And I complete my daily log for male
     And I logout
 
@@ -11,13 +12,16 @@ Feature: Male partners complete daily log
   Scenario: TTC male partner completes daily log
     Given I create a new "TTC" "Male" glow partner user
     And I login
+    And I close the premium popup
     And I complete my daily log for male
+    And I close insights popup
     And I logout
 
   @iui_male_partner_daily_log
   Scenario: IUI male partner completes daily log
     Given I create a new "IUI" "Male" glow partner user
     And I login
+    And I close the premium popup
     And I complete my daily log for male
     And I logout
 
@@ -25,5 +29,6 @@ Feature: Male partners complete daily log
   Scenario: Med male partner completes daily log
     Given I create a new "Med" "Male" glow partner user
     And I login
+    And I close the premium popup
     And I complete my daily log for male
     And I logout

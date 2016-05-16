@@ -21,7 +21,7 @@ Given(/^I open and check my health profile$/) do
   me_page.back_from_health_profile
 end
 
-Given(/^I open and check my fertility tests and workup$/) do
+Given(/^I open and check my fertility testing and workup$/) do
   me_page.open_fertility_tests
   me_page.check_my_fertility_tests
   me_page.save_fertility_tests

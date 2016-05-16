@@ -348,6 +348,10 @@ class HomePage < Calabash::ABase
     end
   end
 
+  def close_insights_popup
+    press_back_button
+  end
+
   def finish_tutorial
     wait_for(:timeout => 10, :retry_frequency => 2) do
       element_exists "* id:'small_view'"

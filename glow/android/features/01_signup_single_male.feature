@@ -4,6 +4,7 @@ Feature: Single male signup
     Given I am a new "Single Male" user
     And I open Glow for the first time
     When I sign up as a single male user
+    And I close the premium popup
     And I finish the tutorial
     Then I should see "Complete log"
     And I logout

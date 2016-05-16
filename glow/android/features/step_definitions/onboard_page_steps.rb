@@ -49,6 +49,7 @@ end
 
 Given(/^I close the onboarding popup$/) do
   sleep 2
-  touch "* id:'close'" if element_exists "* id:'close'"
+  touch "* id:'close'" if element_exists "* id:'close'" # close button is removed, so use press_back_button
+  press_back_button
   sleep 1
 end

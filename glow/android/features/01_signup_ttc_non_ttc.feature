@@ -9,7 +9,9 @@ Feature: Onboarding flow for Non-TTC, TTC, Fertility treatment users
     And I complete Non-TTC onboarding step 1
     And I complete Non-TTC onboarding step 2
     And I fill in email name password and birthday
-    And I close the onboarding popup
+    And I close the premium popup
+    #And I close the onboarding popup
+    #And I close insights popup
     And I finish the tutorial
     Then I see "Complete log"
     And I logout
@@ -23,6 +25,7 @@ Feature: Onboarding flow for Non-TTC, TTC, Fertility treatment users
     And I complete TTC onboarding step 1
     And I complete TTC onboarding step 2
     And I fill in email name password and birthday
+    And I close the premium popup
     And I close the onboarding popup
     And I finish the tutorial
     Then I see "Complete log"
