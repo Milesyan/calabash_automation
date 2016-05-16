@@ -10,10 +10,12 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class NurtureTest < Minitest::Test
   include NurtureForumIOS
   include Minitest_ios
+  
   def premium_login
     premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     premium
   end
+
 
   def test_signup_or_login
     begin 

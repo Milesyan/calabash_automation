@@ -12,10 +12,6 @@ class GlowTest < Minitest::Test
   include Minitest_ios
   include TestHelper
   
-  def assert_rc(res)
-    assert_equal 0, res["rc"]
-  end
-  
   def premium_login
     premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     premium
@@ -34,6 +30,10 @@ class GlowTest < Minitest::Test
       log_error "RESCUE"
       premium = forum_new_user :email => "milesn@g.com", :password => '111111'
     end
+  end
+  
+  def assert_rc(res)
+    assert_equal 0, res["rc"]
   end
   
 end

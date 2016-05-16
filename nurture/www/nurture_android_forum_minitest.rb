@@ -10,6 +10,13 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class NurtureTest < Minitest::Test
   include NurtureForumAndroid
   include Minitest_android
+
+  def premium_login
+    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
+    premium
+  end
+
+
   def test_signup_or_login
     begin 
       premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
@@ -25,10 +32,7 @@ class NurtureTest < Minitest::Test
     end
   end
   
-  def premium_login
-    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
-    premium
-  end
+
 
   def test_forum_new_user
     u = forum_new_user

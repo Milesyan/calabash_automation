@@ -16,6 +16,7 @@ class NoahTest < Minitest::Test
     premium
   end
 
+
   def test_signup_or_login
     begin 
       premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login

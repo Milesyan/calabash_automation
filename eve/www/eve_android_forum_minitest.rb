@@ -15,6 +15,8 @@ class EveTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
+
+
   def test_signup_or_login
     begin 
       premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
