@@ -545,6 +545,75 @@ module Minitest_android
     u.get_pack_by_id 1
     assert_includes u.res, '500'
   end
+
+  def _prepare_notification_data(user, ntf_type)
+    case ntf_type
+    when "1050","1085","1086","1087"
+      n = {"1050"=>1, "1085"=>6, "1086"=>16,"1087"=>50}
+      user.create_topic :topic_title => "notification_#{ntf_type}"
+      other_user = forum_new_user
+      n[ntf_type].times do
+        other_user.reply_to_topic user.topic_id
+      end
+    when "1051"
+      other_user = forum_new_user
+      other_user.create_topic :topic_title => "notification_1051"
+      user.reply_to_topic other_user.topic_id
+      forum_new_user.reply_to_topic other_user.topic_id
+    when "1053"
+      user.create_topic :topic_title => "notification_1053"
+      user.reply_to_topic user.topic_id
+      other_user = forum_new_user :first_name => "Replier"
+      other_user.reply_to_comment user.topic_id, user.reply_id, :reply_content => "Reply_1053"
+    when "1055"
+      user.create_topic :topic_title => "notification_1055"
+      5.times do 
+        forum_new_user.upvote_topic user.topic_id
+      end
+    when "1059"
+      user.create_topic :topic_title => "notification_1059"
+      user.reply_to_topic user.topic_id, :reply_content => "Reply_1059"
+      4.times do
+        forum_new_user.upvote_comment user.topic_id,user.reply_id
+      end
+    when "1060"
+      user.create_poll :topic_title => "notification_1060"
+      3.times do
+        forum_new_user.vote_poll :topic_id => user.topic_id, :vote_index => [1,2,3].sample
+      end
+    when "1088", "1089"
+      n = {"1088"=>1, "1089"=>6}
+      user.create_photo :topic_title => "notification_#{$ntf_type}"
+      other_user = forum_new_user
+      n[ntf_type].times do
+        other_user.reply_to_topic user.topic_id
+      end
+    when "1091"#,"1092"
+      n = {"1091"=>1} #"1092"=>10
+      n[ntf_type].times do
+        u1 = forum_new_user
+        u1.follow_user user.user_id
+      end
+    when "1056"
+      temp_user1 = forum_new_user
+      temp_user1.create_topic :topic_title=>"notification_1056"
+      temp_user1.reply_to_topic temp_user1.topic_id, :reply_content=>"commentAAA"
+      user.reply_to_comment temp_user1.topic_id,temp_user1.reply_id
+      temp_user2 = forum_new_user
+      temp_user2.reply_to_comment temp_user1.topic_id,temp_user1.reply_id, :reply_content=>"subreplyAAA"
+    end
+  end
+
+  def test_all_legacy_notifications
+    ntf_list = ["1050","1085","1086","1087","1051", "1053", "1055",
+      "1059", "1060", "1088", "1089", "1091","1056"]
+    u = forum_new_user.pull
+    ntf_list.each do |ntf_type|
+      _prepare_notification_data u, ntf_type
+      u.pull
+      assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    end
+  end
 end
 
 

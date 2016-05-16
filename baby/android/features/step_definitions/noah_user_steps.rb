@@ -2,10 +2,6 @@ def forum_new_user(args = {})
 	ForumUser.new(args).signup.login.leave_all_groups.join_group
 end
 
-def ntf_user(args = {})
-	ForumUser.new(args).signup.login
-end 
-
 #community notification test
 
 Then(/^I check the text and click the buttons for this type of notification$/) do

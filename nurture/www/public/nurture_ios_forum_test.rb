@@ -41,7 +41,7 @@ module NurtureForumIOS
     attr_accessor :tgt_user_id, :request_id, :all_participants, :app_version
 
     def initialize(args = {})
-      @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s
+      @first_name = (args[:first_name] || "ni") + Time.now.to_i.to_s + random_str_b(3)
       @email = args[:email] || "#{@first_name}@g.com"
       @password = args[:password] || PASSWORD
       @due_in_weeks = args[:due_in_weeks]
@@ -56,6 +56,10 @@ module NurtureForumIOS
 
     def random_str
       ('0'..'9').to_a.shuffle[0,9].join + "_" + Time.now.to_i.to_s
+    end
+
+    def random_str_b(n)
+      (10...36).map{ |i| i.to_s 36}.shuffle[0,n.to_i].join
     end
 
     def date_str(n=0)

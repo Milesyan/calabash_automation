@@ -226,8 +226,8 @@ Given(/^the notification test data for type (\d+) has been prepared through www$
     n[$ntf_type].times do
       other_user.reply_to_topic $user.topic_id
     end
-  when "1091","1092"
-    n = {"1091"=>1, "1092"=>6}
+  when "1091"#,"1092"
+    n = {"1091"=>1}#, "1092"=>6
     n[$ntf_type].times do
       ntf_user.follow_user $user.user_id
     end

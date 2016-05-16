@@ -14,7 +14,7 @@ module TestHelper
   def exchange_foreground_and_background(text); colorize(text, 7); end
   def light_red(text); colorize(text, 91); end
   def sky_blue(text); colorize(text, 96); end
-  def purple(text): colorize(text,94); end
+  def purple(text); colorize(text,94); end
 
   def log_msg(msg)
     puts green(msg)
