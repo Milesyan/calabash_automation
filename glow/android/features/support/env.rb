@@ -29,4 +29,6 @@ module Myownworld
 end
 World(Myownworld)
 
+APP_CONFIG = "Glow"
+# APP_CONFIG = "Glow-local"
 ENV['SCREENSHOT_PATH'] = "./reports/"

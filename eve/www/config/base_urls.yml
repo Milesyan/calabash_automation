@@ -1,8 +1,29 @@
-Sandbox: "http://dragon-lexie.glowing.com"
-SandboxForum: "http://dragon-forum.glowing.com/ios/forum"
+#---FORUM---
+Forum-www0: "http://dragon-forum.glowing.com/ios/forum"
+Forum-www1: "http://titan-forum.glowing.com/android/forum"
+Forum-local: "http://localhost:35010/ios/forum" 
 
-Local: "http://localhost:5010"
-LocalForum: "http://localhost:35010"
+#---Bryo---
+Bryo-www0: "http://dragon-bryo.glowing.com"
+Bryo-www0: "http://titan-bryo.glowing.com"
+Bryo-local: "http://192.168.33.10:6010"    
 
-Sandbox1: "http://titan-lexie.glowing.com"
-SandboxForum1: "http://titan-forum.glowing.com/android/forum"
+#---BABY---
+Baby-www0: "http://dragon-noah.glowing.com"
+Baby-www1: "http://titan-noah.glowing.com"
+Baby-local: "http://192.168.33.10:16010"
+ 
+#---EVE---
+Eve-www0: "http://dragon-lexie.glowing.com"
+Eve-www1: "http://titan-lexie.glowing.com"
+Eve-local: "http://localhost:25010"
+
+#---GLOW---
+Glow-www0: "http://dragon-emma.glowing.com"
+Glow-www1: "http://titan-emma.glowing.com"
+Glow-local: "http://localhost:8080"
+
+#---NURTURE---
+Nurture-www0: "http://dragon-kaylee.glowing.com"
+Nurture-www1: "http://titan-kaylee.glowing.com"
+Nurture-local: "http://localhost:15010"

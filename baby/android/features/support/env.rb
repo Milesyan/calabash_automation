@@ -29,4 +29,6 @@ module Myownworld
 end
 World(Myownworld)
 
+APP_CONFIG = "Baby"
+# APP_CONFIG = "Baby-local"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

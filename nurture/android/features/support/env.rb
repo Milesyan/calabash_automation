@@ -27,4 +27,6 @@ module Myownworld
 end
 World(Myownworld)
 
+APP_CONFIG = "Nurture"
+# APP_CONFIG = "Nurture-local"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

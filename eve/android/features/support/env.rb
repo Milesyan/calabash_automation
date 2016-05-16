@@ -29,4 +29,6 @@ module Myownworld
 end
 World(Myownworld)
 
+APP_CONFIG = "Eve"
+# APP_CONFIG = "Eve-local"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
