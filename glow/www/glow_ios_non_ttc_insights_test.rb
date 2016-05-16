@@ -711,7 +711,7 @@ class GlowTest < Minitest::Test
     insights = u.res["user"]["insights"]
     pi = insights.select { |i| i['is_premium'] == 1 }
     assert_equal 0, pi.size
- end
+  end
 
   def test_non_ttc_d_insights_drink_cd2
     u = create_non_ttc_user(first_pb: 1.day.ago, cycle_length: 40)

@@ -62,7 +62,7 @@ module GlowIOS
 
     def common_data
       {
-        "app_version" => "5.3.0",
+        "app_version" => "5.5.0",
         "locale" => "en_US",
         "device_id" => "139E7990-DB88-4D11-9D6B-290BA690C71C",
         "model" => "iPhone7,2",

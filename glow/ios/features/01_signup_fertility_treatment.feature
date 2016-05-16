@@ -13,6 +13,7 @@ Feature: Fertility Treatment users sign up
     And I finish the tutorial via www
     And I relaunch the app
     And I login
+    And I close the premium popup
     Then I wait until I see "Complete log!"
     And I logout
 
@@ -29,6 +30,7 @@ Feature: Fertility Treatment users sign up
     And I finish the tutorial via www
     And I relaunch the app
     And I login
+    And I close the premium popup
     Then I wait until I see "Complete log!"
     And I logout
 
@@ -45,6 +47,7 @@ Feature: Fertility Treatment users sign up
     And I finish the tutorial via www
     And I relaunch the app
     And I login
+    And I close the premium popup
     Then I wait until I see "Complete log!"
     And I logout
 
@@ -61,6 +64,7 @@ Feature: Fertility Treatment users sign up
     And I finish the tutorial via www
     And I relaunch the app
     And I login
+    And I close the premium popup
     Then I wait until I see "Complete log!"
     And I logout
 

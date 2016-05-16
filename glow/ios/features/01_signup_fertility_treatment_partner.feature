@@ -4,6 +4,7 @@ Feature: Fertility Treatments
   Scenario: Preparing for treatment
     Given I create a new "Prep" glow user
     And I login
+    And I close the premium popup
     And I open "Me" page
     And I invite my male partner
     And I logout

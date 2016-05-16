@@ -25,7 +25,7 @@ Then(/^I input my email "(.*?)" and send$/) do |email|
 end
 
 Given(/^I open the login screen$/) do
-  logout_if_already_logged_in
+  #logout_if_already_logged_in
   onboard_page.open_login_link
 end
 

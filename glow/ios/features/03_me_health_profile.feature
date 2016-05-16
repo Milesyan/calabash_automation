@@ -4,6 +4,7 @@ Feature: Health profile
   Scenario: Check my Health profile
     Given I create a new "Non-TTC" glow user
     And I login
+    And I close the premium popup
     And I open "me" page
     And I open "Health profile" on Me page
     And I complete my health profile
@@ -14,6 +15,7 @@ Feature: Health profile
     Given I create a new "Non-TTC" glow user
     And I complete my health profile via www
     When I login
+    And I close the premium popup
     And I open "Me" page
     And my health profile should be "100%"
     And I open and check my health profile
@@ -24,6 +26,7 @@ Feature: Health profile
     Given I create a new "TTC" glow user
     And I complete my health profile via www
     When I login
+    And I close the premium popup
     And I open "Me" page
     And my health profile should be "100%"
     And I open and check my health profile
@@ -34,6 +37,7 @@ Feature: Health profile
     Given I create a new "IUI" glow user
     And I complete my health profile via www
     When I login
+    And I close the premium popup
     And I open "Me" page
     And my health profile should be "95%"
     And I open and check my health profile

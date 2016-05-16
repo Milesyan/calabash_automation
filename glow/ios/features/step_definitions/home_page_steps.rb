@@ -1,5 +1,10 @@
 Then(/^I finish the tutorial$/) do
+  wait_touch "* id:'sk-cross-close'"
   home_page.finish_tutorial
+end
+
+Given(/^I close the premium popup$/) do
+  wait_touch "* id:'sk-cross-close'"
 end
 
 Given(/^I complete my daily log$/) do

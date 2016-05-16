@@ -4,6 +4,7 @@ Feature: Help center on Me page
     Given I create a new "Non-TTC" glow user
     And I login
     And I open "me" page
+    And I close the premium popup
     And I open "Help center" on Me page
     Then "FAQ" screen in Help Center should be loaded fine
     And "Web" screen in Help Center should be loaded fine

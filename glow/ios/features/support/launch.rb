@@ -28,6 +28,8 @@ Before do |scenario|
     @calabash_launcher.relaunch
     @calabash_launcher.calabash_notify(self)
   end
+  close_premium_popup_if_needed
+  logout_if_already_logged_in
 end
 
 After do |scenario|
@@ -38,8 +40,8 @@ After do |scenario|
     end
   end
   logger.stop
-  logger.pull_log(user: $user).pretty
-  logger.diff
+  # logger.pull_log(user: $user).pretty
+  # logger.diff
   logger.clear
 end
 

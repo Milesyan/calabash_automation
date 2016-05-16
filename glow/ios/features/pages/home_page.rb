@@ -12,6 +12,11 @@ class HomePage < Calabash::IBase
     end
   end
 
+  def close_premium_popup
+    wait_touch "* id:'sk-cross-close'"
+    sleep 1
+  end
+
   def finish_tutorial
     when_element_exists("NewDateButton index:2", :timeout => 10)
     wait_for_none_animating
@@ -252,7 +257,7 @@ class HomePage < Calabash::IBase
   def close_insights_popup
     wait_for_none_animating
     begin
-      when_element_exists("* id:'icon-cancel-shadow'", :timeout => 5)
+      when_element_exists("* id:'icon-cancel-shadow'", :timeout => 8)
     rescue # Calabash::Cucumber::WaitHelpers::WaitError
       puts "no popup"
     end
@@ -424,5 +429,10 @@ class HomePage < Calabash::IBase
     wait_for_none_animating
     wait_touch "* marked:'Do you have a fever?' sibling PillButton index:0"
     wait_touch "* marked:'2 days'"
+  end
+
+  def read_all
+    wait_touch "* marked:'Read all'"
+    logger.add event_name: "page_impression_article_chapter_list", start_versioin: "ios v5.5"
   end
 end

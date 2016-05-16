@@ -79,26 +79,26 @@ class MePage < Calabash::IBase
   end
 
   def open_settings
-    scroll_to_row_with_mark "Settings"
+    scroll_to_row_with_mark "Account settings"
     sleep 1
-    wait_touch "label marked:'Settings'"
+    wait_touch "label marked:'Account settings'"
   end
 
   def open_health_profile
-    wait_touch "* marked:'Health profile'"
+    wait_touch "* marked:'My health profile'"
     sleep 1
   end
 
   def open_help_center
-    scroll_to_row_with_mark "Settings"
+    scroll_to_row_with_mark "Account settings"
     sleep 1
-    wait_touch "label marked:'Help center'"
+    wait_touch "label marked:'Help & Support'"
   end
 
   def invite_partner
-    scroll_to_row_with_mark "Invite your partner"
+    scroll_to_row_with_mark "Add my partner"
     sleep 1
-    wait_touch "label marked:'Invite your partner'"
+    wait_touch "label marked:'Add my partner'"
     sleep 1
     tap_mark "Enter partner’s name"
     keyboard_enter_text "Male Partner"
@@ -126,7 +126,8 @@ class MePage < Calabash::IBase
       close_invite_partner_popup
       tab_bar_page.open "me"
       element_exists "* marked:'Choose another status'"
-      element_exists "* marked:'Health profile'"
+      element_exists "* id:'profile-addphoto'"
+      #element_exists "* marked:'Health profile'"
     end
     self
   end

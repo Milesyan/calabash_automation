@@ -31,6 +31,17 @@ module Glow
     end
   end
 
+  def close_premium_popup_if_needed
+    begin
+      wait_for time_out: 3, :retry_frequency => 0.5 do
+        element_exists "* id:'sk-cross-close'"
+      end
+      touch "* id:'sk-cross-close'"
+      puts "closed premium pop-up"
+    rescue
+    end   
+  end
+
   def colorize(text, color_code)
     "\e[#{color_code}m#{text}\e[0m"
   end

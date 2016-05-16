@@ -2,6 +2,8 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'glow_ios_test'
 
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+
 class GlowTest < Minitest::Test
   include GlowIOS
 
@@ -39,6 +41,7 @@ class GlowTest < Minitest::Test
     end
     assert_equal 1, pi.size
     assert_equal "You had sex!", pi.first["title"]
+    assert_equal "According to some research, having sex every day during your fertile window leads to the highest chances of conceiving (37%) in any given cycle.", pi.first["body"]
     assert_equal 1, pi.first["is_premium"]
   end
 

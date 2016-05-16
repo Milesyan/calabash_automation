@@ -9,7 +9,7 @@ end
 
 Given(/^I am a new "(.*?)" user "(.*?)"$/) do |type, who|
 
-  logout_if_already_logged_in
+  #logout_if_already_logged_in
   email = get_email
   password = GLOW_PASSWORD
 
@@ -91,7 +91,7 @@ end
 
 
 Given(/^I am a new "(.*?)" user$/) do |type|
-  logout_if_already_logged_in
+  #logout_if_already_logged_in
 
   email = get_email
   password = GLOW_PASSWORD
