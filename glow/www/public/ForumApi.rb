@@ -8,7 +8,7 @@ module ForumApi
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, 
          :all_group_names, :notifications, :app_version,  :all_contacts, :anonymous,
-         :topic_content,:tmi_flag
+         :topic_content,:tmi_flag, :pack_signature
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -628,12 +628,11 @@ module ForumApi
       data = {
         "code_name": @code_name,
         "ut": @ut,
-        "signature": []
+        "signature": @pack_signature || ""
         }.merge(common_data)
       @res = HTTParty.get "#{forum_base_url}/sticker/packs/updates", options(data)
       puts "#{forum_base_url}/sticker/packs/updates"
-      # @res = @res["data"] if @code_name != 'emma'
-      puts @res
+      @res = @res["data"] if @code_name != 'emma'
       self
     end
   end
