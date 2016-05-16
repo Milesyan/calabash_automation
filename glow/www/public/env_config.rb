@@ -1,6 +1,6 @@
 module IOSConfig
   extend TestHelper
-  if APP_CONFIG.end_with? 'Local'
+  if APP_CONFIG.end_with? 'local'
     def base_url() load_config["base_urls"]["#{APP_CONFIG}"] end
   else 
     def base_url() load_config["base_urls"]["#{APP_CONFIG}-www0"] end
@@ -13,7 +13,7 @@ end
 
 module AndroidConfig
   extend TestHelper
-  if APP_CONFIG.end_with? 'Local'
+  if APP_CONFIG.end_with? 'local'
     def base_url() load_config["base_urls"]["#{APP_CONFIG}"] end
   else 
     def base_url() load_config["base_urls"]["#{APP_CONFIG}-www1"] end
