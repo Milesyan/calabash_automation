@@ -1,3 +1,6 @@
+APP_CONFIG = "Eve"
+# APP_CONFIG = "Eve-local"
+
 require 'calabash-android/cucumber'
 require 'calabash-android/abase'
 require 'minitest/autorun'
@@ -28,7 +31,4 @@ module Myownworld
   attr_accessor :assertions
 end
 World(Myownworld)
-
-APP_CONFIG = "Eve"
-# APP_CONFIG = "Eve-local"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

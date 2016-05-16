@@ -1,3 +1,5 @@
+APP_CONFIG = 'Nurture'
+# APP_CONFIG = 'Nurture-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/nurture_ios_forum_test'

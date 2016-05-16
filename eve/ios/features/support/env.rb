@@ -1,4 +1,5 @@
-# Requiring this file will import Calabash and the Calabash predefined Steps.
+APP_CONFIG = "Eve"
+# APP_CONFIG = "Eve-local"
 require 'calabash-cucumber/cucumber'
 require 'minitest/autorun'
 require 'active_support/all'

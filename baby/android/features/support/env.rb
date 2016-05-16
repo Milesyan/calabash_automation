@@ -1,3 +1,5 @@
+APP_CONFIG = "Baby"
+# APP_CONFIG = "Baby-local"
 require 'calabash-android/cucumber'
 require 'active_support/all'
 require 'minitest/autorun'
@@ -28,7 +30,4 @@ module Myownworld
   attr_accessor :assertions
 end
 World(Myownworld)
-
-APP_CONFIG = "Baby"
-# APP_CONFIG = "Baby-local"
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

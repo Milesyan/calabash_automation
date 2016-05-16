@@ -1,3 +1,5 @@
+APP_CONFIG = "Nurture"
+# APP_CONFIG = "Nurture-local"
 require 'calabash-android/cucumber'
 require 'active_support/all'
 require 'minitest'
@@ -27,6 +29,5 @@ module Myownworld
 end
 World(Myownworld)
 
-APP_CONFIG = "Nurture"
-# APP_CONFIG = "Nurture-local"
+
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"

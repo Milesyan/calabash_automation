@@ -1,3 +1,5 @@
+APP_CONFIG = 'Eve'
+# APP_CONFIG = 'Eve-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/eve_ios_forum_test'

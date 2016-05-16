@@ -1,3 +1,5 @@
+APP_CONFIG = 'Glow'
+# APP_CONFIG = 'Glow-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/glow_android_forum_test'

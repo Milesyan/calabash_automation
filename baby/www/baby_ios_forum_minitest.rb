@@ -1,3 +1,5 @@
+APP_CONFIG = 'Baby'
+# APP_CONFIG = 'Baby-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/baby_ios_forum_test'
