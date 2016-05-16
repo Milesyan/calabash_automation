@@ -11,14 +11,26 @@ class NoahTest < Minitest::Test
   include TestHelper
   include Minitest_android
 
-  def setup
-  end
-
   def premium_login
     premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
     premium
   end
 
+  def test_signup_or_login
+    begin 
+      premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
+    rescue 
+      puts "RESCUE"
+      premium = forum_new_user :email => "milesp@g.com", :password => '111111'
+    end
+    begin 
+      premium = ForumUser.new(:email => "milesn@g.com", :password => '111111').login
+    rescue 
+      puts "RESCUE"
+      premium = forum_new_user :email => "milesn@g.com", :password => '111111'
+    end
+  end
+  
   def test_forum_new_user
     u = forum_new_user
     assert u.first_name
@@ -26,25 +38,6 @@ class NoahTest < Minitest::Test
 
   def assert_rc(res)
     assert_equal 0, res["rc"]
-  end
-
-  def test_signup
-    u = forum_new_user
-    assert_rc u.res
-  end
-
-  def test_login
-    u = forum_new_user
-    u.login
-    assert_rc u.res
-  end
-  
-  def test_temp_chat
-    up = premium_login
-    up.remove_all_participants
-    u = forum_new_user
-    up.send_chat_request u.user_id
-    u.accept_chat
   end
 end
 

@@ -11,6 +11,7 @@ class GlowTest < Minitest::Test
   include GlowForumIOS
   include Minitest_ios
   include TestHelper
+  
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
@@ -20,10 +21,21 @@ class GlowTest < Minitest::Test
     premium
   end
 
-  # def test_sign_up
-  #   u = ForumUser.new(:email=>"miles3@g.com", :password => "111111", :first_name=>'miles3').ttc_signup.login
-  #   puts u.res
-  # end
+  def test_signup_or_login
+    begin 
+      premium = ForumUser.new(:email => "miles3@g.com", :password => '111111').login
+    rescue 
+      log_error "RESCUE"
+      premium = forum_new_user :email => "miles3@g.com", :password => '111111'
+    end
+    begin 
+      premium = ForumUser.new(:email => "milesn@g.com", :password => '111111').login
+    rescue 
+      log_error "RESCUE"
+      premium = forum_new_user :email => "milesn@g.com", :password => '111111'
+    end
+  end
+  
 end
 
 

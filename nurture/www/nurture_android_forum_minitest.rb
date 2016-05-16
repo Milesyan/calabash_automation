@@ -10,10 +10,24 @@ Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 class NurtureTest < Minitest::Test
   include NurtureForumAndroid
   include Minitest_android
-
-  def test_premium_login
-    up = premium_login
-    assert_rc up.res
+  def test_signup_or_login
+    begin 
+      premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
+    rescue 
+      puts "RESCUE"
+      premium = forum_new_user :email => "milesp@g.com", :password => '111111'
+    end
+    begin 
+      premium = ForumUser.new(:email => "milesn@g.com", :password => '111111').login
+    rescue 
+      puts "RESCUE"
+      premium = forum_new_user :email => "milesn@g.com", :password => '111111'
+    end
+  end
+  
+  def premium_login
+    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
+    premium
   end
 
   def test_forum_new_user
@@ -24,27 +38,6 @@ class NurtureTest < Minitest::Test
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
-
-  def test_nurture_signup
-    u = forum_new_user
-    assert_rc u.res
-  end
-
-  def test_nurture_login
-    u = forum_new_user
-    u.login
-    assert_rc u.res
-  end
-
-  def test_exising_email_login
-    ForumUser.new(:email => "milesn@g.com", :password => "111111").login.leave_all_groups.join_group
-  end
-  
-  def premium_login
-    premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
-    premium
-  end
-
 end
 
 

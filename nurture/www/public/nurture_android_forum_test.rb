@@ -124,7 +124,6 @@ module NurtureForumAndroid
           "due_date": @due_date
         }
       }
-      puts base_url
       @res = self.class.post "/android/users/signup?#{common_data}", options(data)
       @ut = @res["dict"]["encrypted_token"]
       @user_id = @res["dict"]["user_id"]
