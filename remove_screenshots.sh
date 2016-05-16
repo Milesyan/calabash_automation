@@ -18,7 +18,3 @@ do
   rm ./${APP}/android/reports/*
   rm ./${APP}/ios/reports/*
 done
-
-# rm **/*.png
-# rm **/*.html
-# rm **/.irb-history

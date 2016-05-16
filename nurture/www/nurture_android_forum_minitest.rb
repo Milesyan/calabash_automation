@@ -21,18 +21,16 @@ class NurtureTest < Minitest::Test
     begin 
       premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
     rescue 
-      puts "RESCUE"
+      log_info "Signup new"
       premium = forum_new_user :email => "milesp@g.com", :password => '111111'
     end
     begin 
       premium = ForumUser.new(:email => "milesn@g.com", :password => '111111').login
     rescue 
-      puts "RESCUE"
+      log_info "Signup new"
       premium = forum_new_user :email => "milesn@g.com", :password => '111111'
     end
   end
-  
-
 
   def test_forum_new_user
     u = forum_new_user
