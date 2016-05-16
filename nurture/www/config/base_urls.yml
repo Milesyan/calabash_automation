@@ -1,7 +1,7 @@
 #---FORUM---
 Forum-www0: "http://dragon-forum.glowing.com/ios/forum"
 Forum-www1: "http://titan-forum.glowing.com/android/forum"
-Forum-local: "http://192.168.33.10:35010/ios/forum" 
+Forum-local: "http://192.168.33.10:35010" 
 
 #---Bryo---
 Bryo-www0: "http://dragon-bryo.glowing.com"

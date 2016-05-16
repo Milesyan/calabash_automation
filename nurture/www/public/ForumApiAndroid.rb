@@ -574,6 +574,16 @@ module ForumApiAndroid
       @res = HTTParty.get url, auth_options(data)
       self
     end
+
+    #Sticker
+    def get_packs_updates(args={})
+      data = {
+        "signature": args[:pack_signature] || ""
+        }
+      url = "#{forum_base_url}/sticker/packs/updates?#{@additional_forum}"
+      @res = HTTParty.get url, auth_options(data)
+      self
+    end
   end
 end
 

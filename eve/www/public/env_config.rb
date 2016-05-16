@@ -2,7 +2,7 @@ module IOSConfig
   extend TestHelper
   if APP_CONFIG.end_with? 'local'
     def base_url() load_config["base_urls"]["#{APP_CONFIG}"] end
-    def forum_base_url() load_config["base_urls"]["Forum-local"] end
+    def forum_base_url() load_config["base_urls"]["Forum-local"] + "/ios/forum" end
     def bryo_url() load_config["base_urls"]["Bryo-local"] end
   else 
     def base_url() load_config["base_urls"]["#{APP_CONFIG}-www0"] end
@@ -17,7 +17,7 @@ module AndroidConfig
   extend TestHelper
   if APP_CONFIG.end_with? 'local'
     def base_url() load_config["base_urls"]["#{APP_CONFIG}"] end
-    def forum_base_url() load_config["base_urls"]["Forum-local"] end
+    def forum_base_url() load_config["base_urls"]["Forum-local"] + "/android/forum" end
     def bryo_url() load_config["base_urls"]["Bryo-local"] end
   else 
     def base_url() load_config["base_urls"]["#{APP_CONFIG}-www1"] end

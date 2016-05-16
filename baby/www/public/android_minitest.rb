@@ -518,6 +518,21 @@ module Minitest_android
     assert_empty u_old.res['recommended_people']
   end
 
+  def test_sticker_pack_updates
+    u = forum_new_user
+    u.get_packs_updates
+    assert_includes u.res.keys, 'updates'
+    puts u.res
+  end
+
+  def test_stciker_packes_owned
+    u = forum_new_user
+    u.get_packs_updates
+    returned_signature = u.res['updates']['signature']
+    u.get_packs_updates :pack_signature => returned_signature
+    assert_nil u.res['updates']
+  end
+  
 end
 
 
