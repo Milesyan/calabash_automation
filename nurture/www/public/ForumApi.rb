@@ -623,6 +623,19 @@ module ForumApi
       self
     end
     
+    #Sticker
+    def get_packs_updates
+      data = {
+        "code_name": @code_name,
+        "ut": @ut,
+        "signature": []
+        }.merge(common_data)
+      @res = HTTParty.get "#{forum_base_url}/sticker/packs/updates", options(data)
+      puts "#{forum_base_url}/sticker/packs/updates"
+      # @res = @res["data"] if @code_name != 'emma'
+      puts @res
+      self
+    end
   end
 
 end

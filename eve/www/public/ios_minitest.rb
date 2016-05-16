@@ -518,6 +518,10 @@ module Minitest_ios
     assert_empty u_old.res['people']
   end
 
+  def test_sticker_pack_updates
+    u = forum_new_user
+    u.get_packs_updates
+  end
 end
 
 
