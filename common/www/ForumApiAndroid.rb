@@ -7,7 +7,7 @@ module ForumApiAndroid
     extend TestHelper 
     include AndroidConfig
     attr :code_name, :tgt_user_id, :request_id, :all_participants, :notifications, :app_version, :all_contacts, :anonymous,
-         :all_group_names, :tmi_flag
+         :all_group_names, :tmi_flag, :pack_signature, :pack_list
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -581,6 +581,18 @@ module ForumApiAndroid
         "signature": args[:pack_signature] || ""
         }
       url = "#{forum_base_url}/sticker/packs/updates?#{@additional_forum}"
+      @res = HTTParty.get url, auth_options(data)
+      @pack_list = @res['updates'].nil? ? [] : @res['updates']['packs'].map { |n| n["pack_id"]}
+      pack_counts = @res['updates'].nil? ? 0 : @res['updates']['packs'].count
+      log_msg "#{pack_counts} packs are fetched from server."
+      self
+    end
+
+    def get_pack_by_id(pack_id)
+      data = {
+        "pack_id": pack_id
+      }
+      url = "#{forum_base_url}/sticker/pack/#{pack_id}?#{@additional_forum}"
       @res = HTTParty.get url, auth_options(data)
       self
     end

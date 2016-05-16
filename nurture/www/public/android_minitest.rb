@@ -533,6 +533,18 @@ module Minitest_android
     assert_nil u.res['updates']
   end
   
+  def test_get_sticker_by_id
+    u = forum_new_user
+    u.get_packs_updates
+    u.get_pack_by_id u.pack_list.sample
+    assert_includes u.res['pack'].keys, 'pack_name'
+  end
+
+  def test_get_sticker_by_wrong_id 
+    u = forum_new_user
+    u.get_pack_by_id 1
+    assert_includes u.res, '500'
+  end
 end
 
 

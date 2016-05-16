@@ -8,7 +8,7 @@ module ForumApi
     include IOSConfig
     attr :code_name, :request_id, :all_participants, :all_group_ids, 
          :all_group_names, :notifications, :app_version,  :all_contacts, :anonymous,
-         :topic_content,:tmi_flag, :pack_signature
+         :topic_content,:tmi_flag, :pack_signature, :pack_list
 
     def options(data)
       { :body => data.to_json, :headers => { 'Content-Type' => 'application/json' }}
@@ -26,14 +26,15 @@ module ForumApi
         "offset": '0'
       }.merge(forum_common)
       @res =  HTTParty.get "#{forum_base_url}/topic/created", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
     def get_blocked
-      data = {}.merge(forum_common)
+      data = {
+        }.merge(forum_common)
       @res =  HTTParty.get "#{forum_base_url}/users/blocked", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -45,11 +46,10 @@ module ForumApi
       }.merge(forum_common)
       @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post "#{forum_base_url}/group/#{@group_id}/create_topic", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @topic_id = @res["topic"]["id"]
       @group_id = @res["topic"]["group_id"]
-      title = @res["topic"]["title"]
-      @topic_title = title
+      @topic_title = @res["topic"]["title"]
       self
     end
 
@@ -60,7 +60,7 @@ module ForumApi
         "reply_to": 0
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @reply_id = @res["result"]["id"]
       self
     end 
@@ -74,10 +74,9 @@ module ForumApi
       }.merge(forum_common)
       @group_id = args[:group_id] || GROUP_ID
       @res =  HTTParty.post "#{forum_base_url}/group/#{@group_id}/create_poll", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @topic_id = @res["result"]["id"]
-      title = @res["result"]["title"]
-      @topic_title = title
+      @topic_title = @res["result"]["title"]
       self
     end
 
@@ -87,7 +86,7 @@ module ForumApi
       }.merge(forum_common)
       topic_id = args[:topic_id]
       @res = HTTParty.post "#{forum_base_url}/topic/#{topic_id}/vote", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end 
 
@@ -99,14 +98,14 @@ module ForumApi
         "reply_to": reply_id
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/create_reply", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
     def join_group(group_id = GROUP_ID )
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/group/#{group_id}/subscribe", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -114,7 +113,7 @@ module ForumApi
       data = {}.merge(forum_common)
       unsubscribe_groupid = leave_group_id || GROUP_ID
       @res =  HTTParty.post "#{forum_base_url}/group/#{unsubscribe_groupid}/unsubscribe", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -124,14 +123,14 @@ module ForumApi
       }.merge(forum_common)
       topic_id = args[:topic_id]
       @res = HTTParty.post "#{forum_base_url}/topic/#{topic_id}/vote", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end 
 
     def delete_topic(topic_id)
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/remove",  options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
       log_msg "#{topic_id} deleted"
     end
@@ -139,7 +138,7 @@ module ForumApi
     def follow_user(user_id)
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/follow",  options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
       log_msg "#{user_id} is followed by user #{self.user_id}"
     end
@@ -147,21 +146,21 @@ module ForumApi
     def unfollow_user(user_id)
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/unfollow",  options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
     def block_user(user_id)
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/block",  options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
     def unblock_user(user_id)
       data = {}.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/#{user_id}/unblock", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end  
 
@@ -170,7 +169,7 @@ module ForumApi
         "bookmarked": 1
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/bookmark", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_msg "topic #{topic_id} is bookmarked by #{self.user_id}"
       self
     end
@@ -180,7 +179,7 @@ module ForumApi
         "bookmarked": 0
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/bookmark", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -189,7 +188,7 @@ module ForumApi
         "liked": 1
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/like", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -198,7 +197,7 @@ module ForumApi
         "liked": 0
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/like", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -208,7 +207,7 @@ module ForumApi
         "topic_id": topic_id
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/like", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -218,7 +217,7 @@ module ForumApi
         "topic_id": topic_id
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/like", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -227,7 +226,7 @@ module ForumApi
         "disliked": 1
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/dislike", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -237,7 +236,7 @@ module ForumApi
         "topic_id": topic_id
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/dislike", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -246,7 +245,7 @@ module ForumApi
         "disliked": 0
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/dislike", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -256,7 +255,7 @@ module ForumApi
         "topic_id": topic_id
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/reply/#{reply_id}/dislike", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -266,7 +265,7 @@ module ForumApi
         "comment": "test topic"
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/flag", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -277,14 +276,14 @@ module ForumApi
         "comment": "test reply"
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/topic/#{topic_id}/flag", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
     def get_all_groups
       data = {}.merge(forum_common)
       @res =  HTTParty.get "#{forum_base_url}/user/#{self.user_id}/social_info", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @all_group_ids = @res["groups"].map { |h| h['id']}
       @all_group_names = @res["groups"].map { |h| h['name']}
       self
@@ -325,7 +324,7 @@ module ForumApi
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @topic_title =  @res["result"]["title"]
       @topic_id = @res["result"]["id"]
       self
@@ -347,7 +346,7 @@ module ForumApi
       http = Net::HTTP.new(uri.host, uri.port)
       _res = http.post(uri.path, data, headers)
       @res = JSON.parse _res.body
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @group_id = @res["group"]["id"]
       @group_name = @res["group"]["name"]
       self
@@ -358,7 +357,7 @@ module ForumApi
         "update_data":{"chat_off":1,"discoverable":0,"signature_on":1,"hide_posts":false}
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "TURN OFF CHAT FOR #{self.user_id}"
       self
     end
@@ -368,7 +367,7 @@ module ForumApi
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false}
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "TURN ON CHAT FOR #{self.user_id}"
       self
     end
@@ -378,7 +377,7 @@ module ForumApi
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":0,"hide_posts":false}
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "TURN OFF Signature FOR #{self.user_id}"
       self
     end
@@ -389,7 +388,7 @@ module ForumApi
         "update_data":{"chat_off":0,"discoverable":0,"signature_on":1,"hide_posts":false}
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "TURN ON Signature FOR #{self.user_id}"
       self
     end
@@ -399,7 +398,7 @@ module ForumApi
         "update_data":{"chat_off":0,"discoverable":1,"signature_on":1,"hide_posts":false}
       }.merge(forum_common)
       @res =  HTTParty.post "#{forum_base_url}/user/update", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "RESET ALL FLAGS FOR #{self.user_id}"
       self
     end
@@ -411,7 +410,7 @@ module ForumApi
       }.merge(forum_common)
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/new", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "#{self.user_id} send chat request to #{tgt_user_id}"
       self
     end
@@ -422,7 +421,7 @@ module ForumApi
       data = {
       }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/chats_and_participants", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @request_id = @res["requests"][0]["id"]
       self
     end
@@ -433,7 +432,7 @@ module ForumApi
         "request_id": @request_id
       }.merge(forum_common)
       @res = HTTParty.post "#{forum_base_url}/chat/accept", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       log_important "#{self.user_id} accepts chat request id >>>#{request_id}<<<"
       self
     end
@@ -449,7 +448,7 @@ module ForumApi
         "request_id": @request_id
       }.merge(forum_common)
       @res = HTTParty.post "#{forum_base_url}/chat/reject", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -459,7 +458,7 @@ module ForumApi
       }.merge(forum_common)
       @tgt_user_id = tgt_user_id
       @res = HTTParty.post "#{forum_base_url}/chat/remove_by_user", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -467,7 +466,7 @@ module ForumApi
       data = {
       }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/chats_and_participants", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @all_participants = @res['participants'].map {|n| n['id']}
     end
     
@@ -482,7 +481,7 @@ module ForumApi
       data = {
       }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/chat/contacts", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @all_contacts = @res['contacts'].map { |h| h['id']}
     end     
 
@@ -497,7 +496,7 @@ module ForumApi
       data = {
       }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/users/blocked", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       @all_blocked = @res['result'].map {|n| n['id']}
     end
 
@@ -514,7 +513,7 @@ module ForumApi
       }.merge(forum_common)
       @tgt_user_id = tgt_user_id
       @res = HTTParty.get "#{forum_base_url}/chat/availability", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
 
@@ -529,7 +528,7 @@ module ForumApi
       data = {
         }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/group/discover", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
     
@@ -539,7 +538,19 @@ module ForumApi
         "signature": args[:pack_signature] || ""
         }.merge(forum_common)
       @res = HTTParty.get "#{forum_base_url}/sticker/packs/updates", options(data)
-      @res = @res["data"] if @code_name != 'emma'
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
+      @pack_list = @res['updates'].nil? ? [] : @res['updates']['packs'].map { |n| n["pack_id"]}
+      pack_counts = @res['updates'].nil? ? 0 : @res['updates']['packs'].count
+      log_msg "#{pack_counts} packs are fetched from server."
+      self
+    end
+
+    def get_pack_by_id(pack_id)
+      data = {
+        "pack_id": pack_id
+      }.merge(forum_common)
+      @res = HTTParty.get "#{forum_base_url}/sticker/pack/#{pack_id}", options(data)
+      @res = @res["data"] if @code_name != 'emma' && @res['rc'] == 0
       self
     end
   end

@@ -522,7 +522,6 @@ module Minitest_ios
     u = forum_new_user
     u.get_packs_updates
     assert_includes u.res.keys, 'updates'
-    puts u.res
   end
 
   def test_stciker_packes_owned
@@ -531,6 +530,19 @@ module Minitest_ios
     returned_signature = u.res['updates']['signature']
     u.get_packs_updates :pack_signature => returned_signature
     assert_nil u.res['updates']
+  end
+
+  def test_get_sticker_by_id
+    u = forum_new_user
+    u.get_packs_updates
+    u.get_pack_by_id u.pack_list.sample
+    assert_includes u.res['pack'].keys, 'pack_name'
+  end
+
+  def test_get_sticker_by_wrong_id 
+    u = forum_new_user
+    u.get_pack_by_id 1
+    assert_equal 1, u.res['rc']
   end
 
 end
