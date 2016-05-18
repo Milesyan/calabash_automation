@@ -99,8 +99,8 @@ module BabyIOS
       {
         # "locale": "en_US",
         "locale": "zh_CN",
-        "time_zone": 'Asia\/Shanghai',
-        "app_version": "1.0",
+        "time_zone": 'Asia/Shanghai',
+        "app_version": "1.2.0",
         "device_id": "F5A3E7A7-3817-4A84-8215-AE983BF22850",
         "model": "x86_64"
       }
@@ -187,7 +187,7 @@ module BabyIOS
         gender: args[:gender] || "M",
         birth_due_date: args[:birth_due_date] || date_str(1.day.ago),
         birthday: args[:birthday] || date_str(1.day.ago),
-        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
+        birth_timezone: args[:birth_timezone] || "Asia/Shanghai"
       }
       Baby.new(params)
     end
@@ -199,7 +199,7 @@ module BabyIOS
         last_name: args[:last_name] || name.last,
         relation: args[:relation] || "Mother",
         birth_due_date: args[:birth_due_date] || date_str(30.days.since),
-        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
+        birth_timezone: args[:birth_timezone] || "Asia/Shanghai"
       }
       Baby.new(params)
     end
@@ -316,7 +316,7 @@ module BabyIOS
         "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyData\/p1",
         "start_timestamp": start_timestamp,
         "start_time_label": start_time_label,
-        "date_label": "2016\/01\/07",
+        "date_label": date_label,
         "action_user_id": @user_id
       }
     end
@@ -345,6 +345,113 @@ module BabyIOS
             "baby_id": @current_baby.baby_id,
             "BabyFeedData": {
               "create": [feed]
+            }
+          }]
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "/ios/user/push", options(data)
+      self
+    end
+
+    def new_breast_feed(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "breast_left_time": 420,
+        "uuid": uuid,
+        "baby_id": @current_baby.baby_id,
+        "feed_type": 2, # breast feed
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyFeedData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "breast_right_time": 540,
+        "action_user_id": @user_id
+      }
+    end
+
+      def add_breast_feed(breast_feed)
+      data = {
+        "data": {
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyFeedData": {
+              "create": [breast_feed]
+            }
+          }]
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "/ios/user/push", options(data)
+      self
+    end
+
+    def new_pee(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "val_int": 65536,
+        "uuid": uuid,
+        "baby_id": @current_baby.baby_id,
+        "key": "diaper", 
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "action_user_id": @user_id
+      }
+    end
+
+    def add_pee(pee)
+      data = {
+        "data": {
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyData": {
+              "create": [pee]
+            }
+          }]
+        },
+        "ut": @ut
+      }.merge(common_data)
+
+      @res = self.class.post "/ios/user/push", options(data)
+      self
+    end
+
+
+    def new_poo(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "val_int": 2310,
+        "uuid": uuid,
+        "baby_id": @current_baby.baby_id,
+        "key": "diaper", 
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "action_user_id": @user_id
+      }
+    end
+
+    def add_poo(poo)
+      data = {
+        "data": {
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyData": {
+              "create": [poo]
             }
           }]
         },
@@ -631,5 +738,14 @@ module BabyIOS
       update_account_settings receive_push_notification: 0
     end
 
+    def set_premium
+      data = {
+        "action": "extend_premium",
+        "days": 365
+      } 
+      @res = HTTParty.post "http://dragon-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvlQ.igccdfhP-REqCyOmNlDjD9bqW3A', 'Content-Type' => 'application/json'}
+      puts "#{@email} is set to premium" if res["code"] == 200
+      self
+    end
   end
 end

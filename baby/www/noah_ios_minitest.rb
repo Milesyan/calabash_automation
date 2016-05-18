@@ -499,9 +499,9 @@ class NoahTest < Minitest::Test
     assert_equal 0, partner.res["data"]["babies"].size
   end
 
-  def test_add_bottle_feed
+  def test_add_bottle_feed_today
     u = create_user
-    baby = u.new_born_baby relation: "Mother"
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(15.days.ago)
     u.add_born_baby(baby)
     feed = u.new_feed start_time: 15.minutes.ago
     u.add_feed(feed)
@@ -513,6 +513,22 @@ class NoahTest < Minitest::Test
     u.add_born_baby(baby)
     feed = u.new_feed start_time: 25.hours.ago
     u.add_feed(feed)
+  end
+
+  def test_add_breast_feed_today
+    u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(15.days.ago)
+    u.add_born_baby(baby)
+    breast_feed = u.new_breast_feed start_time: 15.minutes.ago
+    u.add_breast_feed(breast_feed)
+  end
+
+  def test_add_breast_feed_yesterday
+    u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
+    breast_feed = u.new_breast_feed start_time: 25.hours.ago
+    u.add_breast_feed(breast_feed)
   end
 
   def test_add_sleep_today
@@ -531,12 +547,36 @@ class NoahTest < Minitest::Test
     u.add_sleep(sleep)
   end
 
-  def test_add_diaper_today
-    
+  def test_add_pee_today
+    u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
+    pee = u.new_pee start_time: 20.minutes.ago
+    u.add_pee(pee)
   end
 
-  def test_add_diaper_yesterday
-    
+  def test_add_pee_yesterday
+    u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
+    pee = u.new_pee start_time: 25.hours.ago
+    u.add_pee(pee)
+  end
+
+  def test_add_poo_today
+    u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
+    poo = u.new_poo start_time: 20.minutes.ago
+    u.add_poo(poo)
+  end
+
+  def test_add_poo_yesterday
+     u = create_user
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
+    poo = u.new_poo start_time: 25.hours.ago
+    u.add_poo(poo)
   end
 
   def test_update_baby_profile
@@ -595,6 +635,14 @@ class NoahTest < Minitest::Test
 
   def test_text_instructions
     skip("not implemented yet")
+  end
+
+  def test_set_premium
+    u = create_user
+    u.set_premium
+    assert_equal 200, u.res["code"]
+    baby = u.new_born_baby relation: "Mother", birthday: date_str(10.days.ago)
+    u.add_born_baby(baby)
   end
 
 end

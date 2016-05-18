@@ -71,7 +71,7 @@ module NurtureIOS
         "userinfo": {
           "height": 170,
           "password": NURTURE_PASSWORD,
-          "tz": "Asia\/Shanghai",
+          "tz": "Asia/Shanghai",
           "last_name": "G",
           "birthday": 566452800,
           "email": @email,
@@ -156,7 +156,7 @@ module NurtureIOS
         device_id: "C747A1F6-E63F-4D9D-8770-401E535FF3C6",
         userinfo: {
           email: @email,
-          tz: "Asia\/Shanghai",
+          tz: "Asia/Shanghai",
           password: @password
         }
       }
