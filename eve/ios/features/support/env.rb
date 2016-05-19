@@ -21,6 +21,7 @@ end
 
 class Myownworld
   extend Minitest::Assertions
+  include TestHelper
   include Pre_config_users
   attr_accessor :assertions
 

@@ -1,3 +1,4 @@
+
 require 'calabash-android/abase'
 
 class AppPage < Calabash::ABase
@@ -32,7 +33,7 @@ class AppPage < Calabash::ABase
   def open(tab_name)
     sleep 1
     i = ["home", "community", "alert", "me", "more options"].find_index tab_name.downcase
-    touch "android.support.design.widget.ci index:#{i}"
+    touch "android.support.design.widget.ca index:#{i}"
   end
 
   def logout
@@ -45,7 +46,7 @@ class AppPage < Calabash::ABase
     sleep 0.5
     touch "* text:'Log out'"
     $login_acc = nil
-    wait_for(:timeout=>5) do
+    wait_for(:timeout=>10) do
       element_exists("* id:'login'") || element_exists("* marked:' CLICK HERE TO SWITCH USER '")
     end
     sleep 0.5
@@ -54,7 +55,7 @@ class AppPage < Calabash::ABase
   def forum_element
     begin 
       wait_for(:timeout => 3) do
-        element_exists "ci"
+        element_exists "ca"
       end
     rescue RuntimeError
       log_error "EVE ANDROID tabbar element class wrong"

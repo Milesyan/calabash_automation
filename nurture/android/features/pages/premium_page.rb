@@ -147,6 +147,7 @@ class PremiumPage < Calabash::ABase
     forum_page.view_all_replies
     wait_touch "* marked:'Chat'" if [0,1,2,3,4].include? args
     _touch_points_reaction args
+    sleep 0.5
     forum_page.click_back_button
     sleep 0.5
     wait_touch "* marked:'Chat' index:0" if [0,1,2,3,4].include? args

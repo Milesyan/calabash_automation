@@ -6,7 +6,7 @@ module Glow
   end
   
   def already_logged_in?
-    element_exists "android.support.design.widget.ci"
+    element_exists "android.support.design.widget.ca"
   end
 
   def clean_up_page

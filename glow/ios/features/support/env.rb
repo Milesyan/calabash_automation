@@ -22,6 +22,7 @@ end
 class Myownworld
   extend Minitest::Assertions
   include Pre_config_users
+  include TestHelper
   attr_accessor :assertions
 
   def initialize

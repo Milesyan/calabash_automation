@@ -21,6 +21,7 @@ module Pre_config_users
 end
 
 module Myownworld
+  include TestHelper
   include Pre_config_users
   def self.extended(base)
     base.extend(MiniTest::Assertions)
