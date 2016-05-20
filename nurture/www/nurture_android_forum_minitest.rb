@@ -1,4 +1,4 @@
-APP_CONFIG = 'Nurture-local'
+APP_CONFIG = 'Nurture'
 # APP_CONFIG = 'Nurture-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
