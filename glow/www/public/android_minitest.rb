@@ -520,13 +520,13 @@ module Minitest_android
     assert_empty u_old.res['recommended_people']
   end
 
-  def test_sticker_pack_updates
+  def _test_sticker_pack_updates
     u = forum_new_user
     u.get_packs_updates
     assert_includes u.res.keys, 'updates'
   end
 
-  def test_stciker_packes_owned
+  def _test_stciker_packes_owned
     u = forum_new_user
     u.get_packs_updates
     returned_signature = u.res['updates']['signature']
@@ -534,14 +534,14 @@ module Minitest_android
     assert_nil u.res['updates']
   end
   
-  def test_get_sticker_by_id
+  def _test_get_sticker_by_id
     u = forum_new_user
     u.get_packs_updates
     u.get_pack_by_id u.pack_list.sample
     assert_includes u.res['pack'].keys, 'pack_name'
   end
 
-  def test_get_sticker_by_wrong_id 
+  def _test_get_sticker_by_wrong_id 
     u = forum_new_user
     u.get_pack_by_id 1
     assert_includes u.res, '500'
