@@ -25,6 +25,8 @@ do
   rm -r ${APP}/ios/Gemfile*
   rm -r ${APP}/android/Gemfile*
   rm -r ${APP}/www/config/base_urls.yml
+  rm -r ${APP}/android/scripts/*.sh
+  rm -r ${APP}/ios/scripts/*.sh
 
   ln common/android/features/*.feature ${APP}/android/features/
   ln common/android/pages/* ${APP}/android/features/pages
@@ -43,4 +45,6 @@ do
   ln common/Gemfile* ${APP}/android/
   ln common/www/env_config.rb ${APP}/www/public
   ln common/www/base_urls.yml ${APP}/www/config/base_urls.yml
+  ln common/android/scripts/* ${APP}/android/scripts
+  ln common/ios/scripts/* ${APP}/ios/scripts
 done
