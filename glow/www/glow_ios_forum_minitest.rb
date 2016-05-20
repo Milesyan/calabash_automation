@@ -5,7 +5,10 @@ require 'minitest/reporters'
 require_relative 'public/glow_ios_forum_test'
 require_relative 'public/ios_minitest'
 require_relative 'public/test_helper'
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require 'minitest/ci'
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, 
+                          Minitest::Reporters::JUnitReporter.new,
+                          Minitest::Reporters::HtmlReporter.new]
 
 class GlowTest < Minitest::Test
   include GlowForumIOS

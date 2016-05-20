@@ -4,8 +4,10 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/nurture_android_forum_test'
 require_relative 'public/android_minitest'
-
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+require 'minitest/ci'
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, 
+                          Minitest::Reporters::JUnitReporter.new,
+                          Minitest::Reporters::HtmlReporter.new]
 
 class NurtureTest < Minitest::Test
   include NurtureForumAndroid
