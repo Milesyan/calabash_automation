@@ -524,7 +524,6 @@ module Minitest_android
     u = forum_new_user
     u.get_packs_updates
     assert_includes u.res.keys, 'updates'
-    puts u.res
   end
 
   def test_stciker_packes_owned
