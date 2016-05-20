@@ -1,5 +1,3 @@
-require 'faker'
-
 module BabyAndroid
 
   class User

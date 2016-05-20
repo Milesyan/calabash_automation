@@ -1,5 +1,4 @@
 require 'httparty'
-require 'faker'
 require 'json'
 require 'securerandom'
 require 'active_support/all'
