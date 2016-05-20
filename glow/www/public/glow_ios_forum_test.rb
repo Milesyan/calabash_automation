@@ -182,6 +182,7 @@ module GlowForumIOS
       }.merge(common_data)
       @res = HTTParty.get "#{base_url}/api/v2/users/pull", options(data)
       @notifications = @res["user"]["notifications"] if @res
+      self
     end
     
   end

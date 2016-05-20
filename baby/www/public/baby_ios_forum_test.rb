@@ -161,6 +161,7 @@ module NoahForumIOS
       @res = self.class.post "#{base_url}/ios/user/pull", options(data)
       @notifications = @res["data"]["user"]["Notification"]["update"] if not @res["data"]["user"]["Notification"].nil?
       log_important "No notification field in response" if @res["data"]["user"]["Notification"].nil?
+      self
     end
 
     def new_born_baby(args = {})

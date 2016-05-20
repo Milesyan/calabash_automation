@@ -267,6 +267,7 @@ module EveForumIOS
       sync1
       @notifications = @res["data"]["updates"]["notifications"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
+      self
     end
   end
 end
