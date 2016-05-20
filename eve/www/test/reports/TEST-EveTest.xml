@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite time='748.669680' skipped='0' failures='2' errors='4' name="EveTest" assertions='116' tests='69'>
+  <testcase time='5.532285' name="test_leave_group" assertions='1'>
+  </testcase>
+  <testcase time='4.926394' name="test_create_text_topic" assertions='2'>
+  </testcase>
+  <testcase time='8.258698' name="test_premium_request" assertions='2'>
+  </testcase>
+  <testcase time='4.902047' name="test_get_all_groups" assertions='2'>
+  </testcase>
+  <testcase time='8.672387' name="test_remove_chat_true" assertions='1'>
+  </testcase>
+  <testcase time='15.160848' name="test_remove_all_contacts" assertions='1'>
+  </testcase>
+  <testcase time='6.311436' name="test_reset_all" assertions='1'>
+  </testcase>
+  <testcase time='12.962960' name="test_add_two_comments_to_a_topic" assertions='1'>
+  </testcase>
+  <testcase time='5.785891' name="test_turn_off_signature" assertions='1'>
+  </testcase>
+  <testcase time='6.461148' name="test_unbookmark" assertions='1'>
+  </testcase>
+  <testcase time='7.365742' name="test_get_sticker_by_id" assertions='0'>
+    <error type='NoMethodError' message="undefined method `keys&#39; for nil:NilClass">/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:540:in `test_get_sticker_by_id&#39;
+    </error>
+  </testcase>
+  <testcase time='13.193250' name="test_community_vote_poll_repeatedly" assertions='3'>
+  </testcase>
+  <testcase time='11.099707' name="test_follow_user" assertions='1'>
+  </testcase>
+  <testcase time='5.993442' name="test_create_image_topic" assertions='2'>
+  </testcase>
+  <testcase time='6.867762' name="test_turn_on_signature" assertions='1'>
+  </testcase>
+  <testcase time='4.608442' name="test_stciker_packes_owned" assertions='0'>
+    <error type='NoMethodError' message="undefined method `[]&#39; for nil:NilClass">/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:531:in `test_stciker_packes_owned&#39;
+    </error>
+  </testcase>
+  <testcase time='5.591141' name="test_downvote_topic" assertions='1'>
+  </testcase>
+  <testcase time='4.935748' name="test_create_group" assertions='2'>
+  </testcase>
+  <testcase time='11.908091' name="test_blocked" assertions='1'>
+  </testcase>
+  <testcase time='11.676895' name="test_notification" assertions='3'>
+  </testcase>
+  <testcase time='205.533794' name="test_all_legacy_notifications" assertions='26'>
+  </testcase>
+  <testcase time='7.015890' name="test_get_participants" assertions='1'>
+  </testcase>
+  <testcase time='10.652388' name="test_unblock_user" assertions='1'>
+  </testcase>
+  <testcase time='11.528857' name="test_add_comment_and_subreply_to_a_topic" assertions='3'>
+  </testcase>
+  <testcase time='10.442191' name="test_unfollow_user" assertions='1'>
+  </testcase>
+  <testcase time='7.359447' name="test_availability" assertions='2'>
+  </testcase>
+  <testcase time='12.896371' name="test_cancel_upvote_comment" assertions='1'>
+  </testcase>
+  <testcase time='16.612307' name="test_report_comment" assertions='2'>
+  </testcase>
+  <testcase time='8.676167' name="test_quit_all_groups_method" assertions='2'>
+  </testcase>
+  <testcase time='6.415404' name="test_create_poll_topic" assertions='2'>
+  </testcase>
+  <testcase time='7.006939' name="test_sticker_pack_updates" assertions='0'>
+    <error type='NoMethodError' message="undefined method `keys&#39; for #&lt;HTTParty::Response:0x007f8ecc3972b0&gt;">/Users/Miles/.rvm/gems/ruby-2.2.1/gems/httparty-0.13.7/lib/httparty/response.rb:71:in `method_missing&#39;
+/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:524:in `test_sticker_pack_updates&#39;
+    </error>
+  </testcase>
+  <testcase time='7.886605' name="test_delete_topic" assertions='1'>
+  </testcase>
+  <testcase time='12.702626' name="test_block_user" assertions='1'>
+  </testcase>
+  <testcase time='9.516953' name="test_turn_off_chat" assertions='1'>
+  </testcase>
+  <testcase time='12.279980' name="test_send_chat_request" assertions='1'>
+  </testcase>
+  <testcase time='5.801914' name="test_upvote_topic_deleted" assertions='1'>
+  </testcase>
+  <testcase time='10.520541' name="test_accept_chat_notification" assertions='2'>
+  </testcase>
+  <testcase time='11.255532' name="test_cancel_downvote_topic" assertions='1'>
+  </testcase>
+  <testcase time='19.808622' name="test_old_client_no_recommended_people" assertions='3'>
+  </testcase>
+  <testcase time='4.709830' name="test_community_create_topic_with_title_and_content" assertions='1'>
+  </testcase>
+  <testcase time='9.039840' name="test_bookmark_self" assertions='1'>
+  </testcase>
+  <testcase time='5.477437' name="test_accept_chat_request" assertions='0'>
+    <error type='NoMethodError' message="undefined method `[]&#39; for nil:NilClass">/Users/Miles/automation/AutomationTests/eve/www/public/eve_android_forum_test.rb:219:in `signup_with_email&#39;
+/Users/Miles/automation/AutomationTests/eve/www/public/eve_android_forum_test.rb:229:in `all_signup_flow&#39;
+/Users/Miles/automation/AutomationTests/eve/www/public/eve_android_forum_test.rb:22:in `forum_new_user&#39;
+/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:356:in `test_accept_chat_request&#39;
+    </error>
+  </testcase>
+  <testcase time='4.722349' name="test_get_all_group_names" assertions='1'>
+  </testcase>
+  <testcase time='5.808198' name="test_photo_TMI_anonymous" assertions='1'>
+  </testcase>
+  <testcase time='9.033031' name="test_quit_all_groups" assertions='5'>
+  </testcase>
+  <testcase time='7.243454' name="test_ignore_chat_request" assertions='1'>
+  </testcase>
+  <testcase time='1.139229' name="test_signup_or_login" assertions='0'>
+  </testcase>
+  <testcase time='4.057304' name="test_remove_all_participants" assertions='1'>
+    <failure type='Minitest::Assertion' message="Expected nil (NilClass) to respond to #empty?.">/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:397:in `test_remove_all_participants&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/runners/minitest_5.rb:9:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/executor.rb:26:in `execute&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/runner.rb:17:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m.rb:13:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/bin/m:4:in `&lt;top (required)&gt;&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/m:22:in `load&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/m:22:in `&lt;main&gt;&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `eval&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `&lt;main&gt;&#39;
+    </failure>
+  </testcase>
+  <testcase time='8.771312' name="test_chat_request_notification" assertions='2'>
+  </testcase>
+  <testcase time='3.835058' name="test_new_user_with_birthday" assertions='2'>
+  </testcase>
+  <testcase time='6.135978' name="test_remove_chat_false" assertions='1'>
+  </testcase>
+  <testcase time='11.702543' name="test_delete_topic_fail" assertions='2'>
+  </testcase>
+  <testcase time='7.999802' name="test_get_all_contacts" assertions='1'>
+  </testcase>
+  <testcase time='6.107153' name="test_downvote_comment_deleted" assertions='1'>
+  </testcase>
+  <testcase time='16.747690' name="test_report_topic" assertions='2'>
+  </testcase>
+  <testcase time='8.498002' name="test_turn_on_chat" assertions='1'>
+  </testcase>
+  <testcase time='5.048455' name="test_community_create_anonymous_topic" assertions='1'>
+  </testcase>
+  <testcase time='3.959254' name="test_get_sticker_by_wrong_id" assertions='2'>
+    <failure type='Minitest::Assertion' message="Expected #&lt;HTTParty::Response:0x7f8ecc9bd428 parsed_response=&quot;&lt;!DOCTYPE HTML PUBLIC \\&quot;-//W3C//DTD HTML 3.2 Final//EN\\&quot;&gt;\\n&lt;title&gt;404 Not Found&lt;/title&gt;\\n&lt;h1&gt;Not Found&lt;/h1&gt;\\n&lt;p&gt;The requested URL was not found on the server.  If you entered the URL manually please check your spelling and try again.&lt;/p&gt;\\n&quot;, @response=#&lt;Net::HTTPNotFound 404 NOT FOUND readbody=true&gt;, @headers={&quot;server&quot;=&gt;[&quot;nginx/1.8.0&quot;], &quot;date&quot;=&gt;[&quot;Fri, 20 May 2016 03:55:47 GMT&quot;], &quot;content-type&quot;=&gt;[&quot;text/html&quot;], &quot;content-length&quot;=&gt;[&quot;233&quot;], &quot;connection&quot;=&gt;[&quot;close&quot;]}&gt; to include &quot;500&quot;.">/Users/Miles/automation/AutomationTests/eve/www/public/android_minitest.rb:546:in `test_get_sticker_by_wrong_id&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/runners/minitest_5.rb:9:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/executor.rb:26:in `execute&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m/runner.rb:17:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/lib/m.rb:13:in `run&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/gems/m-1.5.0/bin/m:4:in `&lt;top (required)&gt;&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/m:22:in `load&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/m:22:in `&lt;main&gt;&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `eval&#39;
+/Users/Miles/.rvm/gems/ruby-2.2.1/bin/ruby_executable_hooks:15:in `&lt;main&gt;&#39;
+    </failure>
+  </testcase>
+  <testcase time='4.544480' name="test_get_all_group_ids" assertions='1'>
+  </testcase>
+  <testcase time='5.331615' name="test_upvote_comment" assertions='1'>
+  </testcase>
+  <testcase time='6.500384' name="test_community_vote_poll" assertions='1'>
+  </testcase>
+  <testcase time='1.388172' name="test_premium_login" assertions='1'>
+  </testcase>
+  <testcase time='8.173379' name="test_remove_all_blocked" assertions='1'>
+  </testcase>
+  <testcase time='6.024344' name="test_downvote_comment" assertions='1'>
+  </testcase>
+  <testcase time='6.670849' name="test_establish_chat" assertions='2'>
+  </testcase>
+  <testcase time='3.846322' name="test_forum_user" assertions='0'>
+  </testcase>
+  <testcase time='5.445159' name="test_upvote_topic" assertions='1'>
+  </testcase>
+  <testcase time='4.618372' name="test_created" assertions='1'>
+  </testcase>
+  <testcase time='9.963843' name="test_bookmark_other" assertions='1'>
+  </testcase>
+</testsuite>
