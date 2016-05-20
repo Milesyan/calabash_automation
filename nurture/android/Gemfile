@@ -15,3 +15,4 @@ gem "rspec-expectations", "~> 3.4.0"
 gem 'allure-cucumber'
 gem 'json', '1.8.2'
 gem 'pry','0.10.3'
+gem 'minitest-ci'
