@@ -393,9 +393,7 @@ module Minitest_android
 
   def test_remove_all_participants
     up = premium_login
-    puts up.res
     up.remove_all_participants
-    puts up.res
     assert_empty up.res['participants']
     up.get_all_participants
   end

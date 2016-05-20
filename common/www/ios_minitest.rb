@@ -395,9 +395,12 @@ module Minitest_ios
 
   def test_remove_all_participants
     up = premium_login
+    _temp = forum_new_user
+    up.establish_chat _temp
     up.remove_all_participants
-    assert_empty up.res['participants']
+    assert_rc up.res
     up.get_all_participants
+    assert_empty up.res['participants']
   end
 
   def test_remove_all_contacts
