@@ -8,3 +8,4 @@
 *.html
 *.txt
 *.xml
+Gemfile.lock
