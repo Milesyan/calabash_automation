@@ -4,6 +4,7 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'public/nurture_ios_forum_test'
 require_relative 'public/ios_minitest'
+require_relative 'public/test_helper'
 require 'minitest/ci'
 Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, 
                           Minitest::Reporters::JUnitReporter.new,
@@ -12,7 +13,8 @@ Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
 class NurtureTest < Minitest::Test
   include NurtureForumIOS
   include Minitest_ios
-  
+  include TestHelper
+    
   def premium_login
     premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     premium
