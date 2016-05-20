@@ -2,10 +2,14 @@ APP_CONFIG = 'Eve'
 # APP_CONFIG = 'Eve-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
+require 'minitest/ci'
+
 require_relative 'public/eve_ios_forum_test'
 require_relative 'public/ios_minitest'
 
-Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
+Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new, 
+                          Minitest::Reporters::JUnitReporter.new,
+                          Minitest::Reporters::HtmlReporter.new]
 
 class EveTest < Minitest::Test
   include EveForumIOS
