@@ -96,9 +96,7 @@ module Minitest_ios
   def test_delete_topic
     u = forum_new_user
     u.create_topic
-    puts u.res
     u.delete_topic u.topic_id
-    puts u.res
     assert_rc u.res
   end
 

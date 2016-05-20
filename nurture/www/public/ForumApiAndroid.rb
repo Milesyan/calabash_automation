@@ -504,10 +504,12 @@ module ForumApiAndroid
       }
       @res = HTTParty.get "#{forum_base_url}/chats_and_participants?#{@additional_forum}", auth_options(data)
       @all_participants = @res['participants'].map {|n| n['id']}
+      self
     end
     
     def remove_all_participants
-      _participants = self.get_all_participants
+      self.get_all_participants
+      _participants = self.all_participants
       _participants.each {|id| remove_chat id}
       log_msg "All participants removed"
       self
