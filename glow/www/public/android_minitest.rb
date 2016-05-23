@@ -471,6 +471,7 @@ module Minitest_android
     u = forum_new_user
     u.get_notification
     up.send_chat_request u.user_id
+    sleep 2
     puts "-------"
     u.get_notification
 

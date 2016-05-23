@@ -472,6 +472,7 @@ module Minitest_ios
     u.get_notification
     up.send_chat_request u.user_id
     assert_rc up.res
+    sleep 2
     puts "-------------------------"
     u.get_notification
     assert_equal 1100,u.notifications[0]["type"]
