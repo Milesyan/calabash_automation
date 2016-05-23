@@ -339,7 +339,11 @@ module Minitest_android
     u1 = forum_new_user
     u2 = forum_new_user
     u1.send_chat_request u2.user_id
-    assert_equal u1.res["rc"], 8003
+    if u1.code_name == 'kaylee'
+      assert_rc u1.res
+    else 
+      assert_equal u1.res["rc"], 8003
+    end
   end
 
   def test_premium_request
@@ -448,12 +452,7 @@ module Minitest_android
     up.send_chat_request u.user_id
     up.availability u.user_id
     assert_equal "Your chat request is pending response.", up.res["msg"]
-  end
-
-  def print_notification(user=self)
-    user.pull
-    assert user.notifications
-  end  
+  end 
 
   def test_notification
     u = forum_new_user
@@ -474,7 +473,7 @@ module Minitest_android
     up.send_chat_request u.user_id
     puts "-------"
     u.get_notification
-    print_notification u
+
     assert_equal 1100,u.notifications[0]["type"]
   end
 
@@ -485,7 +484,7 @@ module Minitest_android
     u.send_chat_request up.user_id
     up.accept_chat
     u.get_notification
-    print_notification u
+
     assert_equal 1102,u.notifications[0]["type"]
   end
 

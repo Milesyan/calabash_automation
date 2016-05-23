@@ -340,6 +340,10 @@ module Minitest_ios
     u2 = forum_new_user
     u1.send_chat_request u2.user_id
     assert_equal u1.res["rc"], 8003
+
+
+
+
   end
 
   def test_premium_request
@@ -449,11 +453,6 @@ module Minitest_ios
     up.availability u.user_id
     assert_equal "Your chat request is pending response.", up.res["msg"]
   end
-
-  def print_notification(user=self)
-    user.pull
-    log_msg user.notifications
-  end  
 
   def test_notification
     u = forum_new_user
