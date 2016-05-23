@@ -140,7 +140,6 @@ end
 #change
 Given(/^I create a new forum user with name "([^"]*)"$/) do |name|
   $user = forum_new_user(first_name: name).complete_tutorial
-  log_important $user.email, $user.password
 end
 
 Given(/^"([^"]*)" create a "([^"]*)" topic in the test group in TMI mode$/) do |user_name, topic_type|
