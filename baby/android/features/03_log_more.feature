@@ -6,7 +6,7 @@ Feature: Add More logs
     And I login
     And I open more logs
     And I log "Rash" symptom
-    And I close the inisght popup
+    And I close the insight popup
     And I logout
   @fever
   Scenario: Add fever

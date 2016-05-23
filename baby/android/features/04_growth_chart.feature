@@ -9,7 +9,7 @@ Feature: Growth chart log weight, height and head circ
     And I log weight "3.0kg" on "5.days.ago"
     And I log weight "3.1kg" on "3.days.ago"
     And I log weight "3.2kg" on "today"
-    And I close the inisght popup
+    And I close the insight popup
     And I logout
 
   @height
@@ -21,7 +21,7 @@ Feature: Growth chart log weight, height and head circ
     And I log height "40 cm" on "6.days.ago"
     And I log height "16 in" on "3.days.ago"
     And I log height "45 cm" on "today"
-    And I close the inisght popup
+    And I close the insight popup
     And I logout
 
   @headcirc
@@ -33,5 +33,5 @@ Feature: Growth chart log weight, height and head circ
     And I log headcirc "32 cm" on "6.days.ago"
     And I log headcirc "16 in" on "3.days.ago"
     And I log headcirc "36 cm" on "today"
-    And I close the inisght popup
+    And I close the insight popup
     And I logout

@@ -37,8 +37,26 @@ Given(/^I create and invite a partner as (father|mother)$/) do |role|
 end
 
 Given(/^I signup as partner$/) do
+  logout_if_already_logged_in
   $user = $partner
   $user.birthday = Time.at($user.birthday)
   onboard_page.signup
+end
+
+Given(/^I create and invite a partner as (Father|Mother|Family Member)$/) do |role|
+  relation = role
+  $partner = BabyUser.new
+  $user.invite_family partner: $partner, relation: relation
+end
+
+Given(/^I create a Nurture user with due date "([^"]*)"$/) do |due_date_str|
+  due_date = eval(due_date_str).to_i
+  #$user = NurtureUser.new(due_date: due_date).signup
+  $nu = NurtureUser.new(due_date: due_date).signup
+  name = Faker::Name.name
+  log_msg "Baby name: #{name}"
+  $nu.name_baby name
+  $user = BabyUser.new email: $nu.email, first_name: $nu.first_name, last_name: $nu.last_name
+  $user.signup
 end
 

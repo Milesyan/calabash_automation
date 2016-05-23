@@ -6,6 +6,7 @@ class OnboardPage < Calabash::ABase
   end
 
   def signup
+    sleep 1
     touch "* id:'sign_up'"
     enter_text "* id:'name'", $user.first_name + " " + $user.last_name
     enter_text "* id:'email'", $user.email
@@ -25,5 +26,20 @@ class OnboardPage < Calabash::ABase
     enter_text "* id:'email'", email
     enter_text "* id:'password'", password
     touch "* id:'action_login'"
+    sleep 3
+    touch "* id:'dismiss_button'"
   end
+
+  def close_premium_introdution
+    sleep 2
+    touch "* id:'dismiss_button'"
+  end
+
+  def login_with_no_baby(email, password)
+    touch "* marked:'Log in'"
+    enter_text "* id:'email'", email
+    enter_text "* id:'password'", password
+    touch "* id:'action_login'"
+  end
+
 end

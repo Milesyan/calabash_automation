@@ -40,8 +40,8 @@ Given(/^I log a sleep with start time "([^"]*)" and end time "([^"]*)"$/) do |st
   #close_popup_if_needed
 end
 
-Given(/^I close the inisght popup$/) do
-  home_page.close_insight_popup
+Given(/^I close the insight popup$/) do
+  close_popup_if_needed
 end
 
 Given(/^I log a (poo|pee) with start time "([^"]*)"$/) do |type, start_time_str|
@@ -91,3 +91,10 @@ Given(/^I add birth data$/) do
   home_page.add_birth_data
 end
 
+Given(/^I add a baby with nurture pre\-filled data$/) do
+  home_page.add_upcoming_nurture_baby
+end
+
+Given(/^I check the first milestone with date "([^"]*)"$/) do |date|
+  home_page.check_first_milestone(date: eval(date))
+end

@@ -19,7 +19,7 @@ class MePage < Calabash::ABase
   end
 
   def add_born_baby(baby)
-    touch "* id:'add_baby'"
+    touch "* marked:'Add my baby'"
     touch "* marked:'Yes!'"
     sleep 1
     until_element_exists "* id:'name'", action: lambda { touch "* marked:'Yes!'" }, retry_frequency: 1
@@ -39,7 +39,7 @@ class MePage < Calabash::ABase
   end
 
   def add_upcomming_baby(baby)
-    touch "* id:'add_baby'"
+    touch "* marked:'Add my baby'"
 
     touch "* marked:'No, not yet.'"
     sleep 1
@@ -51,5 +51,9 @@ class MePage < Calabash::ABase
     touch "* id:'relationship'"
     touch "* marked:'#{$user.relation}'"
     touch "* id:'action_done'"
+  end
+
+  def close_baby_profile
+    touch "* contentDescription:'Navigate up'"
   end
 end

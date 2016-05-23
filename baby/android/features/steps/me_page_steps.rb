@@ -9,3 +9,11 @@ Given(/^I add one (born|upcoming) (boy|girl) with (?:birthday "([^"]*)"|)(?: and
   $baby = B.new gender: gender, birthday: birthday, birth_due_date: due_date
   me_page.method("add_#{if_born}_baby").call $baby
 end
+
+Given(/^I edit my baby's profile$/) do
+  touch "* marked:'Edit profile'"
+end
+
+Given(/^I close baby profile page$/) do
+  me_page.close_baby_profile
+end

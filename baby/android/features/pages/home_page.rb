@@ -8,7 +8,7 @@ class HomePage < Calabash::ABase
   def open_milestones
     wait_for_element_exists "* id:'add_milestone'", time_out: 15
     sleep 1
-    touch "* id:'add_milestone'"
+    touch "* marked:'Add moments'"
   end
 
   def open_more_logs
@@ -45,10 +45,20 @@ class HomePage < Calabash::ABase
     enter_text "* id:'title_editor'", title
     touch "* marked:'Today'"
     set_date "datePicker", date_str(date)
-    touch "* marked:'Done'"
+    touch "* marked:'OK'"
 
     touch "* id:'save'"
   end
+
+  def check_first_milestone(args = {})
+    touch "android.support.v7.widget.AppCompatTextView index:7"
+    date = (args[:date] || Time.now).to_datetime
+    touch "* marked:'Today'"
+    set_date "datePicker", date_str(date)
+    touch "* marked:'OK'"
+    touch "* id:'save'"
+  end
+
 
   def get_all_milestones
     milestones = []
@@ -57,13 +67,13 @@ class HomePage < Calabash::ABase
   end
 
   def scroll_to_summary
-    wait_for_element_exists "* id:'feed'", time_out: 15
+    wait_for_element_exists "* id:'sleep'", time_out: 15
     sleep 1
     until_element_exists "* id:'summary'", action: lambda { scroll "android.support.v4.widget.NestedScrollView", :down } 
   end
 
   def scroll_to_growth_chart
-    wait_for_element_exists "* id:'feed'", time_out: 15
+    #wait_for_element_exists "* id:'feed'", time_out: 15
     sleep 1
     until_element_exists "* id:'head_circumference_chart'", action: lambda { scroll "android.support.v4.widget.NestedScrollView", :down }
   end
@@ -106,7 +116,7 @@ class HomePage < Calabash::ABase
   end
 
   def add_feed(args)
-    scroll_to_summary
+    #scroll_to_summary
     touch "* marked:'Feed'"
     feed_type = args[:feed_type].downcase
     milk_type = args[:milk_type].downcase
@@ -123,7 +133,7 @@ class HomePage < Calabash::ABase
       touch "* marked:'Done'"
       touch "* id:'start_time'"
       set_time "timePicker", time_str(start_time)
-      touch "* marked:'Done'"
+      touch "* marked:'OK'"
 
       if milk_type == "breast"
         touch "* marked:'Breast milk'"
@@ -140,7 +150,7 @@ class HomePage < Calabash::ABase
     start_time = args[:start_time].to_datetime
     end_time = args[:end_time].to_datetime
 
-    scroll_to_summary
+    #scroll_to_summary
     touch "* marked:'Sleep'"
     sleep 1
     if log_type == "manual"
@@ -150,21 +160,21 @@ class HomePage < Calabash::ABase
       touch "* marked:'Done'"
       touch "* id:'begin_time'"
       set_time "timePicker", time_str(start_time)
-      touch "* marked:'Done'"
+      touch "* marked:'OK'"
 
       touch "* id:'end_date'"
       set_date "datePicker", date_str(end_time)
       touch "* marked:'Done'"
       touch "* id:'end_time'"
       set_time "timePicker", time_str(end_time)
-      touch "* marked:'Done'"
+      touch "* marked:'OK'"
 
       touch "* id:'save'"
     end
   end
 
   def add_diaper(args) 
-    scroll_to_summary
+    #scroll_to_summary
     touch "* marked:'Diaper'"
     type = args[:type]
     start_time = args[:start_time].to_datetime
@@ -174,7 +184,7 @@ class HomePage < Calabash::ABase
     touch "* marked:'Done'"
     touch "* id:'time'"
     set_time "timePicker", time_str(start_time)
-    touch "* marked:'Done'"
+    touch "* marked:'OK'"
 
     case type.downcase
     when "poo"
@@ -190,14 +200,15 @@ class HomePage < Calabash::ABase
   end
 
   def add_weight(args = {})
+    scroll_to_growth_chart
+    sleep 2
     touch "* id:'weight_chart'"
-    
     i, d, unit = args[:weight].split(/^(\d+)(.\d+)/)[1..-1]
     date = args[:date].to_datetime
     touch "* id:'add_button'"
     touch "* id:'date_input'"
     set_date "datePicker", date_str(date)
-    touch "* marked:'Done'"
+    touch "* marked:'OK'"
 
     touch "* id:'weight_unit'"
     sleep 0.5
@@ -217,6 +228,8 @@ class HomePage < Calabash::ABase
   end
 
   def add_height(args = {})
+    scroll_to_growth_chart
+    sleep 2
     touch "* id:'height_chart'"
     date = args[:date].to_datetime
     h, unit = args[:height].split(/^(\d+)/)[1..-1]
@@ -224,7 +237,7 @@ class HomePage < Calabash::ABase
     touch "* id:'add_button'"
     touch "* id:'date_input'"
     set_date "datePicker", date_str(date)
-    touch "* marked:'Done'"
+    touch "* marked:'OK'"
     touch "* id:'height_input'"
     enter_text "* id:'height_input'", h
     touch "* id:'height_unit'"
@@ -235,6 +248,8 @@ class HomePage < Calabash::ABase
   end
 
   def add_headcirc(args = {})
+    scroll_to_growth_chart
+    sleep 2
     touch "* id:'head_circumference_chart'"
     date = args[:date].to_datetime
     headcirc, unit = args[:headcirc].split(/^(\d+)/)[1..-1]
@@ -242,7 +257,7 @@ class HomePage < Calabash::ABase
     touch "* id:'add_button'"
     touch "* id:'date_input'"
     set_date "datePicker", date_str(date)
-    touch "* marked:'Done'"
+    touch "* marked:'OK'"
 
     touch "* id:'head_input'"
     enter_text "* id:'head_input'", headcirc
@@ -260,8 +275,14 @@ class HomePage < Calabash::ABase
 
     enter_text "* id:'weight_input_lb'", "8"
     enter_text "* id:'weight_input_oz'", "5"
+    touch "* id:'height_unit'"
+    sleep 1
+    touch "* marked:'in'"
     enter_text "* id:'height_input'", "20"
-    enter_text "* id:'head_input'", "40"
+    touch "* id:'head_unit'"
+    sleep 1
+    touch "* marked:'cm'"
+    enter_text "* id:'head_input'", "32"
     touch "* marked:'SAVE'"
     touch "* contentDescription:'Navigate up'"
   end
@@ -302,6 +323,17 @@ class HomePage < Calabash::ABase
 
   def save_more_logs
     touch "* id:'save'"
+  end
+
+  def add_upcoming_nurture_baby
+    touch "* marked:'Add my baby'"
+    touch "* marked:'No, not yet.'"
+    touch "* marked:'Choose' sibling UITableViewLabel"
+    touch "* marked:'#{$user.relation}'"
+    touch "* marked:'Done'"
+    touch "* marked:'Start using Glow Baby!'"
+    sleep 1
+    #wait_for_none_animating
   end
 
 end

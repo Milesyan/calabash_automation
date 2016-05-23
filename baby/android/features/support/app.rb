@@ -40,4 +40,15 @@ module BabyHelper
   def log_error(msg)
     puts light_red(msg)
   end
+
+   def close_popup_if_needed
+    begin
+      wait_for time_out: 3, :retry_frequency => 0.5 do
+        element_exists "* id:'close_button'"
+      end
+      touch "* id:'close_button'"
+      puts "closed insight pop-up"
+    rescue
+    end   
+  end
 end

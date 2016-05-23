@@ -1,3 +1,3 @@
-Given(/^I open "([^"]*)" tab$/) do |name|
+Given(/^I open "([^"]*)" page$/) do |name|
   nav_page.open name
 end
