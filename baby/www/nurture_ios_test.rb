@@ -66,7 +66,8 @@ module NurtureIOS
           },
           "weight": 67.08639,
           "how": 0,
-          "due_date": @due_date || due_date_by_pregnancy_week(@pregnancy_week) || Time.now.to_i + 265*24*3600
+          "due_date": @due_date || Time.now.to_i + 265*24*3600
+          #due_date_by_pregnancy_week(@pregnancy_week) 
         },
         "userinfo": {
           "height": 170,

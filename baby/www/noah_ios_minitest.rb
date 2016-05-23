@@ -2,12 +2,14 @@ require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'noah_ios_test'
 require_relative 'noah_test_helper'
+require_relative 'nurture_ios_test.rb'
 require 'active_support/all'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NoahTest < Minitest::Test
-  include BabyIOS  
+  include BabyIOS
+  include NurtureIOS  
   def setup
   end
 
@@ -46,7 +48,7 @@ class NoahTest < Minitest::Test
   end
 
   def test_login_with_nurture_user
-    skip("not implemented yet")
+    NurtureUser.new.signup
   end
 
   def test_login_with_nurture_user_who_has_partner
