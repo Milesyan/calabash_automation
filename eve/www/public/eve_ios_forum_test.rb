@@ -88,9 +88,29 @@ module EveForumIOS
       self
     end
 
-    def sync1
+    def sync_common
       data = {
-        "sync_token": "0h7E0C-WpBIRj6jqyrc_uj_p8aokmDaMi0AYd3vmOYp9t9E_sGCjJ5M28NHsSuYY",
+        "ut": @ut,
+        "need_pull": true,
+        "additional_info":{
+          "notification_last_read_time": nil,"time_zone": "Asia\/Shanghai","device_token": nil,
+          "syncable_attributes":
+          {"predict_rules": "6371217932586807294","fertile_score": "-1915309563115276298",
+            "localized_birth_control_topics": "-7258227771261759909"}},
+        "sync_token": nil,
+        "sync_items": []
+      }
+    end
+    def sync
+      data = sync_common.merge(common_data)
+      @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
+      @last_sync_token = @res['data']['sync_token']
+      self
+    end
+
+    def sync1
+      sync_item = {
+        "sync_token": @last_sync_token,
         "sync_items":[{"data":
           {"val_int":22,
             "time_modified": 10.seconds.ago.to_i,
@@ -104,73 +124,56 @@ module EveForumIOS
             "profile_key":"period_cycle"},
             "model":"LXHealthProfile",
             "type":1,
-            "uuid": @uuid}],
-          "ut": @ut,
-          "need_pull":true,
-          "additional_info":{"notification_last_read_time":nil,"time_zone":"Asia\/Shanghai","device_token":nil,"syncable_attributes":{"predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}}
-      }.merge(common_data)
+            "uuid": @uuid}]}
+      data = sync_common.merge(common_data).merge(sync_item)
       @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
+      @last_sync_token = @res['data']['sync_token']
       self
     end
 
     def sync2
-      data = {
-        "sync_token": "0h7E0C-WpBIRj6jqyrc_uj_p8aokmDaMi0AYd3vmOYp9t9E_sGCjJ5M28NHsSuYY",
+      sync_item = {
+        "sync_token": @last_sync_token,
         "sync_items":[{"data":{"val_int":5,"time_modified": 10.seconds.ago.to_i,
-          "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,"val_text":nil,"val_float":0,"time_removed":0,"profile_key": "period_length"},
-          "model":"LXHealthProfile","type":1,"uuid": @uuid}],
-          "ut": @ut,
-          "need_pull":true,
-          "additional_info":{
-            "notification_last_read_time":nil,
-            "time_zone":"Asia\/Shanghai",
-            "device_token":nil,
-            "syncable_attributes":{
-              "predict_rules": "-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
-              }
-      }.merge(common_data)
+          "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,
+          "val_text":nil,"val_float":0,"time_removed":0,"profile_key": "period_length"},
+          "model":"LXHealthProfile","type":1,"uuid": @uuid}]
+        }
+
+      data = sync_common.merge(common_data).merge(sync_item)
       @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
+      @last_sync_token = @res['data']['sync_token']
       self
     end
 
     def sync3
-      data = {
-        "sync_token": "0h7E0C-WpBIRj6jqyrc_uhxEfUh3EpwjJx23O_B3O7vofQ1kJHL8IkqQNwlZp3Hr",
+      sync_item = {
+        "sync_token": @last_sync_token,
         "sync_items":[{"data":{"val_int":1,"time_modified": 10.seconds.ago.to_i,
-          "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,"val_text":nil,"val_float":0,"time_removed":0,"profile_key": "birth_control"},
-          "model":"LXHealthProfile","type":1,"uuid": @uuid}],
-          "ut": @ut,
-          "need_pull":true,
-          "additional_info":{
-            "notification_last_read_time":nil,
-            "time_zone":"Asia\/Shanghai",
-            "device_token":nil,
-            "syncable_attributes":{
-              "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
-              }
-      }.merge(common_data)
+          "id":0,"time_created": 10.seconds.ago.to_i,"tag":0,"val_str":nil,
+          "val_text":nil,"val_float":0,"time_removed":0,"profile_key": "birth_control"},
+          "model":"LXHealthProfile","type":1,"uuid": @uuid}]
+        }
+      data =  sync_common.merge(common_data).merge(sync_item)
       @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
+      @last_sync_token = @res['data']['sync_token']
       self
     end
 
     def sync4
       period_uuid = SecureRandom.uuid.upcase
-      data = {
-        "sync_token": "0h7E0C-WpBIRj6jqyrc_ug5vBcJTijql-3bNVUs_rRDabB63xqYf7FF8CJHcRR2N",
+      sync_item = {
+        "sync_token": @last_sync_token,
         "sync_items":[{"data":{
-          "id":0,"time_created": 10.seconds.ago.to_i,"pb": "2016\/04\/20","uuid": period_uuid,"pe": "2016\/04\/22","pb_prediction": nil,"pe_prediction": nil,"time_removed":0,"time_modified": 10.seconds.ago.to_i},
-          "model":"LXPeriod","type":1,"uuid": @uuid}],
-          "ut": @ut,
-          "need_pull":true,
-          "additional_info":{
-            "notification_last_read_time":nil,
-            "time_zone":"Asia\/Shanghai",
-            "device_token": nil,
-            "syncable_attributes":{
-              "predict_rules":"-266860366612057925","fertile_score":"-1915309563115276298","localized_birth_control_topics":"-7258227771261759909"}
-              }
-      }.merge(common_data)
+          "id":0,"time_created": 10.seconds.ago.to_i,"pb": "2016\/04\/20",
+          "uuid": period_uuid,"pe": "2016\/04\/22","pb_prediction": nil,"pe_prediction": nil,
+          "time_removed":0,"time_modified": 10.seconds.ago.to_i},
+          "model":"LXPeriod","type":1,"uuid": @uuid}]
+        }
+
+      data = sync_common.merge(common_data).merge(sync_item)
       @res = HTTParty.post "#{base_url}/ios/users/sync", options(data)
+      @last_sync_token = @res['data']['sync_token']
       self
     end
 
@@ -264,7 +267,7 @@ module EveForumIOS
     end
     
     def pull
-      sync1
+      sync
       @notifications = @res["data"]["updates"]["notifications"] if @res["rc"] == 0
       log_important "RC IS NOT EQUAL to 0 in pull api call" if @res["rc"] != 0
       self

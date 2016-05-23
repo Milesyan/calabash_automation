@@ -122,7 +122,7 @@ module EveForumAndroid
         "sync_items": [{
           "HealthProfile": {
             "update": [{
-              "user_id": -1,
+              "user_id": @user_id,
               "period_cycle": 22
             }]
           }
@@ -149,20 +149,15 @@ module EveForumAndroid
         }
       }
       @res = HTTParty.post "#{base_url}/android/users/sync?#{@additional_post_data}", auth_options(data)
+      @last_sync_token  = @res['data']['sync_token']
       self
     end
 
     def sync_guest_info_2
       data ={
         "user_id": @user_id,
-        "sync_token": "0h7E0C-WpBIRj6jqyrc_uvP8eWxRyWi8cQgRhztkdF7F0JisXIstSgmfR9BRRUR7",
+        "sync_token": @last_sync_token,
         "sync_items": [{
-          "User": {
-            "update": [{
-              "syncToken": "0h7E0C-WpBIRj6jqyrc_uvP8eWxRyWi8cQgRhztkdF7F0JisXIstSgmfR9BRRUR7"
-            }]
-          }
-        }, {
           "HealthProfile": {
             "update": [{
               "user_id": @user_id,
