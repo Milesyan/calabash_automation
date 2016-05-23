@@ -3,7 +3,7 @@ require 'json'
 require 'securerandom'
 require 'active_support/all'
 require 'yaml'
-require_relative "MultipartImage_iOS.rb"
+require_relative "MultipartImage_IOS.rb"
 require_relative 'test_helper'
 require_relative 'ForumApi'
 require_relative 'env_config'
