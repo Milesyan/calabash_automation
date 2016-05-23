@@ -112,7 +112,7 @@ module EveForumAndroid
       @res = HTTParty.post "#{base_url}/android/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
-      log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
+      # log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
       self
     end
 
@@ -212,7 +212,7 @@ module EveForumAndroid
       @res = HTTParty.post "#{base_url}/android/users/signup_with_email?#{@additional_post_data}", options(data)
       @user_id = @res["data"]["user_id"]
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

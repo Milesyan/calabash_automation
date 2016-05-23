@@ -126,7 +126,7 @@ module NurtureForumAndroid
       @res = self.class.post "/android/users/signup?#{common_data}", options(data)
       @ut = @res["dict"]["encrypted_token"]
       @user_id = @res["dict"]["user_id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

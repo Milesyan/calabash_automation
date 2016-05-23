@@ -97,7 +97,7 @@ module GlowForumIOS
       @birthday = @res['user']['birthday']
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
@@ -131,7 +131,7 @@ module GlowForumIOS
       @res = HTTParty.post "#{base_url}/api/v2/users/signup", options(data)
       @ut = @res["user"]["encrypted_token"]
       @user_id = @res["user"]["id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

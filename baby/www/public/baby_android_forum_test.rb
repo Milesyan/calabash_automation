@@ -134,7 +134,7 @@ module NoahForumAndroid
       user.res = self.class.post "/android/user/sign_up?#{common_data}", options(data)
       user.ut = user.res["data"]["user"]["encrypted_token"]
       user.user_id = user.res["data"]["user"]["id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

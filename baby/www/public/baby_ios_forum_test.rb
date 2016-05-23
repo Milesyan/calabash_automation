@@ -122,7 +122,7 @@ module NoahForumIOS
       }.merge(common_data)
       @res = HTTParty.post "#{base_url}/ios/user/signup", options(data)
       @user_id = @res["data"]["user"]["user_id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 

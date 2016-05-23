@@ -84,7 +84,7 @@ module EveForumIOS
       @res = HTTParty.post "#{base_url}/ios/users/signup_guest", options(data)
       @ut = @res["data"]["encrypted_token"] 
       @user_id = @res["data"]["user_id"]
-      log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
+      # log_msg "guest signup >>>#{@user_id} success" if @res["rc"] == 0
       self
     end
 
@@ -222,7 +222,7 @@ module EveForumIOS
       @res = HTTParty.post "#{base_url}/ios/users/signup_with_email", options(data)
       @ut = @res["data"]["encrypted_token"] if @res["rc"] == 0
       @user_id = @res["data"]["user_id"]
-      log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
+      # log_msg "#{@email} has been signed up. [user_id: #{@user_id}]"
       self
     end
 
