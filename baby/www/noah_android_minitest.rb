@@ -1,11 +1,13 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require_relative 'noah_android_test'
+require_relative 'nurture_android_test.rb'
 
 Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 
 class NoahTest < Minitest::Test
   include BabyAndroid
+  include NurtureAndroid
 
   def assert_rc(res)
     assert_equal 0, res["rc"]
@@ -32,6 +34,10 @@ class NoahTest < Minitest::Test
     assert_equal 0, u.res["data"]["user"]["status"]
     assert_equal 0, u.res["data"]["user"]["tutorial_status"]
     assert_equal 1, u.res["data"]["user"]["receive_push_notification"]
+  end
+
+  def test_nurture_user_signup
+    NurtureUser.new.signup
   end
 
   def test_sign_up_with_duplicated_email_and_correct_password

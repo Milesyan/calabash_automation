@@ -126,7 +126,6 @@ module BabyAndroid
     end
 
     def signup(args = {})
-      user = args[:user] || self
       data = {
         "user": {
           "first_name": user.first_name,

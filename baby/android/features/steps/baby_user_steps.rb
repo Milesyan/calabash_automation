@@ -1,5 +1,6 @@
 require 'calabash-android/calabash_steps'
 
+
 Given(/^I sign up a new (mother|father) with birthday "([^"]*)"$/) do |relation, birthday_str|
   logout_if_already_logged_in
   gender = relation.include?("father") ? "M" : "F"
