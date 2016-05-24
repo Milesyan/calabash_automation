@@ -487,7 +487,7 @@ module Minitest_android
 
   def test_chat_request_notification
     up = premium_login
-    u = forum_minitest_user
+    u = forum_new_user
     u.get_notification
     up.send_chat_request u.user_id
     sleep 2
@@ -498,7 +498,7 @@ module Minitest_android
   end
 
   def test_accept_chat_notification
-    u = forum_minitest_user
+    u = forum_new_user
     u.get_notification
     up = premium_login
     u.send_chat_request up.user_id
