@@ -303,7 +303,7 @@ module Minitest_android
   end
 
   def test_quit_all_groups_method
-    u = forum_minitest_user.leave_all_groups
+    u = forum_new_user.leave_all_groups
     assert_empty u.res["subscribed"]
   end
 
@@ -721,7 +721,7 @@ module Minitest_android
   end
 
   def test_all_legacy_notifications_1056
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1056'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1056

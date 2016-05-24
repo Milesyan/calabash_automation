@@ -7,10 +7,8 @@ module Minitest_ios
       log_msg "CREATING FORUM USER"
       @@user = forum_new_user
       @@counter += 1
-      return @@user
-    else 
-      return @@user
     end
+    @@user
   end
 
   def premium_login
@@ -305,7 +303,7 @@ module Minitest_ios
   end
 
   def test_quit_all_groups_method
-    u = forum_minitest_user.leave_all_groups
+    u = forum_new_user.leave_all_groups
     assert_equal nil, u.res["subscribed"]
     u.leave_all_groups
     assert_empty u.res['groups']
@@ -723,7 +721,7 @@ module Minitest_ios
   end
 
   def test_all_legacy_notifications_1056
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1056'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1056
