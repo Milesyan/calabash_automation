@@ -546,7 +546,7 @@ module Minitest_ios
     assert_includes u.res.keys, 'updates'
   end
 
-  def _test_stciker_packes_owned
+  def _test_sticker_packes_owned
     u = forum_minitest_user
     u.get_packs_updates
     returned_signature = u.res['updates']['signature']
