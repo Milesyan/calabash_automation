@@ -459,7 +459,7 @@ module Minitest_android
 
   #-----CHAT-----
   def test_premium_login
-    up = premium_login
+    up = premium_user
     assert_rc up.res
   end
 
