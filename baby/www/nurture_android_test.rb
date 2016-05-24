@@ -3,7 +3,7 @@ require 'json'
 require 'securerandom'
 
 module NurtureAndroid
-  NURTURE_PASSWORD = '111222'
+  NURTURE_PASSWORD = '123456'
   NURTURE_BASE_URL = "http://titan-kaylee.glowing.com"
 
   def due_date_in_weeks(n = 40)
@@ -53,7 +53,6 @@ module NurtureAndroid
     end
 
     def signup(args = {})
-      user = args[:user] || self
       data = {
         "onboardinginfo": {
           "pregnancy_number": 1,
@@ -144,21 +143,17 @@ module NurtureAndroid
 
     def login
       login_data = {
-        app_version: "2.7.0",
-        locale: "en_US",
-        model: "x86_64",
-        device_id: "C747A1F6-E63F-4D9D-8770-401E535FF3C6",
         userinfo: {
           email: @email,
-          tz: "Asia/Shanghai",
+          #tz: "Asia/Shanghai",
           password: @password
         }
       }
-      @res = self.class.post("/ios/users/signin", options(data))
-      @ut = @res["data"]["encrypted_token"]
-      @user_id = @res["data"]["id"]
-      @gender = @res["data"]["gender"]
-      @preg_id = @res["data"]["pregnancies"].first["id"]
+      @res = self.class.post("/android/users/signin", options(data))
+      @ut = @res["dict"]["encrypted_token"]
+      @user_id = @res["dict"]["id"]
+      @gender = @res["dict"]["gender"]
+      @preg_id = @res["dict"]["pregnancies"].first["id"]
       self
     end
 
@@ -174,7 +169,7 @@ module NurtureAndroid
         "question_id":1
       }
 
-      @res = self.class.post("/ios/users/answer_question", options(data))
+      @res = self.class.post("/android/users/answer_question", options(data))
       self
     end
 

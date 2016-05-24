@@ -6,7 +6,7 @@ require_relative 'noah_test_helper'
 module BabyAndroid
   extend BabyTestHelper
 
-  PASSWORD = '111222'
+  PASSWORD = '123456'
   BASE_URL = load_config["base_urls"]["sandbox1"]
 
   POO_MASK                 = 0xFFFF
@@ -120,12 +120,13 @@ module BabyAndroid
         "device_id": "be3ca737160d9da3",
         "android_version": "1.0-beta",
         "vc": 1,
-        "tz": "Asia\/Shanghai",
+        "tz": "Asia/Shanghai",
         "code_name": "noah",
       }.to_param
     end
 
     def signup(args = {})
+      user = args[:user] || self
       data = {
         "user": {
           "first_name": user.first_name,
@@ -213,7 +214,7 @@ module BabyAndroid
         gender: args[:gender] || "M",
         birth_due_date: args[:birth_due_date] || date_str(10.days.ago),
         birthday: args[:birthday] || date_str(10.days.ago),
-        birth_timezone: args[:birth_timezone] || "Asia\/Shanghai"
+        birth_timezone: args[:birth_timezone] || "Asia/Shanghai"
       }
       Baby.new(params)
     end
@@ -629,6 +630,15 @@ module BabyAndroid
       update_account_settings receive_push_notification: 0
     end
 
+    def set_premium
+      data = {
+        "action": "extend_premium",
+        "days": 365
+      }
+      @res = HTTParty.post "http://titan-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvlQ.igccdfhP-REqCyOmNlDjD9bqW3A', 'Content-Type' => 'application/json'}
+      puts "#{@email} is set to premium" if res["code"] == 200
+      self
+    end
   end
 end
 
