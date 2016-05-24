@@ -1,7 +1,7 @@
 require 'faker'
 
 module BabyAndroid
-  PASSWORD = '111222'
+  PASSWORD = '123456'
 
   class B
     attr_accessor :first_name, :last_name, :gender, :birthday, :birth_due_date

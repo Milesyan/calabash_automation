@@ -326,12 +326,13 @@ class HomePage < Calabash::ABase
   end
 
   def add_upcoming_nurture_baby
+    sleep 1
     touch "* marked:'Add my baby'"
+    sleep 1
     touch "* marked:'No, not yet.'"
-    touch "* marked:'Choose' sibling UITableViewLabel"
+    touch "* id:'relationship'"
     touch "* marked:'#{$user.relation}'"
-    touch "* marked:'Done'"
-    touch "* marked:'Start using Glow Baby!'"
+    touch "* id:'action_done'"
     sleep 1
     #wait_for_none_animating
   end

@@ -61,3 +61,11 @@ Given(/^I create a Nurture user with due date "([^"]*)"$/) do |due_date_str|
   $user.signup
 end
 
+Given(/^I invite my partner$/) do
+  partner = NurtureUser.new
+  $nu.invite_partner email: partner.email, first_name: partner.first_name
+  partner.signup
+  $user = BabyUser.new email: partner.email, first_name: partner.first_name
+  $user.signup
+end
+

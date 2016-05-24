@@ -32,7 +32,7 @@ class OnboardPage < Calabash::ABase
 
   def close_premium_introdution
     sleep 2
-    touch "* id:'dismiss_button'"
+    touch "* id:'dismiss_button'" if element_exists "* id:'dismiss_button'"
   end
 
   def login_with_no_baby(email, password)

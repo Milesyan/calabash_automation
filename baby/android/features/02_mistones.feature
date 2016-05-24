@@ -1,4 +1,4 @@
-@milestones 
+@milestones @regression
 Feature: Milestones
   @milestone_2m 
   Scenario: check the first milestone by month 2 

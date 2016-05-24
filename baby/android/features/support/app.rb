@@ -18,6 +18,11 @@ module BabyHelper
     end
   end
 
+  def wait_touch(query_str)
+    wait_for_elements_exist([query_str])
+    touch(query_str)
+  end
+
   def colorize(text, color_code)
     "\e[#{color_code}m#{text}\e[0m"
   end
