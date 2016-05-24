@@ -637,28 +637,28 @@ module Minitest_ios
   # end  
 
   def test_all_legacy_notifications_1055
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1050'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1050
   end
 
   def test_all_legacy_notifications_1085
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1085'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1085
   end
 
   def test_all_legacy_notifications_1086
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1086'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1086
   end
 
   def test_all_legacy_notifications_1087
-    u = forum_minitest_user.pull
+    u = forum_new_user.pull
     _prepare_notification_data u, '1087'
     u.pull
     assert_includes u.notifications.map {|n| n["type"]}, 1087
