@@ -14,12 +14,10 @@ Minitest::Reporters.use! [Minitest::Reporters::SpecReporter.new,
 class EveTest < Minitest::Test
   include EveForumAndroid
   include Minitest_android
-
+  @@counter = 0
   def assert_rc(res)
     assert_equal 0, res["rc"]
   end
-
-
 
   def test_signup_or_login
     begin 
