@@ -294,7 +294,7 @@ module Minitest_ios
   end
 
   def test_quit_all_groups
-    u = forum_minitest_user
+    u = forum_new_user
     u.get_all_groups
     u.all_group_ids.each do |group_id|
       u.leave_group group_id
@@ -358,6 +358,7 @@ module Minitest_ios
     u1 = forum_new_user
     u2 = forum_new_user
     u1.send_chat_request u2.user_id
+    assert_equal u1.res['msg'],"Chat feature requires at least one premium user."
     assert_equal u1.res["rc"], 8003
 
 

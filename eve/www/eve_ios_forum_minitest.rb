@@ -1,4 +1,4 @@
-APP_CONFIG = 'Eve'
+APP_CONFIG = 'Eve-local'
 # APP_CONFIG = 'Eve-local'
 require 'minitest/autorun'
 require 'minitest/reporters'
