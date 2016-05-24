@@ -1,6 +1,7 @@
 module Minitest_ios
   include TestHelper
   @@counter = 0
+  @@counter2 = 0
   def forum_minitest_user
     if @@counter == 0 
       log_msg "CREATING FORUM USER"
@@ -10,6 +11,15 @@ module Minitest_ios
     else 
       return @@user
     end
+  end
+
+  def premium_login
+    if @@counter2 == 0
+      log_msg "LOGIN PREMIUM USER"
+      @@premium = premium_user
+      @@counter2 +=1
+    end
+    return @@premium
   end
 
   def test_new_user_with_birthday
@@ -457,7 +467,7 @@ module Minitest_ios
 
   def test_availability
     up = premium_login
-    u = forum_minitest_user
+    u = forum_new_user
     up.availability u.user_id
     assert_equal "Please send chat request first.", up.res["msg"]
     up.send_chat_request u.user_id

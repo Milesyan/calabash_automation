@@ -465,7 +465,7 @@ module Minitest_android
 
   def test_availability
     up = premium_login
-    u = forum_minitest_user
+    u = forum_new_user
     up.availability u.user_id
     assert_equal "Please send chat request first.", up.res["msg"]
     up.send_chat_request u.user_id
