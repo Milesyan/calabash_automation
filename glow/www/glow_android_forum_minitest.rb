@@ -17,8 +17,6 @@ class GlowTest < Minitest::Test
     assert_equal 0, res["rc"]
   end
 
-
-
   def test_signup_or_login
     begin 
       premium = ForumUser.new(:email => "milesp@g.com", :password => '111111').login
@@ -34,7 +32,7 @@ class GlowTest < Minitest::Test
     end
   end
   
-  def premium_login
+  def premium_user
     premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
     premium
   end

@@ -39,7 +39,7 @@ class EveTest < Minitest::Test
     puts u.res
   end
   
-  def premium_login
+  def premium_user
     premium = ForumUser.new(:email=>"milesp@g.com", :password => "111111").login.reset_all_flags
     premium
   end

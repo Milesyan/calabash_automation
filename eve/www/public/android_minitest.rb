@@ -1,15 +1,23 @@
 module Minitest_android
   include TestHelper
   @@counter = 0
+  @@counter2 = 0
   def forum_minitest_user
     if @@counter == 0 
       log_msg "CREATING FORUM USER"
       @@user = forum_new_user
       @@counter += 1
-      return @@user
-    else 
-      return @@user
     end
+    @@user
+  end
+
+  def premium_login
+    if @@counter2 == 0
+      log_msg "LOGIN PREMIUM USER"
+      @@premium = premium_user
+      @@counter2 +=1
+    end
+    return @@premium
   end
 
   def test_new_user_with_birthday

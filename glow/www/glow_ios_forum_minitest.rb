@@ -15,7 +15,7 @@ class GlowTest < Minitest::Test
   include Minitest_ios
   include TestHelper
   
-  def premium_login
+  def premium_user
     premium = ForumUser.new(:email=>"miles3@g.com", :password => "111111").login.reset_all_flags
     premium
   end
