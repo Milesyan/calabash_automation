@@ -457,275 +457,275 @@ module Minitest_android
     assert_equal [1,0,1,0], all_flags
   end
 
-  # #-----CHAT-----
-  # def test_premium_login
-  #   up = premium_user
-  #   assert_rc up.res
-  # end
+  #-----CHAT-----
+  def test_premium_login
+    up = premium_user
+    assert_rc up.res
+  end
 
-  # def test_availability
-  #   up = premium_login
-  #   u = forum_new_user
-  #   up.availability u.user_id
-  #   assert_equal "Please send chat request first.", up.res["msg"]
-  #   up.send_chat_request u.user_id
-  #   up.availability u.user_id
-  #   assert_equal "Your chat request is pending response.", up.res["msg"]
-  # end 
+  def test_availability
+    up = premium_login
+    u = forum_new_user
+    up.availability u.user_id
+    assert_equal "Please send chat request first.", up.res["msg"]
+    up.send_chat_request u.user_id
+    up.availability u.user_id
+    assert_equal "Your chat request is pending response.", up.res["msg"]
+  end 
 
-  # def test_notification
-  #   u = forum_minitest_user
-  #   u.create_topic
-  #   u2 = forum_new_user
-  #   u2.reply_to_topic u.topic_id
-  #   sleep 1
-  #   u.get_notification
-  #   assert_equal 8, u.notifications[0]["button"]
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1050
-  #   assert_equal "You have a new comment",u.notifications[0]["text"]
-  # end
+  def test_notification
+    u = forum_minitest_user
+    u.create_topic
+    u2 = forum_new_user
+    u2.reply_to_topic u.topic_id
+    sleep 1
+    u.get_notification
+    assert_equal 8, u.notifications[0]["button"]
+    assert_includes u.notifications.map {|n| n["type"]}, 1050
+    assert_equal "You have a new comment",u.notifications[0]["text"]
+  end
 
-  # def test_chat_request_notification
-  #   up = premium_login
-  #   u = forum_new_user
-  #   u.get_notification
-  #   up.send_chat_request u.user_id
-  #   sleep 2
-  #   puts "-------"
-  #   u.get_notification
+  def test_chat_request_notification
+    up = premium_login
+    u = forum_new_user
+    u.get_notification
+    up.send_chat_request u.user_id
+    sleep 2
+    puts "-------"
+    u.get_notification
 
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1100
-  # end
+    assert_includes u.notifications.map {|n| n["type"]}, 1100
+  end
 
-  # def test_accept_chat_notification
-  #   u = forum_new_user
-  #   u.get_notification
-  #   up = premium_login
-  #   u.send_chat_request up.user_id
-  #   up.accept_chat
-  #   u.get_notification
+  def test_accept_chat_notification
+    u = forum_new_user
+    u.get_notification
+    up = premium_login
+    u.send_chat_request up.user_id
+    up.accept_chat
+    u.get_notification
 
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1102
-  # end
+    assert_includes u.notifications.map {|n| n["type"]}, 1102
+  end
 
-  # def test_created
-  #   u = forum_minitest_user
-  #   u.create_topic
-  #   u.get_created
-  #   assert_rc u.res
-  # end
+  def test_created
+    u = forum_minitest_user
+    u.create_topic
+    u.get_created
+    assert_rc u.res
+  end
 
-  # def test_blocked
-  #   u = forum_minitest_user
-  #   u1 = forum_new_user
-  #   u.block_user u1.user_id
-  #   u.get_blocked
-  #   assert_rc u.res
-  # end
+  def test_blocked
+    u = forum_minitest_user
+    u1 = forum_new_user
+    u.block_user u1.user_id
+    u.get_blocked
+    assert_rc u.res
+  end
 
-  # def test_get_all_contacts
-  #   up = premium_login 
-  #   u = forum_minitest_user
-  #   up.establish_chat u
-  #   up.get_all_contacts
-  #   assert_contains u.user_id,up.all_contacts
-  # end
+  def test_get_all_contacts
+    up = premium_login 
+    u = forum_minitest_user
+    up.establish_chat u
+    up.get_all_contacts
+    assert_contains u.user_id,up.all_contacts
+  end
 
-  # def test_old_client_no_recommended_people
-  #   u_new = forum_new_user
-  #   u_old = old_version_user
-  #   u_new.discover
-  #   assert u_new.res['recommended_people']
-  #   u_old.discover
-  #   assert_empty u_old.res['recommended_people']
-  # end
+  def test_old_client_no_recommended_people
+    u_new = forum_new_user
+    u_old = old_version_user
+    u_new.discover
+    assert u_new.res['recommended_people']
+    u_old.discover
+    assert_empty u_old.res['recommended_people']
+  end
 
-  # def _test_sticker_pack_updates
-  #   u = forum_minitest_user
-  #   u.get_packs_updates
-  #   assert_includes u.res.keys, 'updates'
-  # end
+  def _test_sticker_pack_updates
+    u = forum_minitest_user
+    u.get_packs_updates
+    assert_includes u.res.keys, 'updates'
+  end
 
-  # def _test_stciker_packes_owned
-  #   u = forum_minitest_user
-  #   u.get_packs_updates
-  #   returned_signature = u.res['updates']['signature']
-  #   u.get_packs_updates :pack_signature => returned_signature
-  #   assert_nil u.res['updates']
-  # end
+  def _test_stciker_packes_owned
+    u = forum_minitest_user
+    u.get_packs_updates
+    returned_signature = u.res['updates']['signature']
+    u.get_packs_updates :pack_signature => returned_signature
+    assert_nil u.res['updates']
+  end
   
-  # def _test_get_sticker_by_id
-  #   u = forum_minitest_user
-  #   u.get_packs_updates
-  #   u.get_pack_by_id u.pack_list.sample
-  #   assert_includes u.res['pack'].keys, 'pack_name'
-  # end
+  def _test_get_sticker_by_id
+    u = forum_minitest_user
+    u.get_packs_updates
+    u.get_pack_by_id u.pack_list.sample
+    assert_includes u.res['pack'].keys, 'pack_name'
+  end
 
-  # def _test_get_sticker_by_wrong_id 
-  #   u = forum_minitest_user
-  #   u.get_pack_by_id 1
-  #   assert_includes u.res, '500'
-  # end
+  def _test_get_sticker_by_wrong_id 
+    u = forum_minitest_user
+    u.get_pack_by_id 1
+    assert_includes u.res, '500'
+  end
 
-  # def _prepare_notification_data(user, ntf_type)
-  #   case ntf_type
-  #   when "1050","1085","1086","1087"
-  #     n = {"1050"=>1, "1085"=>6, "1086"=>16,"1087"=>50}
-  #     user.create_topic :topic_title => "notification_#{ntf_type}"
-  #     other_user = forum_new_user
-  #     n[ntf_type].times do
-  #       other_user.reply_to_topic user.topic_id
-  #     end
-  #   when "1051"
-  #     other_user = forum_new_user
-  #     other_user.create_topic :topic_title => "notification_1051"
-  #     user.reply_to_topic other_user.topic_id
-  #     forum_new_user.reply_to_topic other_user.topic_id
-  #   when "1053"
-  #     user.create_topic :topic_title => "notification_1053"
-  #     user.reply_to_topic user.topic_id
-  #     other_user = forum_new_user :first_name => "Replier"
-  #     other_user.reply_to_comment user.topic_id, user.reply_id, :reply_content => "Reply_1053"
-  #   when "1055"
-  #     user.create_topic :topic_title => "notification_1055"
-  #     5.times do 
-  #       forum_new_user.upvote_topic user.topic_id
-  #     end
-  #   when "1059"
-  #     user.create_topic :topic_title => "notification_1059"
-  #     user.reply_to_topic user.topic_id, :reply_content => "Reply_1059"
-  #     4.times do
-  #       forum_new_user.upvote_comment user.topic_id,user.reply_id
-  #     end
-  #   when "1060"
-  #     user.create_poll :topic_title => "notification_1060"
-  #     3.times do
-  #       forum_new_user.vote_poll :topic_id => user.topic_id, :vote_index => [1,2,3].sample
-  #     end
-  #   when "1088", "1089"
-  #     n = {"1088"=>1, "1089"=>6}
-  #     user.create_photo :topic_title => "notification_#{$ntf_type}"
-  #     other_user = forum_new_user
-  #     n[ntf_type].times do
-  #       other_user.reply_to_topic user.topic_id
-  #     end
-  #   when "1091"#,"1092"
-  #     n = {"1091"=>1} #"1092"=>10
-  #     n[ntf_type].times do
-  #       u1 = forum_new_user
-  #       u1.follow_user user.user_id
-  #     end
-  #   when "1056"
-  #     temp_user1 = forum_new_user
-  #     temp_user1.create_topic :topic_title=>"notification_1056"
-  #     temp_user1.reply_to_topic temp_user1.topic_id, :reply_content=>"commentAAA"
-  #     user.reply_to_comment temp_user1.topic_id,temp_user1.reply_id
-  #     temp_user2 = forum_new_user
-  #     temp_user2.reply_to_comment temp_user1.topic_id,temp_user1.reply_id, :reply_content=>"subreplyAAA"
+  def _prepare_notification_data(user, ntf_type)
+    case ntf_type
+    when "1050","1085","1086","1087"
+      n = {"1050"=>1, "1085"=>6, "1086"=>16,"1087"=>50}
+      user.create_topic :topic_title => "notification_#{ntf_type}"
+      other_user = forum_new_user
+      n[ntf_type].times do
+        other_user.reply_to_topic user.topic_id
+      end
+    when "1051"
+      other_user = forum_new_user
+      other_user.create_topic :topic_title => "notification_1051"
+      user.reply_to_topic other_user.topic_id
+      forum_new_user.reply_to_topic other_user.topic_id
+    when "1053"
+      user.create_topic :topic_title => "notification_1053"
+      user.reply_to_topic user.topic_id
+      other_user = forum_new_user :first_name => "Replier"
+      other_user.reply_to_comment user.topic_id, user.reply_id, :reply_content => "Reply_1053"
+    when "1055"
+      user.create_topic :topic_title => "notification_1055"
+      5.times do 
+        forum_new_user.upvote_topic user.topic_id
+      end
+    when "1059"
+      user.create_topic :topic_title => "notification_1059"
+      user.reply_to_topic user.topic_id, :reply_content => "Reply_1059"
+      4.times do
+        forum_new_user.upvote_comment user.topic_id,user.reply_id
+      end
+    when "1060"
+      user.create_poll :topic_title => "notification_1060"
+      3.times do
+        forum_new_user.vote_poll :topic_id => user.topic_id, :vote_index => [1,2,3].sample
+      end
+    when "1088", "1089"
+      n = {"1088"=>1, "1089"=>6}
+      user.create_photo :topic_title => "notification_#{$ntf_type}"
+      other_user = forum_new_user
+      n[ntf_type].times do
+        other_user.reply_to_topic user.topic_id
+      end
+    when "1091"#,"1092"
+      n = {"1091"=>1} #"1092"=>10
+      n[ntf_type].times do
+        u1 = forum_new_user
+        u1.follow_user user.user_id
+      end
+    when "1056"
+      temp_user1 = forum_new_user
+      temp_user1.create_topic :topic_title=>"notification_1056"
+      temp_user1.reply_to_topic temp_user1.topic_id, :reply_content=>"commentAAA"
+      user.reply_to_comment temp_user1.topic_id,temp_user1.reply_id
+      temp_user2 = forum_new_user
+      temp_user2.reply_to_comment temp_user1.topic_id,temp_user1.reply_id, :reply_content=>"subreplyAAA"
+    end
+  end
+
+  # def test_all_legacy_notifications
+  #   ntf_list = ["1050","1085","1086","1087","1051", "1053", "1055",
+  #     "1059", "1060", "1088", "1089", "1091","1056"]
+  #   u = forum_minitest_user.pull
+  #   ntf_list.each do |ntf_type|
+  #     _prepare_notification_data u, ntf_type
+  #     u.pull
+  #     assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
   #   end
-  # end
+  # end  
 
-  # # def test_all_legacy_notifications
-  # #   ntf_list = ["1050","1085","1086","1087","1051", "1053", "1055",
-  # #     "1059", "1060", "1088", "1089", "1091","1056"]
-  # #   u = forum_minitest_user.pull
-  # #   ntf_list.each do |ntf_type|
-  # #     _prepare_notification_data u, ntf_type
-  # #     u.pull
-  # #     assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
-  # #   end
-  # # end  
+  def test_all_legacy_notifications_1055
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1050'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1050
+  end
 
-  # def test_all_legacy_notifications_1055
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1050'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1050
-  # end
+  def test_all_legacy_notifications_1085
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1085'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1085
+  end
 
-  # def test_all_legacy_notifications_1085
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1085'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1085
-  # end
+  def test_all_legacy_notifications_1086
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1086'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1086
+  end
 
-  # def test_all_legacy_notifications_1086
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1086'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1086
-  # end
+  def test_all_legacy_notifications_1087
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1087'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1087
+  end
 
-  # def test_all_legacy_notifications_1087
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1087'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1087
-  # end
+  def test_all_legacy_notifications_1051
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1051'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1051
+  end
 
-  # def test_all_legacy_notifications_1051
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1051'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1051
-  # end
+  def test_all_legacy_notifications_1053
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1053'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1053
+  end
 
-  # def test_all_legacy_notifications_1053
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1053'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1053
-  # end
+  def test_all_legacy_notifications_1055
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1055'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1055
+  end
 
-  # def test_all_legacy_notifications_1055
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1055'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1055
-  # end
+  def test_all_legacy_notifications_1059
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1059'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1059
+  end
 
-  # def test_all_legacy_notifications_1059
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1059'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1059
-  # end
+  def test_all_legacy_notifications_1060
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1060'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1060
+  end
 
-  # def test_all_legacy_notifications_1060
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1060'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1060
-  # end
+  def test_all_legacy_notifications_1088
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1088'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1088
+  end
 
-  # def test_all_legacy_notifications_1088
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1088'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1088
-  # end
+  def test_all_legacy_notifications_1089
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1089'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1089
+  end
 
-  # def test_all_legacy_notifications_1089
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1089'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1089
-  # end
+  def test_all_legacy_notifications_1091
+    u = forum_minitest_user.pull
+    _prepare_notification_data u, '1091'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1091
+  end
 
-  # def test_all_legacy_notifications_1091
-  #   u = forum_minitest_user.pull
-  #   _prepare_notification_data u, '1091'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1091
-  # end
-
-  # def test_all_legacy_notifications_1056
-  #   u = forum_new_user.pull
-  #   _prepare_notification_data u, '1056'
-  #   u.pull
-  #   assert_includes u.notifications.map {|n| n["type"]}, 1056
-  # end
+  def test_all_legacy_notifications_1056
+    u = forum_new_user.pull
+    _prepare_notification_data u, '1056'
+    u.pull
+    assert_includes u.notifications.map {|n| n["type"]}, 1056
+  end
 end
 
 
