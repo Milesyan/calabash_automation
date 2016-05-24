@@ -621,91 +621,91 @@ module Minitest_ios
     u = forum_new_user.pull
     _prepare_notification_data u, '1050'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1050
   end
 
   def test_all_legacy_notifications_1085
     u = forum_new_user.pull
     _prepare_notification_data u, '1085'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1085
   end
 
   def test_all_legacy_notifications_1086
     u = forum_new_user.pull
     _prepare_notification_data u, '1086'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1086
   end
 
   def test_all_legacy_notifications_1087
     u = forum_new_user.pull
     _prepare_notification_data u, '1087'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1087
   end
 
   def test_all_legacy_notifications_1051
     u = forum_new_user.pull
     _prepare_notification_data u, '1051'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1051
   end
 
   def test_all_legacy_notifications_1053
     u = forum_new_user.pull
     _prepare_notification_data u, '1053'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1053
   end
 
   def test_all_legacy_notifications_1055
     u = forum_new_user.pull
     _prepare_notification_data u, '1055'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1055
   end
 
   def test_all_legacy_notifications_1059
     u = forum_new_user.pull
     _prepare_notification_data u, '1059'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1059
   end
 
   def test_all_legacy_notifications_1060
     u = forum_new_user.pull
     _prepare_notification_data u, '1060'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1060
   end
 
   def test_all_legacy_notifications_1088
     u = forum_new_user.pull
     _prepare_notification_data u, '1088'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1088
   end
 
   def test_all_legacy_notifications_1089
     u = forum_new_user.pull
     _prepare_notification_data u, '1089'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1089
   end
 
   def test_all_legacy_notifications_1091
     u = forum_new_user.pull
     _prepare_notification_data u, '1091'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1091
   end
 
   def test_all_legacy_notifications_1056
     u = forum_new_user.pull
     _prepare_notification_data u, '1056'
     u.pull
-    assert_includes u.notifications.map {|n| n["type"]}, ntf_type.to_i
+    assert_includes u.notifications.map {|n| n["type"]}, 1056
   end
 end
 
