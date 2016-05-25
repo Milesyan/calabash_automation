@@ -20,6 +20,10 @@ module Minitest_android
     return @@premium
   end
 
+  def teardown()
+    sleep 3
+  end
+  
   def test_new_user_with_birthday
     u = forum_new_user :birthday => (Time.now - 30*365.25*24*3600).to_i
     log_msg u.birthday
