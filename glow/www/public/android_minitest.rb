@@ -30,7 +30,7 @@ module Minitest_android
       log_error "LOCAL TEST"
     end
   end
-  
+
   def test_new_user_with_birthday
     u = forum_new_user :birthday => (Time.now - 30*365.25*24*3600).to_i
     log_msg u.birthday

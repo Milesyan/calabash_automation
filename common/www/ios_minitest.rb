@@ -1,5 +1,5 @@
 module Minitest_ios
-  ENV_JENKINS = 1
+  ENV_JENKINS = 0 
   include TestHelper
   @@counter = 0
   @@counter2 = 0
