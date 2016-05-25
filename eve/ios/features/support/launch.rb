@@ -43,6 +43,9 @@ After('@restart_after') do |_|
 end
 
 After do |_|
+  if scenario.failed?
+    screenshot_embed(:prefix => "CASE_FAIL")
+  end
   launcher = LaunchControl.launcher
   unless launcher.calabash_no_stop?
     calabash_exit
