@@ -36,7 +36,6 @@ end
 
 
 Then(/^I login as "([^"]*)"$/) do |arg1|
-	log_important "Log in as #{arg1}" + $user2.email, $user2.password 
 	app_page.login($user2.email,$user2.password)	
 end
 
