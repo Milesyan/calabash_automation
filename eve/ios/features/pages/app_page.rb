@@ -139,11 +139,19 @@ class AppPage < Calabash::IBase
       log_msg "Eve period cycle tutorial."
       temp = 1
     end
-    until element_does_not_exist("* marked:'Got it'") && element_does_not_exist("* id:'close-btn'")
-      touch "* marked:'Got it'" if element_exists "* marked:'Got it'"
-      touch "* id:'close-btn'" if element_exists "* id:'close-btn'"
-      sleep 0.3
+    begin 
+      4.times do
+        touch "* marked:'Got it'" if element_exists "* marked:'Got it'"
+        sleep 0.5
+      end
+      2.times do 
+        touch "* id:'close-btn'" if element_exists "* id:'close-btn'"
+      end 
+    rescue RuntimeError
+      log_error "EVE TUTORIAL STEPS ERROR"
     end
+    wait_for_element_does_not_exist "* marked:'Got it'"
+    wait_for_element_does_not_exist "* id:'close-btn'"
     wait_for_element_exists "* marked:'Community'" if temp == 1
     temp = 0 
     sleep 1
