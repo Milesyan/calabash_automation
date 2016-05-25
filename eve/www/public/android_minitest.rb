@@ -1,4 +1,5 @@
 module Minitest_android
+  ENV_JENKINS = 1
   include TestHelper
   @@counter = 0
   @@counter2 = 0
@@ -21,7 +22,13 @@ module Minitest_android
   end
 
   def teardown()
-    sleep 3
+    env_jenkins = ENV_JENKINS
+    if ENV_JENKINS != 0
+      sleep 1
+      puts "ENV JENKINS"
+    else 
+      log_error "LOCAL TEST"
+    end
   end
   
   def test_new_user_with_birthday
