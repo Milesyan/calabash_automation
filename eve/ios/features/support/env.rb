@@ -35,9 +35,6 @@ World do
   Myownworld.new
 end
 
-APP_CONFIG = "Eve"
-# APP_CONFIG = "Eve-local"
-
 ENV['SCREENSHOT_PATH'] = "./features/screenshots/"
 ENV["APP_BUNDLE_PATH"] = File.dirname(__FILE__) + "/../../../../../test_builds/Lexie_v1.6_can_2.app"
 # ENV["DEVICE_TARGET"] = ["97A373AC-E811-473A-A14D-127B4B2EA78A", "BB34C63B-2740-40E7-9889-C8D40D7CB1BB"].sample
