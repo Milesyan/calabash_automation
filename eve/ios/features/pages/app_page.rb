@@ -73,14 +73,21 @@ class AppPage < Calabash::IBase
 
   def logout
     close_chat_popup
-    scroll_to_row_with_mark 'Account settings'
-    wait_touch "* marked:'Account settings'"
-    sleep 0.5
-    close_chat_popup
-    sleep 0.5
-    scroll_to_row_with_mark "Logout"
-    close_chat_popup
-    wait_touch "* marked:'Logout'"
+    temp = 0
+    begin 
+      scroll_to_row_with_mark 'Account settings' if element_does_not_exist "* marked:'Password'"
+      swipe :up
+      sleep 0.5
+      touch_if_element_exists "* marked:'Account settings'"
+      scroll_to_row_with_mark "Logout"
+      sleep 0.5
+      close_chat_popup
+      touch "* marked:'Logout'"
+    rescue RuntimeError
+      close_chat_popup
+      temp += 1
+      retry if temp < 3
+    end
     $login_acc = nil
     sleep 0.5
     wait_for(:timeout => 5) do
@@ -137,18 +144,12 @@ class AppPage < Calabash::IBase
   def tutorial_steps
     if element_exists("* marked:'Got it'") || element_exists("* id:'close-btn'")
       log_msg "Eve period cycle tutorial."
-      temp = 1
-    end
-    begin 
-      4.times do
-        touch "* marked:'Got it'" if element_exists "* marked:'Got it'"
-        sleep 0.5
+      until element_does_not_exist("* marked:'Calendar view'")
+        touch_if_element_exists "* marked:'Got it'"
+        touch_if_element_exists "* id:'close-btn'"
+        sleep 0.3
       end
-      2.times do 
-        touch "* id:'close-btn'" if element_exists "* id:'close-btn'"
-      end 
-    rescue RuntimeError
-      log_error "EVE TUTORIAL STEPS ERROR"
+      temp = 1
     end
     wait_for_element_does_not_exist "* marked:'Got it'"
     wait_for_element_does_not_exist "* id:'close-btn'"
