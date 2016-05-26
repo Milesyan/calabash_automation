@@ -34,10 +34,10 @@ class NoahTest < Minitest::Test
     u.set_premium
     baby = u.new_born_baby relation: "Mother", birthday: date_str(2.days.ago) #week 0
     u.add_born_baby(baby)
-    feed = u.new_feed start_time: 25.hours.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 15.minutes.ago
-    u.add_feed(feed)
+    feed = u.new_bottle_feed start_time: 25.hours.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 15.minutes.ago
+    u.add_bottle_feed(feed)
     insights = u.res["data"]["insights"]
     pi = insights.select do |i|
       i['is_premium'] == 1
@@ -53,12 +53,12 @@ class NoahTest < Minitest::Test
     u.set_premium
     baby = u.new_born_baby relation: "Mother", birthday: date_str(8.days.ago) #week 1
     u.add_born_baby(baby)
-    feed = u.new_feed start_time: 2.days.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 3.days.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 15.minutes.ago
-    u.add_feed(feed)
+    feed = u.new_bottle_feed start_time: 2.days.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 3.days.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 15.minutes.ago
+    u.add_bottle_feed(feed)
     insights = u.res["data"]["insights"]
     pi = insights.select do |i|
       i['is_premium'] == 1
@@ -74,10 +74,10 @@ class NoahTest < Minitest::Test
     u.set_premium
     baby = u.new_born_baby relation: "Mother", birthday: date_str(197.days.ago) #week 28
     u.add_born_baby(baby)
-    feed = u.new_feed start_time: 25.hours.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 15.minutes.ago
-    u.add_feed(feed)
+    feed = u.new_bottle_feed start_time: 25.hours.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 15.minutes.ago
+    u.add_bottle_feed(feed)
     insights = u.res["data"]["insights"]
     pi = insights.select do |i|
       i['is_premium'] == 1
@@ -93,12 +93,12 @@ class NoahTest < Minitest::Test
     u.set_premium
     baby = u.new_born_baby relation: "Mother", birthday: date_str(204.days.ago) #week 29
     u.add_born_baby(baby)
-    feed = u.new_feed start_time: 2.days.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 3.days.ago
-    u.add_feed(feed)
-    feed = u.new_feed start_time: 15.minutes.ago
-    u.add_feed(feed)
+    feed = u.new_bottle_feed start_time: 2.days.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 3.days.ago
+    u.add_bottle_feed(feed)
+    feed = u.new_bottle_feed start_time: 15.minutes.ago
+    u.add_bottle_feed(feed)
     insights = u.res["data"]["insights"]
     pi = insights.select do |i|
       i['is_premium'] == 1

@@ -100,6 +100,10 @@ module BabyAndroid
       t.strftime("%Y/%m/%d")
     end
 
+    def time_str(t)
+      t.strftime("%Y/%m/%d %H:%M:%S")
+    end
+
     def date_time_str(dt)
       # "2016/01/11 12:51:00" date label
       dt.strftime("%Y/%m/%d %H:%M:%S")
@@ -117,9 +121,9 @@ module BabyAndroid
       data = {
         "hl": "en_US",
         "random": random_num,
-        "device_id": "be3ca737160d9da3",
-        "android_version": "1.0-beta",
-        "vc": 1,
+        "device_id": "f1506217d3d7bd46",
+        "android_version": "1.1.99-beta",
+        "vc": 10199,
         "tz": "Asia/Shanghai",
         "code_name": "noah",
       }.to_param
@@ -153,7 +157,7 @@ module BabyAndroid
       if user.res["rc"] == 0
         user.ut = user.res["data"]["user"]["encrypted_token"]
         user.user_id = user.res["data"]["user"]["id"]
-        puts user.email + " has been signed up. [user_id: #{@user_id}]"
+        log_msg user.email + " has been signed up. [user_id: #{@user_id}]"
       end
       self
     end
@@ -246,7 +250,7 @@ module BabyAndroid
         @current_baby = baby
         @current_baby.baby_id = @res["data"]["baby_id"]
         @babies << @current_baby
-        puts "Baby #{baby.first_name} is added [baby_id: #{@current_baby.baby_id}]"
+        log_msg "Baby #{baby.first_name} is added [baby_id: #{@current_baby.baby_id}]"
       end
       self
     end
@@ -276,7 +280,7 @@ module BabyAndroid
       
     end
 
-    def new_feed(args = {})
+    def new_breast_feed(args = {})
       # 2 breast feeding
       # 3 bottle breast milk
       # 4 bottle formula milk
@@ -297,7 +301,40 @@ module BabyAndroid
       }
     end
 
-    def add_feed(feed)
+    def add_breast_feed(breast_feed)
+      data = {
+        "items": [{
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyFeedData": {
+              "create": [breast_feed]
+            }
+          }]
+        }]
+      }
+      @res = self.class.patch "/android/user/push?#{common_data}", auth_options(data)
+      self
+    end
+
+    def new_bottle_feed(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "uuid": uuid,
+        "bottle_ml": args[:bottle_ml] || 50,
+        "baby_id": @current_baby.baby_id,
+        "feed_type": 3, # bottle feed
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyFeedData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "action_user_id": @user_id
+      }
+    end
+
+    def add_bottle_feed(feed)
       data = {
         "items": [{
           "babies": [{
@@ -308,9 +345,10 @@ module BabyAndroid
           }]
         }]
       }
+
       @res = self.class.patch "/android/user/push?#{common_data}", auth_options(data)
       self
-    end
+    end 
 
     def new_sleep(args={})
       start_time = args[:start_time]
@@ -335,6 +373,74 @@ module BabyAndroid
             "baby_id": @current_baby.baby_id,
             "BabyData": {
               "create": [sleep]
+            }
+          }]
+        }]
+      }
+
+      @res = self.class.patch "/android/user/push?#{common_data}", auth_options(data)
+      self
+    end
+
+    def new_pee(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "val_int": 65536,
+        "uuid": uuid,
+        "baby_id": @current_baby.baby_id,
+        "key": "diaper", 
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "action_user_id": @user_id
+      }
+    end
+
+    def add_pee(pee)
+      data = {
+        "items": [{
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyData": {
+              "create": [pee]
+            }
+          }]
+        }]
+      }
+
+      @res = self.class.patch "/android/user/push?#{common_data}", auth_options(data)
+      self
+    end
+
+    def new_poo(args = {})
+      start_time = args[:start_time]
+      start_timestamp = start_time.to_i
+      start_time_label = time_str(start_time)
+      date_label = date_str(start_time)
+      {
+        "val_int": 2310,
+        "uuid": uuid,
+        "baby_id": @current_baby.baby_id,
+        "key": "diaper", 
+        "sync_uuid": "x-coredata:\/\/#{uuid}\/ManagedBabyData\/p1",
+        "start_timestamp": start_timestamp,
+        "start_time_label": start_time_label,
+        "date_label": date_label,
+        "action_user_id": @user_id
+      }
+    end
+
+    def add_poo(poo)
+      data = {
+        "items": [{
+          "babies": [{
+            "baby_id": @current_baby.baby_id,
+            "BabyData": {
+              "create": [poo]
             }
           }]
         }]
@@ -635,7 +741,7 @@ module BabyAndroid
         "action": "extend_premium",
         "days": 365
       }
-      @res = HTTParty.post "http://titan-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvlQ.igccdfhP-REqCyOmNlDjD9bqW3A', 'Content-Type' => 'application/json'}
+      @res = HTTParty.post "http://titan-admin.glowing.com/api/user/#{@user_id}/premium", :body => data.to_json, :headers => {'Token' => 'admin.CfIvWQ.Gg_5ZqQSCz75Z3a_6Lh7uuPNSBc', 'Content-Type' => 'application/json'}
       puts "#{@email} is set to premium" if res["code"] == 200
       self
     end
